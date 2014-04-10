@@ -6,7 +6,8 @@
 #include <GL/glew.h>
 #else
 #define GL_GLEXT_PROTOTYPES
-#include "SDL/SDL_opengl.h"
+#include <GL/glew.h>
+#include <SDL2/SDL_opengl.h>
 #endif
 
 class Shader

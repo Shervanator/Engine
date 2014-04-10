@@ -1,15 +1,17 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
-#include <SDL.h>
 #include <string>
 
 #ifdef _WIN32
 //#define GLEW_STATIC 1
 #include <GL/glew.h>
+#include <SDL.h>
 #else
 #define GL_GLEXT_PROTOTYPES
-#include "SDL/SDL_opengl.h"
+#include <GL/glew.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL.h>
 #endif
 
 #include "Shader.h"

@@ -99,6 +99,7 @@ void GameManager::logSDLError(const std::string &msg)
 
 void GameManager::render()
 {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
@@ -106,7 +107,7 @@ void GameManager::initGL()
 {
 	createShaders();
 	createVAO();
-	glClearColor(255.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
 
 	glViewport(0, 0, WIDTH, HEIGHT);
