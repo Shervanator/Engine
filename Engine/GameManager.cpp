@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "GameManager.h"
 
 GameManager::GameManager(void)
@@ -13,7 +14,7 @@ GameManager::~GameManager(void)
 int GameManager::init(const int width, const int height)
 {
 	// init sdl
-	if (initSDL(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL) != 0)
+	if (initSDL(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
 		return 1;
 
 	// init glew
@@ -29,34 +30,6 @@ int GameManager::init(const int width, const int height)
 	initGL();
 
 	return 0;
-}
-
-void GameManager::tick(void)
-{
-	while (SDL_PollEvent(&event))
-	{
-		if (event.type == SDL_QUIT)
-			quit = true;
-		if (event.type == SDL_MOUSEBUTTONDOWN)
-			glUseProgram(shader2->getProgram());
-	}
-
-	render();
-
-	SDL_GL_SwapWindow(win);
-}
-
-bool GameManager::shouldQuit(void)
-{
-	return quit;
-}
-
-void GameManager::clean(void)
-{
-	delete shader1;
-	SDL_GL_DeleteContext(glContext);
-	SDL_DestroyWindow(win);
-	SDL_Quit();
 }
 
 int GameManager::initSDL(const int width, const int height, Uint32 flags)
@@ -92,6 +65,45 @@ int GameManager::initSDL(const int width, const int height, Uint32 flags)
 	return 0;
 }
 
+void GameManager::initGL()
+{
+	createShaders();
+	createVAO();
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0f);
+
+	glViewport(0, 0, WIDTH, HEIGHT);
+}
+
+void GameManager::tick(void)
+{
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT) {
+			quit = true;
+    } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+			glUseProgram(shader2->getProgram());
+    }
+	}
+
+	render();
+
+	SDL_GL_SwapWindow(win);
+}
+
+bool GameManager::shouldQuit(void)
+{
+	return quit;
+}
+
+void GameManager::clean(void)
+{
+	delete shader1;
+	SDL_GL_DeleteContext(glContext);
+	SDL_DestroyWindow(win);
+	SDL_Quit();
+}
+
 void GameManager::logSDLError(const std::string &msg)
 {
 	std::cout << msg << " error: " << SDL_GetError() << std::endl;
@@ -103,42 +115,20 @@ void GameManager::render()
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
-void GameManager::initGL()
-{
-	createShaders();
-	createVAO();
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClearDepth(1.0f);
-
-	glViewport(0, 0, WIDTH, HEIGHT);
-}
-
 void GameManager::createShaders()
 {
-	const char* vert_src =
-		"#version 150\n"
-		"in vec2 in_Position;\n"
-		"\n"
-		"void main(){\n"
-		"	gl_Position = vec4(in_Position, .0, 1.0);\n"
-		"}";
-	const char* frag_src =
-		"#version 150\n"
-		"out vec4 frag_Color;\n"
-		"\n"
-		"void main(){\n"
-		"	frag_Color = vec4(1.0, .0, .0, 1.0);\n"
-		"}";
-	const char* frag_src2 =
-		"#version 150\n"
-		"out vec4 frag_Color;\n"
-		"\n"
-		"void main(){\n"
-		"	frag_Color = vec4(.0, 1.0, .0, 1.0);\n"
-		"}";
+  std::ifstream in("shader1.vert");
+  std::string vert_src((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
 
-	shader1 = new Shader(vert_src, frag_src);
-	shader2 = new Shader(vert_src, frag_src2);
+  std::ifstream in2("shader1.frag");
+  std::string frag_src((std::istreambuf_iterator<char>(in2)), std::istreambuf_iterator<char>());
+
+  std::ifstream in3("shader2.frag");
+  std::string frag_src2((std::istreambuf_iterator<char>(in3)), std::istreambuf_iterator<char>());
+
+	shader1 = new Shader(vert_src.c_str(), frag_src.c_str());
+	shader2 = new Shader(vert_src.c_str(), frag_src2.c_str());
+
 	glUseProgram(shader1->getProgram());
 }
 
