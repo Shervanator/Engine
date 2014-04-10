@@ -17,7 +17,7 @@ Shader.o: Shader.h
 main.o: GameManager.h
 
 tags: $(SRCS)
-	ctags $(SRCS)
+	ctags --extra=+f $(SRCS)
 
 clean:
 	/bin/rm $(OBJS)
