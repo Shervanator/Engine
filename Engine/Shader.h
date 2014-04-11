@@ -13,18 +13,18 @@
 class Shader
 {
 public:
-	Shader(void);
-	Shader(const char* vert_src, const char* frag_src);
-	~Shader(void);
+  Shader(void);
+  Shader(const char* vert_src, const char* frag_src);
+  ~Shader(void);
 
-	void addVertex(const char* vert_src);
-	void addFragment(const char* frag_src);
-	void link(void);
-	GLuint getProgram(void);
+  void addVertex(const char* vert_src);
+  void addFragment(const char* frag_src);
+  void link(void);
+  GLuint getProgram(void);
 private:
-	GLuint	g_shVert;
-	GLuint	g_shFrag;
-	GLuint	g_shProg;
+  GLuint  g_shVert;
+  GLuint  g_shFrag;
+  GLuint  g_shProg;
 };
 
 #endif

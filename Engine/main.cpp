@@ -4,17 +4,16 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 int main(int argc, char **argv){
-	GameManager gm;
+  GameManager gm;
 
-	gm.init(SCREEN_WIDTH, SCREEN_HEIGHT);
+  gm.init(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	bool quit = false;
-	while (!gm.shouldQuit())
-	{
-		gm.tick();
-	}
+  while (!gm.shouldQuit())
+  {
+    gm.tick();
+  }
 
-	gm.clean();
+  gm.clean();
 
-	return 0;
+  return 0;
 }

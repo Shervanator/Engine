@@ -19,35 +19,35 @@
 class GameManager
 {
 public:
-	GameManager(void);
-	~GameManager(void);
+  GameManager(void);
+  ~GameManager(void);
 
-	int init(const int width, const int height);
-	void tick(void);
-	void clean(void);
-	bool shouldQuit(void);
+  int init(const int width, const int height);
+  void tick(void);
+  void clean(void);
+  bool shouldQuit(void);
 private:
-	int initSDL(const int width, const int height, Uint32 flags);
-	void initGL(void);
-	void logSDLError(const std::string &msg);
-	void render(void);
-	void createShaders(void);
-	void createVAO(void);
+  int initSDL(const int width, const int height, Uint32 flags);
+  void initGL(void);
+  void logSDLError(const std::string &msg);
+  void render(void);
+  void createShaders(void);
+  void createVAO(void);
 
-	SDL_Event event;
-	SDL_Window *win;
-	SDL_GLContext glContext;
+  SDL_Event event;
+  SDL_Window *win;
+  SDL_GLContext glContext;
 
-	Shader *shader1;
-	Shader *shader2;
+  Shader *shader1;
+  Shader *shader2;
 
-	GLuint	g_vao;
-	GLuint	g_vbo;
+  GLuint  g_vao;
+  GLuint  g_vbo;
 
-	int WIDTH;
-	int HEIGHT;
+  int WIDTH;
+  int HEIGHT;
 
-	bool quit;
+  bool quit;
 };
 
 #endif
