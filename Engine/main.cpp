@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 960;
 
 int main(int argc, char **argv){
   GameManager gm;

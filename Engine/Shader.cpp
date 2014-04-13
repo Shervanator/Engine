@@ -50,6 +50,11 @@ void Shader::addVertex(const char* vert_src)
   glDeleteShader(g_shVert);
 }
 
+GLuint Shader::getMVPLocation(void)
+{
+  return mvp_uni;
+}
+
 void Shader::addFragment(const char* frag_src)
 {
   char shErr[1024];
@@ -87,6 +92,8 @@ void Shader::link(void)
   // Link the shaders
   glLinkProgram(g_shProg);
   glGetProgramiv(g_shProg, GL_LINK_STATUS, &res);
+
+  mvp_uni = glGetUniformLocation(g_shProg, "MVP");
   if (GL_FALSE == res)
     fprintf(stderr, "Failed to link shader program\n");
 }

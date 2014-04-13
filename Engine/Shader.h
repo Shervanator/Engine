@@ -1,14 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#ifdef _WIN32
-//#define GLEW_STATIC 1
 #include <GL/glew.h>
-#else
-#define GL_GLEXT_PROTOTYPES
-#include <GL/glew.h>
-#include <SDL2/SDL_opengl.h>
-#endif
 
 class Shader
 {
@@ -21,10 +14,13 @@ public:
   void addFragment(const char* frag_src);
   void link(void);
   GLuint getProgram(void);
+  GLuint getMVPLocation(void);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;
   GLuint  g_shProg;
+
+  GLuint mvp_uni;
 };
 
 #endif
