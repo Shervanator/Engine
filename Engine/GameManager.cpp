@@ -35,27 +35,42 @@ void GameManager::tick(void)
 
   SDL_Event event;
   while (sdl_manager.poll_event(&event)) {
-    if (event.type == SDL_MOUSEMOTION) {
-      std::cout << "x: " << event.motion.xrel << " :: y: " << event.motion.yrel << std::endl;
-      primary_camera->setMousePosition(event.motion.xrel, event.motion.yrel);
-      primary_camera->tick(delta_time);
-    } else if (event.type == SDL_KEYDOWN) {
-      if (event.key.keysym.sym == SDLK_UP) {
-        primary_camera->tick(delta_time, 0, 1);
-      } else if (event.key.keysym.sym == SDLK_DOWN) {
-        primary_camera->tick(delta_time, 0, -1);
-      } else if (event.key.keysym.sym == SDLK_LEFT) {
-        primary_camera->tick(delta_time, -1, 0);
-      } else if (event.key.keysym.sym == SDLK_RIGHT) {
-        primary_camera->tick(delta_time, 1, 0);
-      }
-    } else if (event.type == SDL_QUIT) {
-      quit = true;
-    } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-      // glUseProgram(shader2->getProgram());
+    switch (event.type) {
+      case SDL_KEYDOWN:
+      case SDL_KEYUP:
+        keyHandler.handleEvent(event.key);
+        break;
+      case SDL_QUIT:
+        quit = true;
+        break;
     }
   }
 
+  if (keyHandler.isPressed(SDLK_UP)) {
+    primary_camera->moveY(-1.0f);
+  }
+
+  if (keyHandler.isPressed(SDLK_DOWN)) {
+    primary_camera->moveY(1.0f);
+  }
+
+  if (keyHandler.isPressed(SDLK_LEFT)) {
+    primary_camera->moveX(1.0f);
+  }
+
+  if (keyHandler.isPressed(SDLK_RIGHT)) {
+    primary_camera->moveX(-1.0f);
+  }
+
+  if (keyHandler.isReleased(SDLK_UP) && keyHandler.isReleased(SDLK_DOWN)) {
+    primary_camera->moveY(0.0f);
+  }
+
+  if (keyHandler.isReleased(SDLK_LEFT) && keyHandler.isReleased(SDLK_RIGHT)) {
+    primary_camera->moveX(0.0f);
+  }
+
+  primary_camera->tick(delta_time);
   gl_manager.setLookAt(primary_camera->getPosition(), primary_camera->getDirection(), primary_camera->getUp());
   gl_manager.tick(delta_time);
   sdl_manager.tick();

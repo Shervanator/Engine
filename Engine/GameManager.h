@@ -7,6 +7,8 @@
 
 #include "Camera.h"
 
+#include "KeyboardHandler.h"
+
 class GameManager
 {
 public:
@@ -21,6 +23,8 @@ private:
   SDLManager  sdl_manager;
   GLEWManager glew_manager;
   GLManager   gl_manager;
+
+  KeyboardHandler keyHandler;
 
   Camera *primary_camera;
 
