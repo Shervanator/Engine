@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 
 #include "SDLManager.h"
 
@@ -44,7 +45,7 @@ int SDLManager::init(const int width, const int height, Uint32 flags)
 
   glContext = SDL_GL_CreateContext(win);
 
-  SDL_SetRelativeMouseMode(SDL_TRUE);
+  // SDL_SetRelativeMouseMode(SDL_TRUE);
 
   current_time = SDL_GetTicks();
 
@@ -58,6 +59,19 @@ void SDLManager::logSDLError(const std::string &msg)
 
 void SDLManager::tick(void)
 {
+  old_time     = current_time;
+  current_time = SDL_GetTicks();
+  delta_time   = current_time - old_time;
+
+  if (current_time % 6 == 0) {
+    char buffer[30];
+    snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
+    SDL_SetWindowTitle(win, buffer);
+  }
+}
+
+void SDLManager::swapBuffer(void)
+{
   SDL_GL_SwapWindow(win);
 }
 
@@ -68,7 +82,10 @@ int SDLManager::poll_event(SDL_Event *event)
 
 Uint32 SDLManager::getDeltaTime(void)
 {
-  old_time = current_time;
-  current_time = SDL_GetTicks();
-  return (current_time - old_time);
+  return delta_time;
+}
+
+Uint32 SDLManager::getFPS(void)
+{
+  return 1000.0 / delta_time;
 }

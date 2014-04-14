@@ -19,8 +19,10 @@ public:
 
   int init(const int width, const int height, Uint32 flags);
   void tick(void);
+  void swapBuffer(void);
   int poll_event(SDL_Event *event);
   Uint32 getDeltaTime(void);
+  Uint32 getFPS(void);
 
 private:
   void logSDLError(const std::string &msg);
@@ -28,7 +30,7 @@ private:
   SDL_Window *win;
   SDL_GLContext glContext;
 
-  Uint32 current_time, old_time;
+  Uint32 current_time, old_time, delta_time;
 };
 
 #endif

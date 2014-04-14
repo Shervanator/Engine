@@ -31,6 +31,7 @@ int GameManager::init(const int width, const int height)
 
 void GameManager::tick(void)
 {
+  sdl_manager.tick();
   Uint32 delta_time = sdl_manager.getDeltaTime();
 
   SDL_Event event;
@@ -73,7 +74,8 @@ void GameManager::tick(void)
   primary_camera->tick(delta_time);
   gl_manager.setLookAt(primary_camera->getPosition(), primary_camera->getDirection(), primary_camera->getUp());
   gl_manager.tick(delta_time);
-  sdl_manager.tick();
+
+  sdl_manager.swapBuffer();
 }
 
 bool GameManager::shouldQuit(void)

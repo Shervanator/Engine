@@ -12,11 +12,11 @@ KeyboardHandler::~KeyboardHandler(void)
 void KeyboardHandler::handleEvent(SDL_KeyboardEvent keyEvent)
 {
   keyState[keyEvent.keysym.sym] = keyEvent.state;
-  if (keyEvent.state == SDL_PRESSED) {
-    std::cout << "KEY: " << keyEvent.keysym.sym << " => pressed" << std::endl;
-  } else if (keyEvent.state == SDL_RELEASED) {
-    std::cout << "KEY: " << keyEvent.keysym.sym << " => released" << std::endl;
-  }
+  // if (keyEvent.state == SDL_PRESSED) {
+  //   std::cout << "KEY: " << keyEvent.keysym.sym << " => pressed" << std::endl;
+  // } else if (keyEvent.state == SDL_RELEASED) {
+  //   std::cout << "KEY: " << keyEvent.keysym.sym << " => released" << std::endl;
+  // }
 }
 
 bool KeyboardHandler::isPressed(SDL_Keycode key) {
