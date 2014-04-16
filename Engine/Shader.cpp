@@ -50,11 +50,6 @@ void Shader::addVertex(const char* vert_src)
   glDeleteShader(g_shVert);
 }
 
-GLuint Shader::getMVPLocation(void)
-{
-  return mvp_uni;
-}
-
 void Shader::addFragment(const char* frag_src)
 {
   char shErr[1024];
@@ -104,12 +99,10 @@ GLuint Shader::getProgram(void)
 
 void Shader::createUniform(const char* uniform_name)
 {
-  glUseProgram(g_shProg);
   uniform_location[uniform_name] = glGetUniformLocation(g_shProg, uniform_name);
 }
 
-void Shader::setUniformMat4(const char* uniform_name, glm::mat4 & value)
+GLuint Shader::getUniformLocation(const char* uniform_name)
 {
-  glUseProgram(g_shProg);
-  glUniformMatrix4fv(uniform_location[uniform_name], 1, GL_FALSE, &value[0][0]);
+  return uniform_location[uniform_name];
 }

@@ -18,16 +18,13 @@ public:
   void link(void);
 
   void createUniform(const char* uniform_name);
-  void setUniformMat4(const char* uniform_name, glm::mat4 & value);
+  GLuint getUniformLocation(const char* uniform_name);
 
   GLuint getProgram(void);
-  GLuint getMVPLocation(void);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;
   GLuint  g_shProg;
-
-  GLuint mvp_uni;
 
   std::map <const char*, GLuint> uniform_location;
 };

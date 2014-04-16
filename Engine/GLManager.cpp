@@ -53,11 +53,10 @@ void GLManager::tick(int delta_time)
   Model = glm::rotate(Model, angle_in_degrees, glm::vec3(0, 1, 0));
   glm::mat4 MVP   = projection * view * Model;
 
-  shader1->setUniformMat4("MVP", MVP);
+  glUniformMatrix4fv(shader1->getUniformLocation("MVP"), 1, GL_FALSE, &MVP[0][0]);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUseProgram(shader1->getProgram());
   model->render();
 }
 
@@ -76,6 +75,6 @@ void GLManager::createShaders(void)
   shader2 = new Shader(vert_src.c_str(), frag_src2.c_str());
 
   shader1->createUniform("MVP");
-  shader2->createUniform("MVP");
 
+  glUseProgram(shader1->getProgram());
 }
