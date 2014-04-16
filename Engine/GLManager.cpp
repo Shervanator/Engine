@@ -33,6 +33,7 @@ int GLManager::init(const int width, const int height)
 
   glViewport(0, 0, width, height);
 
+  projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 
   createShaders();
 
@@ -46,20 +47,18 @@ void GLManager::setLookAt(glm::vec3 position, glm::vec3 direction, glm::vec3 up)
 
 void GLManager::tick(int delta_time)
 {
-  glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-
   glm::mat4 Model = glm::mat4(1.0f);
-  glm::mat4 MVP   = Projection * view * Model;
+  static float angle_in_degrees = 0.0f;
+  angle_in_degrees += delta_time * 0.01;
+  Model = glm::rotate(Model, angle_in_degrees, glm::vec3(0, 1, 0));
+  glm::mat4 MVP   = projection * view * Model;
 
-  glUniformMatrix4fv(shader1->getMVPLocation(), 1, GL_FALSE, &MVP[0][0]);
+  shader1->setUniformMat4("MVP", MVP);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glEnableVertexAttribArray(0);
-
+  glUseProgram(shader1->getProgram());
   model->render();
-   
-  glDisableVertexAttribArray(0);
 }
 
 void GLManager::createShaders(void)
@@ -76,5 +75,7 @@ void GLManager::createShaders(void)
   shader1 = new Shader(vert_src.c_str(), frag_src.c_str());
   shader2 = new Shader(vert_src.c_str(), frag_src2.c_str());
 
-  glUseProgram(shader1->getProgram());
+  shader1->createUniform("MVP");
+  shader2->createUniform("MVP");
+
 }

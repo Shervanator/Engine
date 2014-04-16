@@ -93,7 +93,6 @@ void Shader::link(void)
   glLinkProgram(g_shProg);
   glGetProgramiv(g_shProg, GL_LINK_STATUS, &res);
 
-  mvp_uni = glGetUniformLocation(g_shProg, "MVP");
   if (GL_FALSE == res)
     fprintf(stderr, "Failed to link shader program\n");
 }
@@ -101,4 +100,16 @@ void Shader::link(void)
 GLuint Shader::getProgram(void)
 {
   return g_shProg;
+}
+
+void Shader::createUniform(const char* uniform_name)
+{
+  glUseProgram(g_shProg);
+  uniform_location[uniform_name] = glGetUniformLocation(g_shProg, uniform_name);
+}
+
+void Shader::setUniformMat4(const char* uniform_name, glm::mat4 & value)
+{
+  glUseProgram(g_shProg);
+  glUniformMatrix4fv(uniform_location[uniform_name], 1, GL_FALSE, &value[0][0]);
 }

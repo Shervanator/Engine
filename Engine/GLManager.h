@@ -24,12 +24,15 @@ public:
 private:
   void createShaders(void);
 
+  Shader *active_shader;
+
   Shader *shader1;
   Shader *shader2;
 
   Model *model;
 
   glm::mat4 view;
+  glm::mat4 projection;
 };
 
 #endif
