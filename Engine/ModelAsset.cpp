@@ -1,8 +1,8 @@
-#include "Model.h"
+#include "ModelAsset.h"
 
 #include <iostream>
 
-Model::Model(void)
+ModelAsset::ModelAsset(void)
 {
   static const GLfloat g_vertex_buffer_data[] = {
     -1.0f,-1.0f,-1.0f,
@@ -56,13 +56,13 @@ Model::Model(void)
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 }
 
-Model::~Model(void)
+ModelAsset::~ModelAsset(void)
 {
   glDeleteBuffers(1, &g_vbo);
   glDeleteVertexArrays(1, &g_vao);
 }
 
-void Model::render(void)
+void ModelAsset::render(void)
 {
   glBindVertexArray(g_vao);
   glDrawArrays(GL_TRIANGLES, 0, 12 * 3);

@@ -1,14 +1,14 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MODEL_ASSET_H
+#define MODEL_ASSET_H
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-class Model
+class ModelAsset
 {
 public:
-  Model(void);
-  ~Model(void);
+  ModelAsset(void);
+  ~ModelAsset(void);
 
   void render(void);
 

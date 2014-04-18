@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 
 #include "Shader.h"
-#include "Model.h"
+#include "ModelAsset.h"
 
 class GLManager
 {
@@ -29,7 +29,7 @@ private:
   Shader *shader1;
   Shader *shader2;
 
-  Model *model;
+  ModelAsset *model;
 
   glm::mat4 view;
   glm::mat4 projection;

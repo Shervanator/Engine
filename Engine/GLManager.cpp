@@ -22,7 +22,7 @@ void GLManager::clean(void)
 
 int GLManager::init(const int width, const int height)
 {
-  model = new Model();
+  model = new ModelAsset();
   glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
   glClearDepth(1.0f);
 
@@ -53,10 +53,10 @@ void GLManager::tick(int delta_time)
   Model = glm::rotate(Model, angle_in_degrees, glm::vec3(0, 1, 0));
   glm::mat4 MVP   = projection * view * Model;
 
-  glUniformMatrix4fv(shader1->getUniformLocation("MVP"), 1, GL_FALSE, &MVP[0][0]);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  glUniformMatrix4fv(shader1->getUniformLocation("MVP"), 1, GL_FALSE, &MVP[0][0]);
   model->render();
 }
 
