@@ -12,24 +12,19 @@
 class GameManager
 {
 public:
-  GameManager(void);
+  GameManager(int width, int height);
   ~GameManager(void);
 
-  int init(const int width, const int height);
   void tick(void);
-  void clean(void);
   bool shouldQuit(void);
 private:
-  SDLManager  sdl_manager;
-  GLEWManager glew_manager;
-  GLManager   gl_manager;
+  SDLManager  *sdl_manager;
+  GLEWManager *glew_manager;
+  GLManager   *gl_manager;
 
   KeyboardHandler keyHandler;
 
   Camera *primary_camera;
-
-  int WIDTH;
-  int HEIGHT;
 
   bool quit;
 };

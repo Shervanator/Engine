@@ -10,12 +10,8 @@
 class GLManager
 {
 public:
-  GLManager(void);
+  GLManager(int width, int height);
   ~GLManager(void);
-
-  void clean(void);
-
-  int init(const int width, const int height);
 
   void tick(int delta_time);
 

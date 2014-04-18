@@ -12,12 +12,9 @@
 class SDLManager
 {
 public:
-  SDLManager(void);
+  SDLManager(int width, int height, Uint32 flags);
   ~SDLManager(void);
 
-  void clean(void);
-
-  int init(const int width, const int height, Uint32 flags);
   void tick(void);
   void swapBuffer(void);
   int poll_event(SDL_Event *event);

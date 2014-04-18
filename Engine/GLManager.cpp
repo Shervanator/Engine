@@ -5,22 +5,7 @@
 
 #include "GLManager.h"
 
-GLManager::GLManager(void)
-{
-}
-
-GLManager::~GLManager(void)
-{
-}
-
-void GLManager::clean(void)
-{
-  delete shader1;
-  delete shader2;
-  delete model;
-}
-
-int GLManager::init(const int width, const int height)
+GLManager::GLManager(int width, int height)
 {
   model = new ModelAsset();
   glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
@@ -36,8 +21,13 @@ int GLManager::init(const int width, const int height)
   projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 
   createShaders();
+}
 
-  return 0;
+GLManager::~GLManager(void)
+{
+  delete shader1;
+  delete shader2;
+  delete model;
 }
 
 void GLManager::setLookAt(glm::vec3 position, glm::vec3 direction, glm::vec3 up)

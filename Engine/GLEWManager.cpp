@@ -5,27 +5,17 @@
 
 GLEWManager::GLEWManager(void)
 {
-}
-
-GLEWManager::~GLEWManager(void)
-{
-}
-
-void GLEWManager::clean(void)
-{
-}
-
-int GLEWManager::init(void)
-{
   glewExperimental = GL_TRUE;
   GLenum err = glewInit();
 
   if (GLEW_OK != err)
   {
-    std::cout << "Error: " << glewGetErrorString(err) << std::endl;
-    return 1;
+    std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
   }
 
-  std::cout << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
-  return 0;
+  std::cerr << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+}
+
+GLEWManager::~GLEWManager(void)
+{
 }

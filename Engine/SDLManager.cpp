@@ -3,27 +3,11 @@
 
 #include "SDLManager.h"
 
-SDLManager::SDLManager(void)
-{
-}
-
-SDLManager::~SDLManager(void)
-{
-}
-
-void SDLManager::clean(void)
-{
-  SDL_GL_DeleteContext(glContext);
-  SDL_DestroyWindow(win);
-  SDL_Quit();
-}
-
-int SDLManager::init(const int width, const int height, Uint32 flags)
+SDLManager::SDLManager(int width, int height, Uint32 flags)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
   {
     logSDLError("SDL_Init");
-    return 1;
   }
   
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -42,7 +26,6 @@ int SDLManager::init(const int width, const int height, Uint32 flags)
   if (win == nullptr)
   {
     logSDLError("SDL_CreateWindow");
-    return 1;
   }
 
   glContext = SDL_GL_CreateContext(win);
@@ -50,13 +33,18 @@ int SDLManager::init(const int width, const int height, Uint32 flags)
   // SDL_SetRelativeMouseMode(SDL_TRUE);
 
   current_time = SDL_GetTicks();
+}
 
-  return 0;
+SDLManager::~SDLManager(void)
+{
+  SDL_GL_DeleteContext(glContext);
+  SDL_DestroyWindow(win);
+  SDL_Quit();
 }
 
 void SDLManager::logSDLError(const std::string &msg)
 {
-  std::cout << msg << " error: " << SDL_GetError() << std::endl;
+  std::cerr << msg << " error: " << SDL_GetError() << std::endl;
 }
 
 void SDLManager::tick(void)

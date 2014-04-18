@@ -1,41 +1,34 @@
 #include "GameManager.h"
 #include <iostream>
 
-GameManager::GameManager(void)
+GameManager::GameManager(int width, int height)
 {
+  sdl_manager = new SDLManager(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+
+  glew_manager = new GLEWManager();
+
+  gl_manager = new GLManager(width, height);
+
+  primary_camera = new Camera();
+
   quit = false;
 }
 
 GameManager::~GameManager(void)
 {
-}
-
-int GameManager::init(const int width, const int height)
-{
-  WIDTH = width;
-  HEIGHT = height;
-
-  if (sdl_manager.init(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL) != 0)
-    return 1;
-
-  if (glew_manager.init() != 0)
-    return 1;
-
-  if (gl_manager.init(width, height) != 0)
-    return 1;
-
-  primary_camera = new Camera();
-
-  return 0;
+  delete primary_camera;
+  delete sdl_manager;
+  delete glew_manager;
+  delete gl_manager;
 }
 
 void GameManager::tick(void)
 {
-  sdl_manager.tick();
-  Uint32 delta_time = sdl_manager.getDeltaTime();
+  sdl_manager->tick();
+  Uint32 delta_time = sdl_manager->getDeltaTime();
 
   SDL_Event event;
-  while (sdl_manager.poll_event(&event)) {
+  while (sdl_manager->poll_event(&event)) {
     switch (event.type) {
       case SDL_KEYDOWN:
       case SDL_KEYUP:
@@ -72,21 +65,13 @@ void GameManager::tick(void)
   }
 
   primary_camera->tick(delta_time);
-  gl_manager.setLookAt(primary_camera->getPosition(), primary_camera->getDirection(), primary_camera->getUp());
-  gl_manager.tick(delta_time);
+  gl_manager->setLookAt(primary_camera->getPosition(), primary_camera->getDirection(), primary_camera->getUp());
+  gl_manager->tick(delta_time);
 
-  sdl_manager.swapBuffer();
+  sdl_manager->swapBuffer();
 }
 
 bool GameManager::shouldQuit(void)
 {
   return quit;
-}
-
-void GameManager::clean(void)
-{
-  delete primary_camera;
-  sdl_manager.clean();
-  glew_manager.clean();
-  gl_manager.clean();
 }
