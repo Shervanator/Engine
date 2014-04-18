@@ -18,8 +18,6 @@ GLManager::GLManager(int width, int height)
 
   glViewport(0, 0, width, height);
 
-  projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-
   createShaders();
 }
 
@@ -30,9 +28,9 @@ GLManager::~GLManager(void)
   delete model;
 }
 
-void GLManager::setLookAt(glm::vec3 position, glm::vec3 direction, glm::vec3 up)
+void GLManager::setViewProjection(const glm::mat4& viewProj)
 {
-  view = glm::lookAt( position, direction, up );
+  this->viewProj = viewProj;
 }
 
 void GLManager::tick(int delta_time)
@@ -41,8 +39,8 @@ void GLManager::tick(int delta_time)
   static float angle_in_degrees = 0.0f;
   angle_in_degrees += delta_time * 0.01;
   Model = glm::rotate(Model, angle_in_degrees, glm::vec3(0, 1, 0));
-  glm::mat4 MVP   = projection * view * Model;
 
+  glm::mat4 MVP = viewProj * Model;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -9,7 +9,7 @@ GameManager::GameManager(int width, int height)
 
   gl_manager = new GLManager(width, height);
 
-  primary_camera = new Camera();
+  primary_camera = new Camera(glm::vec3(0, 0, 30), 45.0f, width / (float)height, 0.1f, 100.0f);
 
   quit = false;
 }
@@ -65,7 +65,7 @@ void GameManager::tick(void)
   }
 
   primary_camera->tick(delta_time);
-  gl_manager->setLookAt(primary_camera->getPosition(), primary_camera->getDirection(), primary_camera->getUp());
+  gl_manager->setViewProjection(primary_camera->getViewProjection());
   gl_manager->tick(delta_time);
 
   sdl_manager->swapBuffer();

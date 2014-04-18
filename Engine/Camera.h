@@ -2,11 +2,12 @@
 #define CAMERA_H
 
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 
 class Camera
 {
 public:
-  Camera(void);
+  Camera(const glm::vec3& position, float fov, float aspect, float zNear, float zFar);
   ~Camera(void);
 
   void setMousePosition(int xDelta, int yDelta);
@@ -19,12 +20,17 @@ public:
   glm::vec3 getDirection(void);
   glm::vec3 getUp(void);
 
+  glm::mat4 getViewProjection(void);
+
 private:
   glm::vec3 position;
+
+  glm::mat4 projection;
+  glm::vec3 up;
+
   glm::vec3 moveDirection;
   glm::vec3 velocity;
   glm::vec3 direction;
-  glm::vec3 up;
 
   float horizontalAngle;
   float verticalAngle;

@@ -15,7 +15,7 @@ public:
 
   void tick(int delta_time);
 
-  void setLookAt(glm::vec3 position, glm::vec3 direction, glm::vec3 up);
+  void setViewProjection(const glm::mat4& viewProj);
 
 private:
   void createShaders(void);
@@ -27,8 +27,7 @@ private:
 
   ModelAsset *model;
 
-  glm::mat4 view;
-  glm::mat4 projection;
+  glm::mat4 viewProj;
 };
 
 #endif

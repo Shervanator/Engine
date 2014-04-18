@@ -1,23 +1,30 @@
 #include "Camera.h"
 #include <iostream>
 
-Camera::Camera(void)
+Camera::Camera(const glm::vec3& position, float fov, float aspect, float zNear, float zFar)
 {
-  xDelta = 0;
-  yDelta = 0;
+  this->xDelta = 0;
+  this->yDelta = 0;
 
-  horizontalAngle = 0;
-  verticalAngle   = 0;
+  this->horizontalAngle = 0;
+  this->verticalAngle   = 0;
 
-  position      = glm::vec3(0, 0, 30);
-  direction     = glm::vec3(0, 0, -1);
-  moveDirection = glm::vec3(0, 0, 0);
-  velocity      = glm::vec3(0, 0, 0);
-  up            = glm::vec3(0, 1, 0);
+  this->position      = position;
+  this->up            = glm::vec3(0.0f, 1.0f, 0.0f);
+  this->projection    = glm::perspective(fov, aspect, zNear, zFar);
+
+  this->direction     = glm::vec3(0, 0, -1);
+  this->moveDirection = glm::vec3(0, 0, 0);
+  this->velocity      = glm::vec3(0, 0, 0);
 }
 
 Camera::~Camera(void)
 {
+}
+
+glm::mat4 Camera::getViewProjection(void)
+{
+  return projection * glm::lookAt(position, position + direction, up);
 }
 
 void Camera::setMousePosition(int xDelta, int yDelta)
