@@ -1,8 +1,8 @@
 #include "ModelInstance.h"
 
-ModelInstance::ModelInstance(ModelAsset *asset)
+ModelInstance::ModelInstance(Mesh *mesh)
 {
-  this->asset = asset;
+  this->mesh = mesh;
 }
 
 ModelInstance::~ModelInstance(void)

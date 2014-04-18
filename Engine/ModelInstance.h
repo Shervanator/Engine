@@ -1,15 +1,15 @@
 #ifndef MODEL_INSTANCE_H
 #define MODEL_INSTANCE_H
 
-#include "ModelAsset.h"
+#include "Mesh.h"
 
 class ModelInstance
 {
 public:
-  ModelInstance(ModelAsset *asset);
+  ModelInstance(Mesh *mesh);
   ~ModelInstance(void);
 private:
-  ModelAsset *asset;
+  Mesh *mesh;
 };
 
 #endif
