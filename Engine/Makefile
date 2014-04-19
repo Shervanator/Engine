@@ -2,10 +2,10 @@ CC = gcc
 CXX = g++
 CXXFLAGS = -g -O0 -std=c++11 -Wall
 LDFLAGS = -I/usr/local/Cellar/glm/0.9.5.2/include -I/usr/local/Cellar/sdl2/2.0.2/include -I/usr/local/Cellar/glew/1.10.0/include -L/usr/local/Cellar/sdl2/2.0.2/lib -L/usr/local/Cellar/glew/1.10.0/lib
-LDLIBS = -framework OpenGL -lSDL2 -lGLEW
+LDLIBS = -framework OpenGL -lSDL2 -lGLEW -lSOIL -framework CoreFoundation
 
-OBJS = ModelInstance.o Mesh.o KeyboardHandler.o Camera.o GLManager.o GLEWManager.o SDLManager.o GameManager.o Shader.o main.o
-SRCS = ModelInstance.cpp Mesh.cpp KeyboardHandler.cpp Camera.cpp GLManager.cpp GLEWManager.cpp SDLManager.cpp GameManager.cpp Shader.cpp main.cpp
+OBJS = Texture.o ModelInstance.o Mesh.o KeyboardHandler.o Camera.o GLManager.o GLEWManager.o SDLManager.o GameManager.o Shader.o main.o
+SRCS = Texture.cpp ModelInstance.cpp Mesh.cpp KeyboardHandler.cpp Camera.cpp GLManager.cpp GLEWManager.cpp SDLManager.cpp GameManager.cpp Shader.cpp main.cpp
 
 all: engine
 

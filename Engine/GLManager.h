@@ -6,6 +6,7 @@
 
 #include "Shader.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 class GLManager
 {
@@ -26,6 +27,7 @@ private:
   Shader *shader2;
 
   Mesh *model;
+  Texture *texture;
 
   glm::mat4 viewProj;
 };
