@@ -9,7 +9,7 @@ GameManager::GameManager(int width, int height)
 
   gl_manager = new GLManager(width, height);
 
-  primary_camera = new Camera(glm::vec3(0, 0, 80), 45.0f, width / (float)height, 0.1f, 100.0f);
+  primary_camera = new Camera(glm::vec3(0, 0, 10), 45.0f, width / (float)height, 0.1f, 100.0f);
 
   quit = false;
 }

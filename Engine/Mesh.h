@@ -9,7 +9,7 @@
 class Mesh
 {
 public:
-  Mesh(void);
+  Mesh(const char* file);
   Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   ~Mesh(void);
 
