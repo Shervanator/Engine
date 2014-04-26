@@ -41,19 +41,19 @@ void GameManager::tick(void)
   }
 
   if (keyHandler.isPressed(SDLK_UP)) {
-    primary_camera->moveY(-1.0f);
-  }
-
-  if (keyHandler.isPressed(SDLK_DOWN)) {
     primary_camera->moveY(1.0f);
   }
 
+  if (keyHandler.isPressed(SDLK_DOWN)) {
+    primary_camera->moveY(-1.0f);
+  }
+
   if (keyHandler.isPressed(SDLK_LEFT)) {
-    primary_camera->moveX(1.0f);
+    primary_camera->moveX(-1.0f);
   }
 
   if (keyHandler.isPressed(SDLK_RIGHT)) {
-    primary_camera->moveX(-1.0f);
+    primary_camera->moveX(1.0f);
   }
 
   if (keyHandler.isReleased(SDLK_UP) && keyHandler.isReleased(SDLK_DOWN)) {
