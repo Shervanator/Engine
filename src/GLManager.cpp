@@ -62,8 +62,8 @@ GLManager::GLManager(int width, int height)
     23, 22, 20};
 
   // model = new Mesh(vertices, sizeof(vertices) / sizeof(Vertex), indices, sizeof(indices) / sizeof(unsigned int));
-  model = new Mesh("monkey3.obj");
-  texture = new Texture("/Users/shervinaflatooni/Git/Engine/Engine/t.jpg");
+  model = new Mesh("res/monkey3.obj");
+  texture = new Texture("res/t.jpg");
 
   glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
   glClearDepth(1.0f);
@@ -126,13 +126,13 @@ void GLManager::tick(int delta_time)
 
 void GLManager::createShaders(void)
 {
-  std::ifstream in("shader1.vert");
+  std::ifstream in("res/shader1.vs");
   std::string vert_src((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
 
-  std::ifstream in2("shader1.frag");
+  std::ifstream in2("res/shader1.fs");
   std::string frag_src((std::istreambuf_iterator<char>(in2)), std::istreambuf_iterator<char>());
 
-  std::ifstream in3("shader2.frag");
+  std::ifstream in3("res/shader2.fs");
   std::string frag_src2((std::istreambuf_iterator<char>(in3)), std::istreambuf_iterator<char>());
 
   shader1 = new Shader(vert_src.c_str(), frag_src.c_str());
