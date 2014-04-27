@@ -8,7 +8,7 @@ SceneNode::~SceneNode(void)
 {
   for (unsigned int i = 0; i < gameObjects.size(); i++)
   {
-    delete children[i];
+    delete gameObjects[i];
   }
 
   for (unsigned int i = 0; i < children.size(); i++)

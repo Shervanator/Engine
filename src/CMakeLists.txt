@@ -3,11 +3,12 @@ cmake_minimum_required (VERSION 2.6)
 project (Engine)
 
 set(engine_source_files
+  VisibleObject.cpp
+  Game.cpp
   Camera.cpp
   GLEWManager.cpp
   GLManager.cpp
   GameManager.cpp
-  GameObject.cpp
   KeyboardHandler.cpp
   Mesh.cpp
   SDLManager.cpp
@@ -18,6 +19,8 @@ set(engine_source_files
 )
 
 set(engine_header_files
+  VisibleObject.h
+  Game.h
   Camera.h
   GLEWManager.h
   GLManager.h

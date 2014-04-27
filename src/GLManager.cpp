@@ -62,8 +62,8 @@ GLManager::GLManager(int width, int height)
     23, 22, 20};
 
   // model = new Mesh(vertices, sizeof(vertices) / sizeof(Vertex), indices, sizeof(indices) / sizeof(unsigned int));
-  model = new Mesh("res/monkey3.obj");
-  texture = new Texture("res/t.jpg");
+  // model = new Mesh("res/monkey3.obj");
+  // texture = new Texture("res/t.jpg");
 
   glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
   glClearDepth(1.0f);
@@ -76,15 +76,12 @@ GLManager::GLManager(int width, int height)
   glViewport(0, 0, width, height);
 
   createShaders();
-  texture->bind(0);
 }
 
 GLManager::~GLManager(void)
 {
   delete shader1;
   delete shader2;
-  delete model;
-  delete texture;
 }
 
 void GLManager::setViewProjection(const glm::mat4& viewProj)
@@ -92,36 +89,17 @@ void GLManager::setViewProjection(const glm::mat4& viewProj)
   this->viewProj = viewProj;
 }
 
-void GLManager::tick(int delta_time)
+void GLManager::renderScene(SceneNode *scene)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  static float angle_in_degrees = 0.0f;
-  angle_in_degrees += delta_time * 0.03;
-
-  glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)) * glm::rotate(glm::mat4(1.0f), angle_in_degrees, glm::vec3(0, 1, 0));
+  glm::mat4 Model = glm::mat4(1.0f);
 
   glm::mat4 MVP = viewProj * Model;
 
   glUniformMatrix4fv(shader1->getUniformLocation("MVP"), 1, GL_FALSE, &MVP[0][0]);
-  model->render();
 
-  // for (int i = 0; i < 10; i+=3)
-  // {
-  //   for (int j = 0; j < 10; j+=3)
-  //   {
-  //     for (int k = 0; k < 10; k+=3)
-  //     {
-  //       glm::mat4 Model = glm::mat4(1.0f);
-  //       Model = glm::translate(glm::mat4(1.0f), glm::vec3(i, j, k)) * glm::rotate(Model, angle_in_degrees, glm::vec3(0, 1, 0));
-
-  //       glm::mat4 MVP = viewProj * Model;
-
-  //       glUniformMatrix4fv(shader1->getUniformLocation("MVP"), 1, GL_FALSE, &MVP[0][0]);
-  //       model->render();
-  //     }
-  //   }
-  // }
+  scene->render();
 }
 
 void GLManager::createShaders(void)
