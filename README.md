@@ -13,7 +13,7 @@ A basic cross-platform 3D game engine making use of:
 main.cpp
 
 ```c++
-Include "Engine.h"
+#include "Engine.h"
 
 class CoolGame : public Game
 {
