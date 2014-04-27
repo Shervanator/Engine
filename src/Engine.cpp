@@ -1,7 +1,7 @@
-#include "GameManager.h"
+#include "Engine.h"
 #include <iostream>
 
-GameManager::GameManager(int width, int height, Game *game)
+Engine::Engine(int width, int height, Game *game)
 {
   sdl_manager = new SDLManager(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
@@ -16,7 +16,7 @@ GameManager::GameManager(int width, int height, Game *game)
   quit = false;
 }
 
-GameManager::~GameManager(void)
+Engine::~Engine(void)
 {
   delete primary_camera;
   delete sdl_manager;
@@ -24,7 +24,7 @@ GameManager::~GameManager(void)
   delete gl_manager;
 }
 
-void GameManager::start(void)
+void Engine::start(void)
 {
   game->init();
 
@@ -75,7 +75,6 @@ void GameManager::start(void)
     gl_manager->setViewProjection(primary_camera->getViewProjection());
 
     gl_manager->renderScene(game->getRootScene());
-    // gl_manager->tick(delta_time);
 
     sdl_manager->swapBuffer();
   }

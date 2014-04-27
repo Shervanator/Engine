@@ -1,4 +1,4 @@
-#include "GameManager.h"
+#include "Engine.h"
 
 #include "VisibleObject.h"
 #include "Mesh.h"
@@ -27,7 +27,7 @@ void CoolGame::init(void)
 
 int main(int argc, char **argv){
   CoolGame game;
-  GameManager gm(SCREEN_WIDTH, SCREEN_HEIGHT, &game);
+  Engine gm(SCREEN_WIDTH, SCREEN_HEIGHT, &game);
 
   gm.start();
 

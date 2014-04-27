@@ -8,7 +8,7 @@ set(engine_source_files
   Camera.cpp
   GLEWManager.cpp
   GLManager.cpp
-  GameManager.cpp
+  Engine.cpp
   KeyboardHandler.cpp
   Mesh.cpp
   SDLManager.cpp
@@ -24,7 +24,7 @@ set(engine_header_files
   Camera.h
   GLEWManager.h
   GLManager.h
-  GameManager.h
+  Engine.h
   GameObject.h
   KeyboardHandler.h
   Mesh.h

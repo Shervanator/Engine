@@ -1,5 +1,5 @@
-#ifndef GAME_MANAGER_H
-#define GAME_MANAGER_H
+#ifndef ENGINE_H
+#define ENGINE_H
 
 #include "GLManager.h"
 #include "SDLManager.h"
@@ -11,11 +11,11 @@
 
 #include "KeyboardHandler.h"
 
-class GameManager
+class Engine
 {
 public:
-  GameManager(int width, int height, Game *game);
-  ~GameManager(void);
+  Engine(int width, int height, Game *game);
+  ~Engine(void);
 
   void start(void);
 private:
