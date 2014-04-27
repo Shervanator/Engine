@@ -15,7 +15,6 @@ set(engine_source_files
   SceneNode.cpp
   Shader.cpp
   Texture.cpp
-  main.cpp
 )
 
 set(engine_header_files
@@ -47,5 +46,8 @@ set(engine_libs
   ${corefoundation_lib}
 )
 
-add_executable (engine ${engine_source_files} ${engine_header_files})
+add_library (engine ${engine_source_files} ${engine_header_files})
 target_link_libraries (engine ${engine_libs})
+
+add_executable (game main.cpp)
+target_link_libraries (game engine)

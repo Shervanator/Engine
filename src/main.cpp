@@ -10,8 +10,6 @@ const int SCREEN_HEIGHT = 960;
 class CoolGame : public Game
 {
 public:
-  CoolGame() {};
-
   virtual void init(void);
 
 private:
