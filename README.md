@@ -18,8 +18,6 @@ main.cpp
 class CoolGame : public Game
 {
 public:
-  CoolGame() {};
-
   virtual void init(void);
 
 private:
