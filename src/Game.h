@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "SceneNode.h"
+#include "GLManager.h"
 
 class Game
 {
@@ -11,8 +12,8 @@ public:
 
   virtual void init(void);
 
-  void update(int delta);
-  void render(void);
+  virtual void update(int delta);
+  virtual void render(GLManager *glManager);
 
   SceneNode *getRootScene(void) { return &rootScene; };
 

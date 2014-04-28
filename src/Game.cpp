@@ -22,7 +22,7 @@ void Game::update(int delta)
   rootScene.update(delta);
 }
 
-void Game::render(void)
+void Game::render(GLManager *glManager)
 {
-  rootScene.render();
+  glManager->renderScene(&rootScene);
 }

@@ -74,7 +74,9 @@ void Engine::start(void)
 
     gl_manager->setViewProjection(primary_camera->getViewProjection());
 
-    gl_manager->renderScene(game->getRootScene());
+    game->update(delta_time);
+
+    game->render(gl_manager);
 
     sdl_manager->swapBuffer();
   }
