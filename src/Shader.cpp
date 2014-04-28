@@ -1,9 +1,25 @@
 #include <iostream>
+#include <fstream>
+
 #include "Shader.h"
 
 Shader::Shader(void)
 {
   g_shProg = glCreateProgram();
+}
+
+Shader::Shader(std::string shaderFile)
+{
+  std::ifstream in(shaderFile + ".vs");
+  std::string vert_src((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+
+  std::ifstream in2(shaderFile + ".fs");
+  std::string frag_src((std::istreambuf_iterator<char>(in2)), std::istreambuf_iterator<char>());
+
+  g_shProg = glCreateProgram();
+  addVertex(vert_src.c_str());
+  addFragment(frag_src.c_str());
+  link();
 }
 
 Shader::Shader(const char* vert_src, const char* frag_src)

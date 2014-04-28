@@ -20,10 +20,7 @@ public:
 private:
   void createShaders(void);
 
-  Shader *active_shader;
-
   Shader *shader1;
-  Shader *shader2;
 
   glm::mat4 viewProj;
 };

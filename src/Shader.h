@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include <map>
+#include <string>
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
@@ -10,6 +11,7 @@ class Shader
 {
 public:
   Shader(void);
+  Shader(std::string shaderFile);
   Shader(const char* vert_src, const char* frag_src);
   ~Shader(void);
 
