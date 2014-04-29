@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Engine)
 
 set(engine_source_files
+  Transform.cpp
   VisibleObject.cpp
   Game.cpp
   Camera.cpp
@@ -18,6 +19,7 @@ set(engine_source_files
 )
 
 set(engine_header_files
+  Transform.h
   VisibleObject.h
   Game.h
   Camera.h
