@@ -3,14 +3,48 @@
 A basic cross-platform 3D game engine making use of:
 
 - SDL2 window library.
-- SOIL texture library (modified version for OpenGL 3).
+- SOIL texture library (custom version for OpenGL 3).
 - OpenGL 3.
 - Assimp asset importing library.
 - GLEW extension loading library.
 
 ## Usage
 
-main.cpp
+### To Build:
+
+First install required libraries:
+
+Manually install the custom version of SOIL.
+
+Then:
+
+#### Mac:
+```
+brew install sdl2
+brew install assimp
+brew install glew
+```
+
+After create the make file or project with cmake:
+
+```
+mkdir bin
+cd bin
+cmake ../src/
+```
+
+Then if in Mac or Linux:
+```
+make
+```
+
+If in Windows open the visual studio solution file.
+
+### To Use:
+
+To use the engine in a game build the engine library and include Engine.h in your game. 
+
+Eg:
 
 ```c++
 #include "Engine.h"
