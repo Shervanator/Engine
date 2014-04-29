@@ -8,8 +8,6 @@ public:
 
   virtual void update(int delta) = 0;
   virtual void render(void) = 0;
-
-private:
 };
 
 #endif

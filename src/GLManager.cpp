@@ -37,18 +37,18 @@ void GLManager::renderScene(SceneNode *scene)
 
   glm::mat4 Model = glm::mat4(1.0f);
 
-  glm::mat4 MVP = viewProj * Model;
+  glUniformMatrix4fv(shader1->getUniformLocation("Model"), 1, GL_FALSE, &Model[0][0]);
+  glUniformMatrix4fv(shader1->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
 
-  glUniformMatrix4fv(shader1->getUniformLocation("MVP"), 1, GL_FALSE, &MVP[0][0]);
-
-  scene->render();
+  scene->renderAll();
 }
 
 void GLManager::createShaders(void)
 {
   shader1 = new Shader("res/shader1");
 
-  shader1->createUniform("MVP");
+  shader1->createUniform("ViewProj");
+  shader1->createUniform("Model");
 
   glUseProgram(shader1->getProgram());
 }

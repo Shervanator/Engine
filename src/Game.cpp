@@ -19,7 +19,7 @@ void Game::addToScene(SceneNode *node)
 
 void Game::update(int delta)
 {
-  rootScene.update(delta);
+  rootScene.updateAll(delta);
 }
 
 void Game::render(GLManager *glManager)

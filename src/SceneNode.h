@@ -14,8 +14,8 @@ public:
   void addChild(SceneNode* child);
   void addObject(GameObject* object);
 
-  void update(int delta);
-  void render(void);
+  void updateAll(int delta);
+  void renderAll(void);
 
 private:
   std::vector<SceneNode*> children;

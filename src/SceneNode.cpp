@@ -27,7 +27,7 @@ void SceneNode::addObject(GameObject* object)
   gameObjects.push_back(object);
 }
 
-void SceneNode::update(int delta)
+void SceneNode::updateAll(int delta)
 {
   for (unsigned int i = 0; i < gameObjects.size(); i++)
   {
@@ -36,11 +36,11 @@ void SceneNode::update(int delta)
 
   for (unsigned int i = 0; i < children.size(); i++)
   {
-    children[i]->update(delta);
+    children[i]->updateAll(delta);
   }
 }
 
-void SceneNode::render(void)
+void SceneNode::renderAll(void)
 {
   for (unsigned int i = 0; i < gameObjects.size(); i++)
   {
@@ -49,6 +49,6 @@ void SceneNode::render(void)
 
   for (unsigned int i = 0; i < children.size(); i++)
   {
-    children[i]->render();
+    children[i]->renderAll();
   }
 }
