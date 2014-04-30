@@ -12,7 +12,7 @@ public:
   virtual ~VisibleObject(void);
 
   virtual void update(int delta);
-  virtual void render(void);
+  virtual void render(Shader *shader);
 
 private:
   Mesh *mesh;

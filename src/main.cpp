@@ -19,7 +19,12 @@ private:
 void CoolGame::init(void)
 {
   test_scene = new SceneNode();
-  test_scene->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+
+  GameObject *monkeyObject = new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg"));
+
+  monkeyObject->getTransform().setPosition(3, 0, 0);
+
+  test_scene->addObject(monkeyObject);
   addToScene(test_scene);
 }
 

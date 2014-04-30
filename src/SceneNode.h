@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "GameObject.h"
+#include "Shader.h"
 
 class SceneNode
 {
@@ -15,7 +16,7 @@ public:
   void addObject(GameObject* object);
 
   void updateAll(int delta);
-  void renderAll(void);
+  void renderAll(Shader *shader);
 
 private:
   std::vector<SceneNode*> children;

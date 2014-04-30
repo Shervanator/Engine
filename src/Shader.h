@@ -23,6 +23,8 @@ public:
   GLuint getUniformLocation(const char* uniform_name);
 
   GLuint getProgram(void);
+
+  void bind(void);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;

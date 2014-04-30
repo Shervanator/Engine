@@ -35,12 +35,9 @@ void GLManager::renderScene(SceneNode *scene)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glm::mat4 Model = glm::mat4(1.0f);
-
-  glUniformMatrix4fv(shader1->getUniformLocation("Model"), 1, GL_FALSE, &Model[0][0]);
   glUniformMatrix4fv(shader1->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
 
-  scene->renderAll();
+  scene->renderAll(shader1);
 }
 
 void GLManager::createShaders(void)
@@ -50,5 +47,5 @@ void GLManager::createShaders(void)
   shader1->createUniform("ViewProj");
   shader1->createUniform("Model");
 
-  glUseProgram(shader1->getProgram());
+  shader1->bind();
 }

@@ -40,15 +40,15 @@ void SceneNode::updateAll(int delta)
   }
 }
 
-void SceneNode::renderAll(void)
+void SceneNode::renderAll(Shader *shader)
 {
   for (unsigned int i = 0; i < gameObjects.size(); i++)
   {
-    gameObjects[i]->render();
+    gameObjects[i]->render(shader);
   }
 
   for (unsigned int i = 0; i < children.size(); i++)
   {
-    children[i]->renderAll();
+    children[i]->renderAll(shader);
   }
 }

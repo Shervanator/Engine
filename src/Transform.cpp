@@ -15,7 +15,22 @@ Transform::~Transform(void)
 {
 }
 
-glm::mat4 Transform::getTransform(void)
+void Transform::setPosition(float x, float y, float z)
+{
+  position.x = x;
+  position.y = y;
+  position.z = z;
+}
+
+void Transform::setRotation(float x, float y, float z, float w)
+{
+  rotation.x = x;
+  rotation.y = y;
+  rotation.z = z;
+  rotation.w = w;
+}
+
+glm::mat4 Transform::getTransformMatrix(void)
 {
   return glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 }

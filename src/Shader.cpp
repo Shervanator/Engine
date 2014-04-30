@@ -122,3 +122,8 @@ GLuint Shader::getUniformLocation(const char* uniform_name)
 {
   return uniform_location[uniform_name];
 }
+
+void Shader::bind(void)
+{
+  glUseProgram(g_shProg);
+}
