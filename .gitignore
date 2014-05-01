@@ -1,2 +1,7 @@
 .DS_Store
-bin/
+bin/CMakeFiles/
+bin/Makefile
+bin/cmake_install.cmake
+CMakeCache.txt
+bin/game
+*.a
