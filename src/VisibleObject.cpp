@@ -19,7 +19,7 @@ void VisibleObject::render(Shader *shader)
 {
   shader->bind();
 
-  glUniformMatrix4fv(shader->getUniformLocation("Model"), 1, GL_FALSE, &(getTransform().getTransformMatrix())[0][0]);
+  glUniformMatrix4fv(shader->getUniformLocation("Model"), 1, GL_FALSE, &(getTransformMatrix())[0][0]);
 
   texture->bind(0);
   mesh->render();

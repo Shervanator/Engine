@@ -6,6 +6,8 @@
 #include "GameObject.h"
 #include "Shader.h"
 
+#include "Transform.h"
+
 class SceneNode
 {
 public:
@@ -18,7 +20,14 @@ public:
   void updateAll(int delta);
   void renderAll(Shader *shader);
 
+  glm::mat4 getTransformMatrix(void);
+  Transform& getTransform(void);
+
 private:
+  Transform transform;
+
+  SceneNode *parentNode;
+
   std::vector<SceneNode*> children;
   std::vector<GameObject*> gameObjects;
 };

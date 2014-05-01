@@ -2,6 +2,7 @@
 
 SceneNode::SceneNode(void)
 {
+  parentNode = NULL;
 }
 
 SceneNode::~SceneNode(void)
@@ -19,11 +20,13 @@ SceneNode::~SceneNode(void)
 
 void SceneNode::addChild(SceneNode* child)
 {
+  child->parentNode = this;
   children.push_back(child);
 }
 
 void SceneNode::addObject(GameObject* object)
 {
+  object->parentNode = this;
   gameObjects.push_back(object);
 }
 
@@ -51,4 +54,17 @@ void SceneNode::renderAll(Shader *shader)
   {
     children[i]->renderAll(shader);
   }
+}
+
+glm::mat4 SceneNode::getTransformMatrix(void)
+{
+  if (parentNode != NULL)
+    return parentNode->getTransformMatrix() * transform.getTransformMatrix();
+  else
+    return transform.getTransformMatrix();
+}
+
+Transform& SceneNode::getTransform(void)
+{
+  return transform;
 }

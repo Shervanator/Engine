@@ -4,6 +4,8 @@
 #include "Shader.h"
 #include "Transform.h"
 
+class SceneNode;
+
 class GameObject
 {
 public:
@@ -12,7 +14,10 @@ public:
   virtual void update(int delta) = 0;
   virtual void render(Shader *shader) = 0;
 
-  inline Transform& getTransform(void) { return transform; };
+  glm::mat4 getTransformMatrix(void);
+  Transform& getTransform(void);
+
+  SceneNode *parentNode;
 
 private:
   Transform transform;
