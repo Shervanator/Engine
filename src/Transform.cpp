@@ -15,19 +15,39 @@ Transform::~Transform(void)
 {
 }
 
-void Transform::setPosition(float x, float y, float z)
+void Transform::setPosition(const glm::vec3& position)
 {
-  position.x = x;
-  position.y = y;
-  position.z = z;
+  this->position = position;
 }
 
-void Transform::setRotation(float x, float y, float z, float w)
+void Transform::setScale(const glm::vec3& scale)
 {
-  rotation.x = x;
-  rotation.y = y;
-  rotation.z = z;
-  rotation.w = w;
+  this->scale = scale;
+}
+
+void Transform::setRotation(const glm::vec3& axis, float angle)
+{
+  rotation = glm::angleAxis(glm::degrees(angle), axis);
+}
+
+void Transform::setRotation(const glm::quat& rotation)
+{
+  this->rotation = rotation;
+}
+
+glm::vec3 Transform::getPosition(void)
+{
+  return position;
+}
+
+glm::vec3 Transform::getScale(void)
+{
+  return scale;
+}
+
+glm::quat Transform::getRotation(void)
+{
+  return rotation;
 }
 
 glm::mat4 Transform::getTransformMatrix(void)

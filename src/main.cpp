@@ -22,7 +22,9 @@ void CoolGame::init(void)
 
   GameObject *monkeyObject = new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg"));
 
-  monkeyObject->getTransform().setPosition(3, 0, 0);
+  monkeyObject->getTransform().setScale(glm::vec3(1, 1, 1));
+  monkeyObject->getTransform().setPosition(glm::vec3(3, 0, 0));
+  monkeyObject->getTransform().setRotation(glm::vec3(1, 0, 0), 45);
 
   test_scene->addObject(monkeyObject);
   addToScene(test_scene);
