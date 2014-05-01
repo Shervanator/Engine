@@ -18,37 +18,20 @@ set(engine_source_files
   Texture.cpp
 )
 
-set(engine_header_files
-  Transform.h
-  VisibleObject.h
-  Game.h
-  Camera.h
-  GLEWManager.h
-  GLManager.h
-  Engine.h
-  GameObject.h
-  KeyboardHandler.h
-  Mesh.h
-  SDLManager.h
-  SceneNode.h
-  Shader.h
-  Texture.h
-  Vertex.h
-)
+find_package(OpenGL REQUIRED)
 
-FIND_LIBRARY(opengl_lib OpenGL)
-FIND_LIBRARY(corefoundation_lib CoreFoundation)
+find_library(corefoundation_lib CoreFoundation)
 
 set(engine_libs
   SDL2
   ASSIMP
   GLEW
   SOIL
-  ${opengl_lib}
+  ${OPENGL_LIBRARY}
   ${corefoundation_lib}
 )
 
-add_library (engine ${engine_source_files} ${engine_header_files})
+add_library (engine ${engine_source_files})
 target_link_libraries (engine ${engine_libs})
 
 add_executable (game main.cpp)
