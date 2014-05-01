@@ -1,0 +1,4 @@
+To build the engine and sample game run:
+
+cmake ../src/
+make
