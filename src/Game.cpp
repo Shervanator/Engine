@@ -17,7 +17,7 @@ void Game::addToScene(SceneNode *node)
   rootScene.addChild(node);
 }
 
-void Game::update(int delta)
+void Game::update(int delta, KeyboardHandler *keyboardHandler)
 {
   rootScene.updateAll(delta);
 }

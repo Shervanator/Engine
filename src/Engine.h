@@ -27,8 +27,6 @@ private:
 
   KeyboardHandler keyHandler;
 
-  Camera *primary_camera;
-
   bool quit;
 };
 

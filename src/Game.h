@@ -3,6 +3,7 @@
 
 #include "SceneNode.h"
 #include "GLManager.h"
+#include "KeyboardHandler.h"
 
 class Game
 {
@@ -12,7 +13,7 @@ public:
 
   virtual void init(void);
 
-  virtual void update(int delta);
+  virtual void update(int delta, KeyboardHandler *keyboardHandler);
   virtual void render(GLManager *glManager);
 
   SceneNode *getRootScene(void) { return &rootScene; };

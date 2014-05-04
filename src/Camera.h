@@ -1,10 +1,12 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include "GameObject.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
-class Camera
+class Camera : public GameObject
 {
 public:
   Camera(const glm::vec3& position, float fov, float aspect, float zNear, float zFar);
@@ -14,7 +16,7 @@ public:
   void moveX(float x);
   void moveY(float y);
   void moveZ(float z);
-  void tick(int delta_time);
+  void update(int delta);
 
   glm::vec3 getPosition(void);
   glm::vec3 getDirection(void);
