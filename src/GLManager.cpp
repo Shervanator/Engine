@@ -19,6 +19,8 @@ GLManager::GLManager(int width, int height)
   glViewport(0, 0, width, height);
 
   createShaders();
+
+  transformStack.push(glm::mat4(1));
 }
 
 GLManager::~GLManager(void)
@@ -37,7 +39,31 @@ void GLManager::renderScene(SceneNode *scene)
 
   glUniformMatrix4fv(shader1->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
 
-  scene->renderAll(shader1);
+  recursiveSceneRenderer(scene);
+}
+
+void GLManager::recursiveSceneRenderer(SceneNode *scene)
+{
+  // compute current transform
+  glm::mat4 currentTransform = transformStack.top() * scene->getTransform().getTransformMatrix();
+
+  // push scene transform matrix to stack
+  transformStack.push(currentTransform);
+
+  // set shader to transform to current location.
+  glUniformMatrix4fv(shader1->getUniformLocation("Model"), 1, GL_FALSE, &currentTransform[0][0]);
+
+  // render this current scene
+  scene->render(shader1);
+
+  // recursive render children with this function
+  for (unsigned int i = 0; i < scene->getChildren()->size(); i++)
+  {
+    recursiveSceneRenderer(scene->getChildren()->at(i));
+  }
+
+  // pop scene transform
+  transformStack.pop();
 }
 
 void GLManager::createShaders(void)

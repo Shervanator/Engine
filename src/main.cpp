@@ -14,44 +14,32 @@ public:
   virtual void update(int delta);
 
 private:
-  SceneNode *test_scene;
+  SceneNode *moneyHead;
+  SceneNode *moneySmall;
 };
 
 void CoolGame::update(int delta)
 {
   static float rr = 0;
   rr += delta * 0.005;
-  test_scene->getTransform().setPosition(glm::vec3(glm::sin(rr), 0, 0));
-  test_scene->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
+  moneyHead->getTransform().setPosition(glm::vec3(glm::sin(rr), 0, 0));
+  moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
 }
 
 void CoolGame::init(void)
 {
-  test_scene = new SceneNode();
+  moneyHead = new SceneNode();
+  moneyHead->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+  moneyHead->getTransform().setPosition(glm::vec3(3, 0, 0));
 
-  test_scene->getTransform().setPosition(glm::vec3(3, 0, 0));
-  test_scene->getTransform().setRotation(glm::vec3(1, 0, 0), 45);
+  moneySmall = new SceneNode();
+  moneySmall->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+  moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
+  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
-  SceneNode *testNode = new SceneNode();
-  testNode->getTransform().setScale(glm::vec3(0.6, 1, 1));
-  test_scene->addChild(testNode);
+  moneyHead->addChild(moneySmall);
 
-  GameObject *monkeyObject = new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg"));
-
-  monkeyObject->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
-  monkeyObject->getTransform().setPosition(glm::vec3(1, 0, 0));
-
-  testNode->addObject(monkeyObject);
-
-  GameObject *monkeyObject2 = new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg"));
-
-  monkeyObject2->getTransform().setScale(glm::vec3(0.5, 0.5, 0.5));
-  monkeyObject2->getTransform().setPosition(glm::vec3(-1, 0, 0));
-  monkeyObject2->getTransform().setRotation(glm::vec3(1, 0, 0), -45);
-
-  test_scene->addObject(monkeyObject2);
-
-  addToScene(test_scene);
+  addToScene(moneyHead);
 }
 
 int main(int argc, char **argv){

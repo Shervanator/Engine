@@ -19,10 +19,11 @@ public:
 
   void updateAll(int delta);
   void renderAll(Shader *shader);
+  void render(Shader *shader);
 
-  glm::mat4 getTransformMatrix(void);
   Transform& getTransform(void);
 
+  std::vector<SceneNode*> *getChildren(void);
 private:
   Transform transform;
 
