@@ -11,23 +11,35 @@ class CoolGame : public Game
 {
 public:
   virtual void init(void);
+  virtual void update(int delta);
 
 private:
-  SceneNode *test_scene;
+  SceneNode *moneyHead;
+  SceneNode *moneySmall;
 };
+
+void CoolGame::update(int delta)
+{
+  static float rr = 0;
+  rr += delta * 0.005;
+  moneyHead->getTransform().setPosition(glm::vec3(glm::sin(rr), 0, 0));
+  moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
+}
 
 void CoolGame::init(void)
 {
-  test_scene = new SceneNode();
+  moneyHead = new SceneNode();
+  moneyHead->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+  moneyHead->getTransform().setPosition(glm::vec3(3, 0, 0));
 
-  GameObject *monkeyObject = new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg"));
+  moneySmall = new SceneNode();
+  moneySmall->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+  moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
+  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
-  monkeyObject->getTransform().setScale(glm::vec3(1, 1, 1));
-  monkeyObject->getTransform().setPosition(glm::vec3(3, 0, 0));
-  monkeyObject->getTransform().setRotation(glm::vec3(1, 0, 0), 45);
+  moneyHead->addChild(moneySmall);
 
-  test_scene->addObject(monkeyObject);
-  addToScene(test_scene);
+  addToScene(moneyHead);
 }
 
 int main(int argc, char **argv){

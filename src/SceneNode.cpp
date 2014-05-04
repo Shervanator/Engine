@@ -2,6 +2,7 @@
 
 SceneNode::SceneNode(void)
 {
+  parentNode = NULL;
 }
 
 SceneNode::~SceneNode(void)
@@ -19,6 +20,7 @@ SceneNode::~SceneNode(void)
 
 void SceneNode::addChild(SceneNode* child)
 {
+  child->parentNode = this;
   children.push_back(child);
 }
 
@@ -40,6 +42,14 @@ void SceneNode::updateAll(int delta)
   }
 }
 
+void SceneNode::render(Shader *shader)
+{
+  for (unsigned int i = 0; i < gameObjects.size(); i++)
+  {
+    gameObjects[i]->render(shader);
+  }
+}
+
 void SceneNode::renderAll(Shader *shader)
 {
   for (unsigned int i = 0; i < gameObjects.size(); i++)
@@ -51,4 +61,14 @@ void SceneNode::renderAll(Shader *shader)
   {
     children[i]->renderAll(shader);
   }
+}
+
+Transform& SceneNode::getTransform(void)
+{
+  return transform;
+}
+
+std::vector<SceneNode*> *SceneNode::getChildren(void)
+{
+  return &children;
 }
