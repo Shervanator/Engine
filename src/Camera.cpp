@@ -48,24 +48,24 @@ void Camera::moveZ(float z)
   moveDirection.z = z;
 }
 
-void Camera::tick(int delta_time)
+void Camera::update(int delta)
 {
   if (velocity.x < moveDirection.x) {
-    velocity.x += delta_time * 0.001f;
+    velocity.x += delta * 0.001f;
   } else if (velocity.x > moveDirection.x) {
-    velocity.x -= delta_time * 0.001f;
+    velocity.x -= delta * 0.001f;
   }
 
   if (velocity.y < moveDirection.y) {
-    velocity.y += delta_time * 0.001f;
+    velocity.y += delta * 0.001f;
   } else if (velocity.y > moveDirection.y) {
-    velocity.y -= delta_time * 0.001f;
+    velocity.y -= delta * 0.001f;
   }
 
   if (velocity.z < moveDirection.z) {
-    velocity.z += delta_time * 0.001f;
+    velocity.z += delta * 0.001f;
   } else if (velocity.z > moveDirection.z) {
-    velocity.z -= delta_time * 0.001f;
+    velocity.z -= delta * 0.001f;
   }
 
   if ((velocity.x < 0.05 && velocity.x > -0.05) && moveDirection.x == 0)

@@ -9,7 +9,7 @@ public:
   virtual ~GameObject(void) {};
 
   virtual void update(int delta) = 0;
-  virtual void render(Shader *shader) = 0;
+  virtual void render(Shader *shader) {};
 };
 
 #endif
