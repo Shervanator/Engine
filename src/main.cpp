@@ -32,8 +32,6 @@ void CoolGame::render(GLManager *glManager)
 
 void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
 {
-  Game::update(delta, keyboardHandler);
-
   static float rr = 0;
   rr += delta * 0.005;
   moneyHead->getTransform().setPosition(glm::vec3(glm::sin(rr), 0, 0));
@@ -62,6 +60,8 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
   if (keyboardHandler->isReleased(SDLK_LEFT) && keyboardHandler->isReleased(SDLK_RIGHT)) {
     primary_camera->moveX(0.0f);
   }
+  
+  Game::update(delta, keyboardHandler);
 }
 
 void CoolGame::init(void)

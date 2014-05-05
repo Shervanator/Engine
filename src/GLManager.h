@@ -4,8 +4,6 @@
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 
-#include <stack>
-
 #include "Shader.h"
 #include "SceneNode.h"
 #include "Transform.h"
@@ -20,14 +18,11 @@ public:
   void setViewProjection(const glm::mat4& viewProj);
 
 private:
-  void recursiveSceneRenderer(SceneNode *scene);
   void createShaders(void);
 
   Shader *shader1;
 
   glm::mat4 viewProj;
-
-  std::stack<glm::mat4> transformStack;
 };
 
 #endif
