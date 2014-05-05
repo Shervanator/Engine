@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Engine)
 
 set(engine_source_files
+  GameObject.cpp
   Transform.cpp
   VisibleObject.cpp
   Game.cpp

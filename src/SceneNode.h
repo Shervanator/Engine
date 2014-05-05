@@ -3,10 +3,11 @@
 
 #include <vector>
 
-#include "GameObject.h"
 #include "Shader.h"
 
 #include "Transform.h"
+
+class GameObject;
 
 class SceneNode
 {
@@ -19,11 +20,12 @@ public:
 
   void updateAll(int delta);
   void renderAll(Shader *shader);
-  void render(Shader *shader);
 
   Transform& getTransform(void);
 
   std::vector<SceneNode*> *getChildren(void);
+
+  glm::mat4& getWorldMatrix(void);
 private:
   Transform transform;
 
@@ -31,6 +33,8 @@ private:
 
   std::vector<SceneNode*> children;
   std::vector<GameObject*> gameObjects;
+
+  glm::mat4 worldMatrix;
 };
 
 #endif
