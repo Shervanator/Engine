@@ -3,12 +3,6 @@
 
 Camera::Camera(const glm::vec3& position, float fov, float aspect, float zNear, float zFar)
 {
-  this->xDelta = 0;
-  this->yDelta = 0;
-
-  this->horizontalAngle = 0;
-  this->verticalAngle   = 0;
-
   this->position      = position;
   this->up            = glm::vec3(0.0f, 1.0f, 0.0f);
   this->projection    = glm::perspective(fov, aspect, zNear, zFar);
@@ -25,12 +19,6 @@ Camera::~Camera(void)
 glm::mat4 Camera::getViewProjection(void)
 {
   return projection * glm::lookAt(position, position + direction, up);
-}
-
-void Camera::setMousePosition(int xDelta, int yDelta)
-{
-  this->xDelta = xDelta;
-  this->yDelta = yDelta;
 }
 
 void Camera::moveX(float x)
@@ -82,19 +70,4 @@ void Camera::update(int delta)
     velocity.z = 0;
   else
     position.z += velocity.z;
-}
-
-glm::vec3 Camera::getPosition(void)
-{
-  return position;
-}
-
-glm::vec3 Camera::getDirection(void)
-{
-  return direction + position;
-}
-
-glm::vec3 Camera::getUp(void)
-{
-  return up;
 }
