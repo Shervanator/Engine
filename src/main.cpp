@@ -83,7 +83,7 @@ void CoolGame::init(void)
 
   primary_camera = new Camera(45.0f, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
   cameraNode->addObject(primary_camera);
-  cameraNode->getTransform().setPosition(glm::vec3(0, 0, -10));
+  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 10));
 
   addToScene(cameraNode);
 }
