@@ -35,7 +35,7 @@ void Transform::setRotation(const glm::quat& rotation)
   this->rotation = rotation;
 }
 
-glm::vec3 Transform::getPosition(void)
+glm::vec3& Transform::getPosition(void)
 {
   return position;
 }

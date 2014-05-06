@@ -9,7 +9,7 @@
 class Camera : public GameObject
 {
 public:
-  Camera(const glm::vec3& position, float fov, float aspect, float zNear, float zFar);
+  Camera(float fov, float aspect, float zNear, float zFar);
   ~Camera(void);
 
   void moveX(float x);
@@ -20,10 +20,7 @@ public:
   glm::mat4 getViewProjection(void);
 
 private:
-  glm::vec3 position;
-
   glm::mat4 projection;
-  glm::vec3 up;
 
   glm::vec3 moveDirection;
   glm::vec3 velocity;

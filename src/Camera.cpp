@@ -1,10 +1,7 @@
 #include "Camera.h"
-#include <iostream>
 
-Camera::Camera(const glm::vec3& position, float fov, float aspect, float zNear, float zFar)
+Camera::Camera(float fov, float aspect, float zNear, float zFar)
 {
-  this->position      = position;
-  this->up            = glm::vec3(0.0f, 1.0f, 0.0f);
   this->projection    = glm::perspective(fov, aspect, zNear, zFar);
 
   this->direction     = glm::vec3(0, 0, -1);
@@ -18,7 +15,7 @@ Camera::~Camera(void)
 
 glm::mat4 Camera::getViewProjection(void)
 {
-  return projection * glm::lookAt(position, position + direction, up);
+  return projection * glm::inverse(parentNode->getWorldMatrix());
 }
 
 void Camera::moveX(float x)
@@ -59,15 +56,15 @@ void Camera::update(int delta)
   if ((velocity.x < 0.05 && velocity.x > -0.05) && moveDirection.x == 0)
     velocity.x = 0;
   else
-    position.x += velocity.x;
+    parentNode->getTransform().getPosition().x += velocity.x;
 
   if ((velocity.y < 0.05 && velocity.y > -0.05) && moveDirection.y == 0)
     velocity.y = 0;
   else
-    position.y += velocity.y;
+    parentNode->getTransform().getPosition().y += velocity.y;
 
   if ((velocity.z < 0.05 && velocity.z > -0.05) && moveDirection.z == 0)
     velocity.z = 0;
   else
-    position.z += velocity.z;
+    parentNode->getTransform().getPosition().z += velocity.z;
 }

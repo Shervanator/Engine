@@ -60,7 +60,7 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
   if (keyboardHandler->isReleased(SDLK_LEFT) && keyboardHandler->isReleased(SDLK_RIGHT)) {
     primary_camera->moveX(0.0f);
   }
-  
+
   Game::update(delta, keyboardHandler);
 }
 
@@ -81,8 +81,9 @@ void CoolGame::init(void)
 
   cameraNode = new SceneNode();
 
-  primary_camera = new Camera(glm::vec3(0, 0, 10), 45.0f, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+  primary_camera = new Camera(45.0f, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
   cameraNode->addObject(primary_camera);
+  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 10));
 
   addToScene(cameraNode);
 }
