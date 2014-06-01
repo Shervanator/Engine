@@ -19,6 +19,10 @@ set(engine_source_files
   Texture.cpp
 )
 
+set(engine_header_files
+  Engine.h
+)
+
 find_package(OpenGL REQUIRED)
 
 find_library(corefoundation_lib CoreFoundation)
@@ -37,3 +41,6 @@ target_link_libraries (engine ${engine_libs})
 
 add_executable (game main.cpp)
 target_link_libraries (game engine)
+
+install (TARGETS engine DESTINATION lib)
+install (FILES ${engine_header_files} DESTINATION include/engine)

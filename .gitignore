@@ -6,3 +6,4 @@ CMakeCache.txt
 bin/game
 *.a
 ignore_folder/
+install_manifest.txt
