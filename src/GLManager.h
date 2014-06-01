@@ -6,7 +6,6 @@
 
 #include "Shader.h"
 #include "SceneNode.h"
-#include "Transform.h"
 
 class GLManager
 {

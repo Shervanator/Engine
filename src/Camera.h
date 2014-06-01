@@ -4,7 +4,6 @@
 #include "GameObject.h"
 
 #include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
 
 class Camera : public GameObject
 {

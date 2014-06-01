@@ -7,8 +7,6 @@
 
 #include "Game.h"
 
-#include "Camera.h"
-
 #include "KeyboardHandler.h"
 
 class Engine

@@ -1,10 +1,4 @@
-#include <iostream>
-
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "GLManager.h"
-
-#include "Vertex.h"
 
 GLManager::GLManager(int width, int height)
 {

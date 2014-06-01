@@ -1,5 +1,4 @@
 #include "KeyboardHandler.h"
-#include <iostream>
 
 KeyboardHandler::KeyboardHandler(void)
 {
