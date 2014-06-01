@@ -21,6 +21,14 @@ set(engine_source_files
 
 set(engine_header_files
   Engine.h
+  GLManager.h
+  Shader.h
+  SceneNode.h
+  Transform.h
+  SDLManager.h
+  GLEWManager.h
+  Game.h
+  KeyboardHandler.h
 )
 
 find_package(OpenGL REQUIRED)
@@ -36,7 +44,7 @@ set(engine_libs
   ${corefoundation_lib}
 )
 
-add_library (engine ${engine_source_files})
+add_library (engine SHARED ${engine_source_files})
 target_link_libraries (engine ${engine_libs})
 
 add_executable (game main.cpp)

@@ -5,5 +5,6 @@ bin/cmake_install.cmake
 CMakeCache.txt
 bin/game
 *.a
+*.dylib
 ignore_folder/
 install_manifest.txt
