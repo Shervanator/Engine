@@ -29,6 +29,12 @@ set(engine_header_files
   GLEWManager.h
   Game.h
   KeyboardHandler.h
+  VisibleObject.h
+  GameObject.h
+  Mesh.h
+  Vertex.h
+  Texture.h
+  Camera.h
 )
 
 find_package(OpenGL REQUIRED)
