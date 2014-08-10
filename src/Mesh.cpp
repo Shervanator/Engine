@@ -14,6 +14,7 @@ Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSiz
 
 Mesh::Mesh(const char* file)
 {
+  std::cerr << "LOADING MESH" << file << std::endl;
   Assimp::Importer importer;
 
   const aiScene* scene = importer.ReadFile(file,
@@ -62,7 +63,9 @@ Mesh::Mesh(const char* file)
 Mesh::~Mesh(void)
 {
   glDeleteBuffers(1, &vbo);
+#ifndef EMSCRIPTEN
   glDeleteVertexArrays(1, &vao);
+#endif
 }
 
 void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
@@ -70,17 +73,20 @@ void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], i
   this->vertSize  = vertSize;
   this->indexSize = indexSize;
 
+#ifndef EMSCRIPTEN
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
-
-  glGenBuffers(1, &ibo);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+#endif
 
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, vertSize * sizeof(Vertex), vertices, GL_STATIC_DRAW);
 
+  glGenBuffers(1, &ibo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+#ifndef EMSCRIPTEN
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
@@ -94,11 +100,45 @@ void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], i
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
 
   glBindVertexArray(0);
+#endif
 }
 
 void Mesh::render(void)
 {
+#ifndef EMSCRIPTEN
   glBindVertexArray(vao);
   glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
   glBindVertexArray(0);
+#else
+
+  glEnableVertexAttribArray(0);
+
+  GLenum err;
+  while ((err = glGetError()) != GL_NO_ERROR) {
+      std::cerr << "OpenGL error: " << err << std::endl;
+  }
+
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+  glEnableVertexAttribArray(1);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(glm::vec3));
+
+  glEnableVertexAttribArray(2);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2)));
+
+  glEnableVertexAttribArray(3);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
+
+  glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
+  glDisableVertexAttribArray(3);
+#endif
 }

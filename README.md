@@ -42,7 +42,7 @@ If in Windows open the visual studio solution file.
 
 ### To Use:
 
-To use the engine in a game build the engine library and include Engine.h in your game. 
+To use the engine in a game build the engine library and include Engine.h in your game.
 
 Eg:
 
@@ -61,7 +61,7 @@ private:
 void CoolGame::init(void)
 {
   test_scene = new SceneNode();
-  test_scene->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+  test_scene->addObject(new VisibleObject(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
   addToScene(test_scene);
 }
 

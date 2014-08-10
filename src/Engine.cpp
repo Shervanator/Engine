@@ -24,6 +24,7 @@ Engine::~Engine(void)
 void Engine::start(void)
 {
   game->init();
+  std::cerr << "HERE31" << std::endl;
 
   while (!quit)
   {

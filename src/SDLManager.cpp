@@ -10,6 +10,7 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
     logSDLError("SDL_Init");
   }
 
+#ifndef EMSCRIPTEN
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -21,7 +22,6 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
   win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
   if (win == nullptr)
   {
@@ -33,6 +33,9 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
   // SDL_SetRelativeMouseMode(SDL_TRUE);
 
   current_time = SDL_GetTicks();
+#else
+  SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
+#endif
 }
 
 SDLManager::~SDLManager(void)
@@ -62,7 +65,11 @@ void SDLManager::tick(void)
 
 void SDLManager::swapBuffer(void)
 {
+#ifndef EMSCRIPTEN
   SDL_GL_SwapWindow(win);
+#else
+  SDL_GL_SwapBuffers();
+#endif
 }
 
 int SDLManager::poll_event(SDL_Event *event)

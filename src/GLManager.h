@@ -2,7 +2,12 @@
 #define GL_MANAGER_H
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#ifndef EMSCRIPTEN
+  #include <GL/glew.h>
+#else
+  #include <GLES2/gl2.h>
+  #include <GLES2/gl2ext.h>
+#endif
 
 #include "Shader.h"
 #include "SceneNode.h"

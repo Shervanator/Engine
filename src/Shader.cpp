@@ -17,6 +17,7 @@ Shader::Shader(std::string shaderFile)
   std::string frag_src((std::istreambuf_iterator<char>(in2)), std::istreambuf_iterator<char>());
 
   g_shProg = glCreateProgram();
+
   addVertex(vert_src.c_str());
   addFragment(frag_src.c_str());
   link();
