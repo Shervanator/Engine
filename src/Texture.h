@@ -11,12 +11,15 @@
 class Texture
 {
 public:
-  Texture(const char* file);
+  Texture(const std::string& file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
   ~Texture(void);
 
-  void bind(unsigned int unit);
+  void bind(unsigned int unit = 0);
 
 private:
+  void initTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter);
+
+  GLenum textureTarget;
   GLuint textureId;
 };
 

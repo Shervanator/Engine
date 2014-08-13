@@ -27,11 +27,11 @@ Engine::~Engine(void)
 
 void Engine::start(void)
 {
-  instance = this;
-
   game->init();
 
 #ifdef EMSCRIPTEN
+  instance = this;
+
   emscripten_set_main_loop(Engine::loop, 0, 1);
 #else
   while (!quit) {
@@ -40,10 +40,12 @@ void Engine::start(void)
 #endif
 }
 
+#ifdef EMSCRIPTEN
 void Engine::loop(void)
 {
   instance->tick();
 }
+#endif
 
 void Engine::tick(void)
 {

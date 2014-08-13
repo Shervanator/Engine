@@ -47,9 +47,7 @@ IF (EMSCRIPTEN)
   SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall -s FULL_ES2=1 --preload-file ../assets/ -s ASSERTIONS=2")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -s FULL_ES2=1 --preload-file ../assets/ -s ASSERTIONS=2")
 
-  find_package(SOIL)
-
-  include_directories(${GLM_INCLUDE_DIRS} ${SOIL_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
+  include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
 
   ADD_EXECUTABLE(engine.html main.cpp ${engine_source_files})
 
@@ -59,12 +57,10 @@ ELSE ()
   find_package(SDL2 REQUIRED)
   find_package(ASSIMP REQUIRED)
   find_package(GLEW REQUIRED)
-  find_package(SOIL REQUIRED)
 
   find_library(corefoundation_lib CoreFoundation)
 
   set(engine_libs
-    ${SOIL_LIBRARIES}
     ${OPENGL_LIBRARY}
     ${SDL2_LIBRARY}
     ${ASSIMP_LIBRARY}
@@ -72,7 +68,7 @@ ELSE ()
     ${corefoundation_lib}
   )
 
-  include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS} ${SOIL_INCLUDE_DIRS})
+  include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
 
   add_library (engine SHARED ${engine_source_files})
   target_link_libraries (engine ${engine_libs})

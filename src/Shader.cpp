@@ -116,14 +116,11 @@ GLuint Shader::getProgram(void)
 
 void Shader::createUniform(const char* uniform_name, int i)
 {
-  fprintf(stderr, "create uniform: %s\n", uniform_name);
   uniform_location[i] = glGetUniformLocation(g_shProg, uniform_name);
-  std::cerr << "loc: " << uniform_location[i] << std::endl;
 }
 
 GLuint Shader::getUniformLocation(const char* uniform_name, int i)
 {
-  std::cerr << "name: " << uniform_name << " : " << uniform_location[i] << std::endl;
   return uniform_location[i];
 }
 

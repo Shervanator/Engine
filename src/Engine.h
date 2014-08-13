@@ -15,9 +15,12 @@ public:
   Engine(int width, int height, Game *game);
   ~Engine(void);
 
+#ifdef EMSCRIPTEN
   static Engine *instance;
 
   static void loop(void);
+#endif
+
   void tick(void);
   void start(void);
 private:

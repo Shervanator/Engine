@@ -110,27 +110,18 @@ void Mesh::render(void)
   glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
   glBindVertexArray(0);
 #else
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
   glEnableVertexAttribArray(0);
-
-  GLenum err;
-  while ((err = glGetError()) != GL_NO_ERROR) {
-      std::cerr << "OpenGL error: " << err << std::endl;
-  }
-
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
   glEnableVertexAttribArray(1);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(glm::vec3));
 
   glEnableVertexAttribArray(2);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2)));
 
   glEnableVertexAttribArray(3);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
