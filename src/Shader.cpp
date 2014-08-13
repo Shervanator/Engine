@@ -114,14 +114,17 @@ GLuint Shader::getProgram(void)
   return g_shProg;
 }
 
-void Shader::createUniform(const char* uniform_name)
+void Shader::createUniform(const char* uniform_name, int i)
 {
-  uniform_location[uniform_name] = glGetUniformLocation(g_shProg, uniform_name);
+  fprintf(stderr, "create uniform: %s\n", uniform_name);
+  uniform_location[i] = glGetUniformLocation(g_shProg, uniform_name);
+  std::cerr << "loc: " << uniform_location[i] << std::endl;
 }
 
-GLuint Shader::getUniformLocation(const char* uniform_name)
+GLuint Shader::getUniformLocation(const char* uniform_name, int i)
 {
-  return uniform_location[uniform_name];
+  std::cerr << "name: " << uniform_name << " : " << uniform_location[i] << std::endl;
+  return uniform_location[i];
 }
 
 void Shader::bind(void)

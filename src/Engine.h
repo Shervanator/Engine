@@ -15,8 +15,13 @@ public:
   Engine(int width, int height, Game *game);
   ~Engine(void);
 
+  static Engine *instance;
+
+  static void loop(void);
+  void tick(void);
   void start(void);
 private:
+
   SDLManager  *sdl_manager;
   GLEWManager *glew_manager;
   GLManager   *gl_manager;

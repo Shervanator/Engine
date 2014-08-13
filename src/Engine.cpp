@@ -1,6 +1,10 @@
 #include "Engine.h"
 #include <iostream>
 
+#ifdef EMSCRIPTEN
+  #include <emscripten.h>
+#endif
+
 Engine::Engine(int width, int height, Game *game)
 {
   sdl_manager = new SDLManager(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
@@ -23,31 +27,45 @@ Engine::~Engine(void)
 
 void Engine::start(void)
 {
+  instance = this;
+
   game->init();
-  std::cerr << "HERE31" << std::endl;
 
-  while (!quit)
-  {
-    sdl_manager->tick();
-    Uint32 delta_time = sdl_manager->getDeltaTime();
-
-    SDL_Event event;
-    while (sdl_manager->poll_event(&event)) {
-      switch (event.type) {
-        case SDL_KEYDOWN:
-        case SDL_KEYUP:
-          keyHandler.handleEvent(event.key);
-          break;
-        case SDL_QUIT:
-          quit = true;
-          break;
-      }
-    }
-
-    game->update(delta_time, &keyHandler);
-
-    game->render(gl_manager);
-
-    sdl_manager->swapBuffer();
+#ifdef EMSCRIPTEN
+  emscripten_set_main_loop(Engine::loop, 0, 1);
+#else
+  while (!quit) {
+    tick();
   }
+#endif
+}
+
+void Engine::loop(void)
+{
+  instance->tick();
+}
+
+void Engine::tick(void)
+{
+  sdl_manager->tick();
+  Uint32 delta_time = sdl_manager->getDeltaTime();
+
+  SDL_Event event;
+  while (sdl_manager->poll_event(&event)) {
+    switch (event.type) {
+      case SDL_KEYDOWN:
+      case SDL_KEYUP:
+        keyHandler.handleEvent(event.key);
+        break;
+      case SDL_QUIT:
+        quit = true;
+        break;
+    }
+  }
+
+  game->update(delta_time, &keyHandler);
+
+  game->render(gl_manager);
+
+  sdl_manager->swapBuffer();
 }

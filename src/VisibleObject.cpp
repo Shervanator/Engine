@@ -1,4 +1,5 @@
 #include "VisibleObject.h"
+#include <iostream>
 
 VisibleObject::VisibleObject(Mesh *mesh, Texture *texture)
 {
@@ -18,7 +19,7 @@ void VisibleObject::update(int delta)
 void VisibleObject::render(Shader *shader)
 {
   shader->bind();
-  glUniformMatrix4fv(shader->getUniformLocation("Model"), 1, GL_FALSE, &(parentNode->getWorldMatrix())[0][0]);
+  glUniformMatrix4fv(shader->getUniformLocation("Model", 1), 1, GL_FALSE, &(parentNode->getWorldMatrix())[0][0]);
 
   texture->bind(0);
   mesh->render();
