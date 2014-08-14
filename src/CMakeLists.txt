@@ -49,9 +49,11 @@ IF (EMSCRIPTEN)
 
   include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
 
-  ADD_EXECUTABLE(engine.html main.cpp ${engine_source_files})
+  add_library (engine SHARED ${engine_source_files})
+  target_link_libraries (engine /Users/shervinaflatooni/Git/assimp/build.em/code/libassimp.so)
 
-  target_link_libraries (engine.html /Users/shervinaflatooni/Git/assimp/build.em/code/libassimp.so)
+  add_executable (game.html main.cpp)
+  target_link_libraries (game.html engine)
 ELSE ()
   find_package(OpenGL REQUIRED)
   find_package(SDL2 REQUIRED)
