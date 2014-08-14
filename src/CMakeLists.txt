@@ -44,14 +44,14 @@ set(engine_header_files
 find_package(GLM REQUIRED)
 
 IF (EMSCRIPTEN)
-  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall -s FULL_ES2=1 --preload-file ../assets/ -s ASSERTIONS=2")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -s FULL_ES2=1 --preload-file ../assets/ -s ASSERTIONS=2")
+  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2")
 
   include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
 
   ADD_EXECUTABLE(engine.html main.cpp ${engine_source_files})
 
-  target_link_libraries (engine.html /Users/shervinaflatooni/Git/assimp/build.em/code/libassimp.dylib)
+  target_link_libraries (engine.html /Users/shervinaflatooni/Git/assimp/build.em/code/libassimp.so)
 ELSE ()
   find_package(OpenGL REQUIRED)
   find_package(SDL2 REQUIRED)

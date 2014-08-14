@@ -16,8 +16,6 @@ public:
   ~Engine(void);
 
 #ifdef EMSCRIPTEN
-  static Engine *instance;
-
   static void loop(void);
 #endif
 

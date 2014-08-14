@@ -22,7 +22,9 @@ public:
   void render(void);
 
 private:
+#ifndef EMSCRIPTEN
   GLuint vao;
+#endif
   GLuint vbo;
   GLuint ibo;
 

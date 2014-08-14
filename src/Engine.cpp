@@ -3,7 +3,10 @@
 
 #ifdef EMSCRIPTEN
   #include <emscripten.h>
+
+  static Engine *instance = NULL;
 #endif
+
 
 Engine::Engine(int width, int height, Game *game)
 {
