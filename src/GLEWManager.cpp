@@ -1,14 +1,11 @@
 #include <iostream>
 
-#ifndef EMSCRIPTEN
-  #include <GL/glew.h>
-#endif
+#include <GL/glew.h>
 
 #include "GLEWManager.h"
 
 GLEWManager::GLEWManager(void)
 {
-#ifndef EMSCRIPTEN
   glewExperimental = GL_TRUE;
   GLenum err = glewInit();
 
@@ -18,7 +15,6 @@ GLEWManager::GLEWManager(void)
   }
 
   std::cerr << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
-#endif
 }
 
 GLEWManager::~GLEWManager(void)

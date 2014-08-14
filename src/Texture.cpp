@@ -9,13 +9,12 @@ Texture::Texture(const std::string& file, GLenum textureTarget, GLfloat filter)
   int x, y, bytesPerPixel;
   unsigned char* data = stbi_load(file.c_str(), &x, &y, &bytesPerPixel, 4);
 
-  if(data == NULL)
-  {
+  if(data == NULL) {
     std::cerr << "Unable to load texture: " << file << std::endl;
+  } else {
+    initTexture(x,y,data,textureTarget,filter);
+    stbi_image_free(data);
   }
-
-  initTexture(x,y,data,textureTarget,filter);
-  stbi_image_free(data);
 }
 
 void Texture::initTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter)
