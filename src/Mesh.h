@@ -1,7 +1,12 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <GL/glew.h>
+#ifndef EMSCRIPTEN
+  #include <GL/glew.h>
+#else
+  #include <GLES2/gl2.h>
+  #include <GLES2/gl2ext.h>
+#endif
 #include <glm/glm.hpp>
 
 #include "Vertex.h"
@@ -17,7 +22,9 @@ public:
   void render(void);
 
 private:
+#ifndef EMSCRIPTEN
   GLuint vao;
+#endif
   GLuint vbo;
   GLuint ibo;
 

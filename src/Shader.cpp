@@ -17,6 +17,7 @@ Shader::Shader(std::string shaderFile)
   std::string frag_src((std::istreambuf_iterator<char>(in2)), std::istreambuf_iterator<char>());
 
   g_shProg = glCreateProgram();
+
   addVertex(vert_src.c_str());
   addFragment(frag_src.c_str());
   link();
@@ -113,14 +114,14 @@ GLuint Shader::getProgram(void)
   return g_shProg;
 }
 
-void Shader::createUniform(const char* uniform_name)
+void Shader::createUniform(const char* uniform_name, int i)
 {
-  uniform_location[uniform_name] = glGetUniformLocation(g_shProg, uniform_name);
+  uniform_location[i] = glGetUniformLocation(g_shProg, uniform_name);
 }
 
-GLuint Shader::getUniformLocation(const char* uniform_name)
+GLuint Shader::getUniformLocation(const char* uniform_name, int i)
 {
-  return uniform_location[uniform_name];
+  return uniform_location[i];
 }
 
 void Shader::bind(void)

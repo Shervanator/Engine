@@ -5,7 +5,12 @@
 #include <string>
 
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#ifndef EMSCRIPTEN
+  #include <GL/glew.h>
+#else
+  #include <GLES2/gl2.h>
+  #include <GLES2/gl2ext.h>
+#endif
 
 class Shader
 {
@@ -19,8 +24,8 @@ public:
   void addFragment(const char* frag_src);
   void link(void);
 
-  void createUniform(const char* uniform_name);
-  GLuint getUniformLocation(const char* uniform_name);
+  void createUniform(const char* uniform_name, int i);
+  GLuint getUniformLocation(const char* uniform_name, int i);
 
   GLuint getProgram(void);
 
@@ -30,7 +35,7 @@ private:
   GLuint  g_shFrag;
   GLuint  g_shProg;
 
-  std::map <const char*, GLuint> uniform_location;
+  std::map <int, GLuint> uniform_location;
 };
 
 #endif

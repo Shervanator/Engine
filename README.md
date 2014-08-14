@@ -1,10 +1,10 @@
 # Engine
 
-A basic cross-platform 3D game engine making use of:
+A basic cross-platform (Mac, Windows, HTML5) 3D game engine making use of:
 
 - SDL2 window library.
-- SOIL texture library (custom version for OpenGL 3).
-- OpenGL 3.
+- stb_image.h image library.
+- OpenGL 3 / OpenGL ES 2.0.
 - Assimp asset importing library.
 - GLEW extension loading library.
 
@@ -13,10 +13,6 @@ A basic cross-platform 3D game engine making use of:
 ### To Build:
 
 First install required libraries:
-
-Manually install the custom version of SOIL.
-
-Then:
 
 #### Mac:
 ```
@@ -42,7 +38,7 @@ If in Windows open the visual studio solution file.
 
 ### To Use:
 
-To use the engine in a game build the engine library and include Engine.h in your game. 
+To use the engine in a game build the engine library and include Engine.h in your game.
 
 Eg:
 
@@ -61,7 +57,7 @@ private:
 void CoolGame::init(void)
 {
   test_scene = new SceneNode();
-  test_scene->addObject(new VisibleObject(new Mesh("res/monkey3.obj"), new Texture("res/t.jpg")));
+  test_scene->addObject(new VisibleObject(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
   addToScene(test_scene);
 }
 

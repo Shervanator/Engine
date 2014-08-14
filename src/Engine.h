@@ -15,8 +15,14 @@ public:
   Engine(int width, int height, Game *game);
   ~Engine(void);
 
+#ifdef EMSCRIPTEN
+  static void loop(void);
+#endif
+
+  void tick(void);
   void start(void);
 private:
+
   SDLManager  *sdl_manager;
   GLEWManager *glew_manager;
   GLManager   *gl_manager;
