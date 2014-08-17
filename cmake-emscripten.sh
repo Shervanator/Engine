@@ -1,5 +1,5 @@
 EMSCRIPTEN_PATH=~/emsdk_portable/emscripten/1.21.0
-BUILD_TYPE=Debug
+BUILD_TYPE=Release
 
 rm -rf bin-emscripten
 mkdir bin-emscripten
