@@ -24,17 +24,30 @@ brew install glew
 After create the make file or project with cmake:
 
 ```
-mkdir bin
-cd bin
-cmake ../src/
+./cmake-make.sh
 ```
 
 Then if in Mac or Linux:
 ```
+cd bin
 make
 ```
 
 If in Windows open the visual studio solution file.
+
+To build the html5 engine use:
+
+```
+./cmake-emscripten.sh
+```
+
+then build with:
+```
+cd bin-emscripten
+make
+
+open game.html
+```
 
 ### To Use:
 
