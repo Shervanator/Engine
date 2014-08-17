@@ -1,14 +1,9 @@
 .DS_Store
-bin/CMakeFiles/
-bin/Makefile
-bin/cmake_install.cmake
 CMakeCache.txt
-bin/game
 *.a
 *.dylib
 ignore_folder/
 install_manifest.txt
-embin/
-test/
-xbin/
-xcode/
+bin/
+bin-xcode/
+bin-emscripten/
