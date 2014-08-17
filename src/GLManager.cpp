@@ -3,11 +3,8 @@
 GLManager::GLManager(int width, int height)
 {
   glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
-#ifndef EMSCRIPTEN
-  glClearDepth(1.0f);
-#else
+
   glClearDepthf(1.0f);
-#endif
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
@@ -39,11 +36,12 @@ void GLManager::renderScene(SceneNode *scene)
 
 void GLManager::createShaders(void)
 {
-#ifndef EMSCRIPTEN
-  shader1 = new Shader("../assets/shader1");
-#else
+#if defined(GLES2)
   shader1 = new Shader("../assets/shader0");
+#else
+  shader1 = new Shader("../assets/shader1");
 #endif
+
   shader1->createUniform("ViewProj", 0);
   shader1->createUniform("Model", 1);
 

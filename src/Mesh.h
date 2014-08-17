@@ -1,12 +1,12 @@
 #ifndef MESH_H
 #define MESH_H
 
-#ifndef EMSCRIPTEN
-  #include <GL/glew.h>
-#else
+#if defined(GLES2)
   #include <GLES2/gl2.h>
-  #include <GLES2/gl2ext.h>
+#else
+  #include <GL/glew.h>
 #endif
+
 #include <glm/glm.hpp>
 
 #include "Vertex.h"

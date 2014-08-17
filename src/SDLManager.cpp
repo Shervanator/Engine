@@ -10,7 +10,9 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
     logSDLError("SDL_Init");
   }
 
-#ifndef EMSCRIPTEN
+#if defined(EMSCRIPTEN)
+  SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
+#else
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -33,15 +35,15 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
   // SDL_SetRelativeMouseMode(SDL_TRUE);
 
   current_time = SDL_GetTicks();
-#else
-  SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
 #endif
 }
 
 SDLManager::~SDLManager(void)
 {
+#if !defined(EMSCRIPTEN)
   SDL_GL_DeleteContext(glContext);
   SDL_DestroyWindow(win);
+#endif
   SDL_Quit();
 }
 
@@ -65,10 +67,10 @@ void SDLManager::tick(void)
 
 void SDLManager::swapBuffer(void)
 {
-#ifndef EMSCRIPTEN
-  SDL_GL_SwapWindow(win);
-#else
+#if defined(EMSCRIPTEN)
   SDL_GL_SwapBuffers();
+#else
+  SDL_GL_SwapWindow(win);
 #endif
 }
 

@@ -63,7 +63,7 @@ Mesh::Mesh(const char* file)
 Mesh::~Mesh(void)
 {
   glDeleteBuffers(1, &vbo);
-#ifndef EMSCRIPTEN
+#if !defined(GLES2)
   glDeleteVertexArrays(1, &vao);
 #endif
 }
@@ -73,7 +73,7 @@ void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], i
   this->vertSize  = vertSize;
   this->indexSize = indexSize;
 
-#ifndef EMSCRIPTEN
+#if !defined(GLES2)
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 #endif
@@ -86,7 +86,7 @@ void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], i
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-#ifndef EMSCRIPTEN
+#if !defined(GLES2)
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
@@ -105,11 +105,7 @@ void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], i
 
 void Mesh::render(void)
 {
-#ifndef EMSCRIPTEN
-  glBindVertexArray(vao);
-  glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
-  glBindVertexArray(0);
-#else
+#if defined(GLES2)
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
   glEnableVertexAttribArray(0);
@@ -131,5 +127,9 @@ void Mesh::render(void)
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
   glDisableVertexAttribArray(3);
+#else
+  glBindVertexArray(vao);
+  glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
+  glBindVertexArray(0);
 #endif
 }
