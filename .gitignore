@@ -8,3 +8,7 @@ bin/game
 *.dylib
 ignore_folder/
 install_manifest.txt
+embin/
+test/
+xbin/
+xcode/
