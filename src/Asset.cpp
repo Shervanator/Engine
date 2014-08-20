@@ -1,6 +1,8 @@
 #include "Asset.h"
 
-#include <fstream>
+#ifndef ANDROID
+  #include <fstream>
+#endif
 
 Asset::Asset(const std::string &fileName)
 {
@@ -17,6 +19,7 @@ Asset::~Asset(void)
 const char *Asset::read(void)
 {
   if (!buffer) {
+#ifndef ANDROID
     std::ifstream temp(fileName, std::ifstream::binary);
 
     temp.seekg(0, std::ios::end);
@@ -30,6 +33,7 @@ const char *Asset::read(void)
     temp.read(buffer, size);
 
     temp.close();
+#endif
   }
 
   return buffer;
