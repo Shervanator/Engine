@@ -7,10 +7,12 @@
   #include <GL/glew.h>
 #endif
 
+#include "Asset.h"
+
 class Texture
 {
 public:
-  Texture(const std::string& file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
+  Texture(Asset file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
   ~Texture(void);
 
   void bind(unsigned int unit = 0);

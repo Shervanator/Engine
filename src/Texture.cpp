@@ -4,13 +4,13 @@
 
 #include "Texture.h"
 
-Texture::Texture(const std::string& file, GLenum textureTarget, GLfloat filter)
+Texture::Texture(Asset file, GLenum textureTarget, GLfloat filter)
 {
   int x, y, bytesPerPixel;
-  unsigned char* data = stbi_load(file.c_str(), &x, &y, &bytesPerPixel, 4);
+  unsigned char* data = stbi_load_from_memory(reinterpret_cast<const unsigned char *>(file.read()), file.getSize(), &x, &y, &bytesPerPixel, 4);
 
   if(data == NULL) {
-    std::cerr << "Unable to load texture: " << file << std::endl;
+    std::cerr << "Unable to load texture: " << file.getFileName() << std::endl;
   } else {
     initTexture(x,y,data,textureTarget,filter);
     stbi_image_free(data);

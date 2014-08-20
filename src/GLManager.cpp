@@ -37,9 +37,9 @@ void GLManager::renderScene(SceneNode *scene)
 void GLManager::createShaders(void)
 {
 #if defined(GLES2)
-  shader1 = new Shader("../assets/shader0");
+  shader1 = new Shader(Asset("../assets/shader0.vs"), Asset("../assets/shader0.fs"));
 #else
-  shader1 = new Shader("../assets/shader1");
+  shader1 = new Shader(Asset("../assets/shader1.vs"), Asset("../assets/shader1.fs"));
 #endif
 
   shader1->createUniform("ViewProj", 0);

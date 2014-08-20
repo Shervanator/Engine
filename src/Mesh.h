@@ -10,11 +10,12 @@
 #include <glm/glm.hpp>
 
 #include "Vertex.h"
+#include "Asset.h"
 
 class Mesh
 {
 public:
-  Mesh(const char* file);
+  Mesh(Asset file);
   Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   ~Mesh(void);
 

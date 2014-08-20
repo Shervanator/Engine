@@ -12,20 +12,19 @@ Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSiz
   createMesh(vertices, vertSize, indices, indexSize);
 }
 
-Mesh::Mesh(const char* file)
+Mesh::Mesh(Asset file)
 {
-  std::cerr << "LOADING MESH" << file << std::endl;
   Assimp::Importer importer;
 
-  const aiScene* scene = importer.ReadFile(file,
-                                           aiProcess_Triangulate |
-                                           aiProcess_GenSmoothNormals |
-                                           aiProcess_FlipUVs |
-                                           aiProcess_CalcTangentSpace);
+  const aiScene* scene = importer.ReadFileFromMemory(file.read(), file.getSize(),
+                                                     aiProcess_Triangulate |
+                                                     aiProcess_GenSmoothNormals |
+                                                     aiProcess_FlipUVs |
+                                                     aiProcess_CalcTangentSpace);
 
   if(!scene)
   {
-    std::cerr << "Failed to load mesh: " << file << std::endl;
+    std::cerr << "Failed to load mesh: " << file.getFileName() << std::endl;
   }
 
   const aiMesh* model = scene->mMeshes[0];

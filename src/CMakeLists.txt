@@ -21,6 +21,7 @@ set(engine_source_files
   SceneNode.cpp
   Shader.cpp
   Texture.cpp
+  Asset.cpp
 )
 
 set(engine_header_files
@@ -39,6 +40,7 @@ set(engine_header_files
   Vertex.h
   Texture.h
   Camera.h
+  Asset.h
 )
 
 find_package(GLM REQUIRED)

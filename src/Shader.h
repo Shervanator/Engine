@@ -6,6 +6,8 @@
 
 #include <glm/glm.hpp>
 
+#include "Asset.h"
+
 #if defined(GLES2)
   #include <GLES2/gl2.h>
 #else
@@ -16,12 +18,12 @@ class Shader
 {
 public:
   Shader(void);
-  Shader(std::string shaderFile);
+  Shader(Asset vertexSrc, Asset fragmentSrc);
   Shader(const char* vert_src, const char* frag_src);
   ~Shader(void);
 
-  void addVertex(const char* vert_src);
-  void addFragment(const char* frag_src);
+  void addVertex(const char *vert_src);
+  void addFragment(const char *frag_src);
   void link(void);
 
   void createUniform(const char* uniform_name, int i);

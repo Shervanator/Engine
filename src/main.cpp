@@ -67,11 +67,11 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
 void CoolGame::init(void)
 {
   moneyHead = new SceneNode();
-  moneyHead->addObject(new VisibleObject(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
+  moneyHead->addObject(new VisibleObject(new Mesh(Asset("../assets/monkey3.obj")), new Texture(Asset("../assets/t.jpg"))));
   moneyHead->getTransform().setPosition(glm::vec3(3, 0, 0));
 
   moneySmall = new SceneNode();
-  moneySmall->addObject(new VisibleObject(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
+  moneySmall->addObject(new VisibleObject(new Mesh(Asset("../assets/monkey3.obj")), new Texture(Asset("../assets/t.jpg"))));
   moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
   moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
