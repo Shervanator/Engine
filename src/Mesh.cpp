@@ -1,6 +1,7 @@
 #include "Mesh.h"
 
-#include <iostream>
+#include "Logger.h"
+
 #include <vector>
 
 #include <assimp/Importer.hpp>
@@ -24,7 +25,7 @@ Mesh::Mesh(Asset file)
 
   if(!scene)
   {
-    std::cerr << "Failed to load mesh: " << file.getFileName() << std::endl;
+    log_err("Failed to load mesh: %s", file.getFileName().c_str());
   }
 
   const aiMesh* model = scene->mMeshes[0];

@@ -1,8 +1,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include <iostream>
 
 #include "Texture.h"
+#include "Logger.h"
 
 Texture::Texture(Asset file, GLenum textureTarget, GLfloat filter)
 {
@@ -10,7 +10,7 @@ Texture::Texture(Asset file, GLenum textureTarget, GLfloat filter)
   unsigned char* data = stbi_load_from_memory(reinterpret_cast<const unsigned char *>(file.read()), file.getSize(), &x, &y, &bytesPerPixel, 4);
 
   if(data == NULL) {
-    std::cerr << "Unable to load texture: " << file.getFileName() << std::endl;
+    log_err("Unable to load texture: %s", file.getFileName().c_str());
   } else {
     initTexture(x,y,data,textureTarget,filter);
     stbi_image_free(data);

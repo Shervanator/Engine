@@ -18,7 +18,7 @@ public:
   Uint32 getFPS(void);
 
 private:
-  void logSDLError(const std::string &msg);
+  void logSDLError(const char *msg);
 
   SDL_Window *win;
 #if !defined(EMSCRIPTEN)

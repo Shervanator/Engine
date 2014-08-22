@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include <iostream>
+#include "Logger.h"
 
 #ifdef EMSCRIPTEN
   #include <emscripten.h>
@@ -10,10 +10,13 @@
 
 Engine::Engine(int width, int height, Game *game)
 {
+  log_info("Initializing SDL");
   sdl_manager = new SDLManager(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
+  log_info("Initializing GLEW");
   glew_manager = new GLEWManager();
 
+  log_info("Initializing GL");
   gl_manager = new GLManager(width, height);
 
   this->game = game;
@@ -30,6 +33,7 @@ Engine::~Engine(void)
 
 void Engine::start(void)
 {
+  log_info("Initializing game");
   game->init();
 
 #ifdef EMSCRIPTEN

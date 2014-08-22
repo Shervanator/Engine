@@ -10,14 +10,14 @@ public:
   ~Asset(void);
 
   const char *read(void);
-  size_t getSize(void);
+  int getSize(void);
   std::string getFileName(void);
 
 private:
   std::string fileName;
 
   char *buffer;
-  size_t size;
+  int size;
 };
 
 #endif

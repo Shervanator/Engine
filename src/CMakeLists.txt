@@ -41,6 +41,7 @@ set(engine_header_files
   Texture.h
   Camera.h
   Asset.h
+  Logger.h
 )
 
 find_package(GLM REQUIRED)

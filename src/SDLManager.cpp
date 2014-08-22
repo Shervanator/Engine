@@ -1,7 +1,7 @@
-#include <iostream>
 #include <stdio.h>
 
 #include "SDLManager.h"
+#include "Logger.h"
 
 SDLManager::SDLManager(int width, int height, Uint32 flags)
 {
@@ -21,9 +21,14 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,16);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
 
+#ifdef ANDROID
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+#else
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+#endif
   win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
   if (win == nullptr)
   {
@@ -47,9 +52,9 @@ SDLManager::~SDLManager(void)
   SDL_Quit();
 }
 
-void SDLManager::logSDLError(const std::string &msg)
+void SDLManager::logSDLError(const char *msg)
 {
-  std::cerr << msg << " error: " << SDL_GetError() << std::endl;
+  log_err("%s error: %s", msg, SDL_GetError());
 }
 
 void SDLManager::tick(void)

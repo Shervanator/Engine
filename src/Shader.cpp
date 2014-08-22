@@ -1,6 +1,5 @@
-#include <iostream>
-
 #include "Shader.h"
+#include "Logger.h"
 
 Shader::Shader(void)
 {
@@ -47,9 +46,8 @@ void Shader::addVertex(const char* vert_src)
   // check if compilation was successful
   glGetShaderiv(g_shVert, GL_COMPILE_STATUS, &res);
   if (GL_FALSE == res){
-    fprintf(stderr, "Failed to compile vertex shader\n");
     glGetShaderInfoLog(g_shVert, 1024, &errlen, shErr);
-    printf("%s\n", shErr);
+    log_err("Failed to compile vertex shader: %s", shErr);
     return;
   }
 
@@ -78,9 +76,8 @@ void Shader::addFragment(const char* frag_src)
   // check if compilation was successful
   glGetShaderiv(g_shFrag, GL_COMPILE_STATUS, &res);
   if (GL_FALSE == res){
-    fprintf(stderr, "Failed to compile fragment shader\n");
     glGetShaderInfoLog(g_shFrag, 1024, &errlen, shErr);
-    printf("%s\n", shErr);
+    log_err("Failed to compile fragment shader: %s", shErr);
     return;
   }
 
@@ -99,7 +96,7 @@ void Shader::link(void)
   glGetProgramiv(g_shProg, GL_LINK_STATUS, &res);
 
   if (GL_FALSE == res)
-    fprintf(stderr, "Failed to link shader program\n");
+    log_err("Failed to link shader program");
 }
 
 GLuint Shader::getProgram(void)
