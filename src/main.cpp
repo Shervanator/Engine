@@ -66,16 +66,29 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
 
 void CoolGame::init(void)
 {
+  // Vertex vertices[] = { Vertex(glm::vec3(-1.0f, -1.0f, 0.0f)),
+  //                       Vertex(glm::vec3(0.0f, -1.0f, 1.0f)),
+  //                       Vertex(glm::vec3(1.0f, -1.0f, 0.0f)),
+  //                       Vertex(glm::vec3(0.0f, 1.0f, 0.0f)) };
+
+  // unsigned int indices[] = { 0, 3, 1,
+  //                            1, 3, 2,
+  //                            2, 3, 0,
+  //                            0, 1, 2 };
+
+
   moneyHead = new SceneNode();
+  // moneyHead->addObject(new VisibleObject(new Mesh(vertices, 4, indices, 12), new Texture(Asset("t.jpg"))));
   moneyHead->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
   moneyHead->getTransform().setPosition(glm::vec3(3, 0, 0));
+  moneyHead->getTransform().setScale(glm::vec3(4.3, 4.3, 4.3));
 
-  moneySmall = new SceneNode();
-  moneySmall->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
-  moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
-  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
+  // moneySmall = new SceneNode();
+  // moneySmall->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  // moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
+  // moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
-  moneyHead->addChild(moneySmall);
+  // moneyHead->addChild(moneySmall);
 
   addToScene(moneyHead);
 

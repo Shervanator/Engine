@@ -39,10 +39,11 @@ const char *Asset::read(void)
   if (!buffer) {
     log_info("Reading file: %s from disk", fileName.c_str());
 #ifndef ANDROID
-    std::ifstream temp(fileName, std::ifstream::binary);
+    std::ifstream temp("../assets/" + fileName, std::ifstream::binary);
 
     temp.seekg(0, std::ios::end);
     size = temp.tellg();
+    log_info("Size is: %i", size);
 
     buffer = new char[size + 1];
     buffer[size] = '\0';
@@ -58,10 +59,12 @@ const char *Asset::read(void)
     if(aAsset)
     {
       size = AAsset_getLength(aAsset);
+      log_info("Size is: %i", size);
 
       // AAsset_read(aAsset, buffer, size);
       const void* pData = AAsset_getBuffer(aAsset);
       buffer = new char[size + 1];
+      memset(buffer, 0, size * sizeof( char ));
       memcpy( buffer, pData, size * sizeof( char ) );
       buffer[size] = '\0';
 

@@ -36,7 +36,7 @@ void GLManager::renderScene(SceneNode *scene)
 
 void GLManager::createShaders(void)
 {
-#if defined(GLES2)
+#if defined(GLES2) || defined(GLES3)
   shader1 = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
 #else
   shader1 = new Shader(Asset("shader1.vs"), Asset("shader1.fs"));

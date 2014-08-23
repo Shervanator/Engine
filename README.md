@@ -39,6 +39,15 @@ To build the html5 engine use:
 
 ```
 ./cmake-emscripten.sh
+
+# also need to compile assimp with emscripten:
+
+git clone git@github.com:assimp/assimp.git
+cd assimp
+mkdir build.em
+cd build.em
+cmake -DEMSCRIPTEN=1 -DCMAKE_TOOLCHAIN_FILE=~/emsdk_portable/emscripten/1.21.0/cmake/Platform/Emscripten.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=~/emsdk_portable/emscripten/1.21.0/cmake  ..
+make
 ```
 
 then build with:

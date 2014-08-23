@@ -1,6 +1,10 @@
 LOCAL_PATH := $(call my-dir)
 
-# include $(CLEAR_VARS)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := assimp
+LOCAL_SRC_FILES := libassimp.so
+include $(PREBUILT_SHARED_LIBRARY)
 
 # LOCAL_C_INCLUDES := /Users/shervinaflatooni/Git/assimp/include
 # LOCAL_MODULE := assimp
@@ -38,8 +42,7 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/VisibleObject.cpp \
   engsrc/main.cpp
 
-
-LOCAL_SHARED_LIBRARIES := SDL2
+LOCAL_SHARED_LIBRARIES := SDL2 assimp
 # LOCAL_SHARED_LIBRARIES := SDL2 assimp
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -landroid

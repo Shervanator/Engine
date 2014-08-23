@@ -43,6 +43,8 @@ void Engine::start(void)
 #else
   while (!quit) {
     tick();
+
+    SDL_Delay(1);
   }
 #endif
 }

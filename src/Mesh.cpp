@@ -8,6 +8,15 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#define check_gl_error() { \
+  { \
+    GLenum err; \
+    while ((err = glGetError()) != GL_NO_ERROR) { \
+        log_err("OpenGL error: %s", err); \
+    } \
+  } \
+} \
+
 Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
 {
   createMesh(vertices, vertSize, indices, indexSize);
@@ -16,6 +25,7 @@ Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSiz
 Mesh::Mesh(Asset file)
 {
   Assimp::Importer importer;
+  // log_info("Loading mesh: %s, data: %s", file.getFileName().c_str(), file.read());
 
   const aiScene* scene = importer.ReadFileFromMemory(file.read(), file.getSize(),
                                                      aiProcess_Triangulate |
@@ -52,6 +62,7 @@ Mesh::Mesh(Asset file)
   for(unsigned int i = 0; i < model->mNumFaces; i++)
   {
     const aiFace& face = model->mFaces[i];
+    log_info("index: %u %u %u", face.mIndices[0], face.mIndices[1], face.mIndices[2]);
     indices.push_back(face.mIndices[0]);
     indices.push_back(face.mIndices[1]);
     indices.push_back(face.mIndices[2]);
@@ -70,6 +81,7 @@ Mesh::~Mesh(void)
 
 void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
 {
+  log_info("Creating mesh, number of verts: %i, number of indicies: %i", vertSize, indexSize);
   this->vertSize  = vertSize;
   this->indexSize = indexSize;
 
@@ -121,7 +133,7 @@ void Mesh::render(void)
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-  glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
+  glDrawElements(GL_POINTS, indexSize, GL_UNSIGNED_INT, (void*)0);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
