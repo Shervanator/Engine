@@ -1,6 +1,26 @@
 #include "Asset.h"
+#include "Logger.h"
 
-#include <fstream>
+#ifndef ANDROID
+  #include <fstream>
+#else
+  // for native asset manager
+  #include <sys/types.h>
+  #include <android/asset_manager.h>
+  #include <android/asset_manager_jni.h>
+#endif
+
+#ifdef ANDROID
+  static AAssetManager* NativeAssetManager = 0;
+
+  extern "C"
+  {
+     JNIEXPORT void JNICALL Java_org_libsdl_app_SDLActivity_createAssetManager(JNIEnv* env, jclass clazz, jobject assetManager)
+     {
+        NativeAssetManager = AAssetManager_fromJava(env, assetManager);
+     }
+  };
+#endif
 
 Asset::Asset(const std::string &fileName)
 {
@@ -17,10 +37,13 @@ Asset::~Asset(void)
 const char *Asset::read(void)
 {
   if (!buffer) {
-    std::ifstream temp(fileName, std::ifstream::binary);
+    log_info("Reading file: %s from disk", fileName.c_str());
+#ifndef ANDROID
+    std::ifstream temp("../assets/" + fileName, std::ifstream::binary);
 
     temp.seekg(0, std::ios::end);
     size = temp.tellg();
+    log_info("Size is: %i", size);
 
     buffer = new char[size + 1];
     buffer[size] = '\0';
@@ -30,6 +53,35 @@ const char *Asset::read(void)
     temp.read(buffer, size);
 
     temp.close();
+#else
+    AAsset* aAsset = AAssetManager_open(NativeAssetManager, fileName.c_str(), AASSET_MODE_UNKNOWN);
+
+    if(aAsset)
+    {
+      size = AAsset_getLength(aAsset);
+      log_info("Size is: %i", size);
+
+      buffer = new char[size + 1];
+
+      if (int r = AAsset_read(aAsset, buffer, size) < 0)
+        log_err("Could not read asset: %i", r);
+
+
+      // const void* pData = AAsset_getBuffer(aAsset);
+      // buffer = new char[size + 1];
+      // memset(buffer, 0, size * sizeof( char ));
+      // memcpy( buffer, pData, size * sizeof( char ) );
+      buffer[size] = '\0';
+      // log_info("============== FILE ==============");
+      // log_info("(%.*s)\n", size, buffer);
+
+
+
+      AAsset_close(aAsset);
+    } else {
+      log_err("Could not read file: %s", fileName.c_str());
+    }
+#endif
   }
 
   return buffer;
@@ -44,8 +96,3 @@ std::string Asset::getFileName(void)
 {
   return fileName;
 }
-
-
-// AAsset* file = AAssetManager_open( this->assetManager, fileName.c_str(), AASSET_MODE_BUFFER );
-// if (!file)
-//   return;

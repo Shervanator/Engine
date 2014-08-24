@@ -8,7 +8,7 @@
 class SDLManager
 {
 public:
-  SDLManager(int width, int height, Uint32 flags);
+  SDLManager(Uint32 flags);
   ~SDLManager(void);
 
   void tick(void);
@@ -17,8 +17,11 @@ public:
   Uint32 getDeltaTime(void);
   Uint32 getFPS(void);
 
+  int getWidth(void);
+  int getHeight(void);
+
 private:
-  void logSDLError(const std::string &msg);
+  void logSDLError(const char *msg);
 
   SDL_Window *win;
 #if !defined(EMSCRIPTEN)
@@ -26,6 +29,8 @@ private:
 #endif
 
   Uint32 current_time, old_time, delta_time;
+
+  int width, height;
 };
 
 #endif

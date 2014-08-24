@@ -7,3 +7,10 @@ install_manifest.txt
 bin/
 bin-xcode/
 bin-emscripten/
+
+gen/
+libs/
+obj/
+local.properties
+SDL
+*.so

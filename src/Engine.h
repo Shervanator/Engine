@@ -12,7 +12,7 @@
 class Engine
 {
 public:
-  Engine(int width, int height, Game *game);
+  Engine(Game *game);
   ~Engine(void);
 
 #ifdef EMSCRIPTEN

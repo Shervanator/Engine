@@ -2,6 +2,8 @@
 
 GLManager::GLManager(int width, int height)
 {
+  this->width = width;
+  this->height = height;
   glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
 
   glClearDepthf(1.0f);
@@ -10,7 +12,7 @@ GLManager::GLManager(int width, int height)
 
   glEnable(GL_CULL_FACE);
 
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, this->width, this->height);
 
   createShaders();
 }
@@ -36,14 +38,21 @@ void GLManager::renderScene(SceneNode *scene)
 
 void GLManager::createShaders(void)
 {
-#if defined(GLES2)
-  shader1 = new Shader(Asset("../assets/shader0.vs"), Asset("../assets/shader0.fs"));
+#if defined(GLES2) || defined(GLES3)
+  shader1 = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
 #else
-  shader1 = new Shader(Asset("../assets/shader1.vs"), Asset("../assets/shader1.fs"));
+  shader1 = new Shader(Asset("shader1.vs"), Asset("shader1.fs"));
 #endif
+
+  shader1->setAttribLocation("vertexPosition_modelspace", 0);
+  shader1->setAttribLocation("texCoord", 1);
+  shader1->setAttribLocation("normal", 2);
+  shader1->setAttribLocation("tangent", 3);
+  shader1->link();
 
   shader1->createUniform("ViewProj", 0);
   shader1->createUniform("Model", 1);
+
 
   shader1->bind();
 }

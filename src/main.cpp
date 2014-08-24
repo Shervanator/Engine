@@ -5,9 +5,6 @@
 #include "Texture.h"
 #include "Camera.h"
 
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 960;
-
 class CoolGame : public Game
 {
 public:
@@ -25,6 +22,7 @@ private:
 
 void CoolGame::render(GLManager *glManager)
 {
+  primary_camera->setAspect(glManager->width/(float)glManager->height);
   glManager->setViewProjection(primary_camera->getViewProjection());
 
   Game::render(glManager);
@@ -34,8 +32,8 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
 {
   static float rr = 0;
   rr += delta * 0.005;
-  moneyHead->getTransform().setPosition(glm::vec3(glm::sin(rr), 0, 0));
-  moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
+  moneyHead->getTransform().setPosition(glm::vec3(0, 0, glm::sin(rr)));
+  //moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
 
   if (keyboardHandler->isPressed(SDLK_UP)) {
     primary_camera->moveY(1.0f);
@@ -66,22 +64,33 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
 
 void CoolGame::init(void)
 {
+  Vertex vertices[] = { Vertex(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),
+                        Vertex(glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),
+                        Vertex(glm::vec3(1.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)),
+                        Vertex(glm::vec3(-2.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f)) };
+
+  unsigned int indices[] = { 0, 1, 3,
+                             3, 2, 0 };
+
+
   moneyHead = new SceneNode();
-  moneyHead->addObject(new VisibleObject(new Mesh(Asset("../assets/monkey3.obj")), new Texture(Asset("../assets/t.jpg"))));
-  moneyHead->getTransform().setPosition(glm::vec3(3, 0, 0));
+  // moneyHead->addObject(new VisibleObject(new Mesh(vertices, 4, indices, 6), new Texture(Asset("t.jpg"))));
+  moneyHead->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  moneyHead->getTransform().setPosition(glm::vec3(5, 0, 0));
+  moneyHead->getTransform().setScale(glm::vec3(4.3, 4.3, 4.3));
 
-  moneySmall = new SceneNode();
-  moneySmall->addObject(new VisibleObject(new Mesh(Asset("../assets/monkey3.obj")), new Texture(Asset("../assets/t.jpg"))));
-  moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
-  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
+  // moneySmall = new SceneNode();
+  // moneySmall->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  // moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
+  // moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
-  moneyHead->addChild(moneySmall);
+  // moneyHead->addChild(moneySmall);
 
   addToScene(moneyHead);
 
   cameraNode = new SceneNode();
 
-  primary_camera = new Camera(45.0f, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+  primary_camera = new Camera(45.0f, 100 / (float)100, 0.1f, 100.0f);
   cameraNode->addObject(primary_camera);
   cameraNode->getTransform().setPosition(glm::vec3(0, 0, 10));
 
@@ -90,7 +99,7 @@ void CoolGame::init(void)
 
 int main(int argc, char **argv){
   CoolGame game;
-  Engine gm(SCREEN_WIDTH, SCREEN_HEIGHT, &game);
+  Engine gm(&game);
 
   gm.start();
 

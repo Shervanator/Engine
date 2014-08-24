@@ -10,6 +10,8 @@
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
+#elif defined(GLES3)
+  #include <GLES3/gl3.h>
 #else
   #include <GL/glew.h>
 #endif
@@ -28,6 +30,8 @@ public:
 
   void createUniform(const char* uniform_name, int i);
   GLuint getUniformLocation(const char* uniform_name, int i);
+
+  void setAttribLocation(const char* name, int i);
 
   GLuint getProgram(void);
 

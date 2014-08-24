@@ -3,6 +3,8 @@
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
+#elif defined(GLES3)
+  #include <GLES3/gl3.h>
 #else
   #include <GL/glew.h>
 #endif
@@ -23,7 +25,7 @@ public:
   void render(void);
 
 private:
-#ifndef EMSCRIPTEN
+#if !defined(GLES2)
   GLuint vao;
 #endif
   GLuint vbo;

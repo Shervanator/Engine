@@ -1,20 +1,24 @@
-#include <iostream>
-
-#include <GL/glew.h>
+#ifndef ANDROID
+  #include <GL/glew.h>
+#endif
 
 #include "GLEWManager.h"
 
+#include "Logger.h"
+
 GLEWManager::GLEWManager(void)
 {
+#ifndef ANDROID
   glewExperimental = GL_TRUE;
   GLenum err = glewInit();
 
   if (GLEW_OK != err)
   {
-    std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+    log_err("GLEW failed to initalize: %s", glewGetErrorString(err));
   }
 
-  std::cerr << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+  log_info("Status: Using GLEW %s", glewGetString(GLEW_VERSION));
+#endif
 }
 
 GLEWManager::~GLEWManager(void)

@@ -1,11 +1,21 @@
 #include "Mesh.h"
 
-#include <iostream>
+#include "Logger.h"
+
 #include <vector>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+#define check_gl_error() { \
+  { \
+    GLenum err; \
+    while ((err = glGetError()) != GL_NO_ERROR) { \
+        log_err("OpenGL error: %s", err); \
+    } \
+  } \
+} \
 
 Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
 {
@@ -15,6 +25,7 @@ Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSiz
 Mesh::Mesh(Asset file)
 {
   Assimp::Importer importer;
+  log_info("Loading mesh: %s", file.getFileName().c_str());
 
   const aiScene* scene = importer.ReadFileFromMemory(file.read(), file.getSize(),
                                                      aiProcess_Triangulate |
@@ -24,7 +35,7 @@ Mesh::Mesh(Asset file)
 
   if(!scene)
   {
-    std::cerr << "Failed to load mesh: " << file.getFileName() << std::endl;
+    log_err("Failed to load mesh: %s", file.getFileName().c_str());
   }
 
   const aiMesh* model = scene->mMeshes[0];
@@ -69,6 +80,8 @@ Mesh::~Mesh(void)
 
 void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
 {
+  log_info("Creating mesh, number of verts: %i, number of indicies: %i", vertSize, indexSize);
+
   this->vertSize  = vertSize;
   this->indexSize = indexSize;
 

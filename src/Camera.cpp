@@ -5,6 +5,10 @@
 
 Camera::Camera(float fov, float aspect, float zNear, float zFar)
 {
+  this->fov = fov;
+  this->zNear = zNear;
+  this->zFar= zFar;
+
   this->projection    = glm::perspective(fov, aspect, zNear, zFar);
 
   this->direction     = glm::vec3(0, 0, -1);
@@ -14,6 +18,11 @@ Camera::Camera(float fov, float aspect, float zNear, float zFar)
 
 Camera::~Camera(void)
 {
+}
+
+void Camera::setAspect(float aspect)
+{
+  this->projection = glm::perspective(fov, aspect, zNear, zFar);
 }
 
 glm::mat4 Camera::getViewProjection(void)
