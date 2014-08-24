@@ -104,9 +104,6 @@ void Shader::link(void)
     glGetProgramInfoLog(g_shProg, 1024, &errlen, shErr);
     log_err("Error validating shader: %s", shErr);
   }
-
-  log_err("vertexPosition_modelspace LOC: %i", glGetAttribLocation(g_shProg, "vertexPosition_modelspace"));
-  log_err("texCoord LOC: %i", glGetAttribLocation(g_shProg, "texCoord"));
 }
 
 GLuint Shader::getProgram(void)

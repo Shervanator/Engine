@@ -6,11 +6,6 @@ LOCAL_MODULE := assimp
 LOCAL_SRC_FILES := libassimp.so
 include $(PREBUILT_SHARED_LIBRARY)
 
-# LOCAL_C_INCLUDES := /Users/shervinaflatooni/Git/assimp/include
-# LOCAL_MODULE := assimp
-# LOCAL_SRC_FILES := libassimp.so
-# include $(PREBUILT_SHARED_LIBRARY)
-
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
@@ -19,6 +14,7 @@ LOCAL_CFLAGS := -DGLES2
 
 SDL_PATH := ../SDL
 
+# TODO: FIX ABSOLUTE PATHS
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
   /usr/local/Cellar/glm/0.9.5.4/include \
   /Users/shervinaflatooni/Git/assimp/include

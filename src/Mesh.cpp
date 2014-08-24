@@ -25,7 +25,7 @@ Mesh::Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSiz
 Mesh::Mesh(Asset file)
 {
   Assimp::Importer importer;
-  log_info("Loading mesh: %s, data: %s", file.getFileName().c_str(), file.read());
+  log_info("Loading mesh: %s", file.getFileName().c_str());
 
   const aiScene* scene = importer.ReadFileFromMemory(file.read(), file.getSize(),
                                                      aiProcess_Triangulate |
@@ -62,7 +62,6 @@ Mesh::Mesh(Asset file)
   for(unsigned int i = 0; i < model->mNumFaces; i++)
   {
     const aiFace& face = model->mFaces[i];
-    log_info("index: %u %u %u", face.mIndices[0], face.mIndices[1], face.mIndices[2]);
     indices.push_back(face.mIndices[0]);
     indices.push_back(face.mIndices[1]);
     indices.push_back(face.mIndices[2]);
@@ -82,12 +81,7 @@ Mesh::~Mesh(void)
 void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
 {
   log_info("Creating mesh, number of verts: %i, number of indicies: %i", vertSize, indexSize);
-  for (int i = 0; i < vertSize; i++) {
-    log_info("VERT: %f, %f, %f", vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
-  }
-  for (int i = 0; i < indexSize; i++) {
-    log_info("indices: %d", indices[i]);
-  }
+
   this->vertSize  = vertSize;
   this->indexSize = indexSize;
 
