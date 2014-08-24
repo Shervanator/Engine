@@ -16,6 +16,7 @@ public:
   void moveZ(float z);
   void update(int delta);
 
+  void setAspect(float aspect);
   glm::mat4 getViewProjection(void);
 
 private:
@@ -24,6 +25,8 @@ private:
   glm::vec3 moveDirection;
   glm::vec3 velocity;
   glm::vec3 direction;
+
+  float fov, zNear, zFar;
 };
 
 #endif

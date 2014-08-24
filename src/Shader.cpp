@@ -12,7 +12,6 @@ Shader::Shader(Asset vertexSrc, Asset fragmentSrc)
 
   addVertex(vertexSrc.read());
   addFragment(fragmentSrc.read());
-  link();
 }
 
 Shader::Shader(const char* vert_src, const char* frag_src)
@@ -20,7 +19,6 @@ Shader::Shader(const char* vert_src, const char* frag_src)
   g_shProg = glCreateProgram();
   addVertex(vert_src);
   addFragment(frag_src);
-  link();
 }
 
 Shader::~Shader(void)
@@ -106,6 +104,9 @@ void Shader::link(void)
     glGetProgramInfoLog(g_shProg, 1024, &errlen, shErr);
     log_err("Error validating shader: %s", shErr);
   }
+
+  log_err("vertexPosition_modelspace LOC: %i", glGetAttribLocation(g_shProg, "vertexPosition_modelspace"));
+  log_err("texCoord LOC: %i", glGetAttribLocation(g_shProg, "texCoord"));
 }
 
 GLuint Shader::getProgram(void)
@@ -121,6 +122,11 @@ void Shader::createUniform(const char* uniform_name, int i)
 GLuint Shader::getUniformLocation(const char* uniform_name, int i)
 {
   return uniform_location[i];
+}
+
+void Shader::setAttribLocation(const char* name, int i)
+{
+  glBindAttribLocation(g_shProg, i, name);
 }
 
 void Shader::bind(void)

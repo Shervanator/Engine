@@ -8,16 +8,16 @@
 #endif
 
 
-Engine::Engine(int width, int height, Game *game)
+Engine::Engine(Game *game)
 {
   log_info("Initializing SDL");
-  sdl_manager = new SDLManager(width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+  sdl_manager = new SDLManager(SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
   log_info("Initializing GLEW");
   glew_manager = new GLEWManager();
 
   log_info("Initializing GL");
-  gl_manager = new GLManager(width, height);
+  gl_manager = new GLManager(sdl_manager->getWidth(), sdl_manager->getHeight());
 
   this->game = game;
 

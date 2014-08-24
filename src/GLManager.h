@@ -23,12 +23,14 @@ public:
   void renderScene(SceneNode *scene);
   void setViewProjection(const glm::mat4& viewProj);
 
+  int width, height;
 private:
   void createShaders(void);
 
   Shader *shader1;
 
   glm::mat4 viewProj;
+
 };
 
 #endif

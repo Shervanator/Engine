@@ -31,6 +31,8 @@ public:
   void createUniform(const char* uniform_name, int i);
   GLuint getUniformLocation(const char* uniform_name, int i);
 
+  void setAttribLocation(const char* name, int i);
+
   GLuint getProgram(void);
 
   void bind(void);

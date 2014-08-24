@@ -3,7 +3,7 @@
 #include "SDLManager.h"
 #include "Logger.h"
 
-SDLManager::SDLManager(int width, int height, Uint32 flags)
+SDLManager::SDLManager(Uint32 flags)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
   {
@@ -11,8 +11,16 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
   }
 
 #if defined(EMSCRIPTEN)
-  SDL_SetVideoMode(width, height, 0, SDL_OPENGL);
+  this->width = 1024;
+  this->height = 768;
+
+  SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
 #else
+  SDL_DisplayMode mode;
+  SDL_GetDisplayMode(0, 0, &mode);
+
+  this->width = mode.w;
+  this->height = mode.h;
   // SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   // SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   // SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -38,7 +46,7 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   #endif
 
-  win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+  win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, flags);
   if (win == nullptr)
   {
     logSDLError("SDL_CreateWindow");
@@ -51,6 +59,8 @@ SDLManager::SDLManager(int width, int height, Uint32 flags)
 
   current_time = SDL_GetTicks();
 #endif
+
+  log_info("Window init to: %i x %i", this->width, this->height);
 }
 
 SDLManager::~SDLManager(void)
@@ -102,4 +112,14 @@ Uint32 SDLManager::getDeltaTime(void)
 Uint32 SDLManager::getFPS(void)
 {
   return 1000.0 / delta_time;
+}
+
+int SDLManager::getWidth(void)
+{
+  return width;
+}
+
+int SDLManager::getHeight(void)
+{
+  return height;
 }
