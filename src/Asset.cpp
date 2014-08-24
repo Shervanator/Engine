@@ -54,19 +54,28 @@ const char *Asset::read(void)
 
     temp.close();
 #else
-    AAsset* aAsset = AAssetManager_open(NativeAssetManager, fileName.c_str(), AASSET_MODE_BUFFER);
+    AAsset* aAsset = AAssetManager_open(NativeAssetManager, fileName.c_str(), AASSET_MODE_UNKNOWN);
 
     if(aAsset)
     {
       size = AAsset_getLength(aAsset);
       log_info("Size is: %i", size);
 
-      // AAsset_read(aAsset, buffer, size);
-      const void* pData = AAsset_getBuffer(aAsset);
       buffer = new char[size + 1];
-      memset(buffer, 0, size * sizeof( char ));
-      memcpy( buffer, pData, size * sizeof( char ) );
+
+      if (int r = AAsset_read(aAsset, buffer, size) < 0)
+        log_err("Could not read asset: %i", r);
+
+
+      // const void* pData = AAsset_getBuffer(aAsset);
+      // buffer = new char[size + 1];
+      // memset(buffer, 0, size * sizeof( char ));
+      // memcpy( buffer, pData, size * sizeof( char ) );
       buffer[size] = '\0';
+      // log_info("============== FILE ==============");
+      // log_info("(%.*s)\n", size, buffer);
+
+
 
       AAsset_close(aAsset);
     } else {
@@ -78,7 +87,7 @@ const char *Asset::read(void)
   return buffer;
 }
 
-int Asset::getSize(void)
+size_t Asset::getSize(void)
 {
   return size;
 }

@@ -1,5 +1,7 @@
 attribute vec3 vertexPosition_modelspace; // vertex position attribute
 attribute vec2 texCoord;                // vertex texture coordinate attribute
+attribute vec3 normal;
+attribute vec3 tangent;
 
 uniform mat4 ViewProj;
 uniform mat4 Model;

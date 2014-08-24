@@ -90,6 +90,8 @@ void Shader::addFragment(const char* frag_src)
 
 void Shader::link(void)
 {
+  char shErr[1024];
+  int errlen;
   GLint res;
   // Link the shaders
   glLinkProgram(g_shProg);
@@ -97,6 +99,13 @@ void Shader::link(void)
 
   if (GL_FALSE == res)
     log_err("Failed to link shader program");
+
+  glValidateProgram(g_shProg);
+  glGetProgramiv(g_shProg, GL_VALIDATE_STATUS, &res);
+  if (GL_FALSE == res) {
+    glGetProgramInfoLog(g_shProg, 1024, &errlen, shErr);
+    log_err("Error validating shader: %s", shErr);
+  }
 }
 
 GLuint Shader::getProgram(void)

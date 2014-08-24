@@ -43,7 +43,6 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/main.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 assimp
-# LOCAL_SHARED_LIBRARIES := SDL2 assimp
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -landroid
 
