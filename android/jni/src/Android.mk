@@ -27,15 +27,15 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/GLEWManager.cpp \
   engsrc/GLManager.cpp \
   engsrc/Game.cpp \
-  engsrc/GameObject.cpp \
+  engsrc/EntityComponent.cpp \
   engsrc/KeyboardHandler.cpp \
   engsrc/Mesh.cpp \
   engsrc/SDLManager.cpp \
-  engsrc/SceneNode.cpp \
+  engsrc/Entity.cpp \
   engsrc/Shader.cpp \
   engsrc/Texture.cpp \
   engsrc/Transform.cpp \
-  engsrc/VisibleObject.cpp \
+  engsrc/MeshRenderer.cpp \
   engsrc/main.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 assimp

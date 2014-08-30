@@ -7,9 +7,9 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${Engine_SOURCE_DIR}/../CMakeModules)
 # add_definitions( -DEMSCRIPTEN=${EMSCRIPTEN} )
 
 set(engine_source_files
-  GameObject.cpp
+  EntityComponent.cpp
   Transform.cpp
-  VisibleObject.cpp
+  MeshRenderer.cpp
   Game.cpp
   Camera.cpp
   GLEWManager.cpp
@@ -18,7 +18,7 @@ set(engine_source_files
   KeyboardHandler.cpp
   Mesh.cpp
   SDLManager.cpp
-  SceneNode.cpp
+  Entity.cpp
   Shader.cpp
   Texture.cpp
   Asset.cpp
@@ -28,14 +28,14 @@ set(engine_header_files
   Engine.h
   GLManager.h
   Shader.h
-  SceneNode.h
+  Entity.h
   Transform.h
   SDLManager.h
   GLEWManager.h
   Game.h
   KeyboardHandler.h
-  VisibleObject.h
-  GameObject.h
+  MeshRenderer.h
+  EntityComponent.h
   Mesh.h
   Vertex.h
   Texture.h

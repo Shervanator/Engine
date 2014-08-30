@@ -27,13 +27,13 @@ void GLManager::setViewProjection(const glm::mat4& viewProj)
   this->viewProj = viewProj;
 }
 
-void GLManager::renderScene(SceneNode *scene)
+void GLManager::renderScene(Entity *entity)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glUniformMatrix4fv(shader1->getUniformLocation("ViewProj", 0), 1, GL_FALSE, &viewProj[0][0]);
 
-  scene->renderAll(shader1);
+  entity->renderAll(shader1);
 }
 
 void GLManager::createShaders(void)

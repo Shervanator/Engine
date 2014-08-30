@@ -12,9 +12,9 @@ void Game::init(void)
 {
 }
 
-void Game::addToScene(SceneNode *node)
+void Game::addToScene(Entity *entity)
 {
-  rootScene.addChild(node);
+  rootScene.addChild(entity);
 }
 
 void Game::update(int delta, KeyboardHandler *keyboardHandler)

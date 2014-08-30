@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "SceneNode.h"
+#include "Entity.h"
 #include "GLManager.h"
 #include "KeyboardHandler.h"
 
@@ -16,13 +16,13 @@ public:
   virtual void update(int delta, KeyboardHandler *keyboardHandler);
   virtual void render(GLManager *glManager);
 
-  SceneNode *getRootScene(void) { return &rootScene; };
+  Entity *getRootScene(void) { return &rootScene; };
 
 protected:
-  void addToScene(SceneNode *node);
+  void addToScene(Entity *entity);
 
 private:
-  SceneNode rootScene;
+  Entity rootScene;
 };
 
 #endif

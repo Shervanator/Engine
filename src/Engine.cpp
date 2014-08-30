@@ -11,7 +11,7 @@
 Engine::Engine(Game *game)
 {
   log_info("Initializing SDL");
-  sdl_manager = new SDLManager(SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+  sdl_manager = new SDLManager(SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
   log_info("Initializing GLEW");
   glew_manager = new GLEWManager();

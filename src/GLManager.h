@@ -12,7 +12,7 @@
 #endif
 
 #include "Shader.h"
-#include "SceneNode.h"
+#include "Entity.h"
 
 class GLManager
 {
@@ -20,7 +20,7 @@ public:
   GLManager(int width, int height);
   ~GLManager(void);
 
-  void renderScene(SceneNode *scene);
+  void renderScene(Entity *entity);
   void setViewProjection(const glm::mat4& viewProj);
 
   int width, height;

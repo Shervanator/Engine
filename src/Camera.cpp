@@ -27,7 +27,7 @@ void Camera::setAspect(float aspect)
 
 glm::mat4 Camera::getViewProjection(void)
 {
-  return projection * glm::inverse(parentNode->getWorldMatrix());
+  return projection * glm::inverse(parentEntity->getWorldMatrix());
 }
 
 void Camera::moveX(float x)
@@ -68,15 +68,15 @@ void Camera::update(int delta)
   if ((velocity.x < 0.05 && velocity.x > -0.05) && moveDirection.x == 0)
     velocity.x = 0;
   else
-    parentNode->getTransform().getPosition().x += velocity.x;
+    parentEntity->getTransform().getPosition().x += velocity.x;
 
   if ((velocity.y < 0.05 && velocity.y > -0.05) && moveDirection.y == 0)
     velocity.y = 0;
   else
-    parentNode->getTransform().getPosition().y += velocity.y;
+    parentEntity->getTransform().getPosition().y += velocity.y;
 
   if ((velocity.z < 0.05 && velocity.z > -0.05) && moveDirection.z == 0)
     velocity.z = 0;
   else
-    parentNode->getTransform().getPosition().z += velocity.z;
+    parentEntity->getTransform().getPosition().z += velocity.z;
 }

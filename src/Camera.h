@@ -1,11 +1,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "GameObject.h"
+#include "EntityComponent.h"
 
 #include <glm/glm.hpp>
 
-class Camera : public GameObject
+class Camera : public EntityComponent
 {
 public:
   Camera(float fov, float aspect, float zNear, float zFar);

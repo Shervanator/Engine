@@ -1,6 +1,6 @@
 #include "Engine.h"
 
-#include "VisibleObject.h"
+#include "MeshRenderer.h"
 #include "Mesh.h"
 #include "Texture.h"
 #include "Camera.h"
@@ -13,10 +13,10 @@ public:
   virtual void update(int delta, KeyboardHandler *keyboardHandler);
 
 private:
-  SceneNode *moneyHead;
-  SceneNode *moneySmall;
+  Entity *moneyHead;
+  Entity *moneySmall;
 
-  SceneNode *cameraNode;
+  Entity *cameraNode;
   Camera *primary_camera;
 };
 
@@ -64,23 +64,13 @@ void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
 
 void CoolGame::init(void)
 {
-  Vertex vertices[] = { Vertex(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)),
-                        Vertex(glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)),
-                        Vertex(glm::vec3(1.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)),
-                        Vertex(glm::vec3(-2.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f)) };
-
-  unsigned int indices[] = { 0, 1, 3,
-                             3, 2, 0 };
-
-
-  moneyHead = new SceneNode();
-  // moneyHead->addObject(new VisibleObject(new Mesh(vertices, 4, indices, 6), new Texture(Asset("t.jpg"))));
-  moneyHead->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  moneyHead = new Entity();
+  moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
   moneyHead->getTransform().setPosition(glm::vec3(5, 0, 0));
   moneyHead->getTransform().setScale(glm::vec3(4.3, 4.3, 4.3));
 
-  // moneySmall = new SceneNode();
-  // moneySmall->addObject(new VisibleObject(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  // moneySmall = new Entity();
+  // moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
   // moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
   // moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
@@ -88,10 +78,10 @@ void CoolGame::init(void)
 
   addToScene(moneyHead);
 
-  cameraNode = new SceneNode();
+  cameraNode = new Entity();
 
   primary_camera = new Camera(45.0f, 100 / (float)100, 0.1f, 100.0f);
-  cameraNode->addObject(primary_camera);
+  cameraNode->addComponent(primary_camera);
   cameraNode->getTransform().setPosition(glm::vec3(0, 0, 10));
 
   addToScene(cameraNode);

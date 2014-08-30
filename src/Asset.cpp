@@ -43,7 +43,7 @@ const char *Asset::read(void)
 
     temp.seekg(0, std::ios::end);
     size = temp.tellg();
-    log_info("Size is: %i", size);
+    log_info("Size is: %lu", size);
 
     buffer = new char[size + 1];
     buffer[size] = '\0';
@@ -59,23 +59,14 @@ const char *Asset::read(void)
     if(aAsset)
     {
       size = AAsset_getLength(aAsset);
-      log_info("Size is: %i", size);
+      log_info("Size is: %lu", size);
 
       buffer = new char[size + 1];
 
       if (int r = AAsset_read(aAsset, buffer, size) < 0)
         log_err("Could not read asset: %i", r);
 
-
-      // const void* pData = AAsset_getBuffer(aAsset);
-      // buffer = new char[size + 1];
-      // memset(buffer, 0, size * sizeof( char ));
-      // memcpy( buffer, pData, size * sizeof( char ) );
       buffer[size] = '\0';
-      // log_info("============== FILE ==============");
-      // log_info("(%.*s)\n", size, buffer);
-
-
 
       AAsset_close(aAsset);
     } else {
