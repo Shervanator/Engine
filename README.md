@@ -134,14 +134,14 @@ public:
   virtual void init(void);
 
 private:
-  SceneNode *test_scene;
+  Entity *test_entity;
 };
 
 void CoolGame::init(void)
 {
-  test_scene = new SceneNode();
-  test_scene->addObject(new VisibleObject(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
-  addToScene(test_scene);
+  test_entity = new Entity();
+  test_entity->addComponent(new MeshRenderer(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
+  addToScene(test_entity);
 }
 
 int main(int argc, char **argv){
