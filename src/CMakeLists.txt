@@ -15,9 +15,9 @@ set(engine_source_files
   GLEWManager.cpp
   GLManager.cpp
   Engine.cpp
-  KeyboardHandler.cpp
+  Input.cpp
   Mesh.cpp
-  SDLManager.cpp
+  Window.cpp
   Entity.cpp
   Shader.cpp
   Texture.cpp
@@ -30,10 +30,10 @@ set(engine_header_files
   Shader.h
   Entity.h
   Transform.h
-  SDLManager.h
+  Window.h
   GLEWManager.h
   Game.h
-  KeyboardHandler.h
+  Input.h
   MeshRenderer.h
   EntityComponent.h
   Mesh.h

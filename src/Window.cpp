@@ -1,10 +1,12 @@
 #include <stdio.h>
 
-#include "SDLManager.h"
+#include "Window.h"
 #include "Logger.h"
 
-SDLManager::SDLManager(Uint32 flags)
+Window::Window(void)
 {
+  quit = false;
+
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
   {
     logSDLError("SDL_Init");
@@ -46,7 +48,7 @@ SDLManager::SDLManager(Uint32 flags)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   #endif
 
-  win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, flags);
+  win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
   if (win == nullptr)
   {
     logSDLError("SDL_CreateWindow");
@@ -63,7 +65,7 @@ SDLManager::SDLManager(Uint32 flags)
   log_info("Window init to: %i x %i", this->width, this->height);
 }
 
-SDLManager::~SDLManager(void)
+Window::~Window(void)
 {
 #if !defined(EMSCRIPTEN)
   SDL_GL_DeleteContext(glContext);
@@ -72,12 +74,12 @@ SDLManager::~SDLManager(void)
   SDL_Quit();
 }
 
-void SDLManager::logSDLError(const char *msg)
+void Window::logSDLError(const char *msg)
 {
   log_err("%s error: %s", msg, SDL_GetError());
 }
 
-void SDLManager::tick(void)
+void Window::tick(void)
 {
   old_time     = current_time;
   current_time = SDL_GetTicks();
@@ -88,9 +90,22 @@ void SDLManager::tick(void)
     snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
     SDL_SetWindowTitle(win, buffer);
   }
+
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    switch (event.type) {
+      case SDL_KEYDOWN:
+      case SDL_KEYUP:
+        input.handleEvent(event.key);
+        break;
+      case SDL_QUIT:
+        quit = true;
+        break;
+    }
+  }
 }
 
-void SDLManager::swapBuffer(void)
+void Window::swapBuffer(void)
 {
 #if defined(EMSCRIPTEN)
   SDL_GL_SwapBuffers();
@@ -99,27 +114,32 @@ void SDLManager::swapBuffer(void)
 #endif
 }
 
-int SDLManager::poll_event(SDL_Event *event)
+Input* Window::getInput(void)
 {
-  return SDL_PollEvent(event);
+  return &input;
 }
 
-Uint32 SDLManager::getDeltaTime(void)
+Uint32 Window::getDeltaTime(void)
 {
   return delta_time;
 }
 
-Uint32 SDLManager::getFPS(void)
+Uint32 Window::getFPS(void)
 {
   return 1000.0 / delta_time;
 }
 
-int SDLManager::getWidth(void)
+int Window::getWidth(void)
 {
   return width;
 }
 
-int SDLManager::getHeight(void)
+int Window::getHeight(void)
 {
   return height;
+}
+
+bool Window::shouldQuit(void)
+{
+  return quit;
 }

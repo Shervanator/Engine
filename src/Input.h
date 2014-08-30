@@ -1,15 +1,15 @@
-#ifndef KEYBOARD_HANDLER_H
-#define KEYBOARD_HANDLER_H
+#ifndef INPUT_H
+#define INPUT_H
 
 #include <map>
 
 #include <SDL.h>
 
-class KeyboardHandler
+class Input
 {
 public:
-  KeyboardHandler(void);
-  ~KeyboardHandler(void);
+  Input(void);
+  ~Input(void);
 
   void handleEvent(SDL_KeyboardEvent keyEvent);
   bool isPressed(SDL_Keycode key);

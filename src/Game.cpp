@@ -17,7 +17,12 @@ void Game::addToScene(Entity *entity)
   rootScene.addChild(entity);
 }
 
-void Game::update(int delta, KeyboardHandler *keyboardHandler)
+void Game::updateInput(Input *input, int delta)
+{
+  rootScene.updateInputAll(input, delta);
+}
+
+void Game::update(int delta)
 {
   rootScene.updateAll(delta);
 }

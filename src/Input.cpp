@@ -1,14 +1,14 @@
-#include "KeyboardHandler.h"
+#include "Input.h"
 
-KeyboardHandler::KeyboardHandler(void)
+Input::Input(void)
 {
 }
 
-KeyboardHandler::~KeyboardHandler(void)
+Input::~Input(void)
 {
 }
 
-void KeyboardHandler::handleEvent(SDL_KeyboardEvent keyEvent)
+void Input::handleEvent(SDL_KeyboardEvent keyEvent)
 {
   keyState[keyEvent.keysym.sym] = keyEvent.state;
   // if (keyEvent.state == SDL_PRESSED) {
@@ -18,10 +18,10 @@ void KeyboardHandler::handleEvent(SDL_KeyboardEvent keyEvent)
   // }
 }
 
-bool KeyboardHandler::isPressed(SDL_Keycode key) {
+bool Input::isPressed(SDL_Keycode key) {
   return (keyState[key] == SDL_PRESSED);
 }
 
-bool KeyboardHandler::isReleased(SDL_Keycode key) {
+bool Input::isReleased(SDL_Keycode key) {
   return (keyState[key] == SDL_RELEASED);
 }

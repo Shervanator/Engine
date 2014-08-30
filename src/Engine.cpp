@@ -11,13 +11,13 @@
 Engine::Engine(Game *game)
 {
   log_info("Initializing SDL");
-  sdl_manager = new SDLManager(SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+  window = new Window();
 
   log_info("Initializing GLEW");
   glew_manager = new GLEWManager();
 
   log_info("Initializing GL");
-  gl_manager = new GLManager(sdl_manager->getWidth(), sdl_manager->getHeight());
+  gl_manager = new GLManager(window->getWidth(), window->getHeight());
 
   this->game = game;
 
@@ -26,7 +26,7 @@ Engine::Engine(Game *game)
 
 Engine::~Engine(void)
 {
-  delete sdl_manager;
+  delete window;
   delete glew_manager;
   delete gl_manager;
 }
@@ -58,25 +58,16 @@ void Engine::loop(void)
 
 void Engine::tick(void)
 {
-  sdl_manager->tick();
-  Uint32 delta_time = sdl_manager->getDeltaTime();
+  window->tick();
+  Uint32 delta_time = window->getDeltaTime();
 
-  SDL_Event event;
-  while (sdl_manager->poll_event(&event)) {
-    switch (event.type) {
-      case SDL_KEYDOWN:
-      case SDL_KEYUP:
-        keyHandler.handleEvent(event.key);
-        break;
-      case SDL_QUIT:
-        quit = true;
-        break;
-    }
-  }
+  quit = window->shouldQuit();
 
-  game->update(delta_time, &keyHandler);
+  game->updateInput(window->getInput(), delta_time);
+
+  game->update(delta_time);
 
   game->render(gl_manager);
 
-  sdl_manager->swapBuffer();
+  window->swapBuffer();
 }

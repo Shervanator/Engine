@@ -2,12 +2,12 @@
 #define ENGINE_H
 
 #include "GLManager.h"
-#include "SDLManager.h"
+#include "Window.h"
 #include "GLEWManager.h"
 
 #include "Game.h"
 
-#include "KeyboardHandler.h"
+#include "Input.h"
 
 class Engine
 {
@@ -21,15 +21,15 @@ public:
 
   void tick(void);
   void start(void);
-private:
 
-  SDLManager  *sdl_manager;
+private:
+  Window      *window;
   GLEWManager *glew_manager;
   GLManager   *gl_manager;
 
   Game *game;
 
-  KeyboardHandler keyHandler;
+  Input input;
 
   bool quit;
 };

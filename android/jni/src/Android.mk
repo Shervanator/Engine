@@ -28,9 +28,9 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/GLManager.cpp \
   engsrc/Game.cpp \
   engsrc/EntityComponent.cpp \
-  engsrc/KeyboardHandler.cpp \
+  engsrc/Input.cpp \
   engsrc/Mesh.cpp \
-  engsrc/SDLManager.cpp \
+  engsrc/Window.cpp \
   engsrc/Entity.cpp \
   engsrc/Shader.cpp \
   engsrc/Texture.cpp \

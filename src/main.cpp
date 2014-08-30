@@ -10,7 +10,7 @@ class CoolGame : public Game
 public:
   virtual void init(void);
   virtual void render(GLManager *glManager);
-  virtual void update(int delta, KeyboardHandler *keyboardHandler);
+  virtual void updateInput(Input *input, int delta);
 
 private:
   Entity *moneyHead;
@@ -28,38 +28,38 @@ void CoolGame::render(GLManager *glManager)
   Game::render(glManager);
 }
 
-void CoolGame::update(int delta, KeyboardHandler *keyboardHandler)
+void CoolGame::updateInput(Input *input, int delta)
 {
   static float rr = 0;
   rr += delta * 0.005;
   moneyHead->getTransform().setPosition(glm::vec3(0, 0, glm::sin(rr)));
   //moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
 
-  if (keyboardHandler->isPressed(SDLK_UP)) {
+  if (input->isPressed(SDLK_UP)) {
     primary_camera->moveY(1.0f);
   }
 
-  if (keyboardHandler->isPressed(SDLK_DOWN)) {
+  if (input->isPressed(SDLK_DOWN)) {
     primary_camera->moveY(-1.0f);
   }
 
-  if (keyboardHandler->isPressed(SDLK_LEFT)) {
+  if (input->isPressed(SDLK_LEFT)) {
     primary_camera->moveX(-1.0f);
   }
 
-  if (keyboardHandler->isPressed(SDLK_RIGHT)) {
+  if (input->isPressed(SDLK_RIGHT)) {
     primary_camera->moveX(1.0f);
   }
 
-  if (keyboardHandler->isReleased(SDLK_UP) && keyboardHandler->isReleased(SDLK_DOWN)) {
+  if (input->isReleased(SDLK_UP) && input->isReleased(SDLK_DOWN)) {
     primary_camera->moveY(0.0f);
   }
 
-  if (keyboardHandler->isReleased(SDLK_LEFT) && keyboardHandler->isReleased(SDLK_RIGHT)) {
+  if (input->isReleased(SDLK_LEFT) && input->isReleased(SDLK_RIGHT)) {
     primary_camera->moveX(0.0f);
   }
 
-  Game::update(delta, keyboardHandler);
+  Game::updateInput(input, delta);
 }
 
 void CoolGame::init(void)
@@ -69,12 +69,12 @@ void CoolGame::init(void)
   moneyHead->getTransform().setPosition(glm::vec3(5, 0, 0));
   moneyHead->getTransform().setScale(glm::vec3(4.3, 4.3, 4.3));
 
-  // moneySmall = new Entity();
-  // moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
-  // moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
-  // moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
+  moneySmall = new Entity();
+  moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
+  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
-  // moneyHead->addChild(moneySmall);
+  moneyHead->addChild(moneySmall);
 
   addToScene(moneyHead);
 

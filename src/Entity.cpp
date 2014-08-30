@@ -32,7 +32,7 @@ void Entity::addComponent(EntityComponent* component)
   components.push_back(component);
 }
 
-void Entity::updateAll(int delta)
+void Entity::updateInputAll(Input *input, int delta)
 {
   if (parentEntity == NULL) {
     worldMatrix = transform.getTransformMatrix();
@@ -40,6 +40,19 @@ void Entity::updateAll(int delta)
     worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
   }
 
+  for (unsigned int i = 0; i < components.size(); i++)
+  {
+    components[i]->updateInput(input, delta);
+  }
+
+  for (unsigned int i = 0; i < children.size(); i++)
+  {
+    children[i]->updateInputAll(input, delta);
+  }
+}
+
+void Entity::updateAll(int delta)
+{
   for (unsigned int i = 0; i < components.size(); i++)
   {
     components[i]->update(delta);

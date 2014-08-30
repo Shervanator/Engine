@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 #include "GLManager.h"
-#include "KeyboardHandler.h"
+#include "Input.h"
 
 class Game
 {
@@ -13,7 +13,8 @@ public:
 
   virtual void init(void);
 
-  virtual void update(int delta, KeyboardHandler *keyboardHandler);
+  virtual void updateInput(Input *input, int delta);
+  virtual void update(int delta);
   virtual void render(GLManager *glManager);
 
   Entity *getRootScene(void) { return &rootScene; };

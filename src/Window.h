@@ -1,15 +1,17 @@
-#ifndef SDL_MANAGER_H
-#define SDL_MANAGER_H
+#ifndef WINDOW_H
+#define WINDOW_H
+
+#include "Input.h"
 
 #include <string>
 
 #include <SDL.h>
 
-class SDLManager
+class Window
 {
 public:
-  SDLManager(Uint32 flags);
-  ~SDLManager(void);
+  Window(void);
+  ~Window(void);
 
   void tick(void);
   void swapBuffer(void);
@@ -19,6 +21,10 @@ public:
 
   int getWidth(void);
   int getHeight(void);
+
+  Input* getInput(void);
+
+  bool shouldQuit(void);
 
 private:
   void logSDLError(const char *msg);
@@ -31,6 +37,10 @@ private:
   Uint32 current_time, old_time, delta_time;
 
   int width, height;
+
+  Input input;
+
+  bool quit;
 };
 
 #endif

@@ -5,6 +5,8 @@
 
 #include "Shader.h"
 
+#include "Input.h"
+
 #include "Transform.h"
 
 class EntityComponent;
@@ -18,6 +20,7 @@ public:
   void addChild(Entity* child);
   void addComponent(EntityComponent* component);
 
+  void updateInputAll(Input *input, int delta);
   void updateAll(int delta);
   void renderAll(Shader *shader);
 
