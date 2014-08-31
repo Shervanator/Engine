@@ -4,7 +4,7 @@ GLManager::GLManager(int width, int height)
 {
   this->width = width;
   this->height = height;
-  glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   glClearDepthf(1.0f);
   glEnable(GL_DEPTH_TEST);
