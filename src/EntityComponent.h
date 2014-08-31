@@ -11,7 +11,7 @@ public:
   virtual ~EntityComponent(void) {};
 
   virtual void updateInput(Input *input, int delta) {};
-  virtual void update(int delta) = 0;
+  virtual void update(int delta) {};
   virtual void render(Shader *shader) {};
 
   void setParent(Entity *parentEntity);

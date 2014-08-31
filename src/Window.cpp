@@ -57,7 +57,7 @@ Window::Window(void)
   glContext = SDL_GL_CreateContext(win);
   SDL_GL_MakeCurrent(win, glContext);
 
-  // SDL_SetRelativeMouseMode(SDL_TRUE);
+  SDL_SetRelativeMouseMode(SDL_TRUE);
 
   current_time = SDL_GetTicks();
 #endif
@@ -91,6 +91,8 @@ void Window::tick(void)
     SDL_SetWindowTitle(win, buffer);
   }
 
+  input.setMouseDelta(0, 0);
+
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
@@ -100,6 +102,9 @@ void Window::tick(void)
         break;
       case SDL_QUIT:
         quit = true;
+        break;
+      case SDL_MOUSEMOTION:
+        input.setMouseDelta(event.motion.xrel, event.motion.yrel);
         break;
     }
   }

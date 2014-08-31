@@ -8,6 +8,16 @@ Game::~Game(void)
 {
 }
 
+void Game::setEngine(Engine *engine)
+{
+  this->engine = engine;
+}
+
+Engine *Game::getEngine(void)
+{
+  return engine;
+}
+
 void Game::init(void)
 {
 }

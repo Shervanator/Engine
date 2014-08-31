@@ -6,17 +6,21 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${Engine_SOURCE_DIR}/../CMakeModules)
 
 # add_definitions( -DEMSCRIPTEN=${EMSCRIPTEN} )
 
-set(engine_source_files
+set(TARGET_SRC
   EntityComponent.cpp
+  DebugComponent.cpp
   Transform.cpp
   MeshRenderer.cpp
   Game.cpp
   Camera.cpp
+  FreeMove.cpp
+  FreeLook.cpp
   GLEWManager.cpp
   GLManager.cpp
   Engine.cpp
   Input.cpp
   Mesh.cpp
+  Box.cpp
   Window.cpp
   Entity.cpp
   Shader.cpp
@@ -24,7 +28,7 @@ set(engine_source_files
   Asset.cpp
 )
 
-set(engine_header_files
+set(TARGET_INC
   Engine.h
   GLManager.h
   Shader.h
@@ -36,15 +40,21 @@ set(engine_header_files
   Input.h
   MeshRenderer.h
   EntityComponent.h
+  DebugComponent.h
   Mesh.h
+  Box.h
   Vertex.h
   Texture.h
   Camera.h
+  FreeMove.h
+  FreeLook.h
   Asset.h
   Logger.h
 )
 
 find_package(GLM REQUIRED)
+
+SET(TARGET_SRC ${TARGET_SRC} ${TARGET_INC})
 
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
@@ -54,7 +64,7 @@ IF (EMSCRIPTEN)
 
   include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
 
-  add_library (engine SHARED ${engine_source_files})
+  add_library (engine SHARED ${TARGET_SRC})
   target_link_libraries (engine /Users/shervinaflatooni/Git/assimp/build.em/code/libassimp.so)
 
   add_executable (game.html main.cpp)
@@ -77,12 +87,12 @@ ELSE ()
 
   include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
 
-  add_library (engine SHARED ${engine_source_files})
+  add_library (engine SHARED ${TARGET_SRC})
   target_link_libraries (engine ${engine_libs})
 
   add_executable (game main.cpp)
   target_link_libraries (game engine)
 
   install (TARGETS engine DESTINATION lib)
-  install (FILES ${engine_header_files} DESTINATION include/engine)
+  install (FILES ${TARGET_INC} DESTINATION include/engine)
 ENDIF ()

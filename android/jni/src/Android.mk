@@ -22,6 +22,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 # Add your application source files here...
 LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/Camera.cpp \
+  engsrc/FreeMove.cpp \
+  engsrc/FreeLook.cpp \
   engsrc/Asset.cpp \
   engsrc/Engine.cpp \
   engsrc/GLEWManager.cpp \
@@ -36,6 +38,8 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/Texture.cpp \
   engsrc/Transform.cpp \
   engsrc/MeshRenderer.cpp \
+  engsrc/Box.cpp \
+  engsrc/DebugComponent.cpp \
   engsrc/main.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 assimp

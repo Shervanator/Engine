@@ -22,6 +22,8 @@ public:
   void tick(void);
   void start(void);
 
+  Window *getWindow(void);
+
 private:
   Window      *window;
   GLEWManager *glew_manager;

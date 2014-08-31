@@ -4,6 +4,9 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "FreeMove.h"
+#include "FreeLook.h"
+#include "DebugComponent.h"
 
 class CoolGame : public Game
 {
@@ -22,7 +25,6 @@ private:
 
 void CoolGame::render(GLManager *glManager)
 {
-  primary_camera->setAspect(glManager->width/(float)glManager->height);
   glManager->setViewProjection(primary_camera->getViewProjection());
 
   Game::render(glManager);
@@ -32,32 +34,12 @@ void CoolGame::updateInput(Input *input, int delta)
 {
   static float rr = 0;
   rr += delta * 0.005;
-  moneyHead->getTransform().setPosition(glm::vec3(0, 0, glm::sin(rr)));
+  // moneyHead->getTransform().setPosition(glm::vec3(0, 0, glm::sin(rr)));
   //moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
 
-  if (input->isPressed(SDLK_UP)) {
-    primary_camera->moveY(1.0f);
-  }
-
-  if (input->isPressed(SDLK_DOWN)) {
-    primary_camera->moveY(-1.0f);
-  }
-
-  if (input->isPressed(SDLK_LEFT)) {
-    primary_camera->moveX(-1.0f);
-  }
-
-  if (input->isPressed(SDLK_RIGHT)) {
-    primary_camera->moveX(1.0f);
-  }
-
-  if (input->isReleased(SDLK_UP) && input->isReleased(SDLK_DOWN)) {
-    primary_camera->moveY(0.0f);
-  }
-
-  if (input->isReleased(SDLK_LEFT) && input->isReleased(SDLK_RIGHT)) {
-    primary_camera->moveX(0.0f);
-  }
+  // if (input->isPressed(SDLK_UP)) {
+  //   primary_camera->moveY(1.0f);
+  // }
 
   Game::updateInput(input, delta);
 }
@@ -66,8 +48,9 @@ void CoolGame::init(void)
 {
   moneyHead = new Entity();
   moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
-  moneyHead->getTransform().setPosition(glm::vec3(5, 0, 0));
-  moneyHead->getTransform().setScale(glm::vec3(4.3, 4.3, 4.3));
+  moneyHead->getTransform().setPosition(glm::vec3(0, 0, 0));
+  moneyHead->getTransform().setScale(glm::vec3(2.3, 2.3, 2.3));
+  moneyHead->getTransform().rotate(glm::vec3(0, 1, 0), 3.1415);
 
   moneySmall = new Entity();
   moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
@@ -80,11 +63,26 @@ void CoolGame::init(void)
 
   cameraNode = new Entity();
 
-  primary_camera = new Camera(45.0f, 100 / (float)100, 0.1f, 100.0f);
-  cameraNode->addComponent(primary_camera);
-  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 10));
+  cameraNode->addComponent(new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f));
+  cameraNode->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 20));
 
   addToScene(cameraNode);
+
+  Entity *camera2Node = new Entity();
+
+  primary_camera = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 1.1f, 100.0f);
+  camera2Node->addComponent(primary_camera);
+  camera2Node->addComponent(new FreeMove());
+#if defined(ANDROID)
+  camera2Node->addComponent(new FreeLook(0.0001f));
+#else
+  camera2Node->addComponent(new FreeLook());
+#endif
+  camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  camera2Node->getTransform().setPosition(glm::vec3(0, 0, 5));
+
+  addToScene(camera2Node);
 }
 
 int main(int argc, char **argv){

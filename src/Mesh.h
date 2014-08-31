@@ -19,7 +19,7 @@ class Mesh
 public:
   Mesh(Asset file);
   Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
-  ~Mesh(void);
+  virtual ~Mesh(void);
 
   void createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   void render(void);

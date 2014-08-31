@@ -33,6 +33,8 @@ Engine::~Engine(void)
 
 void Engine::start(void)
 {
+  game->setEngine(this);
+
   log_info("Initializing game");
   game->init();
 
@@ -70,4 +72,9 @@ void Engine::tick(void)
   game->render(gl_manager);
 
   window->swapBuffer();
+}
+
+Window *Engine::getWindow(void)
+{
+  return window;
 }
