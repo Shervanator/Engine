@@ -25,6 +25,8 @@ set(TARGET_SRC
   Entity.cpp
   Shader.cpp
   Texture.cpp
+  BaseLight.cpp
+  Material.cpp
   Asset.cpp
 )
 
@@ -45,6 +47,9 @@ set(TARGET_INC
   Box.h
   Vertex.h
   Texture.h
+  BaseLight.h
+  DirectionalLight.h
+  Material.h
   Camera.h
   FreeMove.h
   FreeLook.h

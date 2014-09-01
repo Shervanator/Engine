@@ -3,12 +3,12 @@
 
 #include "EntityComponent.h"
 #include "Mesh.h"
-#include "Texture.h"
+#include "Material.h"
 
 class MeshRenderer : public EntityComponent
 {
 public:
-  MeshRenderer(Mesh *mesh, Texture *texture);
+  MeshRenderer(Mesh *mesh, Material *material);
   virtual ~MeshRenderer(void);
 
   virtual void update(int delta);
@@ -16,7 +16,7 @@ public:
 
 private:
   Mesh *mesh;
-  Texture *texture;
+  Material *material;
 };
 
 #endif

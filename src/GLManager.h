@@ -27,7 +27,8 @@ public:
 private:
   void createShaders(void);
 
-  Shader *shader1;
+  Shader *forwardAmbient;
+  Shader *forwardDirectional;
 
   glm::mat4 viewProj;
 

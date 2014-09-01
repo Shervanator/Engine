@@ -19,7 +19,10 @@ GLManager::GLManager(int width, int height)
 
 GLManager::~GLManager(void)
 {
-  delete shader1;
+  delete forwardAmbient;
+#if !defined(GLES2) && !defined(GLES3)
+  delete forwardDirectional;
+#endif
 }
 
 void GLManager::setViewProjection(const glm::mat4& viewProj)
@@ -27,32 +30,79 @@ void GLManager::setViewProjection(const glm::mat4& viewProj)
   this->viewProj = viewProj;
 }
 
-void GLManager::renderScene(Entity *entity)
+void GLManager::renderScene(Entity *scene)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUniformMatrix4fv(shader1->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
+  forwardAmbient->bind();
+  glUniformMatrix4fv(forwardAmbient->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
 
-  entity->renderAll(shader1);
+  scene->renderAll(forwardAmbient);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_ONE, GL_ONE);
+  glDepthMask(GL_FALSE);
+  glDepthFunc(GL_EQUAL);
+
+  // scene->renderAll(forwardDirectional);
+
+  glDepthFunc(GL_LESS);
+  glDepthMask(GL_TRUE);
+  glDisable(GL_BLEND);
 }
 
 void GLManager::createShaders(void)
 {
 #if defined(GLES2) || defined(GLES3)
-  shader1 = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
+  forwardAmbient = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
+  forwardAmbient->setAttribLocation("position", 0);
+  forwardAmbient->setAttribLocation("texCoord", 1);
+  forwardAmbient->link();
+
+  forwardAmbient->createUniform("ViewProj");
+  forwardAmbient->createUniform("World");
 #else
-  shader1 = new Shader(Asset("shader1.vs"), Asset("shader1.fs"));
+  forwardAmbient = new Shader(Asset("forward-ambient.vs"), Asset("forward-ambient.fs"));
+  forwardAmbient->setAttribLocation("position", 0);
+  forwardAmbient->setAttribLocation("texCoord", 1);
+  forwardAmbient->link();
+
+  forwardAmbient->createUniform("ViewProj");
+  forwardAmbient->createUniform("World");
+  forwardAmbient->createUniform("ambientIntensity");
+
+  forwardAmbient->bind();
+  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity", 2), 1.0f, 1.0f, 1.0f);
+
+
+  forwardDirectional = new Shader(Asset("forward-directional.vs"), Asset("forward-directional.fs"));
+  forwardDirectional->setAttribLocation("position", 0);
+  forwardDirectional->setAttribLocation("texCoord", 1);
+  forwardDirectional->setAttribLocation("normal", 2);
+  forwardDirectional->link();
+
+  forwardDirectional->createUniform("ViewProj");
+  forwardDirectional->createUniform("World");
+
+  forwardDirectional->createUniform("eyePos");
+  forwardDirectional->createUniform("specularIntensity");
+  forwardDirectional->createUniform("specularPower");
 #endif
+// #if defined(GLES2) || defined(GLES3)
+//   shader1 = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
+// #else
+//   shader1 = new Shader(Asset("shader1.vs"), Asset("shader1.fs"));
+// #endif
 
-  shader1->setAttribLocation("vertexPosition_modelspace", 0);
-  shader1->setAttribLocation("texCoord", 1);
-  shader1->setAttribLocation("normal", 2);
-  shader1->setAttribLocation("tangent", 3);
-  shader1->link();
+//   shader1->setAttribLocation("position", 0);
+//   shader1->setAttribLocation("texCoord", 1);
+//   shader1->setAttribLocation("normal", 2);
+//   shader1->setAttribLocation("tangent", 3);
+//   shader1->link();
 
-  shader1->createUniform("ViewProj");
-  shader1->createUniform("Model");
+//   shader1->createUniform("ViewProj");
+//   shader1->createUniform("World");
 
 
-  shader1->bind();
+//   shader1->bind();
 }

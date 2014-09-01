@@ -47,13 +47,13 @@ void CoolGame::updateInput(Input *input, int delta)
 void CoolGame::init(void)
 {
   moneyHead = new Entity();
-  moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
-  moneyHead->getTransform().setPosition(glm::vec3(0, 0, 0));
+  moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("Pregnant.obj")), new Material(new Texture(Asset("Pregnant_D.tga")))));
+  moneyHead->getTransform().setPosition(glm::vec3(0, -2, 0));
   moneyHead->getTransform().setScale(glm::vec3(2.3, 2.3, 2.3));
-  moneyHead->getTransform().rotate(glm::vec3(0, 1, 0), 3.1415);
+  moneyHead->getTransform().setScale(glm::vec3(0.7, 0.7, 0.7));
 
   moneySmall = new Entity();
-  moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
   moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
 
@@ -64,14 +64,14 @@ void CoolGame::init(void)
   cameraNode = new Entity();
 
   cameraNode->addComponent(new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f));
-  cameraNode->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  cameraNode->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   cameraNode->getTransform().setPosition(glm::vec3(0, 0, 20));
 
   addToScene(cameraNode);
 
   Entity *camera2Node = new Entity();
 
-  primary_camera = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 1.1f, 100.0f);
+  primary_camera = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
   camera2Node->addComponent(primary_camera);
   camera2Node->addComponent(new FreeMove());
 #if defined(ANDROID)
@@ -79,7 +79,7 @@ void CoolGame::init(void)
 #else
   camera2Node->addComponent(new FreeLook());
 #endif
-  camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Texture(Asset("t.jpg"))));
+  camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   camera2Node->getTransform().setPosition(glm::vec3(0, 0, 5));
 
   addToScene(camera2Node);
