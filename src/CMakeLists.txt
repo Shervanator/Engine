@@ -59,8 +59,8 @@ SET(TARGET_SRC ${TARGET_SRC} ${TARGET_INC})
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2")
+  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=26777216")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=26777216")
 
   include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
 
