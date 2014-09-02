@@ -1,6 +1,6 @@
 # Engine
 
-A basic cross-platform (Mac, Windows, HTML5, Android) 3D game engine making use of:
+A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine making use of:
 
 - SDL1/SDL2 window library.
 - stb_image.h image library.
