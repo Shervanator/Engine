@@ -31,7 +31,7 @@ void GLManager::renderScene(Entity *entity)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUniformMatrix4fv(shader1->getUniformLocation("ViewProj", 0), 1, GL_FALSE, &viewProj[0][0]);
+  glUniformMatrix4fv(shader1->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
 
   entity->renderAll(shader1);
 }
@@ -50,8 +50,8 @@ void GLManager::createShaders(void)
   shader1->setAttribLocation("tangent", 3);
   shader1->link();
 
-  shader1->createUniform("ViewProj", 0);
-  shader1->createUniform("Model", 1);
+  shader1->createUniform("ViewProj");
+  shader1->createUniform("Model");
 
 
   shader1->bind();

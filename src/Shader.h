@@ -28,8 +28,8 @@ public:
   void addFragment(const char *frag_src);
   void link(void);
 
-  void createUniform(const char* uniform_name, int i);
-  GLuint getUniformLocation(const char* uniform_name, int i);
+  void createUniform(const std::string& uniformName);
+  GLuint getUniformLocation(const std::string& uniformName);
 
   void setAttribLocation(const char* name, int i);
 
@@ -41,7 +41,7 @@ private:
   GLuint  g_shFrag;
   GLuint  g_shProg;
 
-  std::map <int, GLuint> uniform_location;
+  std::map <std::string, GLuint> uniformLocation;
 };
 
 #endif
