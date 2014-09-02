@@ -19,6 +19,7 @@ First install required libraries:
 brew install sdl2
 brew install assimp
 brew install glew
+brew install glm
 ```
 
 After create the make file or project with cmake:
