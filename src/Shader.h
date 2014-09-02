@@ -8,6 +8,8 @@
 
 #include "Asset.h"
 
+#include "DirectionalLight.h"
+
 #if defined(GLES2)
   #include <GLES2/gl2.h>
 #elif defined(GLES3)
@@ -36,12 +38,16 @@ public:
   GLuint getProgram(void);
 
   void bind(void);
+
+  void updateUniformDirectionalLight(std::string &uniformName, DirectionalLight *directionalLight);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;
   GLuint  g_shProg;
 
   std::map <std::string, GLuint> uniformLocation;
+
+  void setUniformVec3f(std::string &uniformName, glm::vec3 vector);
 };
 
 #endif

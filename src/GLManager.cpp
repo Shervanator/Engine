@@ -87,22 +87,9 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("eyePos");
   forwardDirectional->createUniform("specularIntensity");
   forwardDirectional->createUniform("specularPower");
+
+  forwardDirectional->createUniform("directionalLight.direction");
+  forwardDirectional->createUniform("directionalLight.base.color");
+  forwardDirectional->createUniform("directionalLight.base.intensity");
 #endif
-// #if defined(GLES2) || defined(GLES3)
-//   shader1 = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
-// #else
-//   shader1 = new Shader(Asset("shader1.vs"), Asset("shader1.fs"));
-// #endif
-
-//   shader1->setAttribLocation("position", 0);
-//   shader1->setAttribLocation("texCoord", 1);
-//   shader1->setAttribLocation("normal", 2);
-//   shader1->setAttribLocation("tangent", 3);
-//   shader1->link();
-
-//   shader1->createUniform("ViewProj");
-//   shader1->createUniform("World");
-
-
-//   shader1->bind();
 }
