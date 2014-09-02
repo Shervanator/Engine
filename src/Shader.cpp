@@ -131,14 +131,16 @@ void Shader::bind(void)
   glUseProgram(g_shProg);
 }
 
-void Shader::updateUniformDirectionalLight(std::string &uniformName, DirectionalLight *directionalLight)
+void Shader::updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight)
 {
-  SetUniformVec3f(uniformName + ".direction", directionalLight.GetTransform().GetTransformedRot().GetForward());
-  SetUniformVec3f(uniformName + ".base.color", directionalLight.GetColor());
-  SetUniformf(uniformName + ".base.intensity", directionalLight.GetIntensity());
+  bind();
+
+  setUniformVec3f(uniformName + ".direction", directionalLight.getTransform().getRotation());
+  setUniformVec3f(uniformName + ".base.color", directionalLight.getColor());
+  glUniform1f(uniformName + ".base.intensity", directionalLight.getIntensity());
 }
 
-void Shader::setUniformVec3f(std::string &uniformName, glm::vec3 vector)
+void Shader::setUniformVec3f(const std::string &uniformName, glm::vec3 vector)
 {
-  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity", 2), 1.0f, 1.0f, 1.0f);
+  glUniform3f(getUniformLocation(uniformName), vector.x, vector.y, vector.z);
 }

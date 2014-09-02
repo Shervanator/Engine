@@ -39,7 +39,7 @@ public:
 
   void bind(void);
 
-  void updateUniformDirectionalLight(std::string &uniformName, DirectionalLight *directionalLight);
+  void updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;
@@ -47,7 +47,7 @@ private:
 
   std::map <std::string, GLuint> uniformLocation;
 
-  void setUniformVec3f(std::string &uniformName, glm::vec3 vector);
+  void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
 };
 
 #endif

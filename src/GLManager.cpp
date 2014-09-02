@@ -1,4 +1,5 @@
 #include "GLManager.h"
+#include "DirectionalLight.h"
 
 GLManager::GLManager(int width, int height)
 {
@@ -15,6 +16,8 @@ GLManager::GLManager(int width, int height)
   glViewport(0, 0, this->width, this->height);
 
   createShaders();
+
+  DirectionalLight *dl = new DirectionalLight(glm::vec3(10.0f, 0.0f, 0.0f), 100);
 }
 
 GLManager::~GLManager(void)
@@ -44,7 +47,9 @@ void GLManager::renderScene(Entity *scene)
   glDepthMask(GL_FALSE);
   glDepthFunc(GL_EQUAL);
 
-  // scene->renderAll(forwardDirectional);
+  forwardAmbient->updateUniformDirectionalLight("directionalLight", dl);
+
+  scene->renderAll(forwardDirectional);
 
   glDepthFunc(GL_LESS);
   glDepthMask(GL_TRUE);
@@ -72,8 +77,8 @@ void GLManager::createShaders(void)
   forwardAmbient->createUniform("ambientIntensity");
 
   forwardAmbient->bind();
-  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity", 2), 1.0f, 1.0f, 1.0f);
 
+  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity"), 1.0f, 1.0f, 1.0f);
 
   forwardDirectional = new Shader(Asset("forward-directional.vs"), Asset("forward-directional.fs"));
   forwardDirectional->setAttribLocation("position", 0);

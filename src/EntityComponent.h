@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Shader.h"
 #include "Entity.h"
+#include "Transform.h"
 
 class EntityComponent
 {
@@ -15,6 +16,8 @@ public:
   virtual void render(Shader *shader) {};
 
   void setParent(Entity *parentEntity);
+
+  Transform& getTransform(void);
 
 protected:
   Entity *parentEntity;

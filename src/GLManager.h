@@ -32,6 +32,7 @@ private:
 
   glm::mat4 viewProj;
 
+  DirectionalLight *dl;
 };
 
 #endif
