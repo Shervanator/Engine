@@ -11,6 +11,9 @@ public:
   BaseLight(glm::vec3 color, float intensity);
   ~BaseLight(void);
 
+  glm::vec3 getColor(void);
+  float getIntensity(void);
+
 private:
   glm::vec3 m_color;
   float m_intensity;

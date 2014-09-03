@@ -74,3 +74,8 @@ glm::mat4 Transform::getTransformMatrix(void)
 {
   return glm::translate(m_position) * glm::toMat4(m_rotation) * glm::scale(m_scale);
 }
+
+glm::vec3 Transform::getDirection(void)
+{
+  return getRotation() * glm::vec3(0, 0, -1);
+}

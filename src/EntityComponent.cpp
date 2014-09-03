@@ -5,7 +5,7 @@ void EntityComponent::setParent(Entity *parentEntity)
   this->parentEntity = parentEntity;
 }
 
-void EntityComponent::getTransform(void)
+Transform& EntityComponent::getTransform(void)
 {
   return parentEntity->getTransform();
 }

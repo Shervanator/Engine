@@ -9,3 +9,13 @@ BaseLight::BaseLight(glm::vec3 color, float intensity)
 BaseLight::~BaseLight(void)
 {
 }
+
+glm::vec3 BaseLight::getColor(void)
+{
+  return m_color;
+}
+
+float BaseLight::getIntensity(void)
+{
+  return m_intensity;
+}

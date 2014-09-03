@@ -13,6 +13,9 @@
 
 #include "Shader.h"
 #include "Entity.h"
+#include "Camera.h"
+
+#include "DirectionalLight.h"
 
 class GLManager
 {
@@ -21,7 +24,8 @@ public:
   ~GLManager(void);
 
   void renderScene(Entity *entity);
-  void setViewProjection(const glm::mat4& viewProj);
+  void setActiveCamera(Camera *camera);
+  void setActiveLight(DirectionalLight *light);
 
   int width, height;
 private:
@@ -30,9 +34,8 @@ private:
   Shader *forwardAmbient;
   Shader *forwardDirectional;
 
-  glm::mat4 viewProj;
-
-  DirectionalLight *dl;
+  Camera *m_activeCamera;
+  DirectionalLight *m_activeLight;
 };
 
 #endif

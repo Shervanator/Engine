@@ -54,7 +54,7 @@ vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 
 vec4 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal)
 {
-  return calculateLight(directionalLight.base, -directionalLight.direction, normal);
+  return calculateLight(directionalLight.base, directionalLight.direction, normal);
 }
 
 void main()

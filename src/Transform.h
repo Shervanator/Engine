@@ -29,6 +29,8 @@ public:
 
   glm::mat4 getTransformMatrix(void);
 
+  glm::vec3 getDirection(void);
+
 private:
   glm::vec3 m_position;
   glm::quat m_rotation;

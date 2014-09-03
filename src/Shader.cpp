@@ -1,6 +1,8 @@
 #include "Shader.h"
 #include "Logger.h"
 
+#include "DirectionalLight.h"
+
 Shader::Shader(void)
 {
   g_shProg = glCreateProgram();
@@ -135,9 +137,14 @@ void Shader::updateUniformDirectionalLight(const std::string &uniformName, Direc
 {
   bind();
 
-  setUniformVec3f(uniformName + ".direction", directionalLight.getTransform().getRotation());
-  setUniformVec3f(uniformName + ".base.color", directionalLight.getColor());
-  glUniform1f(uniformName + ".base.intensity", directionalLight.getIntensity());
+  setUniformVec3f(uniformName + ".direction", directionalLight->getTransform().getDirection());
+  setUniformVec3f(uniformName + ".base.color", directionalLight->getColor());
+  setUniform1f(uniformName + ".base.intensity", directionalLight->getIntensity());
+}
+
+void Shader::setUniform1f(const std::string &uniformName, float value)
+{
+  glUniform1f(getUniformLocation(uniformName), value);
 }
 
 void Shader::setUniformVec3f(const std::string &uniformName, glm::vec3 vector)

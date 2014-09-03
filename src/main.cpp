@@ -7,6 +7,8 @@
 #include "FreeMove.h"
 #include "FreeLook.h"
 #include "DebugComponent.h"
+#include "DirectionalLight.h"
+#include "Logger.h"
 
 class CoolGame : public Game
 {
@@ -21,11 +23,13 @@ private:
 
   Entity *cameraNode;
   Camera *primary_camera;
+  DirectionalLight *dl;
 };
 
 void CoolGame::render(GLManager *glManager)
 {
-  glManager->setViewProjection(primary_camera->getViewProjection());
+  glManager->setActiveCamera(primary_camera);
+  glManager->setActiveLight(dl);
 
   Game::render(glManager);
 }
@@ -52,6 +56,7 @@ void CoolGame::init(void)
   moneyHead->getTransform().setScale(glm::vec3(2.3, 2.3, 2.3));
   moneyHead->getTransform().setScale(glm::vec3(0.7, 0.7, 0.7));
 
+
   moneySmall = new Entity();
   moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
@@ -63,16 +68,19 @@ void CoolGame::init(void)
 
   cameraNode = new Entity();
 
-  cameraNode->addComponent(new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f));
+  Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
+  cameraNode->addComponent(cam1);
   cameraNode->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   cameraNode->getTransform().setPosition(glm::vec3(0, 0, 20));
+  dl = new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.5);
+  cameraNode->addComponent(dl);
 
   addToScene(cameraNode);
 
   Entity *camera2Node = new Entity();
 
-  primary_camera = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
-  camera2Node->addComponent(primary_camera);
+  Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
+  camera2Node->addComponent(cam2);
   camera2Node->addComponent(new FreeMove());
 #if defined(ANDROID)
   camera2Node->addComponent(new FreeLook(0.0001f));
@@ -83,6 +91,8 @@ void CoolGame::init(void)
   camera2Node->getTransform().setPosition(glm::vec3(0, 0, 5));
 
   addToScene(camera2Node);
+
+  primary_camera = cam2;
 }
 
 int main(int argc, char **argv){

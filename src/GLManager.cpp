@@ -1,5 +1,7 @@
 #include "GLManager.h"
-#include "DirectionalLight.h"
+
+#include "FreeLook.h"
+#include "FreeMove.h"
 
 GLManager::GLManager(int width, int height)
 {
@@ -16,8 +18,6 @@ GLManager::GLManager(int width, int height)
   glViewport(0, 0, this->width, this->height);
 
   createShaders();
-
-  DirectionalLight *dl = new DirectionalLight(glm::vec3(10.0f, 0.0f, 0.0f), 100);
 }
 
 GLManager::~GLManager(void)
@@ -28,9 +28,14 @@ GLManager::~GLManager(void)
 #endif
 }
 
-void GLManager::setViewProjection(const glm::mat4& viewProj)
+void GLManager::setActiveCamera(Camera *camera)
 {
-  this->viewProj = viewProj;
+  m_activeCamera = camera;
+}
+
+void GLManager::setActiveLight(DirectionalLight *light)
+{
+  m_activeLight = light;
 }
 
 void GLManager::renderScene(Entity *scene)
@@ -38,7 +43,7 @@ void GLManager::renderScene(Entity *scene)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   forwardAmbient->bind();
-  glUniformMatrix4fv(forwardAmbient->getUniformLocation("ViewProj"), 1, GL_FALSE, &viewProj[0][0]);
+  glUniformMatrix4fv(forwardAmbient->getUniformLocation("ViewProj"), 1, GL_FALSE, &(m_activeCamera->getViewProjection())[0][0]);
 
   scene->renderAll(forwardAmbient);
 
@@ -47,7 +52,12 @@ void GLManager::renderScene(Entity *scene)
   glDepthMask(GL_FALSE);
   glDepthFunc(GL_EQUAL);
 
-  forwardAmbient->updateUniformDirectionalLight("directionalLight", dl);
+  forwardDirectional->bind();
+  glUniformMatrix4fv(forwardDirectional->getUniformLocation("ViewProj"), 1, GL_FALSE, &(m_activeCamera->getViewProjection())[0][0]);
+  forwardDirectional->setUniformVec3f("eyePos", m_activeCamera->getTransform().getPosition());
+  forwardDirectional->setUniform1f("specularIntensity", 1);
+  forwardDirectional->setUniform1f("specularPower", 10);
+  forwardDirectional->updateUniformDirectionalLight("directionalLight", m_activeLight);
 
   scene->renderAll(forwardDirectional);
 
@@ -78,7 +88,7 @@ void GLManager::createShaders(void)
 
   forwardAmbient->bind();
 
-  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity"), 1.0f, 1.0f, 1.0f);
+  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity"), 0.2f, 0.2f, 0.2f);
 
   forwardDirectional = new Shader(Asset("forward-directional.vs"), Asset("forward-directional.fs"));
   forwardDirectional->setAttribLocation("position", 0);
@@ -96,5 +106,7 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("directionalLight.direction");
   forwardDirectional->createUniform("directionalLight.base.color");
   forwardDirectional->createUniform("directionalLight.base.intensity");
+
+  forwardDirectional->bind();
 #endif
 }

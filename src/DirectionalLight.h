@@ -5,6 +5,7 @@
 
 class DirectionalLight : public BaseLight
 {
+public:
   DirectionalLight(glm::vec3 color, float intensity) : BaseLight(color, intensity) {}
 };
 

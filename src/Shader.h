@@ -8,7 +8,7 @@
 
 #include "Asset.h"
 
-#include "DirectionalLight.h"
+class DirectionalLight;
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -40,14 +40,15 @@ public:
   void bind(void);
 
   void updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight);
+
+  void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
+  void setUniform1f(const std::string &uniformName, float value);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;
   GLuint  g_shProg;
 
   std::map <std::string, GLuint> uniformLocation;
-
-  void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
 };
 
 #endif
