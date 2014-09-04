@@ -22,6 +22,7 @@ class Shader
 {
 public:
   Shader(void);
+  Shader(std::string shaderAssetName);
   Shader(Asset vertexSrc, Asset fragmentSrc);
   Shader(const char* vert_src, const char* frag_src);
   ~Shader(void);
@@ -42,7 +43,9 @@ public:
   void updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight);
 
   void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
+  void setUniform1i(const std::string &uniformName, int value);
   void setUniform1f(const std::string &uniformName, float value);
+  void setUniformMatrix4f(const std::string &uniformName, glm::mat4 matrix);
 private:
   GLuint  g_shVert;
   GLuint  g_shFrag;

@@ -10,7 +10,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 
-LOCAL_CFLAGS := -DGLES2
+LOCAL_CFLAGS := -DGLES3
 
 SDL_PATH := ../SDL
 
@@ -21,30 +21,32 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 
 # Add your application source files here...
 LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
+  engsrc/EntityComponent.cpp \
+  engsrc/DebugComponent.cpp \
+  engsrc/Transform.cpp \
+  engsrc/MeshRenderer.cpp \
+  engsrc/Game.cpp \
   engsrc/Camera.cpp \
   engsrc/FreeMove.cpp \
   engsrc/FreeLook.cpp \
-  engsrc/Asset.cpp \
-  engsrc/Engine.cpp \
   engsrc/GLEWManager.cpp \
   engsrc/GLManager.cpp \
-  engsrc/Game.cpp \
-  engsrc/EntityComponent.cpp \
+  engsrc/Engine.cpp \
   engsrc/Input.cpp \
   engsrc/Mesh.cpp \
+  engsrc/Box.cpp \
   engsrc/Window.cpp \
   engsrc/Entity.cpp \
   engsrc/Shader.cpp \
   engsrc/Texture.cpp \
-  engsrc/Transform.cpp \
-  engsrc/MeshRenderer.cpp \
-  engsrc/Box.cpp \
-  engsrc/DebugComponent.cpp \
+  engsrc/BaseLight.cpp \
+  engsrc/Material.cpp \
+  engsrc/Asset.cpp \
   engsrc/main.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 assimp
 
-LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -landroid
+LOCAL_LDLIBS := -lGLESv1_CM -lGLESv3 -llog -landroid
 
 LOCAL_CPP_FEATURES += exceptions
 LOCAL_CFLAGS += -std=c++11

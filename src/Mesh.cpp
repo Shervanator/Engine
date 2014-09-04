@@ -80,8 +80,6 @@ Mesh::~Mesh(void)
 
 void Mesh::createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize)
 {
-  log_info("Creating mesh, number of verts: %i, number of indicies: %i", vertSize, indexSize);
-
   this->vertSize  = vertSize;
   this->indexSize = indexSize;
 

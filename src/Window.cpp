@@ -13,10 +13,13 @@ Window::Window(void)
   }
 
 #if defined(EMSCRIPTEN)
-  this->width = 1024;
-  this->height = 768;
+  this->width = 1200;
+  this->height = 800;
 
-  SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
+  SDL_SetVideoMode(this->width, this->height, 0, SDL_FULLSCREEN | SDL_OPENGL);
+
+  SDL_ShowCursor(0);
+  SDL_WM_GrabInput(SDL_GRAB_ON);
 #else
   SDL_DisplayMode mode;
   SDL_GetDisplayMode(0, 0, &mode);
@@ -48,7 +51,7 @@ Window::Window(void)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   #endif
 
-  win = SDL_CreateWindow("Hello World!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+  win = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
   if (win == nullptr)
   {
     logSDLError("SDL_CreateWindow");

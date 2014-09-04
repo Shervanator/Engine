@@ -18,8 +18,7 @@ void MeshRenderer::update(int delta)
 
 void MeshRenderer::render(Shader *shader)
 {
-  shader->bind();
-  glUniformMatrix4fv(shader->getUniformLocation("World"), 1, GL_FALSE, &(parentEntity->getWorldMatrix())[0][0]);
+  shader->setUniformMatrix4f("World", parentEntity->getWorldMatrix());
 
   material->bind();
   mesh->render();

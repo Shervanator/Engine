@@ -43,7 +43,6 @@ const char *Asset::read(void)
 
     temp.seekg(0, std::ios::end);
     size = temp.tellg();
-    log_info("Size is: %lu", size);
 
     buffer = new char[size + 1];
     buffer[size] = '\0';
@@ -59,7 +58,7 @@ const char *Asset::read(void)
     if(aAsset)
     {
       size = AAsset_getLength(aAsset);
-      log_info("Size is: %lu", size);
+
 
       buffer = new char[size + 1];
 

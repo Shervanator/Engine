@@ -51,7 +51,7 @@ void CoolGame::updateInput(Input *input, int delta)
 void CoolGame::init(void)
 {
   moneyHead = new Entity();
-  moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("Pregnant.obj")), new Material(new Texture(Asset("Pregnant_D.tga")))));
+  moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("Pregnant.obj")), new Material(new Texture(Asset("Pregnant_D.tga")), new Texture(Asset("Pregnant_N.tga")), new Texture(Asset("Pregnant_S.tga")))));
   moneyHead->getTransform().setPosition(glm::vec3(0, -2, 0));
   moneyHead->getTransform().setScale(glm::vec3(2.3, 2.3, 2.3));
   moneyHead->getTransform().setScale(glm::vec3(0.7, 0.7, 0.7));
@@ -71,9 +71,7 @@ void CoolGame::init(void)
   Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
   cameraNode->addComponent(cam1);
   cameraNode->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 20));
-  dl = new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.5);
-  cameraNode->addComponent(dl);
+  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 8));
 
   addToScene(cameraNode);
 
@@ -88,11 +86,13 @@ void CoolGame::init(void)
   camera2Node->addComponent(new FreeLook());
 #endif
   camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  camera2Node->getTransform().setPosition(glm::vec3(0, 0, 5));
+  camera2Node->getTransform().setPosition(glm::vec3(4, 0, 0));
+  dl = new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.5);
+  camera2Node->addComponent(dl);
 
   addToScene(camera2Node);
 
-  primary_camera = cam2;
+  primary_camera = cam1;
 }
 
 int main(int argc, char **argv){

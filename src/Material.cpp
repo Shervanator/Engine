@@ -1,8 +1,10 @@
 #include "Material.h"
 
-Material::Material(Texture *diffuseMap)
+Material::Material(Texture *diffuseMap, Texture *normalMap, Texture *specularMap)
 {
-  m_diffuseMap = diffuseMap;
+  m_diffuseMap  = diffuseMap;
+  m_normalMap   = normalMap;
+  m_specularMap = specularMap;
 }
 
 Material::~Material(void)
@@ -13,4 +15,8 @@ Material::~Material(void)
 void Material::bind(void)
 {
   m_diffuseMap->bind(0);
+  if (m_normalMap != NULL)
+    m_normalMap->bind(1);
+  if (m_specularMap != NULL)
+    m_specularMap->bind(2);
 }

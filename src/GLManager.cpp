@@ -23,9 +23,7 @@ GLManager::GLManager(int width, int height)
 GLManager::~GLManager(void)
 {
   delete forwardAmbient;
-#if !defined(GLES2) && !defined(GLES3)
   delete forwardDirectional;
-#endif
 }
 
 void GLManager::setActiveCamera(Camera *camera)
@@ -42,8 +40,7 @@ void GLManager::renderScene(Entity *scene)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  forwardAmbient->bind();
-  glUniformMatrix4fv(forwardAmbient->getUniformLocation("ViewProj"), 1, GL_FALSE, &(m_activeCamera->getViewProjection())[0][0]);
+  forwardAmbient->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
 
   scene->renderAll(forwardAmbient);
 
@@ -52,8 +49,7 @@ void GLManager::renderScene(Entity *scene)
   glDepthMask(GL_FALSE);
   glDepthFunc(GL_EQUAL);
 
-  forwardDirectional->bind();
-  glUniformMatrix4fv(forwardDirectional->getUniformLocation("ViewProj"), 1, GL_FALSE, &(m_activeCamera->getViewProjection())[0][0]);
+  forwardDirectional->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
   forwardDirectional->setUniformVec3f("eyePos", m_activeCamera->getTransform().getPosition());
   forwardDirectional->setUniform1f("specularIntensity", 1);
   forwardDirectional->setUniform1f("specularPower", 10);
@@ -68,16 +64,7 @@ void GLManager::renderScene(Entity *scene)
 
 void GLManager::createShaders(void)
 {
-#if defined(GLES2) || defined(GLES3)
-  forwardAmbient = new Shader(Asset("shader0.vs"), Asset("shader0.fs"));
-  forwardAmbient->setAttribLocation("position", 0);
-  forwardAmbient->setAttribLocation("texCoord", 1);
-  forwardAmbient->link();
-
-  forwardAmbient->createUniform("ViewProj");
-  forwardAmbient->createUniform("World");
-#else
-  forwardAmbient = new Shader(Asset("forward-ambient.vs"), Asset("forward-ambient.fs"));
+  forwardAmbient = new Shader("forward-ambient");
   forwardAmbient->setAttribLocation("position", 0);
   forwardAmbient->setAttribLocation("texCoord", 1);
   forwardAmbient->link();
@@ -86,11 +73,13 @@ void GLManager::createShaders(void)
   forwardAmbient->createUniform("World");
   forwardAmbient->createUniform("ambientIntensity");
 
-  forwardAmbient->bind();
+  forwardAmbient->createUniform("diffuseMap");
 
-  glUniform3f(forwardAmbient->getUniformLocation("ambientIntensity"), 0.2f, 0.2f, 0.2f);
+  forwardAmbient->setUniform1i("diffuseMap", 0);
 
-  forwardDirectional = new Shader(Asset("forward-directional.vs"), Asset("forward-directional.fs"));
+  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
+
+  forwardDirectional = new Shader("forward-directional");
   forwardDirectional->setAttribLocation("position", 0);
   forwardDirectional->setAttribLocation("texCoord", 1);
   forwardDirectional->setAttribLocation("normal", 2);
@@ -107,6 +96,11 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("directionalLight.base.color");
   forwardDirectional->createUniform("directionalLight.base.intensity");
 
-  forwardDirectional->bind();
-#endif
+  forwardDirectional->createUniform("diffuseMap");
+  forwardDirectional->createUniform("normalMap");
+  forwardDirectional->createUniform("specularMap");
+
+  forwardDirectional->setUniform1i("diffuseMap", 0);
+  forwardDirectional->setUniform1i("normalMap", 1);
+  forwardDirectional->setUniform1i("specularMap", 2);
 }

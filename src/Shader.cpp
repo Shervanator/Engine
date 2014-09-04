@@ -8,6 +8,19 @@ Shader::Shader(void)
   g_shProg = glCreateProgram();
 }
 
+Shader::Shader(std::string shaderAssetName)
+{
+  g_shProg = glCreateProgram();
+
+#if defined(GLES2) || defined(GLES3)
+  addVertex(Asset(shaderAssetName + "-gles.vs").read());
+  addFragment(Asset(shaderAssetName + "-gles.fs").read());
+#else
+  addVertex(Asset(shaderAssetName + ".vs").read());
+  addFragment(Asset(shaderAssetName + ".fs").read());
+#endif
+}
+
 Shader::Shader(Asset vertexSrc, Asset fragmentSrc)
 {
   g_shProg = glCreateProgram();
@@ -142,12 +155,30 @@ void Shader::updateUniformDirectionalLight(const std::string &uniformName, Direc
   setUniform1f(uniformName + ".base.intensity", directionalLight->getIntensity());
 }
 
+void Shader::setUniform1i(const std::string &uniformName, int value)
+{
+  bind();
+
+  glUniform1i(getUniformLocation(uniformName), value);
+}
+
 void Shader::setUniform1f(const std::string &uniformName, float value)
 {
+  bind();
+
   glUniform1f(getUniformLocation(uniformName), value);
 }
 
 void Shader::setUniformVec3f(const std::string &uniformName, glm::vec3 vector)
 {
+  bind();
+
   glUniform3f(getUniformLocation(uniformName), vector.x, vector.y, vector.z);
+}
+
+void Shader::setUniformMatrix4f(const std::string &uniformName, glm::mat4 matrix)
+{
+  bind();
+
+  glUniformMatrix4fv(getUniformLocation(uniformName), 1, GL_FALSE, &(matrix)[0][0]);
 }
