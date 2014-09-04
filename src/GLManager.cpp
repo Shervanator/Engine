@@ -97,10 +97,10 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("directionalLight.base.intensity");
 
   forwardDirectional->createUniform("diffuseMap");
-  forwardDirectional->createUniform("normalMap");
-  forwardDirectional->createUniform("specularMap");
+  // forwardDirectional->createUniform("normalMap");
+  // forwardDirectional->createUniform("specularMap");
 
   forwardDirectional->setUniform1i("diffuseMap", 0);
-  forwardDirectional->setUniform1i("normalMap", 1);
-  forwardDirectional->setUniform1i("specularMap", 2);
+  // forwardDirectional->setUniform1i("normalMap", 1);
+  // forwardDirectional->setUniform1i("specularMap", 2);
 }

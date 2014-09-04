@@ -25,8 +25,8 @@ uniform float specularPower;
 uniform DirectionalLight directionalLight;
 
 uniform sampler2D diffuseMap;
-uniform sampler2D normalMap;
-uniform sampler2D specularMap;
+// uniform sampler2D normalMap;
+// uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
