@@ -15,7 +15,7 @@ public:
 
   void setEngine(Engine *engine);
 
-  virtual void init(void);
+  virtual void init(GLManager *glManager);
 
   virtual void updateInput(Input *input, int delta);
   virtual void update(int delta);

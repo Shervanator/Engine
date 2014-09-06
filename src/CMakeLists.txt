@@ -26,8 +26,12 @@ set(TARGET_SRC
   Shader.cpp
   Texture.cpp
   BaseLight.cpp
+  DirectionalLight.cpp
+  PointLight.cpp
+  SpotLight.cpp
   Material.cpp
   Asset.cpp
+  Attenuation.cpp
 )
 
 set(TARGET_INC
@@ -49,12 +53,15 @@ set(TARGET_INC
   Texture.h
   BaseLight.h
   DirectionalLight.h
+  PointLight.h
+  SpotLight.h
   Material.h
   Camera.h
   FreeMove.h
   FreeLook.h
   Asset.h
   Logger.h
+  Attenuation.h
 )
 
 find_package(GLM REQUIRED)

@@ -36,7 +36,7 @@ void Engine::start(void)
   game->setEngine(this);
 
   log_info("Initializing game");
-  game->init();
+  game->init(gl_manager);
 
 #ifdef EMSCRIPTEN
   instance = this;

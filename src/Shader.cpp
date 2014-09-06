@@ -2,6 +2,8 @@
 #include "Logger.h"
 
 #include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 
 Shader::Shader(void)
 {
@@ -150,9 +152,44 @@ void Shader::updateUniformDirectionalLight(const std::string &uniformName, Direc
 {
   bind();
 
-  setUniformVec3f(uniformName + ".direction", directionalLight->getTransform().getDirection());
   setUniformVec3f(uniformName + ".base.color", directionalLight->getColor());
   setUniform1f(uniformName + ".base.intensity", directionalLight->getIntensity());
+
+  setUniformVec3f(uniformName + ".direction", directionalLight->getTransform().getDirection());
+}
+
+void Shader::updateUniformPointLight(const std::string &uniformName, PointLight *pointLight)
+{
+  bind();
+
+  setUniformVec3f(uniformName + ".base.color", pointLight->getColor());
+  setUniform1f(uniformName + ".base.intensity", pointLight->getIntensity());
+
+  setUniformAttenuation(uniformName + ".attenuation", pointLight->getAttenuation());
+  setUniformVec3f(uniformName + ".position", pointLight->getTransform().getPosition());
+  setUniform1f(uniformName + ".range", pointLight->getRange());
+}
+
+void Shader::updateUniformSpotLight(const std::string &uniformName, SpotLight *spotLight)
+{
+  bind();
+
+  setUniformVec3f(uniformName + ".pointLight.base.color", spotLight->getColor());
+  setUniform1f(uniformName + ".pointLight.base.intensity", spotLight->getIntensity());
+
+  setUniformAttenuation(uniformName + ".pointLight.attenuation", spotLight->getAttenuation());
+  setUniformVec3f(uniformName + ".pointLight.position", spotLight->getTransform().getPosition());
+  setUniform1f(uniformName + ".pointLight.range", spotLight->getRange());
+
+  setUniformVec3f(uniformName + ".direction", spotLight->getTransform().getDirection());
+  setUniform1f(uniformName + ".cutoff", spotLight->getCutoff());
+}
+
+void Shader::setUniformAttenuation(const std::string &uniformName, Attenuation *attenuation)
+{
+  setUniform1f(uniformName + ".constant", attenuation->getConstant());
+  setUniform1f(uniformName + ".linear", attenuation->getLinear());
+  setUniform1f(uniformName + ".exponent", attenuation->getExponent());
 }
 
 void Shader::setUniform1i(const std::string &uniformName, int value)

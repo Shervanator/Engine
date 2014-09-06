@@ -6,7 +6,9 @@
 class DirectionalLight : public BaseLight
 {
 public:
-  DirectionalLight(glm::vec3 color, float intensity) : BaseLight(color, intensity) {}
+  DirectionalLight(glm::vec3 color, float intensity);
+
+  virtual void updateShader(Shader *shader);
 };
 
 #endif

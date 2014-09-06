@@ -18,7 +18,7 @@ Engine *Game::getEngine(void)
   return engine;
 }
 
-void Game::init(void)
+void Game::init(GLManager *glManager)
 {
 }
 

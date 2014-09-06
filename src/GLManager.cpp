@@ -24,6 +24,8 @@ GLManager::~GLManager(void)
 {
   delete forwardAmbient;
   delete forwardDirectional;
+  delete forwardPoint;
+  delete forwardSpot;
 }
 
 void GLManager::setActiveCamera(Camera *camera)
@@ -31,9 +33,9 @@ void GLManager::setActiveCamera(Camera *camera)
   m_activeCamera = camera;
 }
 
-void GLManager::setActiveLight(DirectionalLight *light)
+void GLManager::addLight(BaseLight *light)
 {
-  m_activeLight = light;
+  m_lights.push_back(light);
 }
 
 void GLManager::renderScene(Entity *scene)
@@ -49,13 +51,16 @@ void GLManager::renderScene(Entity *scene)
   glDepthMask(GL_FALSE);
   glDepthFunc(GL_EQUAL);
 
-  forwardDirectional->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
-  forwardDirectional->setUniformVec3f("eyePos", m_activeCamera->getTransform().getPosition());
-  forwardDirectional->setUniform1f("specularIntensity", 1);
-  forwardDirectional->setUniform1f("specularPower", 10);
-  forwardDirectional->updateUniformDirectionalLight("directionalLight", m_activeLight);
+  forwardSpot->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
+  forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getTransform().getPosition());
 
-  scene->renderAll(forwardDirectional);
+  forwardSpot->setUniform1f("specularIntensity", 1);
+  forwardSpot->setUniform1f("specularPower", 10);
+  for (int i = 0; i < m_lights.size(); i++) {
+    m_lights[i]->updateShader(forwardSpot);
+
+    scene->renderAll(forwardSpot);
+  }
 
   glDepthFunc(GL_LESS);
   glDepthMask(GL_TRUE);
@@ -92,9 +97,10 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("specularIntensity");
   forwardDirectional->createUniform("specularPower");
 
-  forwardDirectional->createUniform("directionalLight.direction");
   forwardDirectional->createUniform("directionalLight.base.color");
   forwardDirectional->createUniform("directionalLight.base.intensity");
+
+  forwardDirectional->createUniform("directionalLight.direction");
 
   forwardDirectional->createUniform("diffuseMap");
   // forwardDirectional->createUniform("normalMap");
@@ -103,4 +109,61 @@ void GLManager::createShaders(void)
   forwardDirectional->setUniform1i("diffuseMap", 0);
   // forwardDirectional->setUniform1i("normalMap", 1);
   // forwardDirectional->setUniform1i("specularMap", 2);
+
+  forwardPoint = new Shader("forward-point");
+  forwardPoint->setAttribLocation("position", 0);
+  forwardPoint->setAttribLocation("texCoord", 1);
+  forwardPoint->setAttribLocation("normal", 2);
+  forwardPoint->link();
+
+  forwardPoint->createUniform("ViewProj");
+  forwardPoint->createUniform("World");
+
+  forwardPoint->createUniform("eyePos");
+  forwardPoint->createUniform("specularIntensity");
+  forwardPoint->createUniform("specularPower");
+
+  forwardPoint->createUniform("pointLight.base.color");
+  forwardPoint->createUniform("pointLight.base.intensity");
+
+  forwardPoint->createUniform("pointLight.attenuation.constant");
+  forwardPoint->createUniform("pointLight.attenuation.linear");
+  forwardPoint->createUniform("pointLight.attenuation.exponent");
+
+  forwardPoint->createUniform("pointLight.position");
+  forwardPoint->createUniform("pointLight.range");
+
+  forwardPoint->createUniform("diffuseMap");
+
+  forwardPoint->setUniform1i("diffuseMap", 0);
+
+  forwardSpot = new Shader("forward-spot");
+  forwardSpot->setAttribLocation("position", 0);
+  forwardSpot->setAttribLocation("texCoord", 1);
+  forwardSpot->setAttribLocation("normal", 2);
+  forwardSpot->link();
+
+  forwardSpot->createUniform("ViewProj");
+  forwardSpot->createUniform("World");
+
+  forwardSpot->createUniform("eyePos");
+  forwardSpot->createUniform("specularIntensity");
+  forwardSpot->createUniform("specularPower");
+
+  forwardSpot->createUniform("spotLight.pointLight.base.color");
+  forwardSpot->createUniform("spotLight.pointLight.base.intensity");
+
+  forwardSpot->createUniform("spotLight.pointLight.attenuation.constant");
+  forwardSpot->createUniform("spotLight.pointLight.attenuation.linear");
+  forwardSpot->createUniform("spotLight.pointLight.attenuation.exponent");
+
+  forwardSpot->createUniform("spotLight.pointLight.position");
+  forwardSpot->createUniform("spotLight.pointLight.range");
+
+  forwardSpot->createUniform("spotLight.cutoff");
+  forwardSpot->createUniform("spotLight.direction");
+
+  forwardSpot->createUniform("diffuseMap");
+
+  forwardSpot->setUniform1i("diffuseMap", 0);
 }

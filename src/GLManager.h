@@ -11,11 +11,13 @@
   #include <GL/glew.h>
 #endif
 
+#include <vector>
+
 #include "Shader.h"
 #include "Entity.h"
 #include "Camera.h"
 
-#include "DirectionalLight.h"
+#include "BaseLight.h"
 
 class GLManager
 {
@@ -25,7 +27,7 @@ public:
 
   void renderScene(Entity *entity);
   void setActiveCamera(Camera *camera);
-  void setActiveLight(DirectionalLight *light);
+  void addLight(BaseLight *light);
 
   int width, height;
 private:
@@ -33,9 +35,12 @@ private:
 
   Shader *forwardAmbient;
   Shader *forwardDirectional;
+  Shader *forwardPoint;
+  Shader *forwardSpot;
 
   Camera *m_activeCamera;
-  DirectionalLight *m_activeLight;
+
+  std::vector<BaseLight *> m_lights;
 };
 
 #endif

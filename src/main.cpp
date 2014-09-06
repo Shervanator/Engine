@@ -8,12 +8,13 @@
 #include "FreeLook.h"
 #include "DebugComponent.h"
 #include "DirectionalLight.h"
+#include "SpotLight.h"
 #include "Logger.h"
 
 class CoolGame : public Game
 {
 public:
-  virtual void init(void);
+  virtual void init(GLManager *glManager);
   virtual void render(GLManager *glManager);
   virtual void updateInput(Input *input, int delta);
 
@@ -23,32 +24,21 @@ private:
 
   Entity *cameraNode;
   Camera *primary_camera;
-  DirectionalLight *dl;
+
+  SpotLight *sl;
 };
 
 void CoolGame::render(GLManager *glManager)
 {
-  glManager->setActiveCamera(primary_camera);
-  glManager->setActiveLight(dl);
-
   Game::render(glManager);
 }
 
 void CoolGame::updateInput(Input *input, int delta)
 {
-  static float rr = 0;
-  rr += delta * 0.005;
-  // moneyHead->getTransform().setPosition(glm::vec3(0, 0, glm::sin(rr)));
-  //moneyHead->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(rr));
-
-  // if (input->isPressed(SDLK_UP)) {
-  //   primary_camera->moveY(1.0f);
-  // }
-
   Game::updateInput(input, delta);
 }
 
-void CoolGame::init(void)
+void CoolGame::init(GLManager *glManager)
 {
   moneyHead = new Entity();
   moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("Pregnant.obj")), new Material(new Texture(Asset("Pregnant_D.tga")), new Texture(Asset("Pregnant_N.tga")), new Texture(Asset("Pregnant_S.tga")))));
@@ -87,12 +77,15 @@ void CoolGame::init(void)
 #endif
   camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   camera2Node->getTransform().setPosition(glm::vec3(4, 0, 0));
-  dl = new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.5);
-  camera2Node->addComponent(dl);
+  sl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 100, 0.99f, new Attenuation(0, 0, 0.01f));
+  camera2Node->addComponent(sl);
+  glManager->addLight(sl);
 
   addToScene(camera2Node);
 
-  primary_camera = cam1;
+  primary_camera = cam2;
+
+  glManager->setActiveCamera(primary_camera);
 }
 
 int main(int argc, char **argv){

@@ -7,8 +7,11 @@
 #include <glm/glm.hpp>
 
 #include "Asset.h"
+#include "Attenuation.h"
 
 class DirectionalLight;
+class PointLight;
+class SpotLight;
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -41,7 +44,10 @@ public:
   void bind(void);
 
   void updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight);
+  void updateUniformPointLight(const std::string &uniformName, PointLight *pointLight);
+  void updateUniformSpotLight(const std::string &uniformName, SpotLight *spotLight);
 
+  void setUniformAttenuation(const std::string &uniformName, Attenuation *attenuation);
   void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
   void setUniform1i(const std::string &uniformName, int value);
   void setUniform1f(const std::string &uniformName, float value);
