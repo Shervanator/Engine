@@ -41,7 +41,6 @@ private:
   std::vector<EntityComponent*> components;
 
   glm::mat4 worldMatrix;
-  glm::quat transformedRotation;
 };
 
 #endif

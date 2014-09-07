@@ -37,7 +37,7 @@ void CoolGame::update(int delta)
 {
   static float angle = 0;
   angle += delta * 0.0008;
-  moneySmall->getTransform().setRotation(glm::vec3(0, 1, 0), glm::sin(angle));
+  // moneySmall->getTransform().setRotation(glm::vec3(0, 1, 0), glm::sin(angle));
 
   Game::update(delta);
 }
