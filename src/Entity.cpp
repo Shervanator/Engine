@@ -92,20 +92,20 @@ glm::mat4& Entity::getWorldMatrix(void)
   return worldMatrix;
 }
 
-glm::vec3 Entity::getPosition(void)
+glm::vec4 Entity::getPosition(void)
 {
   if (parentEntity == NULL) {
     return transform.getPosition();
   } else {
-    return glm::vec3(parentEntity->worldMatrix * glm::vec4(transform.getPosition(), 1));
+    return parentEntity->worldMatrix * transform.getPosition();
   }
 }
 
-glm::vec3 Entity::getDirection(void)
+glm::vec4 Entity::getDirection(void)
 {
   if (parentEntity == NULL) {
     return transform.getDirection();
   } else {
-    return glm::normalize(glm::vec3(parentEntity->worldMatrix * glm::vec4(transform.getDirection(), 0)));
+    return glm::normalize(parentEntity->worldMatrix * transform.getDirection());
   }
 }

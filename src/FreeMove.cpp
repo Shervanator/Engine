@@ -40,5 +40,5 @@ void FreeMove::updateInput(Input *input, int delta)
 
 void FreeMove::Move(const glm::vec3& direction, float amount)
 {
-  parentEntity->getTransform().setPosition(parentEntity->getTransform().getPosition() + (direction * amount));
+  parentEntity->getTransform().translate(direction * amount);
 }

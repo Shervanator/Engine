@@ -24,16 +24,16 @@ public:
   void setRotation(const glm::quat& rotation);
   void setRotation(const glm::vec3& axis, float w);
 
-  glm::vec3& getPosition(void);
+  glm::vec4 getPosition(void);
   glm::vec3 getScale(void);
   glm::quat getRotation(void);
 
   glm::mat4 getTransformMatrix(void);
 
-  glm::vec3 getDirection(void);
+  glm::vec4 getDirection(void);
 
 private:
-  glm::vec3 m_position;
+  glm::vec4 m_position;
   glm::quat m_rotation;
   glm::vec3 m_scale;
 };

@@ -21,6 +21,7 @@ set(TARGET_SRC
   Input.cpp
   Mesh.cpp
   Box.cpp
+  Plane.cpp
   Window.cpp
   Entity.cpp
   Shader.cpp
@@ -49,6 +50,7 @@ set(TARGET_INC
   DebugComponent.h
   Mesh.h
   Box.h
+  Plane.h
   Vertex.h
   Texture.h
   BaseLight.h

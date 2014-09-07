@@ -29,8 +29,8 @@ public:
 
   glm::mat4& getWorldMatrix(void);
 
-  glm::vec3 getPosition(void);
-  glm::vec3 getDirection(void);
+  glm::vec4 getPosition(void);
+  glm::vec4 getDirection(void);
 private:
   Transform transform;
 

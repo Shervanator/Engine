@@ -6,7 +6,7 @@
 
 Transform::Transform(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale)
 {
-  this->m_position = position;
+  this->m_position = glm::vec4(position, 1);
   this->m_rotation = rotation;
   this->m_scale = scale;
 }
@@ -32,12 +32,12 @@ void Transform::scale(const glm::vec3& scale)
 
 void Transform::translate(const glm::vec3& position)
 {
-  setPosition(getPosition() + position);
+  setPosition(m_position.xyz() + position);
 }
 
 void Transform::setPosition(const glm::vec3& position)
 {
-  this->m_position = position;
+  this->m_position = glm::vec4(position, 1);
 }
 
 void Transform::setScale(const glm::vec3& scale)
@@ -55,7 +55,7 @@ void Transform::setRotation(const glm::quat& rotation)
   this->m_rotation = rotation;
 }
 
-glm::vec3& Transform::getPosition(void)
+glm::vec4 Transform::getPosition(void)
 {
   return m_position;
 }
@@ -72,10 +72,10 @@ glm::quat Transform::getRotation(void)
 
 glm::mat4 Transform::getTransformMatrix(void)
 {
-  return glm::translate(m_position) * glm::toMat4(m_rotation) * glm::scale(m_scale);
+  return glm::translate(m_position.xyz()) * glm::toMat4(m_rotation) * glm::scale(m_scale);
 }
 
-glm::vec3 Transform::getDirection(void)
+glm::vec4 Transform::getDirection(void)
 {
-  return getRotation() * glm::vec3(0, 0, -1);
+  return getRotation() * glm::vec4(0, 0, -1, 0);
 }

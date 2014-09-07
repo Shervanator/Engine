@@ -52,9 +52,9 @@ void GLManager::renderScene(Entity *scene)
   glDepthFunc(GL_EQUAL);
 
   forwardSpot->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
-  forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition());
+  forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
 
-  forwardSpot->setUniform1f("specularIntensity", 1);
+  forwardSpot->setUniform1f("specularIntensity", 0.5);
   forwardSpot->setUniform1f("specularPower", 10);
   for (int i = 0; i < m_lights.size(); i++) {
     m_lights[i]->updateShader(forwardSpot);

@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 
+#define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
 #include "Asset.h"

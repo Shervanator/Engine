@@ -1,8 +1,6 @@
 #ifndef GL_MANAGER_H
 #define GL_MANAGER_H
 
-#include <glm/glm.hpp>
-
 #if defined(GLES2)
   #include <GLES2/gl2.h>
 #elif defined(GLES3)

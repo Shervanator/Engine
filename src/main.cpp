@@ -9,6 +9,7 @@
 #include "DebugComponent.h"
 #include "DirectionalLight.h"
 #include "SpotLight.h"
+#include "Plane.h"
 #include "Logger.h"
 
 class CoolGame : public Game
@@ -37,20 +38,24 @@ void CoolGame::update(int delta)
 {
   static float angle = 0;
   angle += delta * 0.0008;
-  // moneySmall->getTransform().setRotation(glm::vec3(0, 1, 0), glm::sin(angle));
+  // moneySmall->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(angle));
 
   Game::update(delta);
 }
 
 void CoolGame::init(GLManager *glManager)
 {
+  Entity *plane = new Entity();
+  plane->addComponent(new Plane());
+  plane->getTransform().setPosition(glm::vec3(0, -2, 0));
+  plane->getTransform().setScale(glm::vec3(20, 20, 20));
+
+  addToScene(plane);
+
   moneyHead = new Entity();
   moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("Pregnant.obj")), new Material(new Texture(Asset("Pregnant_D.tga")), new Texture(Asset("Pregnant_N.tga")), new Texture(Asset("Pregnant_S.tga")))));
   moneyHead->getTransform().setPosition(glm::vec3(0, -2, 0));
-  moneyHead->getTransform().setScale(glm::vec3(2.3, 2.3, 2.3));
   moneyHead->getTransform().setScale(glm::vec3(0.7, 0.7, 0.7));
-
-
 
   addToScene(moneyHead);
 
@@ -84,7 +89,7 @@ void CoolGame::init(GLManager *glManager)
   moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   moneySmall->getTransform().setPosition(glm::vec3(0, 2, 0));
   moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
-  sl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.99f, new Attenuation(0, 0, 0.01f));
+  sl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.9f, 0.99f, new Attenuation(0, 0, 0.01f));
   moneySmall->addComponent(sl);
   glManager->addLight(sl);
 
@@ -92,7 +97,7 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(camera2Node);
 
-  primary_camera = cam1;
+  primary_camera = cam2;
 
   glManager->setActiveCamera(primary_camera);
 }
