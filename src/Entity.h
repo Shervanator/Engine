@@ -3,11 +3,10 @@
 
 #include <vector>
 
+#include "Transform.h"
 #include "Shader.h"
-
 #include "Input.h"
 
-#include "Transform.h"
 
 class EntityComponent;
 
@@ -29,6 +28,10 @@ public:
   std::vector<Entity*> *getChildren(void);
 
   glm::mat4& getWorldMatrix(void);
+
+  glm::vec3 getPosition(void);
+  glm::quat getRotation(void);
+  glm::vec3 getDirection(void);
 private:
   Transform transform;
 
@@ -38,6 +41,7 @@ private:
   std::vector<EntityComponent*> components;
 
   glm::mat4 worldMatrix;
+  glm::quat transformedRotation;
 };
 
 #endif

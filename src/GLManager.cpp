@@ -52,7 +52,7 @@ void GLManager::renderScene(Entity *scene)
   glDepthFunc(GL_EQUAL);
 
   forwardSpot->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
-  forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getTransform().getPosition());
+  forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition());
 
   forwardSpot->setUniform1f("specularIntensity", 1);
   forwardSpot->setUniform1f("specularPower", 10);
@@ -103,12 +103,8 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("directionalLight.direction");
 
   forwardDirectional->createUniform("diffuseMap");
-  // forwardDirectional->createUniform("normalMap");
-  // forwardDirectional->createUniform("specularMap");
 
   forwardDirectional->setUniform1i("diffuseMap", 0);
-  // forwardDirectional->setUniform1i("normalMap", 1);
-  // forwardDirectional->setUniform1i("specularMap", 2);
 
   forwardPoint = new Shader("forward-point");
   forwardPoint->setAttribLocation("position", 0);

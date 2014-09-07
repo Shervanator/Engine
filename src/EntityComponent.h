@@ -16,6 +16,7 @@ public:
   virtual void render(Shader *shader) {};
 
   void setParent(Entity *parentEntity);
+  Entity *getParent(void);
 
   Transform& getTransform(void);
 

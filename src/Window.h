@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "settings.h"
 #include "Input.h"
 
 #include <string>

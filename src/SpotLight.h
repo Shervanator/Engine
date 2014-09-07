@@ -6,7 +6,7 @@
 class SpotLight : public PointLight
 {
 public:
-  SpotLight(glm::vec3 color, float intensity, float range, float cutoff, Attenuation *attenuation);
+  SpotLight(glm::vec3 color, float intensity, float cutoff, Attenuation *attenuation);
 
   virtual void updateShader(Shader *shader);
 

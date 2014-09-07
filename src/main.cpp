@@ -16,7 +16,7 @@ class CoolGame : public Game
 public:
   virtual void init(GLManager *glManager);
   virtual void render(GLManager *glManager);
-  virtual void updateInput(Input *input, int delta);
+  virtual void update(int delta);
 
 private:
   Entity *moneyHead;
@@ -33,9 +33,13 @@ void CoolGame::render(GLManager *glManager)
   Game::render(glManager);
 }
 
-void CoolGame::updateInput(Input *input, int delta)
+void CoolGame::update(int delta)
 {
-  Game::updateInput(input, delta);
+  static float angle = 0;
+  angle += delta * 0.0008;
+  moneySmall->getTransform().setRotation(glm::vec3(0, 1, 0), glm::sin(angle));
+
+  Game::update(delta);
 }
 
 void CoolGame::init(GLManager *glManager)
@@ -47,12 +51,6 @@ void CoolGame::init(GLManager *glManager)
   moneyHead->getTransform().setScale(glm::vec3(0.7, 0.7, 0.7));
 
 
-  moneySmall = new Entity();
-  moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  moneySmall->getTransform().setPosition(glm::vec3(0, 1.5, 0));
-  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
-
-  moneyHead->addChild(moneySmall);
 
   addToScene(moneyHead);
 
@@ -77,13 +75,24 @@ void CoolGame::init(GLManager *glManager)
 #endif
   camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   camera2Node->getTransform().setPosition(glm::vec3(4, 0, 0));
-  sl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 100, 0.99f, new Attenuation(0, 0, 0.01f));
-  camera2Node->addComponent(sl);
+  camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
+  SpotLight *tsl = new SpotLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.4f, 0.9f, new Attenuation(0, 0, 0.01f));
+  camera2Node->addComponent(tsl);
+  glManager->addLight(tsl);
+
+  moneySmall = new Entity();
+  moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
+  moneySmall->getTransform().setPosition(glm::vec3(0, 2, 0));
+  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
+  sl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.99f, new Attenuation(0, 0, 0.01f));
+  moneySmall->addComponent(sl);
   glManager->addLight(sl);
+
+  camera2Node->addChild(moneySmall);
 
   addToScene(camera2Node);
 
-  primary_camera = cam2;
+  primary_camera = cam1;
 
   glManager->setActiveCamera(primary_camera);
 }

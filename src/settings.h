@@ -1,0 +1,1 @@
+#define BITS_PER_CHANNEL 8

@@ -1,9 +1,16 @@
 #include "PointLight.h"
 
-PointLight::PointLight(glm::vec3 color, float intensity, float range, Attenuation *attenuation) : BaseLight(color, intensity)
+#include "settings.h"
+
+PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuation) : BaseLight(color, intensity)
 {
   m_attenuation = attenuation;
-  m_range = range;
+
+  float a = attenuation->getExponent();
+  float b = attenuation->getLinear();
+  float c = attenuation->getConstant() - BITS_PER_CHANNEL * getIntensity() * glm::max(color.x, glm::max(color.y, color.z));
+
+  m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
 }
 
 PointLight::~PointLight(void)

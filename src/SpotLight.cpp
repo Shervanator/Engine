@@ -1,6 +1,6 @@
 #include "SpotLight.h"
 
-SpotLight::SpotLight(glm::vec3 color, float intensity, float range, float cutoff, Attenuation *attenuation) : PointLight(color, intensity, range, attenuation)
+SpotLight::SpotLight(glm::vec3 color, float intensity, float cutoff, Attenuation *attenuation) : PointLight(color, intensity, attenuation)
 {
   m_cutoff = cutoff;
 }

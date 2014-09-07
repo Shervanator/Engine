@@ -25,8 +25,6 @@ uniform float specularPower;
 uniform DirectionalLight directionalLight;
 
 uniform sampler2D diffuseMap;
-// uniform sampler2D normalMap;
-// uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
@@ -47,7 +45,6 @@ vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 
     if (specularFactor > 0.0f)
     {
-      // texture(specularMap, texCoord0)
       specularColor = vec4(base.color, 1.0f) * (specularIntensity * specularFactor);
     }
   }
@@ -62,6 +59,5 @@ vec4 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal)
 
 void main()
 {
-  // * texture(normalMap, texCoord0).xyz
   fragColor = texture(diffuseMap, texCoord0) * calculateDirectionalLight(directionalLight, normalize(normal0));
 }

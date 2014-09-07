@@ -6,7 +6,7 @@
 class PointLight : public BaseLight
 {
 public:
-  PointLight(glm::vec3 color, float intensity, float range, Attenuation *attenuation);
+  PointLight(glm::vec3 color, float intensity, Attenuation *attenuation);
   virtual ~PointLight(void);
 
   virtual void updateShader(Shader *shader);
