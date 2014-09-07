@@ -30,7 +30,6 @@ public:
   glm::mat4& getWorldMatrix(void);
 
   glm::vec3 getPosition(void);
-  glm::quat getRotation(void);
   glm::vec3 getDirection(void);
 private:
   Transform transform;

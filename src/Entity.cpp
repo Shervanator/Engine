@@ -101,20 +101,11 @@ glm::vec3 Entity::getPosition(void)
   }
 }
 
-glm::quat Entity::getRotation(void)
-{
-  if (parentEntity == NULL) {
-    return transform.getRotation();
-  } else {
-    return glm::quat_cast(parentEntity->worldMatrix) * transform.getRotation();
-  }
-}
-
 glm::vec3 Entity::getDirection(void)
 {
   if (parentEntity == NULL) {
     return transform.getDirection();
   } else {
-    return glm::normalize(glm::quat_cast(parentEntity->worldMatrix) * transform.getDirection());
+    return glm::normalize(glm::vec3(parentEntity->worldMatrix * glm::vec4(transform.getDirection(), 0)));
   }
 }
