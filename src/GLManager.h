@@ -15,7 +15,9 @@
 #include "Entity.h"
 #include "Camera.h"
 
-#include "BaseLight.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 
 class GLManager
 {
@@ -25,11 +27,15 @@ public:
 
   void renderScene(Entity *entity);
   void setActiveCamera(Camera *camera);
-  void addLight(BaseLight *light);
+  void addDirectionalLight(DirectionalLight *light);
+  void addPointLight(PointLight *light);
+  void addSpotLight(SpotLight *light);
 
   int width, height;
 private:
   void createShaders(void);
+
+  void renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene);
 
   Shader *forwardAmbient;
   Shader *forwardDirectional;
@@ -38,7 +44,9 @@ private:
 
   Camera *m_activeCamera;
 
-  std::vector<BaseLight *> m_lights;
+  std::vector<BaseLight *> m_directionalLights;
+  std::vector<BaseLight *> m_pointLights;
+  std::vector<BaseLight *> m_spotLights;
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include "DebugComponent.h"
 #include "DirectionalLight.h"
 #include "SpotLight.h"
+#include "PointLight.h"
 #include "Plane.h"
 #include "Logger.h"
 
@@ -38,7 +39,7 @@ void CoolGame::update(int delta)
 {
   static float angle = 0;
   angle += delta * 0.0008;
-  // moneySmall->getTransform().setRotation(glm::vec3(1, 0, 0), glm::sin(angle));
+  // sun->getTransform().setPosition(glm::vec3(glm::sin(angle) * 5, 0, 0));
 
   Game::update(delta);
 }
@@ -83,7 +84,7 @@ void CoolGame::init(GLManager *glManager)
   camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
   SpotLight *tsl = new SpotLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.4f, 0.9f, new Attenuation(0, 0, 0.01f));
   camera2Node->addComponent(tsl);
-  glManager->addLight(tsl);
+  glManager->addSpotLight(tsl);
 
   moneySmall = new Entity();
   moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
@@ -91,13 +92,13 @@ void CoolGame::init(GLManager *glManager)
   moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
   sl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.9f, 0.99f, new Attenuation(0, 0, 0.01f));
   moneySmall->addComponent(sl);
-  glManager->addLight(sl);
+  glManager->addSpotLight(sl);
 
   camera2Node->addChild(moneySmall);
 
   addToScene(camera2Node);
 
-  primary_camera = cam2;
+  primary_camera = cam1;
 
   glManager->setActiveCamera(primary_camera);
 }

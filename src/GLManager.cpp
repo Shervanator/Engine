@@ -33,9 +33,19 @@ void GLManager::setActiveCamera(Camera *camera)
   m_activeCamera = camera;
 }
 
-void GLManager::addLight(BaseLight *light)
+void GLManager::addDirectionalLight(DirectionalLight *light)
 {
-  m_lights.push_back(light);
+  m_directionalLights.push_back(light);
+}
+
+void GLManager::addPointLight(PointLight *light)
+{
+  m_pointLights.push_back(light);
+}
+
+void GLManager::addSpotLight(SpotLight *light)
+{
+  m_spotLights.push_back(light);
 }
 
 void GLManager::renderScene(Entity *scene)
@@ -51,20 +61,27 @@ void GLManager::renderScene(Entity *scene)
   glDepthMask(GL_FALSE);
   glDepthFunc(GL_EQUAL);
 
-  forwardSpot->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
-  forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
-
-  forwardSpot->setUniform1f("specularIntensity", 0.5);
-  forwardSpot->setUniform1f("specularPower", 10);
-  for (int i = 0; i < m_lights.size(); i++) {
-    m_lights[i]->updateShader(forwardSpot);
-
-    scene->renderAll(forwardSpot);
-  }
+  renderLights(m_directionalLights, forwardDirectional, scene);
+  renderLights(m_pointLights, forwardPoint, scene);
+  renderLights(m_spotLights, forwardSpot, scene);
 
   glDepthFunc(GL_LESS);
   glDepthMask(GL_TRUE);
   glDisable(GL_BLEND);
+}
+
+void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene)
+{
+  shader->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
+  shader->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
+
+  shader->setUniform1f("specularIntensity", 0.5);
+  shader->setUniform1f("specularPower", 10);
+  for (int i = 0; i < lights.size(); i++) {
+    lights[i]->updateShader(shader);
+
+    scene->renderAll(shader);
+  }
 }
 
 void GLManager::createShaders(void)
