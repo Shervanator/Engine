@@ -35,14 +35,19 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/Input.cpp \
   engsrc/Mesh.cpp \
   engsrc/Box.cpp \
+  engsrc/Plane.cpp \
   engsrc/Window.cpp \
   engsrc/Entity.cpp \
   engsrc/Shader.cpp \
   engsrc/Texture.cpp \
   engsrc/BaseLight.cpp \
+  engsrc/DirectionalLight.cpp \
+  engsrc/PointLight.cpp \
+  engsrc/SpotLight.cpp \
   engsrc/Material.cpp \
   engsrc/Asset.cpp \
-  engsrc/main.cpp
+  engsrc/Attenuation.cpp \
+  engsrc/Main.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 assimp
 
