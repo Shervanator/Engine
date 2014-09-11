@@ -34,6 +34,8 @@ set(TARGET_SRC
   Material.cpp
   Asset.cpp
   Attenuation.cpp
+  CustomIOStream.cpp
+  CustomIOSystem.cpp
 )
 
 set(TARGET_INC
@@ -66,6 +68,8 @@ set(TARGET_INC
   Asset.h
   Logger.h
   Attenuation.h
+  CustomIOStream.h
+  CustomIOSystem.h
 )
 
 find_package(GLM REQUIRED)
