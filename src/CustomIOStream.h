@@ -1,6 +1,8 @@
 #ifndef CUSTOM_IO_STREAM
 #define CUSTOM_IO_STREAM
 
+#include <fstream>
+
 #include <assimp/IOStream.hpp>
 
 class CustomIOStream : public Assimp::IOStream
@@ -9,7 +11,7 @@ class CustomIOStream : public Assimp::IOStream
 
 protected:
   // Constructor protected for private usage by CustomIOSystem
-  CustomIOStream(void);
+  CustomIOStream(const char* pFile, const char* pMode);
 
 public:
   ~CustomIOStream(void);
@@ -20,6 +22,10 @@ public:
   size_t Tell(void) const;
   size_t FileSize(void) const;
   void Flush(void);
+
+private:
+  std::ifstream *m_file;
+  size_t m_size;
 };
 
 #endif

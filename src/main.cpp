@@ -48,7 +48,7 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(plane);
 
-  MeshLoader ml(Asset("Pregnant.obj"));
+  MeshLoader ml("Pregnant.obj");
   addToScene(ml.getEntity());
 
   // moneyHead = new Entity();

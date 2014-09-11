@@ -1,3 +1,4 @@
+#include "CustomIOSystem.h"
 #include "MeshLoader.h"
 #include "Mesh.h"
 #include "MeshRenderer.h"
@@ -12,19 +13,21 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
-MeshLoader::MeshLoader(Asset file)
+MeshLoader::MeshLoader(const char* pFile)
 {
   Assimp::Importer importer;
-  log_info("Loading mesh: %s", file.getFileName().c_str());
+  importer.SetIOHandler(new CustomIOSystem());
 
-  const aiScene* scene = importer.ReadFileFromMemory(file.read(), file.getSize(),
-                                                     aiProcess_Triangulate |
-                                                     aiProcess_GenSmoothNormals |
-                                                     aiProcess_FlipUVs |
-                                                     aiProcess_CalcTangentSpace);
+  log_info("Loading mesh: %s", pFile);
+
+  const aiScene* scene = importer.ReadFile(pFile,
+                                           aiProcess_Triangulate |
+                                           aiProcess_GenSmoothNormals |
+                                           aiProcess_FlipUVs |
+                                           aiProcess_CalcTangentSpace);
 
   if(!scene) {
-    log_err("Failed to load mesh: %s", file.getFileName().c_str());
+    log_err("Failed to load mesh: %s", pFile);
   } else {
     loadScene(scene);
   }
@@ -91,7 +94,7 @@ void MeshLoader::loadScene(const aiScene* scene)
     m_entity->addComponent(
       new MeshRenderer(
         new Mesh(&vertices[0], vertices.size(), &indices[0], indices.size()),
-        new Material(new Texture(Asset("t.jpg")))
+        new Material(new Texture(Asset(texturePath.c_str())))
     ));
   }
 }

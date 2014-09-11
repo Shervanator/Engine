@@ -1,7 +1,6 @@
 #ifndef MESH_LOADER_H
 #define MESH_LOADER_H
 
-#include "Asset.h"
 #include "Entity.h"
 
 #include <assimp/scene.h>
@@ -9,7 +8,7 @@
 class MeshLoader
 {
 public:
-  MeshLoader(Asset file);
+  MeshLoader(const char* pFile);
   ~MeshLoader(void);
 
   Entity *getEntity(void);
