@@ -20,6 +20,7 @@ set(TARGET_SRC
   Engine.cpp
   Input.cpp
   Mesh.cpp
+  MeshLoader.cpp
   Box.cpp
   Plane.cpp
   Window.cpp
@@ -49,6 +50,7 @@ set(TARGET_INC
   EntityComponent.h
   DebugComponent.h
   Mesh.h
+  MeshLoader.h
   Box.h
   Plane.h
   Vertex.h

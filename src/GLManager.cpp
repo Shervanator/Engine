@@ -86,7 +86,7 @@ void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, E
 
 void GLManager::createShaders(void)
 {
-  forwardAmbient = new Shader("forward-ambient");
+  forwardAmbient = new Shader("shaders/forward-ambient");
   forwardAmbient->setAttribLocation("position", 0);
   forwardAmbient->setAttribLocation("texCoord", 1);
   forwardAmbient->link();
@@ -101,7 +101,7 @@ void GLManager::createShaders(void)
 
   forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
-  forwardDirectional = new Shader("forward-directional");
+  forwardDirectional = new Shader("shaders/forward-directional");
   forwardDirectional->setAttribLocation("position", 0);
   forwardDirectional->setAttribLocation("texCoord", 1);
   forwardDirectional->setAttribLocation("normal", 2);
@@ -123,7 +123,7 @@ void GLManager::createShaders(void)
 
   forwardDirectional->setUniform1i("diffuseMap", 0);
 
-  forwardPoint = new Shader("forward-point");
+  forwardPoint = new Shader("shaders/forward-point");
   forwardPoint->setAttribLocation("position", 0);
   forwardPoint->setAttribLocation("texCoord", 1);
   forwardPoint->setAttribLocation("normal", 2);
@@ -150,7 +150,7 @@ void GLManager::createShaders(void)
 
   forwardPoint->setUniform1i("diffuseMap", 0);
 
-  forwardSpot = new Shader("forward-spot");
+  forwardSpot = new Shader("shaders/forward-spot");
   forwardSpot->setAttribLocation("position", 0);
   forwardSpot->setAttribLocation("texCoord", 1);
   forwardSpot->setAttribLocation("normal", 2);
