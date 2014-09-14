@@ -1,8 +1,8 @@
 precision mediump float;
 
 varying vec2 texCoord0;
-varying vec3 normal0;
 varying vec3 worldPos0;
+varying mat3 tbnMatrix;
 
 struct BaseLight
 {
@@ -25,13 +25,22 @@ struct PointLight
   float range;
 };
 
+struct SpotLight
+{
+  PointLight pointLight;
+  vec3 direction;
+  float cutoff;
+};
+
 uniform vec3 eyePos;
 uniform float specularIntensity;
 uniform float specularPower;
 
-uniform PointLight pointLight;
+uniform SpotLight spotLight;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D normalMap;
+uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
@@ -52,7 +61,7 @@ vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 
     if (specularFactor > 0.0)
     {
-      specularColor = vec4(base.color, 1.0) * (specularIntensity * specularFactor);
+      specularColor = vec4(base.color, 1.0) * (texture2D(specularMap, texCoord0).r * specularFactor);
     }
   }
 
@@ -79,7 +88,23 @@ vec4 calculatePointLight(PointLight pointLight, vec3 normal)
   return color / attenuation;
 }
 
+vec4 calculateSpotLight(SpotLight spotLight, vec3 normal)
+{
+  vec3 lightDirection = normalize(worldPos0 - spotLight.pointLight.position);
+  float spotFactor = dot(lightDirection, spotLight.direction);
+
+  vec4 color = vec4(0, 0, 0, 0);
+
+  if (spotFactor > spotLight.cutoff)
+  {
+    color = calculatePointLight(spotLight.pointLight, normal) * (1.0 - (1.0 - spotFactor) / (1.0 - spotLight.cutoff));
+  }
+
+  return color;
+}
+
 void main()
 {
-  gl_FragColor = texture2D(diffuseMap, texCoord0) * calculatePointLight(pointLight, normalize(normal0));
+  vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(normalMap, texCoord0).xyz - vec3(1, 1, 1)));
+  gl_FragColor = texture2D(diffuseMap, texCoord0) * calculateSpotLight(spotLight, normal);
 }

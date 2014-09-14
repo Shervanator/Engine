@@ -20,6 +20,7 @@ set(TARGET_SRC
   Engine.cpp
   Input.cpp
   Mesh.cpp
+  MeshLoader.cpp
   Box.cpp
   Plane.cpp
   Window.cpp
@@ -33,6 +34,8 @@ set(TARGET_SRC
   Material.cpp
   Asset.cpp
   Attenuation.cpp
+  CustomIOStream.cpp
+  CustomIOSystem.cpp
 )
 
 set(TARGET_INC
@@ -49,6 +52,7 @@ set(TARGET_INC
   EntityComponent.h
   DebugComponent.h
   Mesh.h
+  MeshLoader.h
   Box.h
   Plane.h
   Vertex.h
@@ -64,6 +68,8 @@ set(TARGET_INC
   Asset.h
   Logger.h
   Attenuation.h
+  CustomIOStream.h
+  CustomIOSystem.h
 )
 
 find_package(GLM REQUIRED)

@@ -1,8 +1,8 @@
 #version 330
 
 in vec2 texCoord0;
-in vec3 normal0;
 in vec3 worldPos0;
+in mat3 tbnMatrix;
 
 out vec4 fragColor;
 
@@ -27,20 +27,15 @@ struct PointLight
   float range;
 };
 
-struct SpotLight
-{
-  PointLight pointLight;
-  vec3 direction;
-  float cutoff;
-};
-
 uniform vec3 eyePos;
 uniform float specularIntensity;
 uniform float specularPower;
 
-uniform SpotLight spotLight;
+uniform PointLight pointLight;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D normalMap;
+uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
@@ -61,7 +56,7 @@ vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 
     if (specularFactor > 0.0f)
     {
-      specularColor = vec4(base.color, 1.0f) * (specularIntensity * specularFactor);
+      specularColor = vec4(base.color, 1.0f) * (texture(specularMap, texCoord0).r * specularFactor);
     }
   }
 
@@ -88,22 +83,8 @@ vec4 calculatePointLight(PointLight pointLight, vec3 normal)
   return color / attenuation;
 }
 
-vec4 calculateSpotLight(SpotLight spotLight, vec3 normal)
-{
-  vec3 lightDirection = normalize(worldPos0 - spotLight.pointLight.position);
-  float spotFactor = dot(lightDirection, spotLight.direction);
-
-  vec4 color = vec4(0, 0, 0, 0);
-
-  if (spotFactor > spotLight.cutoff)
-  {
-    color = calculatePointLight(spotLight.pointLight, normal) * (1.0 - (1.0 - spotFactor) / (1.0 - spotLight.cutoff));
-  }
-
-  return color;
-}
-
 void main()
 {
-  fragColor = texture(diffuseMap, texCoord0) * calculateSpotLight(spotLight, normalize(normal0));
+  vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture(normalMap, texCoord0).xyz - 1));
+  fragColor = texture(diffuseMap, texCoord0) * calculatePointLight(pointLight, normal);
 }

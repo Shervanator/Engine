@@ -2,15 +2,14 @@
 #define PLANE_H
 
 #include "Mesh.h"
-#include "EntityComponent.h"
 
-class Plane : public EntityComponent
+class Plane
 {
 public:
   Plane(void);
   ~Plane(void);
 
-  virtual void render(Shader *shader);
+  Mesh *getMesh(void);
 
 private:
   Mesh *mesh;
