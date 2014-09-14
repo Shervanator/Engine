@@ -81,7 +81,7 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(camera2Node);
 
-  primary_camera = cam2;
+  primary_camera = cam1;
 
   glManager->setActiveCamera(primary_camera);
 }
