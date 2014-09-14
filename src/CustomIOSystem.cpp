@@ -24,11 +24,15 @@ bool CustomIOSystem::ComparePaths (const char *one, const char *second) const
 
 bool CustomIOSystem::Exists(const char* pFile) const
 {
+#ifndef ANDROID
   if(access(("../assets/" + std::string(pFile)).c_str(), F_OK) != -1) {
     return true;
   } else {
     return false;
   }
+#else
+  return true;
+#endif
 }
 
 char CustomIOSystem::getOsSeparator(void) const

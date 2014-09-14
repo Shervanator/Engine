@@ -3,6 +3,10 @@
 
 #include <fstream>
 
+#ifdef ANDROID
+  #include "AndroidAssetManager.h"
+#endif
+
 #include <assimp/IOStream.hpp>
 
 class CustomIOStream : public Assimp::IOStream
@@ -24,7 +28,11 @@ public:
   void Flush(void);
 
 private:
+#ifndef ANDROID
   std::ifstream *m_file;
+#else
+  AAsset *m_file;
+#endif
   size_t m_size;
 };
 
