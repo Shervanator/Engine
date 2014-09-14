@@ -83,32 +83,25 @@ void MeshLoader::loadScene(const aiScene* scene)
     Texture *normalMap = NULL;
     Texture *specularMap = NULL;
 
-    if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-      aiString Path;
+    aiString Path;
 
-      if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-        diffuseMap = new Texture(Asset(Path.data));
-      }
+    if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0
+        && pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+      diffuseMap = new Texture(Asset(Path.data));
     }
 
-    if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0) {
-      aiString Path;
-
-      if (pMaterial->GetTexture(aiTextureType_HEIGHT, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-        normalMap = new Texture(Asset(Path.data));
-      }
+    if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0
+        && pMaterial->GetTexture(aiTextureType_HEIGHT, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+      normalMap = new Texture(Asset(Path.data));
     } else {
       normalMap = new Texture(Asset("default_normal.jpg"));
     }
 
-    if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0) {
-      aiString Path;
-
-      if (pMaterial->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-        specularMap = new Texture(Asset(Path.data));
-      }
+    if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0
+        && pMaterial->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+      specularMap = new Texture(Asset(Path.data));
     } else {
-      normalMap = new Texture(Asset("default_specular.jpg"));
+      specularMap = new Texture(Asset("default_specular.jpg"));
     }
 
     m_entity->addComponent(

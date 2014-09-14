@@ -21,10 +21,7 @@ public:
   virtual void update(int delta);
 
 private:
-  Entity *moneyHead;
   Entity *moneySmall;
-
-  Entity *cameraNode;
   Camera *primary_camera;
 
   SpotLight *sl;
@@ -52,21 +49,11 @@ void CoolGame::init(GLManager *glManager)
   ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
   addToScene(ml.getEntity());
 
-  // moneyHead = new Entity();
-  // moneyHead->addComponent(new MeshRenderer(new Mesh(Asset("Pregnant.obj")), new Material(new Texture(Asset("Pregnant_D.tga")), new Texture(Asset("Pregnant_N.tga")), new Texture(Asset("Pregnant_S.tga")))));
-  // moneyHead->getTransform().setPosition(glm::vec3(0, -2, 0));
-  // moneyHead->getTransform().setScale(glm::vec3(0.7, 0.7, 0.7));
-
-  // addToScene(moneyHead);
-
-  cameraNode = new Entity();
-
+  MeshLoader money("monkey3.obj");
+  money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
   Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
-  cameraNode->addComponent(cam1);
-  cameraNode->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  cameraNode->getTransform().setPosition(glm::vec3(0, 0, 8));
-
-  addToScene(cameraNode);
+  money.getEntity()->addComponent(cam1);
+  addToScene(money.getEntity());
 
   Entity *camera2Node = new Entity();
 
@@ -94,7 +81,7 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(camera2Node);
 
-  primary_camera = cam1;
+  primary_camera = cam2;
 
   glManager->setActiveCamera(primary_camera);
 }
