@@ -14,7 +14,7 @@ void main()
 {
   gl_Position = ViewProj * World * vec4(position, 1.0);
   texCoord0 = texCoord;
-  worldPos0 = (World * vec4(position, 1.0f)).xyz;
+  worldPos0 = (World * vec4(position, 1.0)).xyz;
 
   vec3 n = normalize((World * vec4(normal, 0.0)).xyz);
   vec3 t = normalize((World * vec4(tangent, 0.0)).xyz);
