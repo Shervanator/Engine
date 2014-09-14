@@ -4,22 +4,7 @@
 #ifndef ANDROID
   #include <fstream>
 #else
-  // for native asset manager
-  #include <sys/types.h>
-  #include <android/asset_manager.h>
-  #include <android/asset_manager_jni.h>
-#endif
-
-#ifdef ANDROID
-  static AAssetManager* NativeAssetManager = 0;
-
-  extern "C"
-  {
-     JNIEXPORT void JNICALL Java_org_libsdl_app_SDLActivity_createAssetManager(JNIEnv* env, jclass clazz, jobject assetManager)
-     {
-        NativeAssetManager = AAssetManager_fromJava(env, assetManager);
-     }
-  };
+  #include "AndroidAssetManager.h"
 #endif
 
 Asset::Asset(const std::string &fileName)
@@ -53,7 +38,7 @@ const char *Asset::read(void)
 
     temp.close();
 #else
-    AAsset* aAsset = AAssetManager_open(NativeAssetManager, fileName.c_str(), AASSET_MODE_UNKNOWN);
+    AAsset* aAsset = AAssetManager_open(AndroidAssetManager::getAssetManager(), fileName.c_str(), AASSET_MODE_UNKNOWN);
 
     if(aAsset)
     {

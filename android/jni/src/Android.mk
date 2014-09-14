@@ -34,6 +34,7 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/Engine.cpp \
   engsrc/Input.cpp \
   engsrc/Mesh.cpp \
+  engsrc/MeshLoader.cpp \
   engsrc/Box.cpp \
   engsrc/Plane.cpp \
   engsrc/Window.cpp \
@@ -47,6 +48,9 @@ LOCAL_SRC_FILES := $(SDL_PATH)/src/main/android/SDL_android_main.c \
   engsrc/Material.cpp \
   engsrc/Asset.cpp \
   engsrc/Attenuation.cpp \
+  engsrc/CustomIOStream.cpp \
+  engsrc/CustomIOSystem.cpp \
+  engsrc/AndroidAssetManager.cpp \
   engsrc/Main.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 assimp

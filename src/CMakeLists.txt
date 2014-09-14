@@ -20,6 +20,7 @@ set(TARGET_SRC
   Engine.cpp
   Input.cpp
   Mesh.cpp
+  MeshLoader.cpp
   Box.cpp
   Plane.cpp
   Window.cpp
@@ -33,6 +34,8 @@ set(TARGET_SRC
   Material.cpp
   Asset.cpp
   Attenuation.cpp
+  CustomIOStream.cpp
+  CustomIOSystem.cpp
 )
 
 set(TARGET_INC
@@ -49,6 +52,7 @@ set(TARGET_INC
   EntityComponent.h
   DebugComponent.h
   Mesh.h
+  MeshLoader.h
   Box.h
   Plane.h
   Vertex.h
@@ -64,6 +68,8 @@ set(TARGET_INC
   Asset.h
   Logger.h
   Attenuation.h
+  CustomIOStream.h
+  CustomIOSystem.h
 )
 
 find_package(GLM REQUIRED)
@@ -73,8 +79,8 @@ SET(TARGET_SRC ${TARGET_SRC} ${TARGET_INC})
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=26777216")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=26777216")
+  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432")
 
   include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
 

@@ -1,10 +1,8 @@
-#version 330
+precision mediump float;
 
-in vec2 texCoord0;
-in vec3 normal0;
-in vec3 worldPos0;
-
-out vec4 fragColor;
+varying vec2 texCoord0;
+varying vec3 worldPos0;
+varying mat3 tbnMatrix;
 
 struct BaseLight
 {
@@ -34,17 +32,19 @@ uniform float specularPower;
 uniform PointLight pointLight;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D normalMap;
+uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
   float diffuseFactor = dot(normal, -direction);
 
-  vec4 diffuseColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
-  vec4 specularColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+  vec4 diffuseColor = vec4(0.0, 0.0, 0.0, 0.0);
+  vec4 specularColor = vec4(0.0, 0.0, 0.0, 0.0);
 
-  if (diffuseFactor > 0.0f)
+  if (diffuseFactor > 0.0)
   {
-    diffuseColor = vec4(base.color, 1.0f) * base.intensity * diffuseFactor;
+    diffuseColor = vec4(base.color, 1.0) * base.intensity * diffuseFactor;
 
     vec3 directionToEye = normalize(eyePos - worldPos0);
     vec3 reflectDirection = normalize(reflect(direction, normal));
@@ -52,9 +52,9 @@ vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
     float specularFactor = dot(directionToEye, reflectDirection);
     specularFactor = pow(specularFactor, specularPower);
 
-    if (specularFactor > 0.0f)
+    if (specularFactor > 0.0)
     {
-      specularColor = vec4(base.color, 1.0f) * (specularIntensity * specularFactor);
+      specularColor = vec4(base.color, 1.0) * (texture2D(specularMap, texCoord0).r * specularFactor);
     }
   }
 
@@ -83,5 +83,6 @@ vec4 calculatePointLight(PointLight pointLight, vec3 normal)
 
 void main()
 {
-  fragColor = texture(diffuseMap, texCoord0) * calculatePointLight(pointLight, normalize(normal0));
+  vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(normalMap, texCoord0).xyz - vec3(1, 1, 1)));
+  gl_FragColor = texture2D(diffuseMap, texCoord0) * calculatePointLight(pointLight, normal);
 }
