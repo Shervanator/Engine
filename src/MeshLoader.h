@@ -2,13 +2,14 @@
 #define MESH_LOADER_H
 
 #include "Entity.h"
+#include <string>
 
 #include <assimp/scene.h>
 
 class MeshLoader
 {
 public:
-  MeshLoader(const char* pFile);
+  MeshLoader(const std::string file);
   ~MeshLoader(void);
 
   Entity *getEntity(void);

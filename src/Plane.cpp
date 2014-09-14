@@ -3,10 +3,10 @@
 Plane::Plane(void)
 {
   Vertex vertices[] = {
-    Vertex(glm::vec3(-0.5, 0, 0.5),  glm::vec2(0, 0), glm::vec3(0, 1, 0)),
-    Vertex(glm::vec3(0.5, 0, 0.5),   glm::vec2(1, 0), glm::vec3(0, 1, 0)),
-    Vertex(glm::vec3(0.5, 0, -0.5),  glm::vec2(1, 1), glm::vec3(0, 1, 0)),
-    Vertex(glm::vec3(-0.5, 0, -0.5), glm::vec2(0, 1), glm::vec3(0, 1, 0))
+    Vertex(glm::vec3(-0.5, 0, 0.5),  glm::vec2(0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0)),
+    Vertex(glm::vec3(0.5, 0, 0.5),   glm::vec2(1, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0)),
+    Vertex(glm::vec3(0.5, 0, -0.5),  glm::vec2(1, 1), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0)),
+    Vertex(glm::vec3(-0.5, 0, -0.5), glm::vec2(0, 1), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0))
   };
 
   unsigned int indices[] = {
@@ -22,8 +22,7 @@ Plane::~Plane(void)
   delete mesh;
 }
 
-void Plane::render(Shader *shader)
+Mesh *Plane::getMesh(void)
 {
-  shader->setUniformMatrix4f("World", parentEntity->getWorldMatrix());
-  mesh->render();
+  return mesh;
 }

@@ -1,8 +1,8 @@
 #version 330
 
 in vec2 texCoord0;
-in vec3 normal0;
 in vec3 worldPos0;
+in mat3 tbnMatrix;
 
 out vec4 fragColor;
 
@@ -25,6 +25,8 @@ uniform float specularPower;
 uniform DirectionalLight directionalLight;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D normalMap;
+uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
@@ -59,5 +61,6 @@ vec4 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal)
 
 void main()
 {
-  fragColor = texture(diffuseMap, texCoord0) * calculateDirectionalLight(directionalLight, normalize(normal0));
+  vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture(normalMap, texCoord0).xyz - 1));
+  fragColor = texture(diffuseMap, texCoord0) * calculateDirectionalLight(directionalLight, normal);
 }

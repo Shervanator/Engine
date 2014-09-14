@@ -7,27 +7,26 @@
 
 #include "Logger.h"
 
-#include <string>
 #include <vector>
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
-MeshLoader::MeshLoader(const char* pFile)
+MeshLoader::MeshLoader(const std::string file)
 {
   Assimp::Importer importer;
   importer.SetIOHandler(new CustomIOSystem());
 
-  log_info("Loading mesh: %s", pFile);
+  log_info("Loading mesh: %s", file.c_str());
 
-  const aiScene* scene = importer.ReadFile(pFile,
+  const aiScene* scene = importer.ReadFile(file,
                                            aiProcess_Triangulate |
                                            aiProcess_GenSmoothNormals |
                                            aiProcess_FlipUVs |
                                            aiProcess_CalcTangentSpace);
 
   if(!scene) {
-    log_err("Failed to load mesh: %s", pFile);
+    log_err("Failed to load mesh: %s", file.c_str());
   } else {
     loadScene(scene);
   }
@@ -80,21 +79,42 @@ void MeshLoader::loadScene(const aiScene* scene)
     const aiMaterial* pMaterial = scene->mMaterials[model->mMaterialIndex];
     log_info("tex num: %i", model->mMaterialIndex);
 
-    std::string texturePath;
+    Texture *diffuseMap = NULL;
+    Texture *normalMap = NULL;
+    Texture *specularMap = NULL;
 
     if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
       aiString Path;
 
       if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-        texturePath = Path.data;
-        log_info("Found tex: %s", texturePath.c_str());
+        diffuseMap = new Texture(Asset(Path.data));
       }
+    }
+
+    if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0) {
+      aiString Path;
+
+      if (pMaterial->GetTexture(aiTextureType_HEIGHT, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+        normalMap = new Texture(Asset(Path.data));
+      }
+    } else {
+      normalMap = new Texture(Asset("default_normal.jpg"));
+    }
+
+    if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0) {
+      aiString Path;
+
+      if (pMaterial->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+        specularMap = new Texture(Asset(Path.data));
+      }
+    } else {
+      normalMap = new Texture(Asset("default_specular.jpg"));
     }
 
     m_entity->addComponent(
       new MeshRenderer(
         new Mesh(&vertices[0], vertices.size(), &indices[0], indices.size()),
-        new Material(new Texture(Asset(texturePath.c_str())))
+        new Material(diffuseMap, normalMap, specularMap)
     ));
   }
 }

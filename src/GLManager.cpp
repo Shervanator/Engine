@@ -99,12 +99,13 @@ void GLManager::createShaders(void)
 
   forwardAmbient->setUniform1i("diffuseMap", 0);
 
-  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
+  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.1f, 0.1f, 0.1f));
 
   forwardDirectional = new Shader("shaders/forward-directional");
   forwardDirectional->setAttribLocation("position", 0);
   forwardDirectional->setAttribLocation("texCoord", 1);
   forwardDirectional->setAttribLocation("normal", 2);
+  forwardDirectional->setAttribLocation("tangent", 3);
   forwardDirectional->link();
 
   forwardDirectional->createUniform("ViewProj");
@@ -120,13 +121,18 @@ void GLManager::createShaders(void)
   forwardDirectional->createUniform("directionalLight.direction");
 
   forwardDirectional->createUniform("diffuseMap");
+  forwardDirectional->createUniform("normalMap");
+  forwardDirectional->createUniform("specularMap");
 
   forwardDirectional->setUniform1i("diffuseMap", 0);
+  forwardDirectional->setUniform1i("normalMap", 1);
+  forwardDirectional->setUniform1i("specularMap", 2);
 
   forwardPoint = new Shader("shaders/forward-point");
   forwardPoint->setAttribLocation("position", 0);
   forwardPoint->setAttribLocation("texCoord", 1);
   forwardPoint->setAttribLocation("normal", 2);
+  forwardPoint->setAttribLocation("tangent", 3);
   forwardPoint->link();
 
   forwardPoint->createUniform("ViewProj");
@@ -147,13 +153,18 @@ void GLManager::createShaders(void)
   forwardPoint->createUniform("pointLight.range");
 
   forwardPoint->createUniform("diffuseMap");
+  forwardPoint->createUniform("normalMap");
+  forwardPoint->createUniform("specularMap");
 
   forwardPoint->setUniform1i("diffuseMap", 0);
+  forwardPoint->setUniform1i("normalMap", 1);
+  forwardPoint->setUniform1i("specularMap", 2);
 
   forwardSpot = new Shader("shaders/forward-spot");
   forwardSpot->setAttribLocation("position", 0);
   forwardSpot->setAttribLocation("texCoord", 1);
   forwardSpot->setAttribLocation("normal", 2);
+  forwardSpot->setAttribLocation("tangent", 3);
   forwardSpot->link();
 
   forwardSpot->createUniform("ViewProj");
@@ -177,6 +188,10 @@ void GLManager::createShaders(void)
   forwardSpot->createUniform("spotLight.direction");
 
   forwardSpot->createUniform("diffuseMap");
+  forwardSpot->createUniform("normalMap");
+  forwardSpot->createUniform("specularMap");
 
   forwardSpot->setUniform1i("diffuseMap", 0);
+  forwardSpot->setUniform1i("normalMap", 1);
+  forwardSpot->setUniform1i("specularMap", 2);
 }

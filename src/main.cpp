@@ -42,13 +42,14 @@ void CoolGame::update(int delta)
 void CoolGame::init(GLManager *glManager)
 {
   Entity *plane = new Entity();
-  plane->addComponent(new Plane());
+  plane->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
   plane->getTransform().setPosition(glm::vec3(0, -2, 0));
-  plane->getTransform().setScale(glm::vec3(20, 20, 20));
+  plane->getTransform().setScale(glm::vec3(10, 10, 10));
 
   addToScene(plane);
 
   MeshLoader ml("Pregnant.obj");
+  ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
   addToScene(ml.getEntity());
 
   // moneyHead = new Entity();
@@ -80,23 +81,20 @@ void CoolGame::init(GLManager *glManager)
   camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   camera2Node->getTransform().setPosition(glm::vec3(4, 0, 0));
   camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  SpotLight *tsl = new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.9f, 0.99f, new Attenuation(0, 0, 0.01f));
+  PointLight *tsl = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05));
   camera2Node->addComponent(tsl);
-  glManager->addSpotLight(tsl);
+  glManager->addPointLight(tsl);
 
   moneySmall = new Entity();
   moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
   moneySmall->getTransform().setPosition(glm::vec3(0, 2, 0));
   moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
-  sl = new SpotLight(glm::vec3(1.0f, 0.0f, 0.0f), 0.2f, 0.9f, new Attenuation(0, 0, 0.01f));
-  moneySmall->addComponent(sl);
-  glManager->addSpotLight(sl);
 
   camera2Node->addChild(moneySmall);
 
   addToScene(camera2Node);
 
-  primary_camera = cam2;
+  primary_camera = cam1;
 
   glManager->setActiveCamera(primary_camera);
 }
