@@ -1,8 +1,8 @@
 precision mediump float;
 
 varying vec2 texCoord0;
-varying vec3 normal0;
 varying vec3 worldPos0;
+varying mat3 tbnMatrix;
 
 struct BaseLight
 {
@@ -32,6 +32,8 @@ uniform float specularPower;
 uniform PointLight pointLight;
 
 uniform sampler2D diffuseMap;
+uniform sampler2D normalMap;
+uniform sampler2D specularMap;
 
 vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 {
@@ -52,7 +54,7 @@ vec4 calculateLight(BaseLight base, vec3 direction, vec3 normal)
 
     if (specularFactor > 0.0)
     {
-      specularColor = vec4(base.color, 1.0) * (specularIntensity * specularFactor);
+      specularColor = vec4(base.color, 1.0) * (texture2D(specularMap, texCoord0).r * specularFactor);
     }
   }
 
@@ -81,5 +83,6 @@ vec4 calculatePointLight(PointLight pointLight, vec3 normal)
 
 void main()
 {
-  gl_FragColor = texture2D(diffuseMap, texCoord0) * calculatePointLight(pointLight, normalize(normal0));
+  vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(normalMap, texCoord0).xyz - vec3(1, 1, 1)));
+  gl_FragColor = texture2D(diffuseMap, texCoord0) * calculatePointLight(pointLight, normal);
 }
