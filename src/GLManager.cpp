@@ -52,7 +52,8 @@ void GLManager::renderScene(Entity *scene)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  forwardAmbient->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
+  forwardAmbient->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
+  forwardAmbient->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
 
   scene->renderAll(forwardAmbient);
 
@@ -72,7 +73,8 @@ void GLManager::renderScene(Entity *scene)
 
 void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene)
 {
-  shader->setUniformMatrix4f("ViewProj", m_activeCamera->getViewProjection());
+  shader->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
+  shader->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
   shader->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
 
   shader->setUniform1f("specularIntensity", 0.5);
@@ -91,7 +93,8 @@ void GLManager::createShaders(void)
   forwardAmbient->setAttribLocation("texCoord", 1);
   forwardAmbient->link();
 
-  forwardAmbient->createUniform("ViewProj");
+  forwardAmbient->createUniform("View");
+  forwardAmbient->createUniform("Proj");
   forwardAmbient->createUniform("World");
   forwardAmbient->createUniform("ambientIntensity");
 
@@ -108,7 +111,8 @@ void GLManager::createShaders(void)
   forwardDirectional->setAttribLocation("tangent", 3);
   forwardDirectional->link();
 
-  forwardDirectional->createUniform("ViewProj");
+  forwardDirectional->createUniform("View");
+  forwardDirectional->createUniform("Proj");
   forwardDirectional->createUniform("World");
 
   forwardDirectional->createUniform("eyePos");
@@ -135,7 +139,8 @@ void GLManager::createShaders(void)
   forwardPoint->setAttribLocation("tangent", 3);
   forwardPoint->link();
 
-  forwardPoint->createUniform("ViewProj");
+  forwardPoint->createUniform("View");
+  forwardPoint->createUniform("Proj");
   forwardPoint->createUniform("World");
 
   forwardPoint->createUniform("eyePos");
@@ -167,7 +172,8 @@ void GLManager::createShaders(void)
   forwardSpot->setAttribLocation("tangent", 3);
   forwardSpot->link();
 
-  forwardSpot->createUniform("ViewProj");
+  forwardSpot->createUniform("View");
+  forwardSpot->createUniform("Proj");
   forwardSpot->createUniform("World");
 
   forwardSpot->createUniform("eyePos");

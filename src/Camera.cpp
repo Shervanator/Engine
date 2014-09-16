@@ -12,8 +12,13 @@ Camera::~Camera(void)
 {
 }
 
-glm::mat4 Camera::getViewProjection(void)
+glm::mat4 Camera::getViewMatrix(void)
 {
-  return projection * glm::inverse(parentEntity->getWorldMatrix());
+  return glm::inverse(parentEntity->getWorldMatrix());
+}
+
+glm::mat4 Camera::getProjectionMatrix(void)
+{
+  return projection;
 }
 
