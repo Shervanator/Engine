@@ -17,9 +17,6 @@ Window::Window(void)
   this->height = 800;
 
   SDL_SetVideoMode(this->width, this->height, 0, SDL_FULLSCREEN | SDL_OPENGL);
-
-  SDL_ShowCursor(0);
-  SDL_WM_GrabInput(SDL_GRAB_ON);
 #else
   SDL_DisplayMode mode;
   SDL_GetDisplayMode(0, 0, &mode);
@@ -60,8 +57,6 @@ Window::Window(void)
   glContext = SDL_GL_CreateContext(win);
   SDL_GL_MakeCurrent(win, glContext);
 
-  SDL_SetRelativeMouseMode(SDL_TRUE);
-
   current_time = SDL_GetTicks();
 #endif
 
@@ -99,15 +94,19 @@ void Window::tick(void)
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
+      case SDL_MOUSEMOTION:
+        input.setMouseDelta(event.motion.xrel, event.motion.yrel);
+        break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:
-        input.handleEvent(event.key);
+        input.handleKeyboardEvent(event.key);
+        break;
+      case SDL_MOUSEBUTTONDOWN:
+      case SDL_MOUSEBUTTONUP:
+        input.handleMouseEvent(event.button);
         break;
       case SDL_QUIT:
         quit = true;
-        break;
-      case SDL_MOUSEMOTION:
-        input.setMouseDelta(event.motion.xrel, event.motion.yrel);
         break;
     }
   }

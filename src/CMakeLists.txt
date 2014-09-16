@@ -70,6 +70,7 @@ set(TARGET_INC
   Attenuation.h
   CustomIOStream.h
   CustomIOSystem.h
+  settings.h
 )
 
 find_package(GLM REQUIRED)

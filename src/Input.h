@@ -13,14 +13,20 @@ public:
   Input(void);
   ~Input(void);
 
-  void handleEvent(SDL_KeyboardEvent keyEvent);
+  void handleKeyboardEvent(SDL_KeyboardEvent keyEvent);
+  void handleMouseEvent(SDL_MouseButtonEvent buttonEvent);
   bool isPressed(SDL_Keycode key);
   bool isReleased(SDL_Keycode key);
+  bool mouseIsPressed(Uint8 button);
+  bool mouseIsReleased(Uint8 button);
   void setMouseDelta(int x, int y);
   glm::vec2 getMouseDelta(void);
+  void grabMouse(void);
+  void releaseMouse(void);
 
 private:
   std::map <SDL_Keycode, Uint8> keyState;
+  std::map <Uint8, Uint8> buttonState;
 
   glm::vec2 mouseDelta;
 };
