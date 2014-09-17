@@ -36,6 +36,7 @@ set(TARGET_SRC
   Attenuation.cpp
   CustomIOStream.cpp
   CustomIOSystem.cpp
+  Line.cpp
 )
 
 set(TARGET_INC
@@ -70,6 +71,7 @@ set(TARGET_INC
   Attenuation.h
   CustomIOStream.h
   CustomIOSystem.h
+  Line.h
   settings.h
 )
 

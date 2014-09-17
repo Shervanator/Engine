@@ -24,6 +24,8 @@ public:
 
   Window *getWindow(void);
 
+  void projectLine(glm::vec3* v1, glm::vec3* v2, glm::vec2 mousePosition, glm::mat4 viewMatrix, glm::mat4 projectionMatrix);
+
 private:
   Window      *window;
   GLEWManager *glew_manager;

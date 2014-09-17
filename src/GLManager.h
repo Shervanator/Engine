@@ -31,12 +31,21 @@ public:
   void addPointLight(PointLight *light);
   void addSpotLight(SpotLight *light);
 
+  glm::mat4 getViewMatrix(void);
+  glm::mat4 getProjectionMatrix(void);
+
+  void drawLine(glm::vec3 v1, glm::vec3 v2);
+
   int width, height;
+
+  GLuint lineBuffer;
+  GLuint VertexArrayID;
 private:
   void createShaders(void);
 
   void renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene);
 
+  Shader *simple;
   Shader *forwardAmbient;
   Shader *forwardDirectional;
   Shader *forwardPoint;

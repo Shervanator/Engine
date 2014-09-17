@@ -96,6 +96,7 @@ void Window::tick(void)
     switch (event.type) {
       case SDL_MOUSEMOTION:
         input.setMouseDelta(event.motion.xrel, event.motion.yrel);
+        input.setMousePosition(event.motion.x, event.motion.y);
         break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:

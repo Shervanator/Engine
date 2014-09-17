@@ -3,6 +3,7 @@
 Input::Input(void)
 {
   mouseDelta = glm::vec2(0, 0);
+  mousePosition = glm::vec2(0, 0);
 }
 
 Input::~Input(void)
@@ -43,9 +44,20 @@ void Input::setMouseDelta(int x, int y)
   mouseDelta.y = y;
 }
 
+void Input::setMousePosition(int x, int y)
+{
+  mousePosition.x = x;
+  mousePosition.y = y;
+}
+
 glm::vec2 Input::getMouseDelta(void)
 {
   return mouseDelta;
+}
+
+glm::vec2 Input::getMousePosition(void)
+{
+  return mousePosition;
 }
 
 void Input::grabMouse(void)
@@ -67,4 +79,3 @@ void Input::releaseMouse(void)
   SDL_SetRelativeMouseMode(SDL_FALSE);
 #endif
 }
-

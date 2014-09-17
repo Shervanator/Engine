@@ -3,6 +3,8 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 
+#include "Line.h"
+
 GLManager::GLManager(int width, int height)
 {
   this->width = width;
@@ -18,6 +20,8 @@ GLManager::GLManager(int width, int height)
   glViewport(0, 0, this->width, this->height);
 
   createShaders();
+
+  glGenBuffers(1, &lineBuffer);
 }
 
 GLManager::~GLManager(void)
@@ -26,6 +30,7 @@ GLManager::~GLManager(void)
   delete forwardDirectional;
   delete forwardPoint;
   delete forwardSpot;
+  glDeleteBuffers(1, &lineBuffer);
 }
 
 void GLManager::setActiveCamera(Camera *camera)
@@ -48,6 +53,27 @@ void GLManager::addSpotLight(SpotLight *light)
   m_spotLights.push_back(light);
 }
 
+glm::mat4 GLManager::getViewMatrix(void)
+{
+  return m_activeCamera->getViewMatrix();
+}
+
+glm::mat4 GLManager::getProjectionMatrix(void)
+{
+  return m_activeCamera->getProjectionMatrix();
+}
+
+void GLManager::drawLine(glm::vec3 v1, glm::vec3 v2)
+{
+  simple->bind();
+
+  simple->setUniformMatrix4f("World", glm::mat4());
+  simple->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
+  simple->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
+
+  Line(v1, v2).render(simple);
+}
+
 void GLManager::renderScene(Entity *scene)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,18 +83,18 @@ void GLManager::renderScene(Entity *scene)
 
   scene->renderAll(forwardAmbient);
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_ONE, GL_ONE);
-  glDepthMask(GL_FALSE);
-  glDepthFunc(GL_EQUAL);
+  // glEnable(GL_BLEND);
+  // glBlendFunc(GL_ONE, GL_ONE);
+  // glDepthMask(GL_FALSE);
+  // glDepthFunc(GL_EQUAL);
 
-  renderLights(m_directionalLights, forwardDirectional, scene);
-  renderLights(m_pointLights, forwardPoint, scene);
-  renderLights(m_spotLights, forwardSpot, scene);
+  // renderLights(m_directionalLights, forwardDirectional, scene);
+  // renderLights(m_pointLights, forwardPoint, scene);
+  // renderLights(m_spotLights, forwardSpot, scene);
 
-  glDepthFunc(GL_LESS);
-  glDepthMask(GL_TRUE);
-  glDisable(GL_BLEND);
+  // glDepthFunc(GL_LESS);
+  // glDepthMask(GL_TRUE);
+  // glDisable(GL_BLEND);
 }
 
 void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene)
@@ -88,6 +114,14 @@ void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, E
 
 void GLManager::createShaders(void)
 {
+  simple = new Shader("shaders/simple");
+  simple->setAttribLocation("position", 0);
+  simple->link();
+
+  simple->createUniform("View");
+  simple->createUniform("Proj");
+  simple->createUniform("World");
+
   forwardAmbient = new Shader("shaders/forward-ambient");
   forwardAmbient->setAttribLocation("position", 0);
   forwardAmbient->setAttribLocation("texCoord", 1);
@@ -102,7 +136,7 @@ void GLManager::createShaders(void)
 
   forwardAmbient->setUniform1i("diffuseMap", 0);
 
-  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.1f, 0.1f, 0.1f));
+  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
   forwardDirectional = new Shader("shaders/forward-directional");
   forwardDirectional->setAttribLocation("position", 0);
