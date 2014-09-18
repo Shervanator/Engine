@@ -83,18 +83,18 @@ void GLManager::renderScene(Entity *scene)
 
   scene->renderAll(forwardAmbient);
 
-  // glEnable(GL_BLEND);
-  // glBlendFunc(GL_ONE, GL_ONE);
-  // glDepthMask(GL_FALSE);
-  // glDepthFunc(GL_EQUAL);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_ONE, GL_ONE);
+  glDepthMask(GL_FALSE);
+  glDepthFunc(GL_EQUAL);
 
-  // renderLights(m_directionalLights, forwardDirectional, scene);
-  // renderLights(m_pointLights, forwardPoint, scene);
-  // renderLights(m_spotLights, forwardSpot, scene);
+  renderLights(m_directionalLights, forwardDirectional, scene);
+  renderLights(m_pointLights, forwardPoint, scene);
+  renderLights(m_spotLights, forwardSpot, scene);
 
-  // glDepthFunc(GL_LESS);
-  // glDepthMask(GL_TRUE);
-  // glDisable(GL_BLEND);
+  glDepthFunc(GL_LESS);
+  glDepthMask(GL_TRUE);
+  glDisable(GL_BLEND);
 }
 
 void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene)
