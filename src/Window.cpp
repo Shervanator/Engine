@@ -19,7 +19,7 @@ Window::Window(void)
   SDL_SetVideoMode(this->width, this->height, 0, SDL_FULLSCREEN | SDL_OPENGL);
 #else
   SDL_DisplayMode mode;
-  SDL_GetDisplayMode(0, 0, &mode);
+  SDL_GetCurrentDisplayMode(0, &mode);
 
   this->width = mode.w;
   this->height = mode.h;
@@ -48,7 +48,7 @@ Window::Window(void)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   #endif
 
-  win = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+  win = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
   if (win == nullptr)
   {
     logSDLError("SDL_CreateWindow");

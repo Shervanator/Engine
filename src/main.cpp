@@ -66,7 +66,7 @@ void CoolGame::init(GLManager *glManager)
   camera2Node->addComponent(new FreeLook());
 #endif
   camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  camera2Node->getTransform().setPosition(glm::vec3(4, 0, 0));
+  camera2Node->getTransform().setPosition(glm::vec3(0, 0, 0));
   camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
   PointLight *tsl = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05));
   camera2Node->addComponent(tsl);
