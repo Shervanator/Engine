@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Logger.h"
+#include "Ray.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -75,12 +76,10 @@ void Engine::tick(void)
   game->render(gl_manager);
 
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
-    glm::vec3 v1;
-    glm::vec3 v2;
+    glm::vec4 viewport = glm::vec4(0.0f, 0.0f, window->getWidth(), window->getHeight());
+    Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), viewport, gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
 
-    projectLine(&v1, &v2, window->getInput()->getMousePosition(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
-
-    gl_manager->drawLine(v1, v2);
+    gl_manager->drawLine(ray.getPosition(), ray.getPosition() + (ray.getDirection()) * 100.0f);
   }
 
   window->swapBuffer();
@@ -89,15 +88,4 @@ void Engine::tick(void)
 Window *Engine::getWindow(void)
 {
   return window;
-}
-
-void Engine::projectLine(glm::vec3* v1, glm::vec3* v2, glm::vec2 mousePosition, glm::mat4 viewMatrix, glm::mat4 projectionMatrix)
-{
-  glm::vec4 viewport = glm::vec4(0.0f, 0.0f, window->getWidth(), window->getHeight());
-
-  float xRel = mousePosition.x;
-  float yRel = window->getHeight() - mousePosition.y;
-
-  *v1 = glm::unProject(glm::vec3(xRel, yRel, 0.0f), viewMatrix, projectionMatrix, viewport);
-  *v2 = glm::unProject(glm::vec3(xRel, yRel, 1.0f), viewMatrix, projectionMatrix, viewport);
 }

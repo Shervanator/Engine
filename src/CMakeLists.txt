@@ -37,6 +37,8 @@ set(TARGET_SRC
   CustomIOStream.cpp
   CustomIOSystem.cpp
   Line.cpp
+  Ray.cpp
+  Sphere.cpp
 )
 
 set(TARGET_INC
@@ -72,6 +74,8 @@ set(TARGET_INC
   CustomIOStream.h
   CustomIOSystem.h
   Line.h
+  Ray.h
+  Sphere.h
   settings.h
 )
 
