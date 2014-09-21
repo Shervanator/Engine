@@ -14,6 +14,8 @@
 #include "Logger.h"
 #include "MeshLoader.h"
 
+#include "Sphere.h"
+
 class CoolGame : public Game
 {
 public:
@@ -47,12 +49,18 @@ void CoolGame::init(GLManager *glManager)
 
   MeshLoader ml("Pregnant.obj");
   ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
+  Sphere *sphere0 = new Sphere(1);
+  ml.getEntity()->addComponent(sphere0);
+  getEngine()->addSphere(sphere0);
   addToScene(ml.getEntity());
 
   MeshLoader money("monkey3.obj");
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
   Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
   money.getEntity()->addComponent(cam1);
+  Sphere *sphere = new Sphere(1);
+  money.getEntity()->addComponent(sphere);
+  getEngine()->addSphere(sphere);
   addToScene(money.getEntity());
 
   Entity *camera2Node = new Entity();
@@ -70,6 +78,9 @@ void CoolGame::init(GLManager *glManager)
   camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
   PointLight *tsl = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05));
   camera2Node->addComponent(tsl);
+  Sphere *sphere2 = new Sphere(1);
+  camera2Node->addComponent(sphere2);
+  getEngine()->addSphere(sphere2);
   glManager->addPointLight(tsl);
 
   moneySmall = new Entity();
@@ -88,9 +99,9 @@ void CoolGame::init(GLManager *glManager)
 
 int main(int argc, char **argv){
   CoolGame game;
-  Engine gm(&game);
+  Engine gameEngine(&game);
 
-  gm.start();
+  gameEngine.start();
 
   return 0;
 }

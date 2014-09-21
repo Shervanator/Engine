@@ -19,6 +19,8 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 
+#include "Line.h"
+
 class GLManager
 {
 public:
@@ -34,7 +36,8 @@ public:
   glm::mat4 getViewMatrix(void);
   glm::mat4 getProjectionMatrix(void);
 
-  void drawLine(glm::vec3 v1, glm::vec3 v2);
+  void drawEntity(Entity *entity);
+  void drawLine(Line line);
 
   int width, height;
 

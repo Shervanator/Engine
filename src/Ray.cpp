@@ -28,7 +28,7 @@ bool Ray::intersects(Sphere *sphere)
   glm::vec3 intersectionPosition;
   glm::vec3 intersectionNormal;
 
-  return glm::intersectRaySphere(m_position, m_direction, sphere->getPosition(), sphere->getRadius(), intersectionPosition, intersectionNormal);
+  return glm::intersectRaySphere(m_position, m_direction, sphere->getParent()->getPosition().xyz(), sphere->getRadius(), intersectionPosition, intersectionNormal);
 }
 
 glm::vec3 Ray::getPosition(void)
@@ -39,4 +39,9 @@ glm::vec3 Ray::getPosition(void)
 glm::vec3 Ray::getDirection(void)
 {
   return m_direction;
+}
+
+Line Ray::getLine(float length)
+{
+  return Line(m_position, m_position + m_direction * length);
 }

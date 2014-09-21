@@ -3,8 +3,6 @@
 #include "FreeLook.h"
 #include "FreeMove.h"
 
-#include "Line.h"
-
 GLManager::GLManager(int width, int height)
 {
   this->width = width;
@@ -63,7 +61,7 @@ glm::mat4 GLManager::getProjectionMatrix(void)
   return m_activeCamera->getProjectionMatrix();
 }
 
-void GLManager::drawLine(glm::vec3 v1, glm::vec3 v2)
+void GLManager::drawLine(Line line)
 {
   simple->bind();
 
@@ -71,7 +69,25 @@ void GLManager::drawLine(glm::vec3 v1, glm::vec3 v2)
   simple->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
   simple->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
 
-  Line(v1, v2).render(simple);
+  line.render(simple);
+}
+
+void GLManager::drawEntity(Entity *entity)
+{
+  simple->bind();
+
+  // simple->setUniformMatrix4f("World", glm::mat4());
+  simple->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
+  simple->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_ONE, GL_ONE);
+  glDepthMask(GL_FALSE);
+  glDepthFunc(GL_EQUAL);
+  entity->renderAll(simple);
+  glDepthFunc(GL_LESS);
+  glDepthMask(GL_TRUE);
+  glDisable(GL_BLEND);
 }
 
 void GLManager::renderScene(Entity *scene)

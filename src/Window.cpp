@@ -147,6 +147,11 @@ int Window::getHeight(void)
   return height;
 }
 
+glm::vec4 Window::getViewport(void)
+{
+  return glm::vec4(0.0f, 0.0f, width, height);
+}
+
 bool Window::shouldQuit(void)
 {
   return quit;

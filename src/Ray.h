@@ -1,10 +1,12 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "Sphere.h"
-
+#define GLM_SWIZZLE
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "Sphere.h"
+#include "Line.h"
 
 class Ray
 {
@@ -18,6 +20,8 @@ public:
 
   glm::vec3 getPosition(void);
   glm::vec3 getDirection(void);
+
+  Line getLine(float length);
 
 private:
   glm::vec3 m_position;

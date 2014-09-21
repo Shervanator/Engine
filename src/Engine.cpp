@@ -76,10 +76,16 @@ void Engine::tick(void)
   game->render(gl_manager);
 
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
-    glm::vec4 viewport = glm::vec4(0.0f, 0.0f, window->getWidth(), window->getHeight());
-    Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), viewport, gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
+    Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), window->getViewport(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
 
-    gl_manager->drawLine(ray.getPosition(), ray.getPosition() + (ray.getDirection()) * 100.0f);
+    for (unsigned int i = 0; i < spheres.size(); i++)
+    {
+      if (ray.intersects(spheres[i])) {
+        gl_manager->drawEntity(spheres[i]->getParent());
+      }
+    }
+
+    gl_manager->drawLine(ray.getLine(100.0f));
   }
 
   window->swapBuffer();
@@ -88,4 +94,9 @@ void Engine::tick(void)
 Window *Engine::getWindow(void)
 {
   return window;
+}
+
+void Engine::addSphere(Sphere *sphere)
+{
+  spheres.push_back(sphere);
 }

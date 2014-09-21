@@ -6,6 +6,7 @@
 
 #include <string>
 
+#include <glm/glm.hpp>
 #include <SDL.h>
 
 class Window
@@ -22,6 +23,7 @@ public:
 
   int getWidth(void);
   int getHeight(void);
+  glm::vec4 getViewport(void);
 
   Input* getInput(void);
 
