@@ -48,7 +48,8 @@ Window::Window(void)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   #endif
 
-  win = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+  // SDL_WINDOW_FULLSCREEN |
+  win = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_OPENGL);
   if (win == nullptr)
   {
     logSDLError("SDL_CreateWindow");

@@ -1,5 +1,6 @@
 #include "PointLight.h"
 
+#include "Engine.h"
 #include "settings.h"
 
 PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuation) : BaseLight(color, intensity)
@@ -16,6 +17,11 @@ PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuatio
 PointLight::~PointLight(void)
 {
   delete m_attenuation;
+}
+
+void PointLight::registerWithEngine(Engine *engine)
+{
+  engine->getGLManager()->addPointLight(this);
 }
 
 void PointLight::updateShader(Shader *shader)

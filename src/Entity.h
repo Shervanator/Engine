@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Input.h"
 
+class Engine;
 
 class EntityComponent;
 
@@ -22,6 +23,7 @@ public:
   void updateInputAll(Input *input, int delta);
   void updateAll(int delta);
   void renderAll(Shader *shader);
+  void registerWithEngineAll(Engine *engine);
 
   Transform& getTransform(void);
 

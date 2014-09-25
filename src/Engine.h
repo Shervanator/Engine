@@ -24,9 +24,9 @@ public:
   void tick(void);
   void start(void);
 
-  Window *getWindow(void);
-
-  void addSphere(Sphere *sphere);
+  Window         *getWindow(void);
+  GLManager      *getGLManager(void);
+  PhysicsManager *getPhysicsManager(void);
 
 private:
   Window         *window;

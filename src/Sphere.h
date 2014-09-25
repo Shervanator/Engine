@@ -7,7 +7,9 @@ class Sphere : public EntityComponent
 {
 public:
   Sphere(float radius = 0);
-  ~Sphere(void);
+  virtual ~Sphere(void);
+  
+  virtual void registerWithEngine(Engine *engine);
 
   float getRadius(void);
 

@@ -38,6 +38,7 @@ Engine::~Engine(void)
   delete window;
   delete glew_manager;
   delete gl_manager;
+  delete m_physicsManager;
 }
 
 void Engine::start(void)
@@ -46,6 +47,8 @@ void Engine::start(void)
 
   log_info("Initializing game");
   game->init(gl_manager);
+  
+  game->getRootScene()->registerWithEngineAll(this);
 
 #ifdef EMSCRIPTEN
   instance = this;
@@ -99,7 +102,12 @@ Window *Engine::getWindow(void)
   return window;
 }
 
-void Engine::addSphere(Sphere *sphere)
+GLManager *Engine::getGLManager(void)
 {
-  m_physicsManager->registerCollider(sphere);
+  return gl_manager;
+}
+
+PhysicsManager *Engine::getPhysicsManager(void)
+{
+  return m_physicsManager;
 }

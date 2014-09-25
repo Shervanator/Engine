@@ -77,6 +77,20 @@ void Entity::renderAll(Shader *shader)
   }
 }
 
+void Entity::registerWithEngineAll(Engine *engine)
+{
+  for (unsigned int i = 0; i < components.size(); i++)
+  {
+    components[i]->registerWithEngine(engine);
+  }
+  
+  for (unsigned int i = 0; i < children.size(); i++)
+  {
+    children[i]->registerWithEngineAll(engine);
+  }
+}
+
+
 Transform& Entity::getTransform(void)
 {
   return transform;

@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "Transform.h"
 
+class Engine;
+
 class EntityComponent
 {
 public:
@@ -14,6 +16,7 @@ public:
   virtual void updateInput(Input *input, int delta) {};
   virtual void update(int delta) {};
   virtual void render(Shader *shader) {};
+  virtual void registerWithEngine(Engine *engine) {};
 
   void setParent(Entity *parentEntity);
   Entity *getParent(void);
