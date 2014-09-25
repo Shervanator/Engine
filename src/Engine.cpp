@@ -5,6 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
 
+#include <limits>
+
 #ifdef EMSCRIPTEN
   #include <emscripten.h>
 
@@ -22,6 +24,9 @@ Engine::Engine(Game *game)
 
   log_info("Initializing GL");
   gl_manager = new GLManager(window->getWidth(), window->getHeight());
+
+  log_info("Initializing Physics Manager");
+  m_physicsManager = new PhysicsManager();
 
   this->game = game;
 
@@ -78,12 +83,10 @@ void Engine::tick(void)
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
     Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), window->getViewport(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
 
-    for (unsigned int i = 0; i < spheres.size(); i++)
-    {
-      if (ray.intersects(spheres[i])) {
-        gl_manager->drawEntity(spheres[i]->getParent());
-      }
-    }
+    Entity *pickedEntity = m_physicsManager->pick(&ray);
+    
+    if (pickedEntity != NULL)
+      gl_manager->drawEntity(pickedEntity);
 
     gl_manager->drawLine(ray.getLine(100.0f));
   }
@@ -98,5 +101,5 @@ Window *Engine::getWindow(void)
 
 void Engine::addSphere(Sphere *sphere)
 {
-  spheres.push_back(sphere);
+  m_physicsManager->registerCollider(sphere);
 }

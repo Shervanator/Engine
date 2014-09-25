@@ -39,6 +39,7 @@ set(TARGET_SRC
   Line.cpp
   Ray.cpp
   Sphere.cpp
+  PhysicsManager.cpp
 )
 
 set(TARGET_INC
@@ -76,6 +77,7 @@ set(TARGET_INC
   Line.h
   Ray.h
   Sphere.h
+  PhysicsManager.h
   settings.h
 )
 

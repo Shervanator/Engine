@@ -23,9 +23,9 @@ Ray Ray::getPickRay(glm::vec2 mousePosition, glm::vec4 viewport, glm::mat4 viewM
   return Ray(v1, glm::normalize(v2 - v1));
 }
 
-bool Ray::intersects(Sphere *sphere)
+bool Ray::intersects(Sphere *sphere, glm::vec3 & intersectionPosition)
 {
-  glm::vec3 intersectionPosition;
+  // glm::vec3 intersectionPosition;
   glm::vec3 intersectionNormal;
 
   return glm::intersectRaySphere(m_position, m_direction, sphere->getParent()->getPosition().xyz(), sphere->getRadius(), intersectionPosition, intersectionNormal);

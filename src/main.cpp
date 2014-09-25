@@ -25,8 +25,6 @@ public:
 private:
   Entity *moneySmall;
   Camera *primary_camera;
-
-  SpotLight *sl;
 };
 
 void CoolGame::update(int delta)
@@ -78,9 +76,6 @@ void CoolGame::init(GLManager *glManager)
   camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
   PointLight *tsl = new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05));
   camera2Node->addComponent(tsl);
-  Sphere *sphere2 = new Sphere(1);
-  camera2Node->addComponent(sphere2);
-  getEngine()->addSphere(sphere2);
   glManager->addPointLight(tsl);
 
   moneySmall = new Entity();
