@@ -1,20 +1,21 @@
 #include "Engine.h"
 
-#include "MeshRenderer.h"
+#include "components/MeshRenderer.h"
+#include "components/Camera.h"
+#include "components/FreeMove.h"
+#include "components/FreeLook.h"
+#include "components/DebugComponent.h"
+#include "components/DirectionalLight.h"
+#include "components/SpotLight.h"
+#include "components/PointLight.h"
+#include "components/Sphere.h"
+
+#include "Plane.h"
 #include "Mesh.h"
 #include "Texture.h"
-#include "Camera.h"
-#include "FreeMove.h"
-#include "FreeLook.h"
-#include "DebugComponent.h"
-#include "DirectionalLight.h"
-#include "SpotLight.h"
-#include "PointLight.h"
-#include "Plane.h"
 #include "Logger.h"
 #include "MeshLoader.h"
 
-#include "Sphere.h"
 
 class CoolGame : public Game
 {
@@ -81,7 +82,7 @@ void CoolGame::init(GLManager *glManager)
   addToScene(camera2Node);
 
   primary_camera = cam2;
-  
+
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
 

@@ -1,8 +1,6 @@
 #include "FreeMove.h"
 
-#include "Transform.h"
-
-#include "Logger.h"
+#include "../Transform.h"
 
 FreeMove::FreeMove(float speed)
 {

@@ -13,11 +13,11 @@
 
 #include "Shader.h"
 #include "Entity.h"
-#include "Camera.h"
+#include "components/Camera.h"
 
-#include "DirectionalLight.h"
-#include "PointLight.h"
-#include "SpotLight.h"
+#include "components/DirectionalLight.h"
+#include "components/PointLight.h"
+#include "components/SpotLight.h"
 
 #include "Line.h"
 

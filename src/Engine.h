@@ -9,7 +9,7 @@
 #include "Game.h"
 
 #include "Input.h"
-#include "Sphere.h"
+#include "components/Sphere.h"
 
 class Engine
 {

@@ -1,3 +1,5 @@
+#ifdef ANDROID
+
 #include "AndroidAssetManager.h"
 
 static AAssetManager* NativeAssetManager = 0;
@@ -14,3 +16,5 @@ AAssetManager *AndroidAssetManager::getAssetManager(void)
 {
   return NativeAssetManager;
 }
+
+#endif

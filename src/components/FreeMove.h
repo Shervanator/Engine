@@ -1,7 +1,7 @@
 #ifndef FREE_MOVE_H
 #define FREE_MOVE_H
 
-#include "EntityComponent.h"
+#include "../EntityComponent.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>

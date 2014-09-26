@@ -1,6 +1,6 @@
 #include "DirectionalLight.h"
 
-#include "Engine.h"
+#include "../Engine.h"
 
 DirectionalLight::DirectionalLight(glm::vec3 color, float intensity) : BaseLight(color, intensity)
 {

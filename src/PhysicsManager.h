@@ -1,7 +1,7 @@
 #ifndef PHYSICS_MANAGER_H
 #define PHYSICS_MANAGER_H
 
-#include "Sphere.h"
+#include "components/Sphere.h"
 #include "Entity.h"
 #include "Ray.h"
 
@@ -12,11 +12,11 @@ class PhysicsManager
 public:
   PhysicsManager(void);
   ~PhysicsManager(void);
-  
+
   void registerCollider(Sphere *sphere);
-  
+
   Entity *pick(Ray *ray);
-  
+
 private:
   std::vector<Sphere *> m_colliders;
 };

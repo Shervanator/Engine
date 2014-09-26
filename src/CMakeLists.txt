@@ -6,79 +6,11 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${Engine_SOURCE_DIR}/../CMakeModules)
 
 # add_definitions( -DEMSCRIPTEN=${EMSCRIPTEN} )
 
-set(TARGET_SRC
-  EntityComponent.cpp
-  DebugComponent.cpp
-  Transform.cpp
-  MeshRenderer.cpp
-  Game.cpp
-  Camera.cpp
-  FreeMove.cpp
-  FreeLook.cpp
-  GLEWManager.cpp
-  GLManager.cpp
-  Engine.cpp
-  Input.cpp
-  Mesh.cpp
-  MeshLoader.cpp
-  Box.cpp
-  Plane.cpp
-  Window.cpp
-  Entity.cpp
-  Shader.cpp
-  Texture.cpp
-  BaseLight.cpp
-  DirectionalLight.cpp
-  PointLight.cpp
-  SpotLight.cpp
-  Material.cpp
-  Asset.cpp
-  Attenuation.cpp
-  CustomIOStream.cpp
-  CustomIOSystem.cpp
-  Line.cpp
-  Ray.cpp
-  Sphere.cpp
-  PhysicsManager.cpp
-)
+file(GLOB_RECURSE TARGET_INC ${Engine_SOURCE_DIR}/*.h)
 
-set(TARGET_INC
-  Engine.h
-  GLManager.h
-  Shader.h
-  Entity.h
-  Transform.h
-  Window.h
-  GLEWManager.h
-  Game.h
-  Input.h
-  MeshRenderer.h
-  EntityComponent.h
-  DebugComponent.h
-  Mesh.h
-  MeshLoader.h
-  Box.h
-  Plane.h
-  Vertex.h
-  Texture.h
-  BaseLight.h
-  DirectionalLight.h
-  PointLight.h
-  SpotLight.h
-  Material.h
-  Camera.h
-  FreeMove.h
-  FreeLook.h
-  Asset.h
-  Logger.h
-  Attenuation.h
-  CustomIOStream.h
-  CustomIOSystem.h
-  Line.h
-  Ray.h
-  Sphere.h
-  PhysicsManager.h
-  settings.h
+file(GLOB_RECURSE TARGET_SRC
+  ${Engine_SOURCE_DIR}/*.cpp
+  ${Engine_SOURCE_DIR}/*.c
 )
 
 find_package(GLM REQUIRED)

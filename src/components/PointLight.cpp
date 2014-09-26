@@ -1,7 +1,7 @@
 #include "PointLight.h"
 
-#include "Engine.h"
-#include "settings.h"
+#include "../Engine.h"
+#include "../settings.h"
 
 PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuation) : BaseLight(color, intensity)
 {

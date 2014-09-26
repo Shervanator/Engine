@@ -1,7 +1,7 @@
 #ifndef FREE_LOOK_H
 #define FREE_LOOK_H
 
-#include "EntityComponent.h"
+#include "../EntityComponent.h"
 
 class FreeLook : public EntityComponent
 {

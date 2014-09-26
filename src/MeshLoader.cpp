@@ -1,7 +1,7 @@
 #include "CustomIOSystem.h"
 #include "MeshLoader.h"
 #include "Mesh.h"
-#include "MeshRenderer.h"
+#include "components/MeshRenderer.h"
 #include "Material.h"
 #include "Texture.h"
 

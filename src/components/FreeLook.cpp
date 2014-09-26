@@ -1,6 +1,6 @@
 #include "FreeLook.h"
 
-#include "Logger.h"
+#include "../Logger.h"
 
 FreeLook::FreeLook(float speed)
 {

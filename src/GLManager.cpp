@@ -1,8 +1,5 @@
 #include "GLManager.h"
 
-#include "FreeLook.h"
-#include "FreeMove.h"
-
 GLManager::GLManager(int width, int height)
 {
   this->width = width;

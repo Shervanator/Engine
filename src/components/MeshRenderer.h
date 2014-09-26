@@ -1,9 +1,9 @@
 #ifndef MESH_RENDERER_H
 #define MESH_RENDERER_H
 
-#include "EntityComponent.h"
-#include "Mesh.h"
-#include "Material.h"
+#include "../EntityComponent.h"
+#include "../Mesh.h"
+#include "../Material.h"
 
 class MeshRenderer : public EntityComponent
 {

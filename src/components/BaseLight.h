@@ -3,15 +3,15 @@
 
 #include <glm/glm.hpp>
 
-#include "EntityComponent.h"
-#include "Shader.h"
+#include "../EntityComponent.h"
+#include "../Shader.h"
 
 class BaseLight : public EntityComponent
 {
 public:
   BaseLight(glm::vec3 color, float intensity);
   virtual ~BaseLight(void);
-  
+
   virtual void registerWithEngine(Engine *engine) {};
 
   glm::vec3 getColor(void);

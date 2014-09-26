@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Sphere.h"
+#include "components/Sphere.h"
 #include "Line.h"
 
 class Ray

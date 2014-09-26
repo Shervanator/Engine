@@ -1,9 +1,9 @@
 #ifndef DEBUG_COMPONENT_H
 #define DEBUG_COMPONENT_H
 
-#include "EntityComponent.h"
+#include "../EntityComponent.h"
 
-#include "Box.h"
+#include "../Box.h"
 
 class DebugComponent : public EntityComponent
 {

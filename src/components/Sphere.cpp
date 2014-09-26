@@ -1,6 +1,6 @@
 #include "Sphere.h"
 
-#include "Engine.h"
+#include "../Engine.h"
 
 Sphere::Sphere(float radius)
 {
