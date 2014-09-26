@@ -6,16 +6,22 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${Engine_SOURCE_DIR}/../CMakeModules)
 
 # add_definitions( -DEMSCRIPTEN=${EMSCRIPTEN} )
 
-file(GLOB_RECURSE TARGET_INC ${Engine_SOURCE_DIR}/*.h)
+file(GLOB TARGET_INC ${Engine_SOURCE_DIR}/*.h)
+file(GLOB TARGET_INC_COMPONENTS ${Engine_SOURCE_DIR}/components/*.h)
 
-file(GLOB_RECURSE TARGET_SRC
+file(GLOB TARGET_SRC
   ${Engine_SOURCE_DIR}/*.cpp
   ${Engine_SOURCE_DIR}/*.c
 )
 
+file(GLOB TARGET_SRC_COMPONENTS
+${Engine_SOURCE_DIR}/components/*.cpp
+${Engine_SOURCE_DIR}/components/*.c
+)
+
 find_package(GLM REQUIRED)
 
-SET(TARGET_SRC ${TARGET_SRC} ${TARGET_INC})
+SET(TARGET_SRC ${TARGET_SRC} ${TARGET_SRC_COMPONENTS} ${TARGET_INC} ${TARGET_INC_COMPONENTS})
 
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
@@ -58,4 +64,5 @@ ELSE ()
 
   install (TARGETS engine DESTINATION lib)
   install (FILES ${TARGET_INC} DESTINATION include/engine)
+  install (FILES ${TARGET_INC_COMPONENTS} DESTINATION include/engine/components)
 ENDIF ()
