@@ -2,9 +2,10 @@
 
 #include "../Transform.h"
 
-FreeMove::FreeMove(float speed)
+FreeMove::FreeMove(bool moveForwards, float speed)
 {
   m_speed = speed;
+  m_moveForwards = moveForwards;
 }
 
 FreeMove::~FreeMove(void)
@@ -20,11 +21,19 @@ void FreeMove::updateInput(Input *input, int delta)
   }
 
   if(input->isPressed(SDLK_w)) {
-    Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, -1.0f)), moveAmount);
+    if (m_moveForwards) {
+      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, -1.0f)), moveAmount);
+    } else {
+      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 1.0f, 0.0f)), moveAmount);
+    }
   }
 
   if(input->isPressed(SDLK_s)) {
-    Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, 1.0f)), moveAmount);
+    if (m_moveForwards) {
+      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, 1.0f)), moveAmount);
+    } else {
+      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, -1.0f, 0.0f)), moveAmount);
+    }
   }
 
   if(input->isPressed(SDLK_a)) {

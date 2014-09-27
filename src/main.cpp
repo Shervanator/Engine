@@ -4,7 +4,6 @@
 #include "components/Camera.h"
 #include "components/FreeMove.h"
 #include "components/FreeLook.h"
-#include "components/DebugComponent.h"
 #include "components/DirectionalLight.h"
 #include "components/SpotLight.h"
 #include "components/PointLight.h"
@@ -57,29 +56,20 @@ void CoolGame::init(GLManager *glManager)
   money.getEntity()->addComponent(new Sphere(1));
   addToScene(money.getEntity());
 
-  Entity *camera2Node = new Entity();
-
+  MeshLoader money2("monkey3.obj");
   Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
-  camera2Node->addComponent(cam2);
-  camera2Node->addComponent(new FreeMove());
+  money2.getEntity()->addComponent(cam2);
+  money2.getEntity()->addComponent(new FreeMove());
 #if defined(ANDROID)
-  camera2Node->addComponent(new FreeLook(0.0001f));
+  money2.getEntity()->addComponent(new FreeLook(0.0001f));
 #else
-  camera2Node->addComponent(new FreeLook());
+  money2.getEntity()->addComponent(new FreeLook());
 #endif
-  camera2Node->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  camera2Node->getTransform().setPosition(glm::vec3(0, 0, 0));
-  camera2Node->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  camera2Node->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
+  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 0));
+  money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
+  money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
 
-  Entity *moneySmall = new Entity();
-  moneySmall->addComponent(new MeshRenderer(new Mesh(Asset("monkey3.obj")), new Material(new Texture(Asset("t.jpg")))));
-  moneySmall->getTransform().setPosition(glm::vec3(0, 2, 0));
-  moneySmall->getTransform().setScale(glm::vec3(0.3, 0.3, 0.3));
-
-  camera2Node->addChild(moneySmall);
-
-  addToScene(camera2Node);
+  addToScene(money2.getEntity());
 
   primary_camera = cam2;
 

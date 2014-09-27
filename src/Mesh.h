@@ -9,15 +9,11 @@
   #include <GL/glew.h>
 #endif
 
-#include <glm/glm.hpp>
-
 #include "Vertex.h"
-#include "Asset.h"
 
 class Mesh
 {
 public:
-  Mesh(Asset file);
   Mesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   virtual ~Mesh(void);
 
@@ -30,8 +26,6 @@ private:
 #endif
   GLuint vbo;
   GLuint ibo;
-
-  glm::vec3 position;
 
   int indexSize, vertSize;
 };
