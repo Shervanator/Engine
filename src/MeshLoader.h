@@ -16,6 +16,8 @@ public:
 
 private:
   void loadScene(const aiScene* scene);
+  
+  std::string m_fileName;
 
   Entity *m_entity;
 };

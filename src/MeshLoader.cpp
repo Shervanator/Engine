@@ -14,6 +14,8 @@
 
 MeshLoader::MeshLoader(const std::string file)
 {
+  m_fileName = file;
+
   Assimp::Importer importer;
   importer.SetIOHandler(new CustomIOSystem());
 
@@ -106,7 +108,7 @@ void MeshLoader::loadScene(const aiScene* scene)
 
     m_entity->addComponent(
       new MeshRenderer(
-        new Mesh(&vertices[0], vertices.size(), &indices[0], indices.size()),
+        new Mesh(m_fileName, &vertices[0], vertices.size(), &indices[0], indices.size()),
         new Material(diffuseMap, normalMap, specularMap)
     ));
   }

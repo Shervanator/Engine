@@ -14,7 +14,7 @@ Plane::Plane(void)
     0, 2, 3
   };
 
-  mesh = new Mesh(vertices, 4, indices, 6);
+  mesh = new Mesh("BUILTIN_plane", vertices, 4, indices, 6);
 }
 
 Plane::~Plane(void)

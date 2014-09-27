@@ -10,6 +10,7 @@
 #endif
 
 #include "Asset.h"
+#include "TextureData.h"
 
 class Texture
 {
@@ -20,10 +21,7 @@ public:
   void bind(unsigned int unit = 0);
 
 private:
-  void initTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter);
-
-  GLenum textureTarget;
-  GLuint textureId;
+  TextureData *m_textureData;
 };
 
 #endif
