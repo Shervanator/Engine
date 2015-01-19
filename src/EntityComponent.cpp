@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "EntityComponent.h"
 
 void EntityComponent::setParent(Entity *parentEntity)

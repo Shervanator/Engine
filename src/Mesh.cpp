@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Mesh.h"
 
 #include <map>
@@ -13,7 +17,7 @@ Mesh::Mesh(std::string identifier, Vertex vertices[], int vertSize, unsigned int
   } else {
     m_meshData = m_meshCache[identifier] = new MeshData(vertices, vertSize, indices, indexSize);
   }
-  
+
   m_meshData->incrementReference();
 }
 

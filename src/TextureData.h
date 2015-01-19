@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef TEXTURE_DATA_H
 #define TEXTURE_DATA_H
 

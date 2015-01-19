@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef CAMERA_H
 #define CAMERA_H
 

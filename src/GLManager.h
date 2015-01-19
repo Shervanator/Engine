@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef GL_MANAGER_H
 #define GL_MANAGER_H
 

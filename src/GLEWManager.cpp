@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef ANDROID
   #include <GL/glew.h>
 #endif

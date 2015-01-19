@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef PHYSICS_MANAGER_H
 #define PHYSICS_MANAGER_H
 

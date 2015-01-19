@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef ATTENUATION_H
 #define ATTENUATION_H
 

@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Asset.h"
 #include "Logger.h"
 

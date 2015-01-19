@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Plane.h"
 
 Plane::Plane(void)

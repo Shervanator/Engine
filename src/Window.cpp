@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include <stdio.h>
 
 #include "Window.h"

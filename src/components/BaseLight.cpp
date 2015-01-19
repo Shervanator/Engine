@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "BaseLight.h"
 
 BaseLight::BaseLight(glm::vec3 color, float intensity)

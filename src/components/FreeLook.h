@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef FREE_LOOK_H
 #define FREE_LOOK_H
 

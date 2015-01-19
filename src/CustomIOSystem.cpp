@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "CustomIOSystem.h"
 
 #include "CustomIOStream.h"

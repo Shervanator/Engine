@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef BASE_LIGHT_H
 #define BASE_LIGHT_H
 

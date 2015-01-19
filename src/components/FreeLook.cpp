@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "FreeLook.h"
 
 #include "../Logger.h"

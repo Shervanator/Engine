@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef ANDROID_ASSET_MANAGER
 #define ANDROID_ASSET_MANAGER
 

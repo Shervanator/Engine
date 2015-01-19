@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "CustomIOStream.h"
 
 #include <string>
@@ -65,7 +69,7 @@ aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin)
     AAsset_seek(m_file, pOffset, std::ios::end);
 #endif
     break;
-      
+
   case _AI_ORIGIN_ENFORCE_ENUM_SIZE:
     return AI_FAILURE;
     break;

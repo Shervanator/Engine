@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "TextureData.h"
 
 TextureData::TextureData(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter)
@@ -13,7 +17,7 @@ TextureData::~TextureData()
 void TextureData::createTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter)
 {
   m_textureTarget = textureTarget;
-  
+
   glGenTextures(1, &m_textureId);
   glBindTexture(textureTarget, m_textureId);
   glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, filter);

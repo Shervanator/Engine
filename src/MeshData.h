@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef MESH_DATA_H
 #define MESH_DATA_H
 
@@ -27,7 +31,7 @@ private:
 #endif
   GLuint m_vbo;
   GLuint m_ibo;
-  
+
   int m_indexSize, m_vertSize;
 };
 

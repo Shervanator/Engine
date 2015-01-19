@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Engine.h"
 #include "Logger.h"
 #include "Ray.h"
@@ -47,7 +51,7 @@ void Engine::start(void)
 
   log_info("Initializing game");
   game->init(gl_manager);
-  
+
   game->getRootScene()->registerWithEngineAll(this);
 
 #ifdef EMSCRIPTEN
@@ -87,7 +91,7 @@ void Engine::tick(void)
     Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), window->getViewport(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
 
     Entity *pickedEntity = m_physicsManager->pick(&ray);
-    
+
     if (pickedEntity != NULL)
       gl_manager->drawEntity(pickedEntity);
 

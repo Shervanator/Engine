@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef CUSTOM_IO_STREAM
 #define CUSTOM_IO_STREAM
 

@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef WINDOW_H
 #define WINDOW_H
 

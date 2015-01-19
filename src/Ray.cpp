@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Ray.h"
 
 #include <glm/gtx/intersect.hpp>

@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef GLEW_MANAGER_H
 #define GLEW_MANAGER_H
 

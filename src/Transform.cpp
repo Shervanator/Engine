@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Transform.h"
 
 #include <glm/gtc/matrix_transform.hpp>

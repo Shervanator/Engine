@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "GLManager.h"
 
 GLManager::GLManager(int width, int height)

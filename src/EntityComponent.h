@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef ENTITY_COMPONENT_H
 #define ENTITY_COMPONENT_H
 

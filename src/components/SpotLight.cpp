@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "SpotLight.h"
 
 #include "../Engine.h"

@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "ShadedResource.h"
 
 ShadedResource::ShadedResource(void)
@@ -13,7 +17,7 @@ void ShadedResource::incrementReference(void)
 void ShadedResource::decrementReference(void)
 {
   m_referenceCount--;
-  
+
   if (m_referenceCount <= 0)
     delete this;
 }

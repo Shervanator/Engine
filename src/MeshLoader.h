@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef MESH_LOADER_H
 #define MESH_LOADER_H
 
@@ -16,7 +20,7 @@ public:
 
 private:
   void loadScene(const aiScene* scene);
-  
+
   std::string m_fileName;
 
   Entity *m_entity;

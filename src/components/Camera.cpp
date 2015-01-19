@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #define GLM_FORCE_RADIANS
 #include <glm/gtx/transform.hpp>
 

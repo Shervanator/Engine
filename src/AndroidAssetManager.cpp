@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifdef ANDROID
 
 #include "AndroidAssetManager.h"

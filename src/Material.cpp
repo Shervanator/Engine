@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Material.h"
 
 Material::Material(Texture *diffuseMap, Texture *normalMap, Texture *specularMap)

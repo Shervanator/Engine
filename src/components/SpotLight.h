@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef SPOT_LIGHT_H
 #define SPOT_LIGHT_H
 

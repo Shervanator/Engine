@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef LOGGER_H
 #define LOGGER_H
 

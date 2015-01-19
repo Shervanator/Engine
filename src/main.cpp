@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Engine.h"
 
 #include "components/MeshRenderer.h"

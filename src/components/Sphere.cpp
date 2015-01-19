@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #include "Sphere.h"
 
 #include "../Engine.h"

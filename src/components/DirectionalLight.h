@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef DIRECTIONAL_LIGHT_H
 #define DIRECTIONAL_LIGHT_H
 

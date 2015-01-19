@@ -1,3 +1,7 @@
+//
+//  Author: Shervin Aflatooni
+//
+
 #ifndef VERTEX_H
 #define VERTEX_H
 
