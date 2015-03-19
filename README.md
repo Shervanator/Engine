@@ -16,7 +16,7 @@ First install required libraries:
 
 #### Mac Build
 ```
-brew install sdl2 assimp glew glm
+brew install sdl2 assimp glew glm cmake
 ```
 
 After create the make file or project with cmake:
