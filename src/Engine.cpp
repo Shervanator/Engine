@@ -17,9 +17,9 @@
   static Engine *instance = NULL;
 #endif
 
-
 Engine::Engine(Game *game)
 {
+
   log_info("Initializing SDL");
   window = new Window();
 

@@ -103,4 +103,3 @@ size_t CustomIOStream::FileSize(void) const
 void CustomIOStream::Flush(void)
 {
 }
-

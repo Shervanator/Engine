@@ -153,7 +153,7 @@ void GLManager::createShaders(void)
 
   forwardAmbient->setUniform1i("diffuseMap", 0);
 
-  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
+  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(1, 1, 1));
 
   forwardDirectional = new Shader("shaders/forward-directional");
   forwardDirectional->setAttribLocation("position", 0);

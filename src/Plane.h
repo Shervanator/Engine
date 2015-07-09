@@ -10,7 +10,7 @@
 class Plane
 {
 public:
-  Plane(void);
+  Plane(float width = 1, float height = 1);
   ~Plane(void);
 
   Mesh *getMesh(void);
