@@ -55,7 +55,7 @@ void MeshData::createMesh(Vertex *vertices, int vertSize, unsigned int *indices,
 void MeshData::render(void)
 {
 #if defined(GLES2)
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
@@ -69,8 +69,8 @@ void MeshData::render(void)
   glEnableVertexAttribArray(3);
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-  glDrawElements(GL_TRIANGLES, indexSize, GL_UNSIGNED_INT, (void*)0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+  glDrawElements(GL_TRIANGLES, m_indexSize, GL_UNSIGNED_INT, (void*)0);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);

@@ -18,14 +18,18 @@ file(GLOB TARGET_SRC
   ${Engine_SOURCE_DIR}/*.c
 )
 
+list(REMOVE_ITEM TARGET_SRC ${Engine_SOURCE_DIR}/main.cpp)
+
 file(GLOB TARGET_SRC_COMPONENTS
 ${Engine_SOURCE_DIR}/components/*.cpp
 ${Engine_SOURCE_DIR}/components/*.c
 )
 
-find_package(GLM REQUIRED)
-
 SET(TARGET_SRC ${TARGET_SRC} ${TARGET_SRC_COMPONENTS} ${TARGET_INC} ${TARGET_INC_COMPONENTS})
+
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+find_package(GLM REQUIRED)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
@@ -33,13 +37,13 @@ IF (EMSCRIPTEN)
   SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432")
 
-  include_directories(${GLM_INCLUDE_DIRS} /Users/shervinaflatooni/Git/assimp/include/)
+  include_directories(${GLM_INCLUDE_DIRS} $ENV{HOME}/workspace/assimp/include/)
 
   add_library (engine SHARED ${TARGET_SRC})
-  target_link_libraries (engine /Users/shervinaflatooni/Git/assimp/build.em/code/libassimp.so)
+  target_link_libraries (engine $ENV{HOME}/workspace/assimp/build.em/code/libassimp.so)
 
-  add_executable (game.html main.cpp)
-  target_link_libraries (game.html engine)
+  add_executable (game main.cpp)
+  target_link_libraries (game engine)
 ELSE ()
   SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++11 -stdlib=libc++")

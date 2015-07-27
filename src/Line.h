@@ -18,7 +18,9 @@ public:
   void render(Shader *shader);
 
 private:
+#if !defined(GLES2)
   GLuint vao;
+#endif
   GLuint vbo;
 };
 

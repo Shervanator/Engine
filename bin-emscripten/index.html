@@ -1,0 +1,15 @@
+<html>
+    <body>
+        <canvas class="topleft" id="canvas"></canvas>
+        <script type="text/javascript">
+            var canvas = document.getElementById("canvas");
+            //make the canvas fullscreen
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            //show Emscripten environment where the canvas is
+            var Module = {};
+            Module.canvas = canvas;
+        </script>
+        <script type="text/javascript" src="game.js"></script>
+    </body>
+</html>
