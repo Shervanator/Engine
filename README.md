@@ -35,6 +35,8 @@ make
 To build the html5 engine use:
 
 ```
+brew install emscripten
+
 ./cmake-emscripten.sh
 
 # also need to compile assimp with emscripten:

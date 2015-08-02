@@ -69,7 +69,7 @@ void CoolGame::init(GLManager *glManager)
 #else
   money2.getEntity()->addComponent(new FreeLook());
 #endif
-  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 0));
+  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
   money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
   money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
 

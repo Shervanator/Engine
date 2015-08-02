@@ -8,8 +8,6 @@ project (Engine)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${Engine_SOURCE_DIR}/../CMakeModules)
 
-# add_definitions( -DEMSCRIPTEN=${EMSCRIPTEN} )
-
 file(GLOB TARGET_INC ${Engine_SOURCE_DIR}/*.h)
 file(GLOB TARGET_INC_COMPONENTS ${Engine_SOURCE_DIR}/components/*.h)
 
@@ -34,8 +32,8 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432")
+  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432 -s DISABLE_EXCEPTION_CATCHING=2")
 
   include_directories(${GLM_INCLUDE_DIRS} $ENV{HOME}/workspace/assimp/include/)
 

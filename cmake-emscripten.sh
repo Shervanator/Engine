@@ -1,4 +1,4 @@
-EMSCRIPTEN_PATH=~/emsdk_portable/emscripten/tag-1.34.3
+EMSCRIPTEN_PATH=/usr/local/opt/emscripten/libexec
 BUILD_TYPE=Release
 
 rm -rf bin-emscripten
