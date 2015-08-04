@@ -66,20 +66,10 @@ glm::vec2 Input::getMousePosition(void)
 
 void Input::grabMouse(void)
 {
-#if defined(EMSCRIPTEN)
-  SDL_ShowCursor(0);
-  SDL_WM_GrabInput(SDL_GRAB_ON);
-#else
   SDL_SetRelativeMouseMode(SDL_TRUE);
-#endif
 }
 
 void Input::releaseMouse(void)
 {
-#if defined(EMSCRIPTEN)
-  SDL_ShowCursor(1);
-  SDL_WM_GrabInput(SDL_GRAB_OFF);
-#else
   SDL_SetRelativeMouseMode(SDL_FALSE);
-#endif
 }

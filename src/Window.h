@@ -37,9 +37,7 @@ private:
   void logSDLError(const char *msg);
 
   SDL_Window *win;
-#if !defined(EMSCRIPTEN)
   SDL_GLContext glContext;
-#endif
 
   Uint32 current_time, old_time, delta_time;
 

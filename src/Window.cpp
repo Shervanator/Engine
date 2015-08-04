@@ -11,17 +11,11 @@ Window::Window(void)
 {
   quit = false;
 
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+  if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0)
   {
     logSDLError("SDL_Init");
   }
 
-#if defined(EMSCRIPTEN)
-  this->width = 1200;
-  this->height = 800;
-
-  SDL_SetVideoMode(this->width, this->height, 0, SDL_FULLSCREEN | SDL_OPENGL);
-#else
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
 
@@ -63,17 +57,14 @@ Window::Window(void)
   SDL_GL_MakeCurrent(win, glContext);
 
   current_time = SDL_GetTicks();
-#endif
 
   log_info("Window init to: %i x %i", this->width, this->height);
 }
 
 Window::~Window(void)
 {
-#if !defined(EMSCRIPTEN)
   SDL_GL_DeleteContext(glContext);
   SDL_DestroyWindow(win);
-#endif
   SDL_Quit();
 }
 
@@ -120,11 +111,7 @@ void Window::tick(void)
 
 void Window::swapBuffer(void)
 {
-#if defined(EMSCRIPTEN)
-  SDL_GL_SwapBuffers();
-#else
   SDL_GL_SwapWindow(win);
-#endif
 }
 
 Input* Window::getInput(void)
