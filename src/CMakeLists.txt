@@ -32,8 +32,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall --preload-file ../assets/")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s ASSERTIONS=2 -s TOTAL_MEMORY=39554432 -s DISABLE_EXCEPTION_CATCHING=2")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s TOTAL_MEMORY=38000000")
 
   include_directories(${GLM_INCLUDE_DIRS} $ENV{HOME}/workspace/assimp/include/)
 
