@@ -5,11 +5,7 @@
 #ifndef CUSTOM_IO_STREAM
 #define CUSTOM_IO_STREAM
 
-#include <fstream>
-
-#ifdef ANDROID
-  #include "AndroidAssetManager.h"
-#endif
+#include "EngineIOStream.h"
 
 #include <assimp/IOStream.hpp>
 
@@ -32,12 +28,7 @@ public:
   void Flush(void);
 
 private:
-#ifndef ANDROID
-  std::ifstream *m_file;
-#else
-  AAsset *m_file;
-#endif
-  size_t m_size;
+  EngineIOStream *m_iostream;
 };
 
 #endif

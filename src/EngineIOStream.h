@@ -17,11 +17,11 @@ enum origin {
   Origin_END
 };
 
-class IOStream
+class EngineIOStream
 {
 public:
-  IOStream(const std::string &fileName, const char* pMode);
-  ~IOStream(void);
+  EngineIOStream(const std::string &fileName);
+  ~EngineIOStream(void);
 
   size_t read(void* pvBuffer, size_t pSize, size_t pCount);
   size_t write(const void* pvBuffer, size_t pSize, size_t pCount);
@@ -30,11 +30,13 @@ public:
   size_t fileSize(void) const;
   void flush(void);
 
+  std::string getFileName(void);
+
 private:
-  size_t m_size;
+  std::string m_fileName;
 
 #ifndef ANDROID
-  std::ifstream *m_file;
+  std::fstream *m_file;
 #else
   AAsset *m_file;
 #endif
