@@ -2,7 +2,7 @@
 
 A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine making use of:
 
-- SDL1/SDL2 window library.
+- SDL2 window library.
 - stb_image.h image library.
 - OpenGL 3 / OpenGL ES 2.0 / OpenGL ES 3.0 Graphics APIs.
 - Assimp asset importing library.
