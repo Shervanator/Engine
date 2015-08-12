@@ -7,6 +7,8 @@
 
 #include <string>
 
+#include "EngineIOStream.h"
+
 class Asset
 {
 public:
@@ -14,14 +16,12 @@ public:
   ~Asset(void);
 
   const char *read(void);
-  size_t getSize(void);
-  std::string getFileName(void);
+
+  EngineIOStream *getIOStream(void);
 
 private:
-  std::string fileName;
-
-  char *buffer;
-  size_t size;
+  char *m_buffer;
+  EngineIOStream *m_ioStream;
 };
 
 #endif
