@@ -81,7 +81,7 @@ cmake -DEMSCRIPTEN=1 -DCMAKE_TOOLCHAIN_FILE=/usr/local/opt/emscripten/libexec/cm
 # Finally Run:
 make
 
-# then build with:
+# then build the engine with:
 
 cd bin-emscripten
 make
