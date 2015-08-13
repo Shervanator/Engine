@@ -41,7 +41,7 @@ git clone git@github.com:assimp/assimp.git
 cd assimp
 mkdir build.em
 cd build.em
-export EMSCRIPTEN_PATH=/usr/local/opt/emscripten/libexec # or where ever emscripten is installed
+export EMSCRIPTEN_PATH=/usr/local/opt/emscripten/libexec # or wherever emscripten is installed
 
 cmake -DEMSCRIPTEN=1 -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN_PATH/cmake/Modules/Platform/Emscripten.cmake -DASSIMP_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=$EMSCRIPTEN_PATH/Modules/cmake  ..
 
