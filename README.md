@@ -10,10 +10,6 @@ A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine maki
 
 ## Usage
 
-### To Build:
-
-First install required libraries:
-
 #### Mac Build
 ```
 brew install sdl2 assimp glew glm cmake
