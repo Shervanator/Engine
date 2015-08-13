@@ -25,8 +25,11 @@ ${Engine_SOURCE_DIR}/components/*.c
 
 SET(TARGET_SRC ${TARGET_SRC} ${TARGET_SRC_COMPONENTS} ${TARGET_INC} ${TARGET_INC_COMPONENTS})
 
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER)
 find_package(GLM REQUIRED)
+find_package(ASSIMP REQUIRED)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 IF (EMSCRIPTEN)
@@ -34,40 +37,52 @@ IF (EMSCRIPTEN)
 
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2")
 
-  include_directories(${GLM_INCLUDE_DIRS} $ENV{HOME}/workspace/assimp/include/)
+  set(ENGINE_INCLUDES
+    ${GLM_INCLUDE_DIRS}
+    ${ASSIMP_INCLUDE_DIR}
+  )
 
-  add_library (engine SHARED ${TARGET_SRC})
-  target_link_libraries (engine $ENV{HOME}/workspace/assimp/build.em/code/libassimp.so)
-
-  add_executable (game main.cpp)
-  target_link_libraries (game engine)
+  set(ENGINE_LIBS
+    ${ASSIMP_LIBRARY}
+  )
 ELSE ()
-  SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -g -Wall")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++11 -stdlib=libc++")
   find_package(OpenGL REQUIRED)
   find_package(SDL2 REQUIRED)
-  find_package(ASSIMP REQUIRED)
   find_package(GLEW REQUIRED)
 
   find_library(corefoundation_lib CoreFoundation)
 
-  set(engine_libs
+  set(ENGINE_INCLUDES
+    ${SDL2_INCLUDE_DIR}
+    ${GLM_INCLUDE_DIRS}
+    ${ASSIMP_INCLUDE_DIR}
+    ${GLEW_INCLUDE_DIRS}
+  )
+
+  set(ENGINE_LIBS
     ${OPENGL_LIBRARY}
     ${SDL2_LIBRARY}
     ${ASSIMP_LIBRARY}
     ${GLEW_LIBRARIES}
     ${corefoundation_lib}
   )
-
-  include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
-
-  add_library (engine SHARED ${TARGET_SRC})
-  target_link_libraries (engine ${engine_libs})
-
-  add_executable (game main.cpp)
-  target_link_libraries (game engine)
-
-  install (TARGETS engine DESTINATION lib)
-  install (FILES ${TARGET_INC} DESTINATION include/engine)
-  install (FILES ${TARGET_INC_COMPONENTS} DESTINATION include/engine/components)
 ENDIF ()
+
+include_directories(${ENGINE_INCLUDES})
+
+add_library (engine SHARED ${TARGET_SRC})
+target_link_libraries (engine ${ENGINE_LIBS})
+
+add_executable (game main.cpp)
+target_link_libraries (game engine)
+
+install (TARGETS engine DESTINATION lib)
+install (FILES ${TARGET_INC} DESTINATION include/engine)
+install (FILES ${TARGET_INC_COMPONENTS} DESTINATION include/engine/components)
+
+IF (NOT TARGET uninstall)
+  # add make uninstall capability
+  configure_file("${Engine_SOURCE_DIR}/../CMakeModules/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
+  add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+ENDIF()

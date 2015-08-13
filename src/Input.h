@@ -7,7 +7,7 @@
 
 #include <map>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <glm/glm.hpp>
 
