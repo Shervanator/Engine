@@ -64,7 +64,7 @@ void MeshLoader::loadScene(const aiScene* scene)
       const aiVector3D* pPos = &(model->mVertices[i]);
       const aiVector3D* pNormal = &(model->mNormals[i]);
       const aiVector3D* pTexCoord = model->HasTextureCoords(0) ? &(model->mTextureCoords[0][i]) : &aiZeroVector;
-      const aiVector3D* pTangent = &(model->mTangents[i]);
+      const aiVector3D* pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[i]) : &aiZeroVector;
 
       Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
                   glm::vec2(pTexCoord->x, pTexCoord->y),
@@ -94,6 +94,8 @@ void MeshLoader::loadScene(const aiScene* scene)
     if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0
         && pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
       diffuseMap = new Texture(Asset(Path.data));
+    } else {
+      diffuseMap = new Texture(Asset("default_normal.jpg"));
     }
 
     if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0
