@@ -114,7 +114,7 @@ void MeshLoader::loadScene(const aiScene* scene)
 
     m_entity->addComponent(
       new MeshRenderer(
-        new Mesh(m_fileName, &vertices[0], vertices.size(), &indices[0], indices.size()),
+        new Mesh(m_fileName + std::string(model->mName.C_Str()), &vertices[0], vertices.size(), &indices[0], indices.size()),
         new Material(diffuseMap, normalMap, specularMap)
     ));
   }
