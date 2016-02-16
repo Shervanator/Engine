@@ -10,6 +10,7 @@
 #include "Material.h"
 #include "components/Camera.h"
 #include <string>
+#include <map>
 
 #include <assimp/scene.h>
 
@@ -32,6 +33,8 @@ private:
 
   Entity *m_entity;
   Camera *m_camera;
+
+  std::map<std::string, aiNodeAnim *> m_nodeAnimation;
 };
 
 #endif

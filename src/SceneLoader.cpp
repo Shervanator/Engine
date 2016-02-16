@@ -120,6 +120,14 @@ Material* SceneLoader::loadMaterial(const aiMaterial* material)
 Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene* scene)
 {
   Entity *entity = new Entity();
+
+  std::map<std::string, aiNodeAnim *>::const_iterator it = m_nodeAnimation.find(std::string(node->mName.C_Str()));
+  if(it != m_nodeAnimation.end()) {
+    log_info("Found animation: %i", it->second->mNumPositionKeys);
+
+    // entity->getTransform().setPosition(glm::vec3(it->second->mPositionKeys[0].mValue[0], it->second->mPositionKeys[0].mValue[1], it->second->mPositionKeys[0].mValue[2]));
+  }
+
   for (int i = 0; i < node->mNumChildren; i++) {
     aiNode* childNode = node->mChildren[i];
 
@@ -140,6 +148,16 @@ Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene
 
 void SceneLoader::loadScene(const aiScene* scene)
 {
+  if (scene->HasAnimations()) {
+    for(int i = 0; i < scene->mNumAnimations; i++) {
+      aiAnimation *anim = scene->mAnimations[i];
+      for (int j = 0; j < anim->mNumChannels; j++) {
+        aiNodeAnim *nodeAnim = anim->mChannels[j];
+        m_nodeAnimation[std::string(nodeAnim->mNodeName.C_Str())] = nodeAnim;
+      }
+    }
+  }
+
   m_entity = new Entity();
   loadGraph(scene->mRootNode, m_entity, scene);
 
