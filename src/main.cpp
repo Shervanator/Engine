@@ -18,7 +18,8 @@
 #include "Texture.h"
 #include "Logger.h"
 #include "MeshLoader.h"
-
+#include "SceneLoader.h"
+#include "AnimationLoader.h"
 
 class CoolGame : public Game
 {
@@ -41,34 +42,25 @@ void CoolGame::update(int delta)
 
 void CoolGame::init(GLManager *glManager)
 {
-  Entity *plane = new Entity();
-  plane->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
-  plane->getTransform().setPosition(glm::vec3(0, -2, 0));
-  plane->getTransform().setScale(glm::vec3(10, 10, 10));
+  // AnimationLoader al("RotatingCircularLogoDark.dae");
 
-  addToScene(plane);
+  // MeshLoader ml("RotatingCircularLogoDark.dae");
+  // ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
+  // ml.getEntity()->addComponent(new Sphere(1));
+  // addToScene(ml.getEntity());
 
-  MeshLoader ml("Pregnant.obj");
-  ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
-  ml.getEntity()->addComponent(new Sphere(1));
-  addToScene(ml.getEntity());
-
-  MeshLoader money("monkey3.obj");
-  money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
-  Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
-  money.getEntity()->addComponent(cam1);
-  money.getEntity()->addComponent(new Sphere(1));
-  addToScene(money.getEntity());
+  SceneLoader sl("RotatingCircularLogoDark.dae");
+  // sl.getEntity()->addComponent(new FreeMove());
+  // sl.getEntity()->addComponent(new FreeLook());
+  addToScene(sl.getEntity());
+  // primary_camera = sl.getCamera();
 
   MeshLoader money2("monkey3.obj");
+  // Entity *money2 = new Entity();
   Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
   money2.getEntity()->addComponent(cam2);
   money2.getEntity()->addComponent(new FreeMove());
-#if defined(ANDROID)
-  money2.getEntity()->addComponent(new FreeLook(0.0001f));
-#else
   money2.getEntity()->addComponent(new FreeLook());
-#endif
   money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
   money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
   money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
@@ -76,6 +68,11 @@ void CoolGame::init(GLManager *glManager)
   addToScene(money2.getEntity());
 
   primary_camera = cam2;
+
+  Entity *light = new Entity();
+  light->addComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f));
+
+  addToScene(light);
 
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
