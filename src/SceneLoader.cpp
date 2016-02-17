@@ -139,7 +139,7 @@ Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene
   if(it != m_nodeAnimation.end()) {
     // log_info("Found animation: %s", it->first.c_str());
      entity->getTransform().translate(glm::vec3(it->second->mPositionKeys[FRAME].mValue.x, it->second->mPositionKeys[FRAME].mValue.y, it->second->mPositionKeys[FRAME].mValue.z));
-    //  entity->getTransform().rotate(glm::vec3(it->second->mRotationKeys[FRAME].mValue.x, it->second->mRotationKeys[FRAME].mValue.y, it->second->mRotationKeys[FRAME].mValue.z), it->second->mRotationKeys[FRAME].mValue.w);
+     entity->getTransform().rotate(glm::vec3(it->second->mRotationKeys[FRAME].mValue.w, it->second->mRotationKeys[FRAME].mValue.x, it->second->mRotationKeys[FRAME].mValue.y), it->second->mRotationKeys[FRAME].mValue.w);
     //  entity->getTransform().scale(glm::vec3(it->second->mScalingKeys[FRAME].mValue.x, it->second->mScalingKeys[FRAME].mValue.y, it->second->mScalingKeys[FRAME].mValue.z));
 
   }
