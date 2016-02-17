@@ -8,13 +8,14 @@ GLManager::GLManager(int width, int height)
 {
   this->width = width;
   this->height = height;
-  glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
   glClearDepthf(1.0f);
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
   glDisable(GL_CULL_FACE);
+  // glEnable(GL_CULL_FACE);
 
   glViewport(0, 0, this->width, this->height);
 
@@ -153,6 +154,7 @@ void GLManager::createShaders(void)
 
   forwardAmbient->setUniform1i("diffuseMap", 0);
 
+  // forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(1.0f, 1.0f, 1.0f));
   forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
   forwardDirectional = new Shader("shaders/forward-directional");
