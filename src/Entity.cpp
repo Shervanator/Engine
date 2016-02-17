@@ -36,13 +36,18 @@ void Entity::addComponent(EntityComponent* component)
   components.push_back(component);
 }
 
-void Entity::updateInputAll(Input *input, int delta)
+void Entity::calculateWorldMatrix(void)
 {
   if (parentEntity == NULL) {
     worldMatrix = transform.getTransformMatrix();
   } else {
     worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
   }
+}
+
+void Entity::updateInputAll(Input *input, int delta)
+{
+  calculateWorldMatrix();
 
   for (unsigned int i = 0; i < components.size(); i++)
   {
@@ -98,6 +103,11 @@ void Entity::registerWithEngineAll(Engine *engine)
 Transform& Entity::getTransform(void)
 {
   return transform;
+}
+
+Entity* Entity::getParent(void)
+{
+  return parentEntity;
 }
 
 std::vector<Entity*> *Entity::getChildren(void)

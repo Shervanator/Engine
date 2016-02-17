@@ -120,10 +120,12 @@ Material* SceneLoader::loadMaterial(const aiMaterial* material)
   return new Material(diffuseMap, normalMap, specularMap);
 }
 
-Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene* scene)
+Entity* SceneLoader::loadGraph(aiNode* node, const aiScene* scene)
 {
-  int FRAME = 10;
+  int FRAME = 9;
   Entity *entity = new Entity();
+
+  entity->name = std::string(node->mName.C_Str());
 
   aiVector3D scale;
   aiQuaternion rotation;
@@ -132,8 +134,6 @@ Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene
   entity->getTransform().setPosition(glm::vec3(position.x, position.y, position.z));
   entity->getTransform().setRotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
   entity->getTransform().setScale(glm::vec3(scale.x, scale.y, scale.z));
-
-  log_info("Scale: %s %f %f %f", node->mName.C_Str(), entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
 
   std::map<std::string, aiNodeAnim *>::const_iterator it = m_nodeAnimation.find(std::string(node->mName.C_Str()));
   if(it != m_nodeAnimation.end()) {
@@ -144,35 +144,41 @@ Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene
 
   }
 
-  log_info("Position: %s %f %f %f", node->mName.C_Str(), entity->getTransform().getPosition().x, entity->getTransform().getPosition().y, entity->getTransform().getPosition().z);
-  log_info("Rotation: %s %f %f %f %f", node->mName.C_Str(), entity->getTransform().getRotation().x, entity->getTransform().getRotation().y, entity->getTransform().getRotation().z, entity->getTransform().getRotation().w);
-  log_info("Scale: %s %f %f %f", node->mName.C_Str(), entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
-
   std::map<std::string, aiCamera *>::const_iterator it2 = m_nodeCamera.find(std::string(node->mName.C_Str()));
   if(it2 != m_nodeCamera.end()) {
-    // log_info("Found camera");
-
     entity->addComponent(new FreeMove());
     entity->addComponent(new FreeLook());
     entity->addComponent(m_camera = new Camera(it2->second->mHorizontalFOV, it2->second->mAspect, it2->second->mClipPlaneNear, it2->second->mClipPlaneFar));
   }
 
+  for (int j = 0; j < node->mNumMeshes; j++) {
+    const aiMesh* mesh = scene->mMeshes[node->mMeshes[j]];
+    const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+    entity->addComponent(
+      new MeshRenderer(
+        loadMesh(mesh),
+        loadMaterial(material)
+    ));
+  }
+
   for (int i = 0; i < node->mNumChildren; i++) {
     aiNode* childNode = node->mChildren[i];
-
-    for (int j = 0; j < childNode->mNumMeshes; j++) {
-      const aiMesh* mesh = scene->mMeshes[childNode->mMeshes[j]];
-      const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-      entity->addComponent(
-        new MeshRenderer(
-          loadMesh(mesh),
-          loadMaterial(material)
-      ));
-    }
-    parentEntity->addChild(loadGraph(childNode, entity, scene));
+    entity->addChild(loadGraph(childNode, scene));
   }
 
   return entity;
+}
+
+void debugEntities(Entity *entity)
+{
+  log_info("Position: %s %f %f %f", entity->name.c_str(), entity->getTransform().getPosition().x, entity->getTransform().getPosition().y, entity->getTransform().getPosition().z);
+  log_info("PositionWorld: %s %f %f %f", entity->name.c_str(), entity->getPosition().x, entity->getPosition().y, entity->getPosition().z);
+  log_info("Rotation: %s %f %f %f %f", entity->name.c_str(), entity->getTransform().getRotation().x, entity->getTransform().getRotation().y, entity->getTransform().getRotation().z, entity->getTransform().getRotation().w);
+  log_info("Scale: %s %f %f %f", entity->name.c_str(), entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
+
+  std::vector<Entity*> entities = *entity->getChildren();
+  for (int i = 0; i < entities.size(); i++)
+    debugEntities(entities[i]);
 }
 
 void SceneLoader::loadScene(const aiScene* scene)
@@ -194,6 +200,7 @@ void SceneLoader::loadScene(const aiScene* scene)
     }
   }
 
-  m_entity = new Entity();
-  loadGraph(scene->mRootNode, m_entity, scene);
+  m_entity = loadGraph(scene->mRootNode, scene);
+
+  debugEntities(m_entity);
 }

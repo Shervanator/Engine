@@ -6,6 +6,7 @@
 #define ENTITY_H
 
 #include <vector>
+#include <string>
 
 #include "Transform.h"
 #include "Shader.h"
@@ -29,6 +30,8 @@ public:
   void renderAll(Shader *shader);
   void registerWithEngineAll(Engine *engine);
 
+  Entity* getParent(void);
+
   Transform& getTransform(void);
 
   std::vector<Entity*> *getChildren(void);
@@ -37,6 +40,10 @@ public:
 
   glm::vec4 getPosition(void);
   glm::vec4 getDirection(void);
+
+  void calculateWorldMatrix(void);
+
+  std::string name;
 private:
   Transform transform;
 

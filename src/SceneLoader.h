@@ -27,7 +27,7 @@ private:
   void loadScene(const aiScene* scene);
   Mesh* loadMesh(const aiMesh* mesh);
   Material* loadMaterial(const aiMaterial* material);
-  Entity* loadGraph(aiNode* node, Entity* parentEntity, const aiScene* scene);
+  Entity* loadGraph(aiNode* node, const aiScene* scene);
 
   std::string m_fileName;
 
