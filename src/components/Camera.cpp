@@ -2,7 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#define GLM_FORCE_RADIANS
+// #define GLM_FORCE_RADIANS
 #include <glm/gtx/transform.hpp>
 
 #include "Camera.h"
@@ -25,4 +25,3 @@ glm::mat4 Camera::getProjectionMatrix(void)
 {
   return projection;
 }
-

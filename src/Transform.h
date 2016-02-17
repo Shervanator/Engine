@@ -6,7 +6,7 @@
 #define TRANSFORM_H
 
 #define GLM_SWIZZLE
-#define GLM_FORCE_RADIANS
+// #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
@@ -17,6 +17,7 @@ public:
   ~Transform(void);
 
   void rotate(const glm::vec3& axis, float angle);
+  void rotate(const glm::quat& rotation);
   void scale(float scale);
   void scale(const glm::vec3& scale);
   void translate(const glm::vec3& position);
@@ -27,7 +28,7 @@ public:
 
   void setRotation(const glm::quat& rotation);
   void setRotation(const glm::vec3& axis, float w);
-  
+
   glm::vec4 getPosition(void);
   glm::vec3 getScale(void);
   glm::quat getRotation(void);

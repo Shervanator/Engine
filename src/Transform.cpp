@@ -24,6 +24,11 @@ void Transform::rotate(const glm::vec3& axis, float angle)
   m_rotation = glm::rotate(m_rotation, angle, axis);
 }
 
+void Transform::rotate(const glm::quat& rotation)
+{
+  m_rotation = rotation * m_rotation;
+}
+
 void Transform::scale(float scale)
 {
   setScale(getScale() * scale);

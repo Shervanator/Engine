@@ -18,6 +18,7 @@
 
 #include "components/FreeMove.h"
 #include "components/FreeLook.h"
+#include "components/Animation.h"
 
 SceneLoader::SceneLoader(const std::string file)
 {
@@ -137,17 +138,21 @@ Entity* SceneLoader::loadGraph(aiNode* node, const aiScene* scene)
 
   std::map<std::string, aiNodeAnim *>::const_iterator it = m_nodeAnimation.find(std::string(node->mName.C_Str()));
   if(it != m_nodeAnimation.end()) {
-    // log_info("Found animation: %s", it->first.c_str());
-     entity->getTransform().translate(glm::vec3(it->second->mPositionKeys[FRAME].mValue.x, it->second->mPositionKeys[FRAME].mValue.y, it->second->mPositionKeys[FRAME].mValue.z));
-     entity->getTransform().rotate(glm::vec3(it->second->mRotationKeys[FRAME].mValue.w, it->second->mRotationKeys[FRAME].mValue.x, it->second->mRotationKeys[FRAME].mValue.y), it->second->mRotationKeys[FRAME].mValue.w);
-    //  entity->getTransform().scale(glm::vec3(it->second->mScalingKeys[FRAME].mValue.x, it->second->mScalingKeys[FRAME].mValue.y, it->second->mScalingKeys[FRAME].mValue.z));
+    Animation *animation = new Animation();
+    entity->addComponent(animation);
 
+    for (int i = 0; i < it->second->mNumPositionKeys; i++) {
+      animation->addPosition(glm::vec3(it->second->mPositionKeys[i].mValue.x, it->second->mPositionKeys[i].mValue.y, it->second->mPositionKeys[i].mValue.z));
+      animation->addRotation(glm::quat(it->second->mRotationKeys[i].mValue.w, it->second->mRotationKeys[i].mValue.x, it->second->mRotationKeys[i].mValue.y, it->second->mRotationKeys[i].mValue.z));
+      animation->addScale(glm::vec3(it->second->mScalingKeys[i].mValue.x, it->second->mScalingKeys[i].mValue.y, it->second->mScalingKeys[i].mValue.z));
+    }
   }
 
   std::map<std::string, aiCamera *>::const_iterator it2 = m_nodeCamera.find(std::string(node->mName.C_Str()));
   if(it2 != m_nodeCamera.end()) {
     entity->addComponent(new FreeMove());
     entity->addComponent(new FreeLook());
+
     entity->addComponent(m_camera = new Camera(it2->second->mHorizontalFOV, it2->second->mAspect, it2->second->mClipPlaneNear, it2->second->mClipPlaneFar));
   }
 
@@ -171,10 +176,21 @@ Entity* SceneLoader::loadGraph(aiNode* node, const aiScene* scene)
 
 void debugEntities(Entity *entity)
 {
-  log_info("Position: %s %f %f %f", entity->name.c_str(), entity->getTransform().getPosition().x, entity->getTransform().getPosition().y, entity->getTransform().getPosition().z);
-  log_info("PositionWorld: %s %f %f %f", entity->name.c_str(), entity->getPosition().x, entity->getPosition().y, entity->getPosition().z);
-  log_info("Rotation: %s %f %f %f %f", entity->name.c_str(), entity->getTransform().getRotation().x, entity->getTransform().getRotation().y, entity->getTransform().getRotation().z, entity->getTransform().getRotation().w);
-  log_info("Scale: %s %f %f %f", entity->name.c_str(), entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
+  entity->calculateWorldMatrix();
+
+  log_info("_____________________________________________");
+  log_info("Entity: %s", entity->name.c_str());
+  log_info("Position: %f %f %f", entity->getTransform().getPosition().x, entity->getTransform().getPosition().y, entity->getTransform().getPosition().z);
+  log_info("PositionWorld: %f %f %f", entity->getPosition().x, entity->getPosition().y, entity->getPosition().z);
+  glm::vec3 lol = glm::eulerAngles(glm::quat(entity->getTransform().getRotation().w, entity->getTransform().getRotation().x, entity->getTransform().getRotation().y, entity->getTransform().getRotation().z));
+  log_info("Rotation (Degrees): %f %f %f", glm::degrees(lol.x), glm::degrees(lol.y), glm::degrees(lol.z));
+  log_info("Rotation: %f %f %f %f",  entity->getTransform().getRotation().w, entity->getTransform().getRotation().x, entity->getTransform().getRotation().y, entity->getTransform().getRotation().z);
+  log_info("Scale: %f %f %f",  entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
+
+  if (entity->getParent() != NULL) {
+    log_info("Parent: %s", entity->getParent()->name.c_str());
+  }
+  log_info("_____________________________________________");
 
   std::vector<Entity*> entities = *entity->getChildren();
   for (int i = 0; i < entities.size(); i++)
