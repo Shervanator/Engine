@@ -31,7 +31,11 @@ void Animation::addScale(glm::vec3 scale)
 }
 
 void Animation::update(int delta) {
-  getParent()->getTransform().setPosition(positions[currentFrame]);
+  if (currentFrame < positions.size())
+    getParent()->getTransform().setPosition(positions[currentFrame]);
+
+  if (currentFrame < rotations.size())
+    getParent()->getTransform().setRotation(rotations[currentFrame]);
 }
 
 void Animation::updateFrameNumber(int frameNumber) {

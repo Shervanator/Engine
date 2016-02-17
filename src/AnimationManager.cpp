@@ -20,6 +20,15 @@ void AnimationManager::update(int delta)
   currentFrame++;
 }
 
-void AnimationManager::registerAnimation(Animation *animation) {
+void AnimationManager::reset(void)
+{
+    currentFrame = 0;
+    for (auto animation : m_animations) {
+      animation->updateFrameNumber(currentFrame);
+    }
+}
+
+void AnimationManager::registerAnimation(Animation *animation)
+{
   m_animations.push_back(animation);
 }

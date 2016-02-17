@@ -95,6 +95,10 @@ void Engine::tick(void)
     m_animationManager->update(delta_time);
   }
 
+  if (window->getInput()->isPressed(SDLK_r)) {
+    m_animationManager->reset();
+  }
+
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
     Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), window->getViewport(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
 

@@ -123,7 +123,6 @@ Material* SceneLoader::loadMaterial(const aiMaterial* material)
 
 Entity* SceneLoader::loadGraph(aiNode* node, const aiScene* scene)
 {
-  int FRAME = 9;
   Entity *entity = new Entity();
 
   entity->name = std::string(node->mName.C_Str());

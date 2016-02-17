@@ -17,6 +17,7 @@ public:
   void registerAnimation(Animation *animation);
 
   void update(int delta);
+  void reset(void);
 
 private:
   std::vector<Animation *> m_animations;
