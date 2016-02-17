@@ -27,7 +27,7 @@ public:
 
   void setRotation(const glm::quat& rotation);
   void setRotation(const glm::vec3& axis, float w);
-
+  
   glm::vec4 getPosition(void);
   glm::vec3 getScale(void);
   glm::quat getRotation(void);

@@ -35,6 +35,7 @@ private:
   Camera *m_camera;
 
   std::map<std::string, aiNodeAnim *> m_nodeAnimation;
+  std::map<std::string, aiCamera *> m_nodeCamera;
 };
 
 #endif

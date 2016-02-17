@@ -16,6 +16,9 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
+#include "components/FreeMove.h"
+#include "components/FreeLook.h"
+
 SceneLoader::SceneLoader(const std::string file)
 {
   m_fileName = file;
@@ -119,13 +122,39 @@ Material* SceneLoader::loadMaterial(const aiMaterial* material)
 
 Entity* SceneLoader::loadGraph(aiNode* node, Entity* parentEntity, const aiScene* scene)
 {
+  int FRAME = 10;
   Entity *entity = new Entity();
+
+  aiVector3D scale;
+  aiQuaternion rotation;
+  aiVector3D position;
+  node->mTransformation.Decompose(scale, rotation, position);
+  entity->getTransform().setPosition(glm::vec3(position.x, position.y, position.z));
+  entity->getTransform().setRotation(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+  entity->getTransform().setScale(glm::vec3(scale.x, scale.y, scale.z));
+
+  log_info("Scale: %s %f %f %f", node->mName.C_Str(), entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
 
   std::map<std::string, aiNodeAnim *>::const_iterator it = m_nodeAnimation.find(std::string(node->mName.C_Str()));
   if(it != m_nodeAnimation.end()) {
-    log_info("Found animation: %i", it->second->mNumPositionKeys);
+    // log_info("Found animation: %s", it->first.c_str());
+     entity->getTransform().translate(glm::vec3(it->second->mPositionKeys[FRAME].mValue.x, it->second->mPositionKeys[FRAME].mValue.y, it->second->mPositionKeys[FRAME].mValue.z));
+    //  entity->getTransform().rotate(glm::vec3(it->second->mRotationKeys[FRAME].mValue.x, it->second->mRotationKeys[FRAME].mValue.y, it->second->mRotationKeys[FRAME].mValue.z), it->second->mRotationKeys[FRAME].mValue.w);
+    //  entity->getTransform().scale(glm::vec3(it->second->mScalingKeys[FRAME].mValue.x, it->second->mScalingKeys[FRAME].mValue.y, it->second->mScalingKeys[FRAME].mValue.z));
 
-    // entity->getTransform().setPosition(glm::vec3(it->second->mPositionKeys[0].mValue[0], it->second->mPositionKeys[0].mValue[1], it->second->mPositionKeys[0].mValue[2]));
+  }
+
+  log_info("Position: %s %f %f %f", node->mName.C_Str(), entity->getTransform().getPosition().x, entity->getTransform().getPosition().y, entity->getTransform().getPosition().z);
+  log_info("Rotation: %s %f %f %f %f", node->mName.C_Str(), entity->getTransform().getRotation().x, entity->getTransform().getRotation().y, entity->getTransform().getRotation().z, entity->getTransform().getRotation().w);
+  log_info("Scale: %s %f %f %f", node->mName.C_Str(), entity->getTransform().getScale().x, entity->getTransform().getScale().y, entity->getTransform().getScale().z);
+
+  std::map<std::string, aiCamera *>::const_iterator it2 = m_nodeCamera.find(std::string(node->mName.C_Str()));
+  if(it2 != m_nodeCamera.end()) {
+    // log_info("Found camera");
+
+    entity->addComponent(new FreeMove());
+    entity->addComponent(new FreeLook());
+    entity->addComponent(m_camera = new Camera(it2->second->mHorizontalFOV, it2->second->mAspect, it2->second->mClipPlaneNear, it2->second->mClipPlaneFar));
   }
 
   for (int i = 0; i < node->mNumChildren; i++) {
@@ -158,14 +187,13 @@ void SceneLoader::loadScene(const aiScene* scene)
     }
   }
 
-  m_entity = new Entity();
-  loadGraph(scene->mRootNode, m_entity, scene);
-
   if (scene->HasCameras()) {
     for (int i = 0; i < scene->mNumCameras; i++) {
-      const aiCamera* camera = scene->mCameras[i];
-
-      m_entity->addComponent(m_camera = new Camera(camera->mHorizontalFOV, camera->mAspect, camera->mClipPlaneNear, camera->mClipPlaneFar));
+      aiCamera* camera = scene->mCameras[i];
+      m_nodeCamera[std::string(camera->mName.C_Str())] = camera;
     }
   }
+
+  m_entity = new Entity();
+  loadGraph(scene->mRootNode, m_entity, scene);
 }

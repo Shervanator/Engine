@@ -14,7 +14,7 @@ GLManager::GLManager(int width, int height)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
-  glEnable(GL_CULL_FACE);
+  glDisable(GL_CULL_FACE);
 
   glViewport(0, 0, this->width, this->height);
 

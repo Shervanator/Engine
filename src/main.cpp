@@ -19,7 +19,7 @@
 #include "Logger.h"
 #include "MeshLoader.h"
 #include "SceneLoader.h"
-#include "AnimationLoader.h"
+// #include "AnimationLoader.h"
 
 class CoolGame : public Game
 {
@@ -53,21 +53,24 @@ void CoolGame::init(GLManager *glManager)
   // sl.getEntity()->addComponent(new FreeMove());
   // sl.getEntity()->addComponent(new FreeLook());
   addToScene(sl.getEntity());
-  // primary_camera = sl.getCamera();
+  primary_camera = sl.getCamera();
 
-  MeshLoader money2("monkey3.obj");
-  // Entity *money2 = new Entity();
-  Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
-  money2.getEntity()->addComponent(cam2);
-  money2.getEntity()->addComponent(new FreeMove());
-  money2.getEntity()->addComponent(new FreeLook());
-  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
-  money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
+  // money2.getEntity()->addComponent(new FreeMove());
+  // money2.getEntity()->addComponent(new FreeLook());
+  //
+  // MeshLoader money2("monkey3.obj");
+  // // Entity *money2 = new Entity();
+  // Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
+  // money2.getEntity()->addComponent(cam2);
+  // money2.getEntity()->addComponent(new FreeMove());
+  // money2.getEntity()->addComponent(new FreeLook());
+  // money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
+  // money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
+  // money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
+  //
+  // addToScene(money2.getEntity());
 
-  addToScene(money2.getEntity());
-
-  primary_camera = cam2;
+  // primary_camera = cam2;
 
   Entity *light = new Entity();
   light->addComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f));
