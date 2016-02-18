@@ -6,6 +6,7 @@
 
 Game::Game(void)
 {
+  scenes.push_back(new Entity());
 }
 
 Game::~Game(void)
@@ -26,22 +27,22 @@ void Game::init(GLManager *glManager)
 {
 }
 
-void Game::addToScene(Entity *entity)
+void Game::addToScene(Entity *entity, int sceneIndex)
 {
-  rootScene.addChild(entity);
+  getRootScene()->addChild(entity);
 }
 
 void Game::updateInput(Input *input, int delta)
 {
-  rootScene.updateInputAll(input, delta);
+  getRootScene()->updateInputAll(input, delta);
 }
 
 void Game::update(int delta)
 {
-  rootScene.updateAll(delta);
+  getRootScene()->updateAll(delta);
 }
 
 void Game::render(GLManager *glManager)
 {
-  glManager->renderScene(&rootScene);
+  glManager->renderScene(getRootScene());
 }

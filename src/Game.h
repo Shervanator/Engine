@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "GLManager.h"
 #include "Input.h"
+#include <vector>
 
 class Engine;
 
@@ -25,14 +26,14 @@ public:
   virtual void update(int delta);
   virtual void render(GLManager *glManager);
 
-  Entity *getRootScene(void) { return &rootScene; };
+  Entity *getRootScene(void) { return scenes[0]; };
 
 protected:
-  void addToScene(Entity *entity);
+  void addToScene(Entity *entity, int sceneIndex = 0);
   Engine *getEngine(void);
 
 private:
-  Entity rootScene;
+  std::vector<Entity*> scenes;
   Engine *engine;
 };
 
