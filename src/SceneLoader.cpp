@@ -217,5 +217,5 @@ void SceneLoader::loadScene(const aiScene* scene)
 
   m_entity = loadGraph(scene->mRootNode, scene);
 
-  debugEntities(m_entity);
+  // debugEntities(m_entity);
 }
