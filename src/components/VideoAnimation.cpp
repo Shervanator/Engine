@@ -18,10 +18,8 @@ VideoAnimation::~VideoAnimation(void) {
 }
 
 void VideoAnimation::update(int delta) {
-  if (previousFrame != currentFrame) {
-    auto frame = video->nextFrame();
-    if (frame != nullptr) {
-      textureData->updateTexture(frame);
-    }
+  auto frame = video->nextFrame();
+  if (frame != nullptr) {
+    textureData->updateTexture(frame);
   }
 }

@@ -93,9 +93,7 @@ void Engine::tick(void)
 
   game->render(gl_manager);
 
-  if (window->getInput()->isPressed(SDLK_SPACE)) {
-    m_animationManager->update(delta_time);
-  }
+  m_animationManager->update(delta_time);
 
   if (window->getInput()->isPressed(SDLK_r)) {
     m_animationManager->reset();
