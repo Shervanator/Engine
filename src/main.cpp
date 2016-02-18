@@ -19,6 +19,7 @@
 #include "Logger.h"
 #include "MeshLoader.h"
 #include "SceneLoader.h"
+#include "Video.h"
 // #include "AnimationLoader.h"
 
 class CoolGame : public Game
@@ -71,6 +72,18 @@ void CoolGame::init(GLManager *glManager)
   // addToScene(money2.getEntity());
 
   // primary_camera = cam2;
+
+  Entity *lensFlare = new Entity();
+  // lensFlare->getTransform().setRotation(primary_camera->getParent()->getTransform().getRotation());
+  Video *video = new Video("../assets/Flares.mp4");
+  TextureData *textureData = new TextureData(video->getWidth(), video->getHeight(), video->nextFrame(), GL_RGB, GL_TEXTURE_2D, GL_LINEAR);
+  Texture *texture = new Texture(textureData);
+  lensFlare->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(texture)));
+  float aR = texture->getTextureData()->getWidth() / (texture->getTextureData()->getHeight() * 1.0f);
+  lensFlare->getTransform().setScale(glm::vec3(aR, 1, 1));
+  textureData->updateTexture(video->nextFrame());
+  
+  addToScene(lensFlare);
 
   Entity *light = new Entity();
   light->addComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f));

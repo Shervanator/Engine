@@ -18,15 +18,22 @@
 class TextureData : public ShadedResource
 {
 public:
-  TextureData(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter);
+  TextureData(int width, int height, unsigned char* data, GLenum type, GLenum textureTarget, GLfloat filter);
   virtual ~TextureData(void);
 
-  void createTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter);
+  void updateTexture(unsigned char* data);
   void bind(unsigned int unit);
 
+  int getWidth(void);
+  int getHeight(void);
 private:
+  void createTexture(unsigned char* data, GLfloat filter);
+
+  int m_width;
+  int m_height;
   GLenum m_textureTarget;
   GLuint m_textureId;
+  GLenum m_type;
 };
 
 #endif

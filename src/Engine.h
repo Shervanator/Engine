@@ -29,17 +29,17 @@ public:
   void tick(void);
   void start(void);
 
-  Window           *getWindow(void);
-  GLManager        *getGLManager(void);
-  PhysicsManager   *getPhysicsManager(void);
-  AnimationManager *getAnimationManager(void);
+  Window             *getWindow(void);
+  GLManager          *getGLManager(void);
+  PhysicsManager     *getPhysicsManager(void);
+  AnimationManager   *getAnimationManager(void);
 
 private:
-  Window           *window;
-  GLEWManager      *glew_manager;
-  GLManager        *gl_manager;
-  PhysicsManager   *m_physicsManager;
-  AnimationManager *m_animationManager;
+  Window             *window;
+  GLEWManager        *glew_manager;
+  GLManager          *gl_manager;
+  PhysicsManager     *m_physicsManager;
+  AnimationManager   *m_animationManager;
 
   Game *game;
 

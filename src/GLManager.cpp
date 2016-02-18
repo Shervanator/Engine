@@ -3,12 +3,13 @@
 //
 
 #include "GLManager.h"
+#include <glm/gtx/transform.hpp>
 
 GLManager::GLManager(int width, int height)
 {
   this->width = width;
   this->height = height;
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+  glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
   glClearDepthf(1.0f);
   glEnable(GL_DEPTH_TEST);

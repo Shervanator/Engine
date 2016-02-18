@@ -50,6 +50,7 @@ ELSE ()
   find_package(OpenGL REQUIRED)
   find_package(SDL2 REQUIRED)
   find_package(GLEW REQUIRED)
+  find_package(FFMPEG REQUIRED)
 
   find_library(corefoundation_lib CoreFoundation)
 
@@ -58,6 +59,10 @@ ELSE ()
     ${GLM_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
     ${GLEW_INCLUDE_DIRS}
+    ${LIBAVCODEC_INCLUDE_DIRS}
+    ${LIBAVFORMAT_INCLUDE_DIRS}
+    ${LIBAVUTIL_INCLUDE_DIRS}
+    ${LIBSWSCALE_INCLUDE_DIRS}
   )
 
   set(ENGINE_LIBS
@@ -65,6 +70,10 @@ ELSE ()
     ${SDL2_LIBRARY}
     ${ASSIMP_LIBRARY}
     ${GLEW_LIBRARIES}
+    ${LIBAVFORMAT_LIBRARIES}
+    ${LIBAVCODEC_LIBRARIES}
+    ${LIBAVUTIL_LIBRARIES}
+    ${LIBSWSCALE_LIBRARIES}
     ${corefoundation_lib}
   )
 ENDIF ()
