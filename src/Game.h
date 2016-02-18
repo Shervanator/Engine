@@ -26,7 +26,7 @@ public:
   virtual void update(int delta);
   virtual void render(GLManager *glManager);
 
-  Entity *getRootScene(void) { return scenes[0]; };
+  std::vector<Entity*> getScenes(void) { return scenes; };
 
 protected:
   void addToScene(Entity *entity, int sceneIndex = 0);

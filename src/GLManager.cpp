@@ -9,7 +9,7 @@ GLManager::GLManager(int width, int height)
 {
   this->width = width;
   this->height = height;
-  glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
   glClearDepthf(1.0f);
   glEnable(GL_DEPTH_TEST);
@@ -37,6 +37,11 @@ GLManager::~GLManager(void)
 void GLManager::setActiveCamera(Camera *camera)
 {
   m_activeCamera = camera;
+}
+
+void GLManager::setUICamera(Camera *camera)
+{
+  m_uiCamera = camera;
 }
 
 void GLManager::addDirectionalLight(DirectionalLight *light)
@@ -80,8 +85,8 @@ void GLManager::drawEntity(Entity *entity)
   simple->bind();
 
   // simple->setUniformMatrix4f("World", glm::mat4());
-  simple->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
-  simple->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
+  simple->setUniformMatrix4f("View", m_uiCamera->getViewMatrix());
+  simple->setUniformMatrix4f("Proj", m_uiCamera->getProjectionMatrix());
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
@@ -93,27 +98,40 @@ void GLManager::drawEntity(Entity *entity)
   glDisable(GL_BLEND);
 }
 
-void GLManager::renderScene(Entity *scene)
+void GLManager::renderScenes(std::vector<Entity *> scenes)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   forwardAmbient->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
   forwardAmbient->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
 
+  auto scene = scenes[0];
   scene->renderAll(forwardAmbient);
 
+  forwardAmbient->setUniformMatrix4f("View", m_uiCamera->getViewMatrix());
+  forwardAmbient->setUniformMatrix4f("Proj", m_uiCamera->getOrtho());
+
   glEnable(GL_BLEND);
-  glBlendFunc(GL_ONE, GL_ONE);
-  glDepthMask(GL_FALSE);
-  glDepthFunc(GL_EQUAL);
+  glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
 
-  renderLights(m_directionalLights, forwardDirectional, scene);
-  renderLights(m_pointLights, forwardPoint, scene);
-  renderLights(m_spotLights, forwardSpot, scene);
+  auto scene2 = scenes[1];
+  scene2->renderAll(forwardAmbient);
 
-  glDepthFunc(GL_LESS);
-  glDepthMask(GL_TRUE);
   glDisable(GL_BLEND);
+  // glBlendFunc(GL_ONE, GL_ONE);
+
+  // glEnable(GL_BLEND);
+  // glBlendFunc(GL_ONE, GL_ONE);
+  // glDepthMask(GL_FALSE);
+  // glDepthFunc(GL_EQUAL);
+  //
+  // renderLights(m_directionalLights, forwardDirectional, scene);
+  // renderLights(m_pointLights, forwardPoint, scene);
+  // renderLights(m_spotLights, forwardSpot, scene);
+  //
+  // glDepthFunc(GL_LESS);
+  // glDepthMask(GL_TRUE);
+  // glDisable(GL_BLEND);
 }
 
 void GLManager::renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene)
@@ -155,8 +173,8 @@ void GLManager::createShaders(void)
 
   forwardAmbient->setUniform1i("diffuseMap", 0);
 
-  // forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(1.0f, 1.0f, 1.0f));
-  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
+  forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(1.0f, 1.0f, 1.0f));
+  // forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
   forwardDirectional = new Shader("shaders/forward-directional");
   forwardDirectional->setAttribLocation("position", 0);

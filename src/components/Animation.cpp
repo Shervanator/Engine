@@ -5,11 +5,7 @@
 #include "Animation.h"
 
 #include "../Engine.h"
-
-Animation::Animation(void)
-{
-
-}
+#include "../logger.h"
 
 Animation::~Animation(void)
 {
@@ -39,6 +35,7 @@ void Animation::update(int delta) {
 }
 
 void Animation::updateFrameNumber(int frameNumber) {
+  previousFrame = currentFrame;
   currentFrame = frameNumber;
 }
 

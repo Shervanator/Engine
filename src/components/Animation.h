@@ -10,7 +10,6 @@
 class Animation : public EntityComponent
 {
 public:
-  Animation(void);
   virtual ~Animation(void);
 
   void addPosition(glm::vec3 position);
@@ -20,13 +19,15 @@ public:
   void updateFrameNumber(int frameNumber);
   virtual void registerWithEngine(Engine *engine);
   virtual void update(int delta);
-  
+
 private:
   std::vector<glm::vec3> positions;
   std::vector<glm::quat> rotations;
   std::vector<glm::vec3> scales;
 
+protected:
   int currentFrame = 0;
+  int previousFrame = 0;
 };
 
 #endif

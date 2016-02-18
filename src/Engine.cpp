@@ -56,7 +56,9 @@ void Engine::start(void)
   log_info("Initializing game");
   game->init(gl_manager);
 
-  game->getRootScene()->registerWithEngineAll(this);
+  for ( auto scene : game->getScenes() ) {
+    scene->registerWithEngineAll(this);
+  }
 
 #ifdef EMSCRIPTEN
   instance = this;
