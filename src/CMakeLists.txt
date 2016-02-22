@@ -35,7 +35,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../assets/ -s TOTAL_MEMORY=280000000 -s USE_SDL=2")
 
   set(ENGINE_INCLUDES
     ${GLM_INCLUDE_DIRS}

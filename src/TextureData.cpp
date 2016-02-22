@@ -25,8 +25,13 @@ void TextureData::createTexture(unsigned char* data, GLfloat filter)
   glBindTexture(m_textureTarget, m_textureId);
   glTexParameterf(m_textureTarget, GL_TEXTURE_MIN_FILTER, filter);
   glTexParameterf(m_textureTarget, GL_TEXTURE_MAG_FILTER, filter);
+#if !defined(GLES2)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+#else
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+#endif
   glTexImage2D(m_textureTarget, 0, m_type, m_width, m_height, 0, m_type, GL_UNSIGNED_BYTE, data);
 }
 
