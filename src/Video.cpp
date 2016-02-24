@@ -49,17 +49,17 @@ Video::Video(const std::string file)
     return;
   }
 
-  int numBytes = avpicture_get_size(PIX_FMT_RGB24, m_codecContext->width,
+  int numBytes = avpicture_get_size(AV_PIX_FMT_RGB24, m_codecContext->width,
                                 m_codecContext->height);
   m_buffer = (uint8_t *) av_malloc(numBytes * sizeof(uint8_t));
 
-  avpicture_fill((AVPicture *) m_frameRGB, m_buffer, PIX_FMT_RGB24,
+  avpicture_fill((AVPicture *) m_frameRGB, m_buffer, AV_PIX_FMT_RGB24,
                  m_codecContext->width, m_codecContext->height);
 
   m_SwsContext = sws_getContext(m_codecContext->width,
                            m_codecContext->height, m_codecContext->pix_fmt,
                            m_codecContext->width, m_codecContext->height,
-                           PIX_FMT_RGB24, SWS_FAST_BILINEAR, NULL, NULL, NULL);
+                           AV_PIX_FMT_RGB24, SWS_FAST_BILINEAR, NULL, NULL, NULL);
 
   if (m_SwsContext == NULL) {
     log_err("Cannot initialize the sws context");
