@@ -13,12 +13,13 @@
 #include "components/PointLight.h"
 #include "components/Sphere.h"
 
+#include "QuadTree.h"
+
 #include "Plane.h"
 #include "Mesh.h"
 #include "Texture.h"
 #include "Logger.h"
 #include "MeshLoader.h"
-
 
 class CoolGame : public Game
 {
@@ -41,6 +42,8 @@ void CoolGame::update(int delta)
 
 void CoolGame::init(GLManager *glManager)
 {
+  QuadTree *qt = new QuadTree(new AABB(0, 0, 10, 10));
+
   Entity *plane = new Entity();
   plane->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
   plane->getTransform().setPosition(glm::vec3(0, -2, 0));
