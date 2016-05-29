@@ -10,13 +10,15 @@
 class FreeLook : public EntityComponent
 {
 public:
-  FreeLook(float speed = 0.001f);
-  ~FreeLook(void);
-
-  virtual void updateInput(Input *input, int delta);
-
+    FreeLook(float speed = 0.001f);
+    ~FreeLook(void);
+    
+    virtual void updateInput(Input *input, int delta);
+    
 private:
-  float m_speed;
+    float m_speed;
+    float horizontal_r;
+    float vertical_r;
 };
 
 #endif
