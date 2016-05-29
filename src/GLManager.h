@@ -31,8 +31,9 @@ public:
   GLManager(int width, int height);
   ~GLManager(void);
 
-  void renderScene(Entity *entity);
+  void renderScenes(std::vector<Entity*> entities);
   void setActiveCamera(Camera *camera);
+  void setUICamera(Camera *camera);
   void addDirectionalLight(DirectionalLight *light);
   void addPointLight(PointLight *light);
   void addSpotLight(SpotLight *light);
@@ -59,6 +60,7 @@ private:
   Shader *forwardSpot;
 
   Camera *m_activeCamera;
+  Camera *m_uiCamera;
 
   std::vector<BaseLight *> m_directionalLights;
   std::vector<BaseLight *> m_pointLights;

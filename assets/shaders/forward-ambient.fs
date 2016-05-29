@@ -9,5 +9,8 @@ uniform sampler2D diffuseMap;
 
 void main()
 {
-  fragColor = texture(diffuseMap, texCoord0) * vec4(ambientIntensity, 1.0f);
+  vec4 texel = texture(diffuseMap, texCoord0);
+  if(texel.a < 0.5)
+    discard;
+  fragColor = texel * vec4(ambientIntensity, 1.0f);
 }

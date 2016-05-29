@@ -32,6 +32,9 @@ Engine::Engine(Game *game)
   log_info("Initializing Physics Manager");
   m_physicsManager = new PhysicsManager();
 
+  log_info("Initializing Animation Manager");
+  m_animationManager = new AnimationManager();
+
   this->game = game;
 
   quit = false;
@@ -43,6 +46,7 @@ Engine::~Engine(void)
   delete glew_manager;
   delete gl_manager;
   delete m_physicsManager;
+  delete m_animationManager;
 }
 
 void Engine::start(void)
@@ -52,7 +56,9 @@ void Engine::start(void)
   log_info("Initializing game");
   game->init(gl_manager);
 
-  game->getRootScene()->registerWithEngineAll(this);
+  for ( auto scene : game->getScenes() ) {
+    scene->registerWithEngineAll(this);
+  }
 
 #ifdef EMSCRIPTEN
   instance = this;
@@ -87,6 +93,12 @@ void Engine::tick(void)
 
   game->render(gl_manager);
 
+  m_animationManager->update(delta_time);
+
+  if (window->getInput()->isPressed(SDLK_r)) {
+    m_animationManager->reset();
+  }
+
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
     Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), window->getViewport(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
 
@@ -114,4 +126,9 @@ GLManager *Engine::getGLManager(void)
 PhysicsManager *Engine::getPhysicsManager(void)
 {
   return m_physicsManager;
+}
+
+AnimationManager *Engine::getAnimationManager(void)
+{
+  return m_animationManager;
 }

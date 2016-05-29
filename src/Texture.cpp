@@ -26,16 +26,26 @@ Texture::Texture(Asset file, GLenum textureTarget, GLfloat filter)
     if(data == NULL) {
       log_err("Unable to load texture: %s", file.getIOStream()->getFileName().c_str());
     } else {
-      m_textureData = m_textureCache[file.getIOStream()->getFileName().c_str()] = new TextureData(x, y, data, textureTarget, filter);
+      m_textureData = m_textureCache[file.getIOStream()->getFileName().c_str()] = new TextureData(x, y, data, GL_RGBA, textureTarget, filter);
       stbi_image_free(data);
       m_textureData->incrementReference();
     }
   }
 }
 
+Texture::Texture(TextureData *data) {
+  m_textureData = data;
+  m_textureData->incrementReference();
+}
+
 Texture::~Texture()
 {
+  // TODO: DELETE TEXTURE FROM CACHE IF IT IS LAST REFERENCE..
   m_textureData->decrementReference();
+}
+
+TextureData *Texture::getTextureData(void) {
+  return m_textureData;
 }
 
 void Texture::bind(unsigned int unit)

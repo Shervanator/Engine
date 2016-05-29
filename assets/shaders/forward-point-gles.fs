@@ -83,6 +83,9 @@ vec4 calculatePointLight(PointLight pointLight, vec3 normal)
 
 void main()
 {
+  vec4 texel = texture2D(diffuseMap, texCoord0);
+  if(texel.a < 0.5)
+    discard;
   vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(normalMap, texCoord0).xyz - vec3(1, 1, 1)));
-  gl_FragColor = texture2D(diffuseMap, texCoord0) * calculatePointLight(pointLight, normal);
+  gl_FragColor = texel * calculatePointLight(pointLight, normal);
 }

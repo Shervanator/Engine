@@ -107,6 +107,9 @@ vec4 calculateSpotLight(SpotLight spotLight, vec3 normal)
 
 void main()
 {
+  vec4 texel = texture(diffuseMap, texCoord0);
+  if(texel.a < 0.5)
+    discard;
   vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture(normalMap, texCoord0).xyz - 1));
-  fragColor = texture(diffuseMap, texCoord0) * calculateSpotLight(spotLight, normal);
+  fragColor = texel * calculateSpotLight(spotLight, normal);
 }

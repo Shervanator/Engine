@@ -17,9 +17,11 @@ public:
 
   glm::mat4 getViewMatrix(void);
   glm::mat4 getProjectionMatrix(void);
+  glm::mat4 getOrtho(void);
 
 private:
   glm::mat4 projection;
+  glm::mat4 ortho;
 };
 
 #endif

@@ -12,13 +12,15 @@
 #include "components/SpotLight.h"
 #include "components/PointLight.h"
 #include "components/Sphere.h"
+#include "components/VideoAnimation.h"
 
 #include "Plane.h"
 #include "Mesh.h"
 #include "Texture.h"
 #include "Logger.h"
 #include "MeshLoader.h"
-
+#include "SceneLoader.h"
+#include "Video.h"
 
 class CoolGame : public Game
 {
@@ -41,42 +43,34 @@ void CoolGame::update(int delta)
 
 void CoolGame::init(GLManager *glManager)
 {
-  Entity *plane = new Entity();
-  plane->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
-  plane->getTransform().setPosition(glm::vec3(0, -2, 0));
-  plane->getTransform().setScale(glm::vec3(10, 10, 10));
+  SceneLoader sl("RotatingCircularLogoDark.dae");
+  addToScene(sl.getEntity());
+  primary_camera = sl.getCamera();
 
-  addToScene(plane);
+  Entity *lensFlareCameraEntity = new Entity();
+  Camera *lensFlareCamera = new Camera(0, 1920.0f/1080.0f, 0, 0);
+  lensFlareCameraEntity->addComponent(lensFlareCamera);
 
-  MeshLoader ml("Pregnant.obj");
-  ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
-  ml.getEntity()->addComponent(new Sphere(1));
-  addToScene(ml.getEntity());
+  Entity *lensFlare = new Entity();
+  Video *video = new Video("../assets/Flares.mp4");
+  TextureData *textureData = new TextureData(video->getWidth(), video->getHeight(), video->nextFrame(), GL_RGB, GL_TEXTURE_2D, GL_LINEAR);
+  Texture *texture = new Texture(textureData);
+  lensFlare->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(texture)));
+  float aR = texture->getTextureData()->getWidth() / (texture->getTextureData()->getHeight() * 1.0f);
+  lensFlare->getTransform().setScale(glm::vec3(aR, 1, 1));
+  lensFlare->getTransform().scale(glm::vec3(100, 100, 100));
+  lensFlare->getTransform().rotate(glm::vec3(1, 0, 0), glm::radians(90.0f));
+  lensFlare->addComponent(new VideoAnimation(textureData, video));
 
-  MeshLoader money("monkey3.obj");
-  money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
-  Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
-  money.getEntity()->addComponent(cam1);
-  money.getEntity()->addComponent(new Sphere(1));
-  addToScene(money.getEntity());
+  addToScene(lensFlareCameraEntity, 1);
+  addToScene(lensFlare, 1);
 
-  MeshLoader money2("monkey3.obj");
-  Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
-  money2.getEntity()->addComponent(cam2);
-  money2.getEntity()->addComponent(new FreeMove());
-#if defined(ANDROID)
-  money2.getEntity()->addComponent(new FreeLook(0.0001f));
-#else
-  money2.getEntity()->addComponent(new FreeLook());
-#endif
-  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
-  money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
+  Entity *light = new Entity();
+  light->addComponent(new DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.0f));
 
-  addToScene(money2.getEntity());
+  addToScene(light);
 
-  primary_camera = cam2;
-
+  getEngine()->getGLManager()->setUICamera(lensFlareCamera);
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
 

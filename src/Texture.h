@@ -20,7 +20,10 @@ class Texture
 {
 public:
   Texture(Asset file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
+  Texture(TextureData *textureData);
   ~Texture(void);
+
+  TextureData *getTextureData(void);
 
   void bind(unsigned int unit = 0);
 
