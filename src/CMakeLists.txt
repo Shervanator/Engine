@@ -51,8 +51,6 @@ ELSE ()
   find_package(SDL2 REQUIRED)
   find_package(GLEW REQUIRED)
 
-  find_library(corefoundation_lib CoreFoundation)
-
   set(ENGINE_INCLUDES
     ${SDL2_INCLUDE_DIR}
     ${GLM_INCLUDE_DIRS}
@@ -65,7 +63,6 @@ ELSE ()
     ${SDL2_LIBRARY}
     ${ASSIMP_LIBRARY}
     ${GLEW_LIBRARIES}
-    ${corefoundation_lib}
   )
 ENDIF ()
 
