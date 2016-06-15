@@ -12,5 +12,4 @@ gen/
 libs/
 obj/
 local.properties
-SDL
 *.so
