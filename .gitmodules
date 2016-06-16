@@ -4,9 +4,9 @@
 [submodule "dependencies/SDL"]
 	path = dependencies/SDL
 	url = https://github.com/spurious/SDL-mirror.git
-[submodule "dependencies/glm"]
-	path = dependencies/glm
-	url = git@github.com:g-truc/glm.git
 [submodule "dependencies/glew"]
 	path = dependencies/glew
 	url = git@github.com:Perlmint/glew-cmake.git
+[submodule "dependencies/glm"]
+	path = dependencies/glm
+	url = git@github.com:g-truc/glm.git

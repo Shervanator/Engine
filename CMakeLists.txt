@@ -33,7 +33,7 @@ set ( ASSIMP_LIBRARY assimp )
 
 #############
 
-# set ( GLM_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/dependencies/glm/ )
+set ( GLM_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/dependencies/glm/ )
 
 #############
 add_subdirectory( ${PROJECT_SOURCE_DIR}/src )
