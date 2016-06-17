@@ -18,7 +18,7 @@ set ( SDL2_LIBRARY SDL2 )
 add_subdirectory( ${PROJECT_SOURCE_DIR}/dependencies/glew )
 
 set ( GLEW_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/dependencies/glew/include )
-set ( GLEW_LIBRARIES libglew_static )
+set ( GLEW_LIBRARIES libglew_shared )
 
 #############
 
