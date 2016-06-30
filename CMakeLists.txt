@@ -2,38 +2,29 @@
 #  Author: Shervin Aflatooni
 #
 
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.11)
 
 project (Engine)
 
-#############
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
-add_subdirectory( ${PROJECT_SOURCE_DIR}/dependencies/SDL )
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH         ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 
-set ( SDL2_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/dependencies/SDL/include )
+add_subdirectory(dependencies)
+
+set ( SDL2_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/SDL/include )
 set ( SDL2_LIBRARY SDL2 )
 
-#############
-
-add_subdirectory( ${PROJECT_SOURCE_DIR}/dependencies/glew )
-
-set ( GLEW_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/dependencies/glew/include )
+set ( GLEW_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/glew/include )
 set ( GLEW_LIBRARIES libglew_shared )
 
-#############
-
-set( ASSIMP_BUILD_ASSIMP_TOOLS OFF )
-set( ASSIMP_BUILD_SAMPLES      OFF )
-set( ASSIMP_BUILD_TESTS        OFF )
-
-add_subdirectory( ${PROJECT_SOURCE_DIR}/dependencies/assimp )
-
-set ( ASSIMP_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/dependencies/assimp/include )
+set ( ASSIMP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/assimp/include )
 set ( ASSIMP_LIBRARY assimp )
 
-#############
+set ( GLM_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/glm/ )
 
-set ( GLM_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/dependencies/glm/ )
-
-#############
-add_subdirectory( ${PROJECT_SOURCE_DIR}/src )
+add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/src )
