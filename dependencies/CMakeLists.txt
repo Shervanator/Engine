@@ -2,8 +2,12 @@ execute_process( COMMAND git submodule init )
 execute_process( COMMAND git submodule update )
 set_directory_properties( PROPERTIES CLEAN_NO_CUSTOM 1)
 
-
 add_subdirectory( SDL )
+
+set( glew-cmake_BUILD_SHARED ON CACHE BOOL "Build the shared glew library" )
+set( glew-cmake_BUILD_STATIC OFF CACHE BOOL "Build the static glew library" )
+set( glew-cmake_BUILD_SINGLE_CONTEXT ON CACHE BOOL "Build the single context glew library" )
+set( glew-cmake_BUILD_MULTI_CONTEXT OFF CACHE BOOL "Build the multi context glew library" )
 
 add_subdirectory( glew )
 
