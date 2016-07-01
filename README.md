@@ -11,11 +11,8 @@ A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine maki
 ## Usage
 
 #### Mac Build
-```
-brew install sdl2 assimp glew glm cmake
-```
 
-After create the make file or project with cmake:
+Run:
 
 ```
 ./cmake-make.sh
@@ -28,6 +25,9 @@ make -j8
 ```
 
 #### HTML 5 WebGL engine Build
+
+##### MIGHT NOT BE WORKING..
+
 To build the html5 engine:
 
 First install emscripten:
@@ -67,6 +67,8 @@ open http://localhost:8000/game.html
 ```
 
 #### Android Build
+
+##### MIGHT NOT BE WORKING..
 
 To build for android do the following:
 
