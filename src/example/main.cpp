@@ -21,7 +21,7 @@
 
 // https://stackoverflow.com/questions/4845410/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-tmainc
 #undef main
-
+Entity *plane;
 
 class CoolGame : public Game
 {
@@ -37,14 +37,15 @@ void CoolGame::update(int delta)
 {
   static float angle = 0;
   angle += delta * 0.0008;
-  // sun->getTransform().setPosition(glm::vec3(glm::sin(angle) * 5, 0, 0));
+  plane->getTransform().setRotation(glm::vec3(1, 0, 0), angle);
+  //plane->getTransform().setPosition(glm::vec3(glm::sin(angle) * 5, 0, 0));
 
   Game::update(delta);
 }
 
 void CoolGame::init(GLManager *glManager)
 {
-  Entity *plane = new Entity();
+  plane = new Entity();
   plane->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
   plane->getTransform().setPosition(glm::vec3(0, -2, 0));
   plane->getTransform().setScale(glm::vec3(10, 10, 10));
