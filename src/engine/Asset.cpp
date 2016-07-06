@@ -6,6 +6,8 @@
 
 Asset::Asset(const std::string &fileName)
 {
+  // WTF: for some reason i need to set the name or else exceptions in windows! :(
+  m_filename = fileName;
   m_ioStream = new EngineIOStream(fileName);
   m_buffer = new char[m_ioStream->fileSize() + 1];
   m_buffer[m_ioStream->fileSize()] = '\0';

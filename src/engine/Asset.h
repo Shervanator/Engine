@@ -21,6 +21,7 @@ public:
 
 private:
   char *m_buffer;
+  std::string m_filename;
   EngineIOStream *m_ioStream;
 };
 
