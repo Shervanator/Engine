@@ -2,7 +2,7 @@
 #  Author: Shervin Aflatooni
 #
 
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.6)
 
 project (Engine)
 
@@ -14,8 +14,8 @@ ELSE ()
   set ( BIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin )
 ENDIF ()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR})
-set(EXECUTABLE_OUTPUT_PATH         ${BIN_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH         ${BIN_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${BIN_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BIN_DIR}/lib)
 set(CMAKE_BINARY_DIR ${BIN_DIR}/)
@@ -71,3 +71,4 @@ ENDIF ()
 include_directories(${ENGINE_INCLUDES})
 
 add_subdirectory( ${CMAKE_CURRENT_SOURCE_DIR}/src )
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT game)
