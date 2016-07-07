@@ -4,6 +4,8 @@ set_directory_properties( PROPERTIES CLEAN_NO_CUSTOM 1)
 
 IF (EMSCRIPTEN)
 ELSE ()
+	set( SDL_STATIC OFF CACHE BOOL "Build the static SDL library" )
+	set( SDL_SHARED ON CACHE BOOL "Build the shared SDL library" )
   add_subdirectory( SDL )
 
   set( glew-cmake_BUILD_SHARED ON CACHE BOOL "Build the shared glew library" )
