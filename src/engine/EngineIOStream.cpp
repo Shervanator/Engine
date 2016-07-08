@@ -3,12 +3,17 @@
 //
 
 #include "EngineIOStream.h"
+#include <whereami.h>
 
 EngineIOStream::EngineIOStream(const std::string &fileName)
 {
   m_fileName = fileName;
 #ifndef ANDROID
-  m_file = new std::fstream("../assets/" + fileName, std::ifstream::binary | std::fstream::in | std::fstream::out);
+  int length = wai_getExecutablePath(NULL, 0, NULL);
+  char *path = (char*)malloc(length + 1);
+  wai_getExecutablePath(path, length, &length);
+  path[length] = '\0';
+  m_file = new std::fstream(std::string(path) + "/assets/" + fileName, std::ifstream::binary | std::fstream::in | std::fstream::out);
 #else
   m_file = AAssetManager_open(AndroidAssetManager::getAssetManager(), fileName.c_str(), AASSET_MODE_UNKNOWN);
 #endif

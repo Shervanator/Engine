@@ -33,6 +33,9 @@ set ( ASSIMP_LIBRARY assimp )
 
 set ( GLM_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/glm/ )
 
+set ( WHEREAMI_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/whereami/src/ )
+set ( WHEREAMI_LIBRARY whereami )
+
 
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
@@ -57,6 +60,7 @@ ELSE ()
     ${SDL2_LIBRARY}
     ${ASSIMP_LIBRARY}
     ${GLEW_LIBRARIES}
+    ${WHEREAMI_LIBRARY}
   )
 
   set(ENGINE_INCLUDES
@@ -64,6 +68,7 @@ ELSE ()
     ${GLM_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
     ${GLEW_INCLUDE_DIRS}
+    ${WHEREAMI_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
 ENDIF ()

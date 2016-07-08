@@ -10,3 +10,6 @@
 [submodule "dependencies/glm"]
 	path = dependencies/glm
 	url = git@github.com:g-truc/glm.git
+[submodule "dependencies/whereami"]
+	path = dependencies/whereami
+	url = https://github.com/gpakosz/whereami.git
