@@ -19,8 +19,6 @@
 #include "Logger.h"
 #include "MeshLoader.h"
 
-// https://stackoverflow.com/questions/4845410/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-tmainc
-#undef main
 Entity *plane;
 
 class CoolGame : public Game

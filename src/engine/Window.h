@@ -13,6 +13,9 @@
 #include <glm/glm.hpp>
 #include <SDL.h>
 
+// https://stackoverflow.com/questions/4845410/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-tmainc
+#undef main
+
 class Window
 {
 public:
