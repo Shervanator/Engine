@@ -31,7 +31,6 @@ class Shader
 public:
   Shader(void);
   Shader(std::string shaderAssetName);
-  Shader(Asset vertexSrc, Asset fragmentSrc);
   Shader(const char* vert_src, const char* frag_src);
   ~Shader(void);
 

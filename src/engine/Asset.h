@@ -17,12 +17,12 @@ public:
 
   const char *read(void);
 
-  EngineIOStream *getIOStream(void);
+  EngineIOStream *getIOStream(void) const;
 
 private:
   char *m_buffer;
-  std::string m_filename;
   EngineIOStream *m_ioStream;
+  size_t m_fileSize;
 };
 
 #endif

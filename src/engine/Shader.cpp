@@ -27,14 +27,6 @@ Shader::Shader(std::string shaderAssetName)
 #endif
 }
 
-Shader::Shader(Asset vertexSrc, Asset fragmentSrc)
-{
-  g_shProg = glCreateProgram();
-
-  addVertex(vertexSrc.read());
-  addFragment(fragmentSrc.read());
-}
-
 Shader::Shader(const char* vert_src, const char* frag_src)
 {
   g_shProg = glCreateProgram();

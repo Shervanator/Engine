@@ -19,7 +19,7 @@
 class Texture
 {
 public:
-  Texture(Asset file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
+  Texture(Asset &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
   ~Texture(void);
 
   void bind(unsigned int unit = 0);
