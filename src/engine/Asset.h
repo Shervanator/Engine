@@ -15,7 +15,7 @@ public:
   Asset(const std::string &fileName);
   ~Asset(void);
 
-  const char *read(void);
+  const char *read(void) const;
 
   EngineIOStream *getIOStream(void) const;
 

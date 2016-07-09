@@ -18,7 +18,7 @@ Asset::~Asset(void)
   delete m_ioStream;
 }
 
-const char *Asset::read(void)
+const char *Asset::read(void) const
 {
   m_ioStream->read(m_buffer, sizeof(char), m_fileSize);
 

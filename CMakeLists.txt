@@ -40,7 +40,8 @@ set ( WHEREAMI_LIBRARY whereami )
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ../../../assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2")
+  add_definitions(-DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/")
 
   set(ENGINE_LIBS
     ${ASSIMP_LIBRARY}
