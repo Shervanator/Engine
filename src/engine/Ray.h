@@ -18,7 +18,7 @@ public:
   Ray(glm::vec3 position, glm::vec3 direction);
   ~Ray(void);
 
-  static Ray getPickRay(glm::vec2 mousePosition, glm::vec4 viewport, glm::mat4 viewMatrix, glm::mat4 projectionMatrix);
+  static Ray getPickRay(glm::vec2 mousePosition, const glm::vec4 &viewport, const glm::mat4 &viewMatrix, const glm::mat4 &projectionMatrix);
 
   bool intersects(Sphere *sphere, glm::vec3 & intersectionPosition);
 

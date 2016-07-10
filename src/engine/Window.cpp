@@ -55,6 +55,7 @@ Window::Window(void)
 
   glContext = SDL_GL_CreateContext(win);
   SDL_GL_MakeCurrent(win, glContext);
+  SDL_GL_SetSwapInterval(0);
 
   current_time = SDL_GetTicks();
 
@@ -81,8 +82,10 @@ void Window::tick(void)
 
   if (current_time % 6 == 0) {
     char buffer[30];
-    snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
-    SDL_SetWindowTitle(win, buffer);
+    // TODO: FIX THIS IN WINDOWS
+    //log_info("fps: %d", getFPS());
+    //snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
+    //SDL_SetWindowTitle(win, buffer);
   }
 
   input.setMouseDelta(0, 0);

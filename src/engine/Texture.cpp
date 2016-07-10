@@ -12,7 +12,7 @@
 
 std::map<std::string, TextureData *> m_textureCache;
 
-Texture::Texture(Asset file, GLenum textureTarget, GLfloat filter)
+Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter)
 {
   std::map<std::string, TextureData *>::const_iterator it = m_textureCache.find(file.getIOStream()->getFileName().c_str());
 

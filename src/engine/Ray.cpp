@@ -16,7 +16,7 @@ Ray::~Ray(void)
 {
 }
 
-Ray Ray::getPickRay(glm::vec2 mousePosition, glm::vec4 viewport, glm::mat4 viewMatrix, glm::mat4 projectionMatrix)
+Ray Ray::getPickRay(glm::vec2 mousePosition, const glm::vec4 &viewport, const glm::mat4 &viewMatrix, const glm::mat4 &projectionMatrix)
 {
   float xRel = mousePosition.x;
   float yRel = viewport.w - mousePosition.y;

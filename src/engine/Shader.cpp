@@ -27,14 +27,6 @@ Shader::Shader(std::string shaderAssetName)
 #endif
 }
 
-Shader::Shader(Asset vertexSrc, Asset fragmentSrc)
-{
-  g_shProg = glCreateProgram();
-
-  addVertex(vertexSrc.read());
-  addFragment(fragmentSrc.read());
-}
-
 Shader::Shader(const char* vert_src, const char* frag_src)
 {
   g_shProg = glCreateProgram();
@@ -217,7 +209,7 @@ void Shader::setUniformVec3f(const std::string &uniformName, glm::vec3 vector)
   glUniform3f(getUniformLocation(uniformName), vector.x, vector.y, vector.z);
 }
 
-void Shader::setUniformMatrix4f(const std::string &uniformName, glm::mat4 matrix)
+void Shader::setUniformMatrix4f(const std::string &uniformName, const glm::mat4 &matrix)
 {
   bind();
 

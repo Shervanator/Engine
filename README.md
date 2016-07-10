@@ -11,11 +11,8 @@ A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine maki
 ## Usage
 
 #### Mac Build
-```
-brew install sdl2 assimp glew glm cmake
-```
 
-After create the make file or project with cmake:
+Run:
 
 ```
 ./cmake-make.sh
@@ -28,30 +25,12 @@ make -j8
 ```
 
 #### HTML 5 WebGL engine Build
+
 To build the html5 engine:
 
 First install emscripten:
 ```
 brew install emscripten
-```
-
-then compile assimp with emscripten:
-```
-git clone git@github.com:assimp/assimp.git
-cd assimp
-mkdir build.em
-cd build.em
-export EMSCRIPTEN_PATH=/usr/local/opt/emscripten/libexec # or wherever emscripten is installed
-
-cmake -DEMSCRIPTEN=1 -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN_PATH/cmake/Modules/Platform/Emscripten.cmake -DASSIMP_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=$EMSCRIPTEN_PATH/Modules/cmake  ..
-
-# OR to compile assimp with less importers do this:
-
-cmake -DEMSCRIPTEN=1 -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN_PATH/cmake/Modules/Platform/Emscripten.cmake -DASSIMP_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release  -DCMAKE_MODULE_PATH=$EMSCRIPTEN_PATH/Modules/cmake -DASSIMP_BUILD_3DS_IMPORTER=FALSE -DASSIMP_BUILD_AC_IMPORTER=FALSE -DASSIMP_BUILD_ASE_IMPORTER=FALSE -DASSIMP_BUILD_ASSBIN_IMPORTER=FALSE -DASSIMP_BUILD_ASSXML_IMPORTER=FALSE -DASSIMP_BUILD_B3D_IMPORTER=FALSE -DASSIMP_BUILD_BVH_IMPORTER=FALSE -DASSIMP_BUILD_COLLADA_IMPORTER=FALSE -DASSIMP_BUILD_PLY_IMPORTER=FALSE -DASSIMP_BUILD_MS3D_IMPORTER=FALSE -DASSIMP_BUILD_COB_IMPORTER=FALSE -DASSIMP_BUILD_BLEND_IMPORTER=FALSE -DASSIMP_BUILD_IFC_IMPORTER=FALSE -DASSIMP_BUILD_XGL_IMPORTER=FALSE -DASSIMP_BUILD_FBX_IMPORTER=FALSE -DASSIMP_BUILD_Q3D_IMPORTER=FALSE -DASSIMP_BUILD_Q3BSP_IMPORTER=FALSE -DASSIMP_BUILD_RAW_IMPORTER=FALSE -DASSIMP_BUILD_SMD_IMPORTER=FALSE -DASSIMP_BUILD_STL_IMPORTER=FALSE -DASSIMP_BUILD_TERRAGEN_IMPORTER=FALSE -DASSIMP_BUILD_3D_IMPORTER=FALSE -DASSIMP_BUILD_X_IMPORTER=FALSE -DASSIMP_BUILD_OFF_IMPORTER=FALSE -DASSIMP_BUILD_OGRE_IMPORTER=FALSE -DASSIMP_BUILD_OPENGEX_IMPORTER=FALSE ..
-
-# then run:
-make -j8
-make install
 ```
 
 Then build the engine:
@@ -67,6 +46,8 @@ open http://localhost:8000/game.html
 ```
 
 #### Android Build
+
+##### MIGHT NOT BE WORKING..
 
 To build for android do the following:
 
