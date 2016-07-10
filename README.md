@@ -10,6 +10,13 @@ A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine maki
 
 ## Usage
 
+All builds require cmake 3.6.0, so the first step is to download that [here](https://cmake.org/download/)
+
+#### Windows Build
+
+1. Run the cmake gui and point it to this projects folder, configure and then generate a project using whatever toolchain you want. Tested with visual studio 2015
+2. Build the project
+
 #### Mac Build
 
 Run:
@@ -42,7 +49,7 @@ make -j8
 
 python -m SimpleHTTPServer
 
-open http://localhost:8000/game.html
+open http://localhost:8000/
 ```
 
 #### Android Build
