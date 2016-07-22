@@ -1,5 +1,4 @@
-execute_process( COMMAND git submodule init )
-execute_process( COMMAND git submodule update )
+execute_process( COMMAND git submodule update --init --recursive )
 set_directory_properties( PROPERTIES CLEAN_NO_CUSTOM 1)
 
 IF (EMSCRIPTEN)
