@@ -4,7 +4,9 @@
 
 #include "EngineIOStream.h"
 
-#ifndef EMSCRIPTEN
+#ifdef EMSCRIPTEN
+#elif ANDROID
+#else
   #include <whereami.h>
 #endif
 

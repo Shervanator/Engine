@@ -1,2 +1,5 @@
 add_subdirectory( engine )
-add_subdirectory( example )
+
+# IF(NOT ANDROID)
+  add_subdirectory( example )
+# ENDIF()

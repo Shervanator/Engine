@@ -19,6 +19,8 @@
 #include "Logger.h"
 #include "MeshLoader.h"
 
+#include <SDL_main.h>
+
 Entity *plane;
 
 class CoolGame : public Game
@@ -82,7 +84,7 @@ void CoolGame::init(GLManager *glManager)
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
 
-int main(int argc, char **argv){
+int main(int argc, char *argv[]) {
   CoolGame game;
   Engine gameEngine(&game);
 
@@ -90,3 +92,7 @@ int main(int argc, char **argv){
 
   return 0;
 }
+
+// int SDL_main(int argc, char *argv[]) {
+//   return main(argc, argv);
+// }
