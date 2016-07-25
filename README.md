@@ -17,16 +17,23 @@ All builds require cmake 3.6.0, so the first step is to download that [here](htt
 1. Run the cmake gui and point it to this projects folder, configure and then generate a project using whatever toolchain you want. Tested with visual studio 2015
 2. Build the project
 
-#### Mac Build
+#### Mac/Linux Build
+
+Note: linux builds haven't been tested yet!
 
 Run:
 
-```
-./cmake-make.sh
+```bash
+./scripts/cmake-make.sh -j8
 ```
 
-Then if in Mac or Linux:
+Then run with:
+```bash
+./bin/bin/game
 ```
+
+This will run the first build for you! After that if you need to rebuild do the following:
+```bash
 cd bin
 make -j8
 ```
@@ -36,88 +43,72 @@ make -j8
 To build the html5 engine:
 
 First install emscripten:
-```
+```bash
 brew install emscripten
 ```
 
 Then build the engine:
+```bash
+./scripts/cmake-emscripten.sh -j8
 ```
-./cmake-emscripten.sh
 
-cd bin-emscripten
-make -j8
+Then run with:
+```bash
+cd bin-emscripten/bin
 
 python -m SimpleHTTPServer
 
 open http://localhost:8000/
 ```
 
-#### Android Build
+If you make a change you can rebuild with the following command:
+```bash
+cd bin-emscripten/
+make -j8
+```
 
-##### MIGHT NOT BE WORKING..
+#### Android Build
 
 To build for android do the following:
 
 First download the android ndk and sdk (https://developer.android.com/tools/sdk/ndk/) and (https://developer.android.com/sdk/index.html)
-Then download the android ndk cmake toolchain (android.toolchain.cmake) from (https://code.google.com/p/android-cmake/)
 
+Then add the SDK and NDK to your path:
+
+e.g. (you can add this to your .bash_profile for convenience)
+
+```bash
+export ANDROID_SDK=$HOME/Library/Android/sdk/
+export ANDROID_NDK=$HOME/workspace/android-ndk-r12b
+
+export PATH="$ANDROID_NDK:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$PATH"
 ```
-export NDK_PATH=/path/to/your/android/ndk/
 
-cd $NDK_PATH/build/tools
+Then to build (connect phone in dev mode to computer if you want it to install and run):
+```
+./scripts/cmake-android.sh -j8
+```
 
-./make-standalone-toolchain.sh --platform=android-8 --install-dir=$HOME/android-toolchain --ndk-dir=$NDK_PATH –-toolchain=arm-linux-androideabi-4.4.3 --system=darwin-x86_64
+To rebuild do the following:
+```bash
+cd bin-android
+make -j8
+make android-build android-install android-start
+```
 
-export ANDROID_NDK_TOOLCHAIN=$HOME/android-toolchain
-
-export ANDTOOLCHAIN=/path/to/android.toolchain.cmake
-
-export PATH=$PATH:$HOME/path/to/android-sdk/tools
-
-# compile assimp with android toolchain:
-
-git clone git@github.com:assimp/assimp.git
-cd assimp
-mkdir build.android
-cd build.android
-cmake -DCMAKE_TOOLCHAIN_FILE=$ANDTOOLCHAIN -DCMAKE_INSTALL_PREFIX=/assimp-2.0 -DANDROID_ABI=armeabi-v7a _DANDROID_NATIVE_API_LEVEL=android-8 -DANDROID_FORCE_ARM_BUILD=TRUE ..
-
-vim code/cMakeFiles/assimp.dir/link.txt
-# search for the string "-soname, libassimp.so.3" and replace with "-soname, libassimp.so"
-
-make
-
-cd ../lib
-
-# look for libassimp.so.some_version_number and rename it to libassimp.so
-
-cp libassimp.so /path/to/engine/android/jni/src/libassimp.so
-
-# Now add sdl src
-
-cd /path/to/engine/android/jni/
-# Download SDL source to this folder
-
-# setup for android is now done!
-
-cd /path/to/engine/android/
-
-# build src for android with
-ndk-build -j8
-
-# create apk with
-ant debug
-
-# connect device and install apk with
-adb install -r bin/SDLActivity-debug.apk
-
-# view logs from device with
-adb logcat | grep EngineLogger
+If you want to view the backtrace (to see logs and errors do the following):
+```bash
+cd bin-android
+make android-backtrace
 ```
 
 ### To Use:
 
 To use the engine in a game build the engine library and include Engine.h in your game.
+
+View the example in `./src/example/main.cpp`
+
+Or a simple case:
 
 Eg:
 

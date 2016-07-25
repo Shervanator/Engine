@@ -20,7 +20,12 @@ file(GLOB TARGET_SRC_COMPONENTS
 
 SET(TARGET_SRC ${TARGET_SRC} ${TARGET_SRC_COMPONENTS} ${TARGET_INC} ${TARGET_INC_COMPONENTS})
 
-add_library (engine SHARED ${TARGET_SRC})
+IF (ANDROID)
+  add_library (engine STATIC ${TARGET_SRC})
+ELSE ()
+  add_library (engine SHARED ${TARGET_SRC})
+ENDIF ()
+
 target_link_libraries (engine ${ENGINE_LIBS})
 
 
@@ -31,6 +36,6 @@ install (FILES ${TARGET_INC_COMPONENTS} DESTINATION include/engine/components)
 # TODO: ADD THIS BACK WHEN NEEDED
 # IF (NOT TARGET uninstall)
 #   # add make uninstall capability
-#   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/../CMakeModules/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
+#   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 #   add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 # ENDIF()

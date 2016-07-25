@@ -7,6 +7,7 @@ install_manifest.txt
 bin/
 bin-xcode/
 bin-emscripten/
+bin-android/
 
 gen/
 libs/
