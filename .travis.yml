@@ -9,7 +9,7 @@ compiler:
 
 script:
   - cmake --version
-  - ./scripts/cmake-android.sh -j4
+  - ./scripts/cmake-make.sh -j4
 
 notifications:
   email:
