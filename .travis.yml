@@ -1,0 +1,126 @@
+os:
+  - linux
+  - osx
+
+sudo: false
+
+language:
+  - cpp
+  - android
+
+jdk:
+  - oraclejdk8
+
+android:
+  components:
+  - build-tools-20.0.0
+  - android-20
+  - sysimg-20
+  - add-on
+  - extra
+  licenses:
+  - android-sdk-preview-license-52d11cd2
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+
+compiler:
+  - gcc
+
+env:
+  matrix:
+   - CP_TARGET=osx
+   - CP_TARGET=linux
+   - CP_TARGET=linux_builtin
+   - CP_TARGET=android
+   - CP_TARGET=windows
+
+matrix:
+  exclude:
+    - os: osx
+      env: CP_TARGET=linux
+    - os: osx
+      env: CP_TARGET=linux_builtin
+    - os: osx
+      env: CP_TARGET=windows
+    - os: osx
+      env: CP_TARGET=android
+    - os: linux
+      env: CP_TARGET=osx
+    - os: windows
+      env: CP_TARGET=osx
+    - os: windows
+      env: CP_TARGET=linux
+    - os: windows
+      env: CP_TARGET=linux_builtin
+    - os: windows
+      env: CP_TARGET=android
+
+addons:
+  apt:
+    packages:
+    - g++-5
+    - gcc-5
+    - clang
+    - build-essential
+    - make
+    - cmake
+    - libgl1-mesa-dev
+    - libgles1-mesa-dev
+    - libgles2-mesa-dev
+    - libegl1-mesa-dev
+    - libgd2-xpm
+    sources:
+    - george-edison55-precise-backports # cmake 3.x
+
+script:
+  - cmake --version
+  - "if [ $CP_TARGET == android ]; then \
+        ./scripts/cmake-android.sh -j4
+     fi"
+  - "if [ $CP_TARGET == linux ]; then \
+        ./scripts/cmake-make.sh -j4
+     fi"
+  - "if [ $CP_TARGET == linux_builtin ]; then \
+        ./scripts/cmake-make.sh -j4
+     fi"
+  - "if [ $CP_TARGET == windows ]; then \
+        echo Not yet done;
+     fi"
+  - "if [ $CP_TARGET == osx ]; then \
+        ./scripts/cmake-make.sh -j4
+    fi"
+
+notifications:
+  email:
+    - shervinaflatooni@gmail.com
+
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then gem install xcpretty; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then gem install xcpretty-travis-formatter; fi
+
+before_script:
+  - export TERM=dumb
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $CP_TARGET == android ]; then \
+        brew update;
+        brew install android-sdk android-ndk ant;
+        export ANDROID_SDK=/usr/local/opt/android-sdk;
+        export ANDROID_NDK=/usr/local/opt/android-ndk;
+        export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK};
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $CP_TARGET == android ]; then \
+        if [ `uname -m` == x86_64 ]; then \
+            wget --quiet --continue http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86_64.tar.bz2 -O ndk.tgz;
+        else
+            wget --quiet --continue http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86.tar.bz2 -O ndk.tgz;
+        fi;
+        tar -xf ndk.tgz;
+        wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
+        tar -xzf android-sdk_r24.4.1-linux.tgz;
+        echo \"y\" | ./android-sdk-linux/tools/android update sdk -a -u -s -t platform-tools;
+        export ANDROID_SDK=`pwd`/android-sdk-linux;
+        export ANDROID_NDK=`pwd`/android-ndk-r10b;
+        export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK};
+    fi"
+
+cache: apt
