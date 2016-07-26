@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 EMSCRIPTEN_PATH=${EMSCRIPTEN_PATH:-/usr/local/opt/emscripten/libexec}
 BUILD_TYPE=${BUILD_TYPE:-Release}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
