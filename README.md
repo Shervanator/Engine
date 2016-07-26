@@ -8,6 +8,8 @@ A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine maki
 - Assimp asset importing library.
 - GLEW extension loading library.
 
+[![Build Status](https://travis-ci.org/Shervanator/Engine.svg?branch=master)](https://travis-ci.org/Shervanator/Engine)
+
 ## Usage
 
 All builds require cmake 3.6.0, so the first step is to download that [here](https://cmake.org/download/)
