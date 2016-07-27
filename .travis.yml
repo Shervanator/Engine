@@ -6,6 +6,24 @@ sudo: false
 
 language:
   - cpp
+  - android
+
+android:
+  components:
+    - build-tools-20.0.0
+
+    # The SDK version used to compile your project
+    - android-22
+
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-22
 
 compiler:
   - clang
