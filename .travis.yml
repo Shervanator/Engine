@@ -37,6 +37,25 @@ addons:
     - g++-4.8
     - clang
 
+
+before_script:
+  - "if [ $TRAVIS_OS_NAME == osx ]; then \
+        brew update;
+        brew install android-ndk;
+        export ANDROID_NDK=/usr/local/opt/android-ndk;
+        export PATH=${PATH}:${ANDROID_NDK};
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ]; then \
+        if [ `uname -m` == x86_64 ]; then \
+            wget --quiet --continue http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86_64.tar.bz2 -O ndk.tgz;
+        else
+            wget --quiet --continue http://dl.google.com/android/ndk/android-ndk32-r10b-linux-x86.tar.bz2 -O ndk.tgz;
+        fi;
+        tar -xf ndk.tgz;
+        export ANDROID_NDK=`pwd`/android-ndk-r10b;
+        export PATH=${PATH}:${ANDROID_NDK};
+    fi"
+
 script:
   - cmake --version
   - echo $ANDROID_NDK
