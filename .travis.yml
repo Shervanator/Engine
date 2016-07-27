@@ -47,7 +47,7 @@ before_script:
     fi"
   - "if [ $TRAVIS_OS_NAME == linux ]; then \
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
-        unzip -o ndk.zip;
+        unzip -o -q ndk.zip;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
         export PATH=${PATH}:${ANDROID_NDK};
     fi"
