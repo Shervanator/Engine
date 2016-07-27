@@ -52,7 +52,7 @@ before_script:
             wget --quiet --continue http://dl.google.com/android/ndk/android-ndk32-r12b-linux-x86.tar.bz2 -O ndk.tgz;
         fi;
         tar -xf ndk.tgz;
-        export ANDROID_NDK=`pwd`/android-ndk-r10b;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
         export PATH=${PATH}:${ANDROID_NDK};
     fi"
 
