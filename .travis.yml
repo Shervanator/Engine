@@ -59,7 +59,7 @@ before_script:
 script:
   - cmake --version
   - echo $ANDROID_NDK
-  - ./scripts/cmake-android.sh -j4
+  - ANDROID_NDK=$ANDROID_NDK ./scripts/cmake-android.sh -j4
   - ./scripts/cmake-make.sh -j4
 
 notifications:
