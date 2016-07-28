@@ -44,7 +44,7 @@ before_script:
         brew install android-sdk android-ndk ant;
         export ANDROID_SDK=/usr/local/opt/android-sdk;
         export ANDROID_NDK=/usr/local/opt/android-ndk;
-        export PATH=${PATH}:${ANDROID_NDK};
+        export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK};
     fi"
   - "if [ $TRAVIS_OS_NAME == linux ]; then \
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
@@ -56,7 +56,7 @@ before_script:
         export ANDROID_SDK=`pwd`/android-sdk-linux;
         export ANDROID_HOME=$ANDROID_SDK;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
-        export PATH=${PATH}:${ANDROID_NDK};
+        export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK};
         android update sdk -u;
     fi"
 
