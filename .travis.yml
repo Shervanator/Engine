@@ -54,6 +54,7 @@ before_script:
         tar -xzf android-sdk_r24.4.1-linux.tgz;
         echo \"y\" | ./android-sdk-linux/tools/android update sdk -a -u -s -t platform-tools;
         export ANDROID_SDK=`pwd`/android-sdk-linux;
+        export ANDROID_HOME=$ANDROID_SDK;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
         export PATH=${PATH}:${ANDROID_NDK};
     fi"
