@@ -57,6 +57,7 @@ before_script:
         export ANDROID_HOME=$ANDROID_SDK;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
         export PATH=${PATH}:${ANDROID_NDK};
+        android update sdk -u;
     fi"
 
 script:
