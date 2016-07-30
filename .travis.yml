@@ -5,8 +5,8 @@ os:
 sudo: false
 
 language:
-  - cpp
   - android
+  - cpp
 
 jdk:
   - oraclejdk8
