@@ -10,7 +10,7 @@ cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DANDROID_NDK=$ANDROID_NDK -DANDROID_N
 make $*
 make android-build
 
-STATE=$(${ANDROID_SDK}/platform-tools/adb get-state)
+STATE=$(${ANDROID_SDK}/platform-tools/adb get-state || exit 0)
 if [ "$STATE" == "device" ]; then
 	make android-install android-start
 fi
