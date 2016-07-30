@@ -52,7 +52,7 @@ before_script:
 
         wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
         tar -xzf android-sdk_r24.4.1-linux.tgz;
-        echo \"y\" | ./android-sdk-linux/tools/android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+        echo \"y\" | ./android-sdk-linux/tools/android update sdk -a -u -s -t platform-tools,build-tools-24.0.0,android-22;
         export ANDROID_SDK=`pwd`/android-sdk-linux;
         export ANDROID_HOME=$ANDROID_SDK;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
