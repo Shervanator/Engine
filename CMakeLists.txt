@@ -77,7 +77,7 @@ ELSEIF (ANDROID)
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
 ELSE ()
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++11 -stdlib=libc++")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++11")
   find_package(OpenGL REQUIRED)
 
   set(ENGINE_LIBS
