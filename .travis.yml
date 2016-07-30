@@ -13,6 +13,7 @@ env:
   matrix:
     - BUILD_TYPE=android
     - BUILD_TYPE=native
+    - BUILD_TYPE=emscripten
 
 addons:
   apt:
@@ -50,6 +51,19 @@ before_script:
         export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
         echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
     fi"
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == emscripten ]; then \
+        brew update;
+        brew install emscripten;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then \
+      wget --quiet --continue https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz;
+      tar -xzf emsdk-portable.tar.gz;
+
+      `pwd`/emsdk_portable/emsdk update
+      `pwd`/emsdk_portable/emsdk install latest
+      `pwd`/emsdk_portable/emsdk activate latest
+      source `pwd`/emsdk_portable/emsdk_env.sh
+  fi"
 
 script:
   - ./scripts/travis-build.sh
