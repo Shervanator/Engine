@@ -9,5 +9,6 @@ if [ $BUILD_TYPE == android ]; then
 elif [ $BUILD_TYPE == native ]; then
   $DIR/cmake-make.sh -j4
 elif [ $BUILD_TYPE == emscripten ]; then
-  $DIR/cmake-emscripten.sh -j4
+  echo $EMSCRIPTEN
+  $EMSCRIPTEN=$EMSCRIPTEN $DIR/cmake-emscripten.sh -j4
 fi
