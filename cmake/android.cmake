@@ -1,13 +1,13 @@
 # Adapted from https://github.com/mgerhardy/caveexpress/blob/master/cmake/android.cmake
 
 set(MIN_ANDROID_SDK 10)
-set(TARGET_ANDROID_SDK 17)
+set(TARGET_ANDROID_SDK 22)
 
 set(ANDROID_NDK_ROOT ${ANDROID_NDK})
 set(ANDROID_SDK_ROOT $ENV{ANDROID_SDK})
 set(ANDROID_SDK_BUILD_TOOLS_VERSION "24.0.1")
 set(ANDROID_BUILD_TOOLS_ROOT ${ANDROID_SDK_ROOT}/build-tools/${ANDROID_SDK_BUILD_TOOLS_VERSION})
-set(ANDROID_API "android-17" CACHE STRING "Android platform version")
+set(ANDROID_API "android-22" CACHE STRING "Android platform version")
 
 if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
 	set(ANDROID_NDK_EXE_EXT ".exe")
