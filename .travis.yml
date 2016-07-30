@@ -40,7 +40,6 @@ addons:
     - gcc-5
 
 before_script:
-  - "export CC=/usr/bin/clang"
   - "export CXX=/usr/bin/clang++"
   - "if [ $TRAVIS_OS_NAME == osx ]; then \
         brew update;
