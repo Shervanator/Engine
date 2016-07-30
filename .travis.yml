@@ -31,11 +31,11 @@ before_script:
         wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
         tar -xzf android-sdk_r24.4.1-linux.tgz;
         export ANDROID_SDK=`pwd`/android-sdk-linux;
+        jdk_switcher use oraclejdk8;
     fi"
   - "export ANDROID_HOME=$ANDROID_SDK;"
   - "export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};"
   - "echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;"
-  - "jdk_switcher use oraclejdk8;"
 
 script:
   - ./scripts/travis-build.sh
