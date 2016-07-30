@@ -9,6 +9,11 @@ language: cpp
 compiler:
   - clang
 
+env:
+  matrix:
+    - BUILD_TYPE=android
+    - BUILD_TYPE=native
+
 addons:
   apt:
     sources:
@@ -17,7 +22,7 @@ addons:
     - clang
 
 before_script:
-  - "if [ $TRAVIS_OS_NAME == osx ]; then \
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
         brew update;
         brew cask install java;
         brew install android-sdk ant;
@@ -26,8 +31,12 @@ before_script:
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
         unzip -o -q ndk.zip;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
     fi"
-  - "if [ $TRAVIS_OS_NAME == linux ]; then \
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == android ]; then \
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
         unzip -o -q ndk.zip;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
@@ -36,10 +45,11 @@ before_script:
         tar -xzf android-sdk_r24.4.1-linux.tgz;
         export ANDROID_SDK=`pwd`/android-sdk-linux;
         jdk_switcher use oraclejdk8;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
     fi"
-  - "export ANDROID_HOME=$ANDROID_SDK;"
-  - "export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};"
-  - "echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;"
 
 script:
   - ./scripts/travis-build.sh

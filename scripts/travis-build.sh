@@ -4,8 +4,8 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-java -version
-javac -version
-
-ANDROID_NDK=$ANDROID_NDK $DIR/cmake-android.sh -j4
-$DIR/cmake-make.sh -j4
+if [ $BUILD_TYPE == android ]; then
+  ANDROID_NDK=$ANDROID_NDK $DIR/cmake-android.sh -j4
+elif [ $BUILD_TYPE == native ]; then
+  $DIR/cmake-make.sh -j4
+fi
