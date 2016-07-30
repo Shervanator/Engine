@@ -17,10 +17,12 @@ env:
 
 addons:
   apt:
+    packages:
+    - cmake
+    - clang
     sources:
     - ubuntu-toolchain-r-test
-    packages:
-    - clang
+    - george-edison55-precise-backports
 
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
