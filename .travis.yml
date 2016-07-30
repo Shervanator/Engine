@@ -1,30 +1,18 @@
 os:
   - linux
-  - osx
+  # - osx
 
 sudo: false
 
-language:
-  - android
-  - cpp
+language: cpp
 
-jdk:
-  - oraclejdk8
+# jdk:
+#   - oraclejdk8
 
-android:
-  components:
-    - build-tools-24.0.1
-    - android-22
-
-    # Additional components
-    # - extra-google-google_play_services
-    # - extra-google-m2repository
-    # - extra-android-m2repository
-    # - addon-google_apis-google-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    # - sys-img-armeabi-v7a-android-22
+# android:
+#   components:
+#     - build-tools-24.0.1
+#     - android-22
 
 compiler:
   - clang
@@ -37,7 +25,6 @@ addons:
     - clang
 
 before_script:
-  - "export CXX=/usr/bin/clang++"
   - "if [ $TRAVIS_OS_NAME == osx ]; then \
         brew update;
         brew install android-ndk ant;
@@ -48,7 +35,14 @@ before_script:
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
         unzip -o -q ndk.zip;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
-        export PATH=${PATH}:${ANDROID_NDK};
+
+        wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
+        tar -xzf android-sdk_r24.4.1-linux.tgz;
+        echo \"y\" | ./android-sdk-linux/tools/android update sdk -a -u -s -t platform-tools,build-tools-21.1.2,android-22;
+        export ANDROID_SDK=`pwd`/android-sdk-linux;
+        export ANDROID_HOME=$ANDROID_SDK;
+
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
     fi"
 
 script:
