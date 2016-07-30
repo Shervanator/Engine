@@ -19,6 +19,7 @@ addons:
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ]; then \
         brew update;
+        brew cask install java;
         brew install android-sdk ant;
         export ANDROID_SDK=/usr/local/opt/android-sdk;
 
