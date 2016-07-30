@@ -44,6 +44,7 @@ before_script:
 
         export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
     fi"
+    - "jdk_switcher use oraclejdk8;"
 
 script:
   - ./scripts/travis-build.sh
