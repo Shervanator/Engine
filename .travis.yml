@@ -6,17 +6,17 @@ sudo: false
 
 language:
   - cpp
-  # - android
+  - android
 
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 
 android:
   components:
-    # - build-tools-20.0.0
+    - build-tools-24.0.1
 
     # The SDK version used to compile your project
-    # - android-22
+    - android-22
 
     # Additional components
     # - extra-google-google_play_services
@@ -40,26 +40,18 @@ addons:
     - g++-4.8
     - clang
 
-
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ]; then \
         brew update;
-        brew install android-sdk android-ndk ant;
-        export ANDROID_SDK=/usr/local/opt/android-sdk;
+        brew install android-ndk ant;
         export ANDROID_NDK=/usr/local/opt/android-ndk;
-        export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK};
+        export PATH=${PATH}:${ANDROID_NDK};
     fi"
   - "if [ $TRAVIS_OS_NAME == linux ]; then \
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
         unzip -o -q ndk.zip;
-
-        wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
-        tar -xzf android-sdk_r24.4.1-linux.tgz;
-        echo \"y\" | ./android-sdk-linux/tools/android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
-        export ANDROID_SDK=`pwd`/android-sdk-linux;
-        export ANDROID_HOME=$ANDROID_SDK;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
-        export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK};
+        export PATH=${PATH}:${ANDROID_NDK};
     fi"
 
 script:
@@ -67,7 +59,3 @@ script:
   - echo $ANDROID_NDK
   - ANDROID_NDK=$ANDROID_NDK ./scripts/cmake-android.sh -j4
   - ./scripts/cmake-make.sh -j4
-
-notifications:
-  email:
-    - shervinaflatooni@gmail.com
