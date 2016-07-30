@@ -40,6 +40,7 @@ addons:
     - clang
 
 before_script:
+  - "adb version"
   - "if [ $TRAVIS_OS_NAME == osx ]; then \
         brew update;
         brew install android-ndk ant;
