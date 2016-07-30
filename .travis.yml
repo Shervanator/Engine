@@ -36,6 +36,8 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - clang
+    - g++-5
+    - gcc-5
 
 before_script:
   - "export CC=/usr/bin/clang"
