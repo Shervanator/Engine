@@ -19,6 +19,7 @@ addons:
   apt:
     packages:
     - cmake
+    - cmake-data
     - clang
     sources:
     - ubuntu-toolchain-r-test
