@@ -4,25 +4,78 @@ os:
 
 sudo: false
 
-language:
-  - cpp
+language: cpp
 
 compiler:
   - clang
 
+env:
+  matrix:
+    - BUILD_TYPE=android
+    - BUILD_TYPE=native
+    # - BUILD_TYPE=emscripten
+
 addons:
   apt:
+    packages:
+    # - cmake
+    # - cmake-data
+    # - build-essential
+    - clang
+    # - clang-3.8
+    # - g++-5
+    # - gcc-5
+    # - libc6-dev-i386
     sources:
     - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
-    - clang
+    # - george-edison55-precise-backports
+    # - llvm-toolchain-precise-3.8
+
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
+
+before_script:
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
+        brew update;
+        brew cask install java;
+        brew install android-sdk ant;
+        export ANDROID_SDK=/usr/local/opt/android-sdk;
+
+        wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
+        unzip -o -q ndk.zip;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == android ]; then \
+        wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
+        unzip -o -q ndk.zip;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
+        tar -xzf android-sdk_r24.4.1-linux.tgz;
+        export ANDROID_SDK=`pwd`/android-sdk-linux;
+        jdk_switcher use oraclejdk8;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == emscripten ]; then \
+        brew update;
+        brew install emscripten;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then \
+      wget --quiet --continue https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz;
+      tar -xzf emsdk-portable.tar.gz;
+
+      `pwd`/emsdk_portable/emsdk update;
+      `pwd`/emsdk_portable/emsdk install latest;
+      `pwd`/emsdk_portable/emsdk activate latest;
+      source `pwd`/emsdk_portable/emsdk_env.sh;
+  fi"
 
 script:
-  - cmake --version
-  - ./scripts/cmake-make.sh -j4
-
-notifications:
-  email:
-    - shervinaflatooni@gmail.com
+  - ./scripts/travis-build.sh
