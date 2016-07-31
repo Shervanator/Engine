@@ -21,6 +21,7 @@ addons:
     - cmake
     - cmake-data
     - clang
+    - libstdc++6:i386
     sources:
     - ubuntu-toolchain-r-test
     - george-edison55-precise-backports
