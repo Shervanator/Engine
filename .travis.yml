@@ -6,14 +6,19 @@ sudo: false
 
 language: cpp
 
-compiler:
-  - clang
+# compiler:
+#   - clang
 
-env:
-  matrix:
-    # - BUILD_TYPE=android
-    # - BUILD_TYPE=native
-    - BUILD_TYPE=emscripten
+matrix:
+  include:
+  - compiler: gcc
+    env: BUILD_TYPE=emscripten
+
+# env:
+#   matrix:
+#     # - BUILD_TYPE=android
+#     # - BUILD_TYPE=native
+#     - BUILD_TYPE=emscripten
 
 addons:
   apt:
@@ -22,13 +27,16 @@ addons:
     - cmake-data
     - build-essential
     - clang-3.8
-    - gcc-4.9
-    - g++-4.9
+    - g++-5
+    - gcc-5
     - libc6-dev-i386
     sources:
     - ubuntu-toolchain-r-test
     - george-edison55-precise-backports
     - llvm-toolchain-precise-3.8
+
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
 
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
