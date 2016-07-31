@@ -20,13 +20,14 @@ addons:
     packages:
     - cmake
     - cmake-data
-    - g++-5
-    - gcc-5
     - clang-3.8
-    - libstdc++6:i386
+    - g++-multilib
+    - gcc-multilib
+    - libc6-dev-i386
     sources:
     - ubuntu-toolchain-r-test
     - george-edison55-precise-backports
+    - llvm-toolchain-precise-3.8
 
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
