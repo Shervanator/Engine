@@ -20,6 +20,8 @@ addons:
     packages:
     - cmake
     - cmake-data
+    - g++-5
+    - gcc-5
     - clang
     - libstdc++6:i386
     sources:
