@@ -22,7 +22,7 @@ addons:
     - cmake-data
     - g++-5
     - gcc-5
-    - clang
+    - clang-3.8
     - libstdc++6:i386
     sources:
     - ubuntu-toolchain-r-test
