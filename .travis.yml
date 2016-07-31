@@ -1,24 +1,19 @@
 os:
   - linux
-  # - osx
+  - osx
 
 sudo: false
 
 language: cpp
 
-# compiler:
-#   - clang
+compiler:
+  - clang
 
-matrix:
-  include:
-  - compiler: gcc
-    env: BUILD_TYPE=emscripten
-
-# env:
-#   matrix:
-#     # - BUILD_TYPE=android
-#     # - BUILD_TYPE=native
-#     - BUILD_TYPE=emscripten
+env:
+  matrix:
+    - BUILD_TYPE=android
+    - BUILD_TYPE=native
+    # - BUILD_TYPE=emscripten
 
 addons:
   apt:
