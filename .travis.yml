@@ -1,6 +1,6 @@
 os:
   - linux
-  - osx
+  # - osx
 
 sudo: false
 
@@ -11,8 +11,8 @@ compiler:
 
 env:
   matrix:
-    - BUILD_TYPE=android
-    - BUILD_TYPE=native
+    # - BUILD_TYPE=android
+    # - BUILD_TYPE=native
     - BUILD_TYPE=emscripten
 
 addons:
