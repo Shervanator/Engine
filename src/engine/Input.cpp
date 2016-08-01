@@ -24,24 +24,24 @@ void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
   buttonState[buttonEvent.button] = buttonEvent.state;
 }
 
-bool Input::isPressed(SDL_Keycode key) const
+bool Input::isPressed(SDL_Keycode key)
 {
-  return (keyState.at(key) == SDL_PRESSED);
+  return (keyState[key] == SDL_PRESSED);
 }
 
-bool Input::isReleased(SDL_Keycode key) const
+bool Input::isReleased(SDL_Keycode key)
 {
-  return (keyState.at(key) == SDL_RELEASED);
+  return (keyState[key] == SDL_RELEASED);
 }
 
-bool Input::mouseIsPressed(Uint8 button) const
+bool Input::mouseIsPressed(Uint8 button)
 {
-  return (buttonState.at(button) == SDL_PRESSED);
+  return (buttonState[button] == SDL_PRESSED);
 }
 
-bool Input::mouseIsReleased(Uint8 button) const
+bool Input::mouseIsReleased(Uint8 button)
 {
-  return (buttonState.at(button) == SDL_RELEASED);
+  return (buttonState[button] == SDL_RELEASED);
 }
 
 void Input::setMouseDelta(int x, int y)

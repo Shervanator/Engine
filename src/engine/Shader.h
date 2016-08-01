@@ -39,7 +39,7 @@ public:
   void link(void);
 
   void createUniform(const std::string& uniformName);
-  GLuint getUniformLocation(const std::string& uniformName) const;
+  GLuint getUniformLocation(const std::string& uniformName);
 
   void setAttribLocation(const char* name, int i);
 

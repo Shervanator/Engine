@@ -129,9 +129,9 @@ void Shader::createUniform(const std::string& uniformName)
   uniformLocation[uniformName] = glGetUniformLocation(g_shProg, uniformName.c_str());
 }
 
-GLuint Shader::getUniformLocation(const std::string& uniformName) const
+GLuint Shader::getUniformLocation(const std::string& uniformName)
 {
-  return uniformLocation.at(uniformName);
+  return uniformLocation[uniformName];
 }
 
 void Shader::setAttribLocation(const char* name, int i)

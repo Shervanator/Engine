@@ -20,10 +20,10 @@ public:
   void handleKeyboardEvent(SDL_KeyboardEvent keyEvent);
   void handleMouseEvent(SDL_MouseButtonEvent buttonEvent);
 
-  bool isPressed(SDL_Keycode key) const;
-  bool isReleased(SDL_Keycode key) const;
-  bool mouseIsPressed(Uint8 button) const;
-  bool mouseIsReleased(Uint8 button) const;
+  bool isPressed(SDL_Keycode key);
+  bool isReleased(SDL_Keycode key);
+  bool mouseIsPressed(Uint8 button);
+  bool mouseIsReleased(Uint8 button);
 
   void setMouseDelta(int x, int y);
   void setMousePosition(int x, int y);
