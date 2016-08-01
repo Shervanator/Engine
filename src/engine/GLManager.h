@@ -31,6 +31,7 @@ public:
   GLManager(int width, int height);
   ~GLManager(void);
 
+  void bindRenderTarget(void) const;
   void renderScene(Entity *entity);
   void setActiveCamera(Camera *camera);
   void addDirectionalLight(DirectionalLight *light);
