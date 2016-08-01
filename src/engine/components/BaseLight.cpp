@@ -14,12 +14,12 @@ BaseLight::~BaseLight(void)
 {
 }
 
-glm::vec3 BaseLight::getColor(void)
+glm::vec3 BaseLight::getColor(void) const
 {
   return m_color;
 }
 
-float BaseLight::getIntensity(void)
+float BaseLight::getIntensity(void) const
 {
   return m_intensity;
 }

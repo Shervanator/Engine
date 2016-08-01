@@ -33,12 +33,12 @@ void PointLight::updateShader(Shader *shader)
   shader->updateUniformPointLight("pointLight", this);
 }
 
-Attenuation *PointLight::getAttenuation(void)
+Attenuation *PointLight::getAttenuation(void) const
 {
   return m_attenuation;
 }
 
-float PointLight::getRange(void)
+float PointLight::getRange(void) const
 {
   return m_range;
 }

@@ -16,8 +16,8 @@ public:
 
   virtual void updateShader(Shader *shader);
 
-  Attenuation *getAttenuation(void);
-  float getRange(void);
+  Attenuation *getAttenuation(void) const;
+  float getRange(void) const;
 
 private:
   Attenuation *m_attenuation;

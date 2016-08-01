@@ -21,7 +21,7 @@ void SpotLight::updateShader(Shader *shader)
   shader->updateUniformSpotLight("spotLight", this);
 }
 
-float SpotLight::getCutoff(void)
+float SpotLight::getCutoff(void) const
 {
   return m_cutoff;
 }

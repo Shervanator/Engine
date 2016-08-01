@@ -18,8 +18,8 @@ public:
 
   virtual void registerWithEngine(Engine *engine) {};
 
-  glm::vec3 getColor(void);
-  float getIntensity(void);
+  glm::vec3 getColor(void) const;
+  float getIntensity(void) const;
 
   virtual void updateShader(Shader *shader) = 0;
 

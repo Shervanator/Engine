@@ -15,7 +15,7 @@ public:
 
   virtual void updateShader(Shader *shader);
 
-  float getCutoff(void);
+  float getCutoff(void) const;
 
 private:
   float m_cutoff;

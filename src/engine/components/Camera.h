@@ -15,8 +15,8 @@ public:
   Camera(float fov, float aspect, float zNear, float zFar);
   ~Camera(void);
 
-  glm::mat4 getViewMatrix(void);
-  glm::mat4 getProjectionMatrix(void);
+  glm::mat4 getViewMatrix(void) const;
+  glm::mat4 getProjectionMatrix(void) const;
 
 private:
   glm::mat4 projection;
