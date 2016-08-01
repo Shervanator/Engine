@@ -2,19 +2,19 @@
 //  Author: Shervin Aflatooni
 //
 
-#include "ShadedResource.h"
+#include "SharedResource.h"
 
-ShadedResource::ShadedResource(void)
+SharedResource::SharedResource(void)
 {
   m_referenceCount = 0;
 }
 
-void ShadedResource::incrementReference(void)
+void SharedResource::incrementReference(void)
 {
   m_referenceCount++;
 }
 
-void ShadedResource::decrementReference(void)
+void SharedResource::decrementReference(void)
 {
   m_referenceCount--;
 

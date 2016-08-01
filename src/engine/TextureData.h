@@ -13,9 +13,9 @@
   #include <GL/glew.h>
 #endif
 
-#include "ShadedResource.h"
+#include "SharedResource.h"
 
-class TextureData : public ShadedResource
+class TextureData : public SharedResource
 {
 public:
   TextureData(int width, int height, const unsigned char* data, GLenum textureTarget, GLfloat filter);

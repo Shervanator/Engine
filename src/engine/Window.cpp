@@ -81,7 +81,7 @@ void Window::tick(void)
   delta_time   = current_time - old_time;
 
   if (current_time % 6 == 0) {
-    char buffer[30];
+    // char buffer[30];
     // TODO: FIX THIS IN WINDOWS
     //log_info("fps: %d", getFPS());
     //snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
@@ -122,32 +122,32 @@ Input* Window::getInput(void)
   return &input;
 }
 
-Uint32 Window::getDeltaTime(void)
+Uint32 Window::getDeltaTime(void) const
 {
   return delta_time;
 }
 
-Uint32 Window::getFPS(void)
+Uint32 Window::getFPS(void) const
 {
   return 1000.0 / delta_time;
 }
 
-int Window::getWidth(void)
+int Window::getWidth(void) const
 {
   return width;
 }
 
-int Window::getHeight(void)
+int Window::getHeight(void) const
 {
   return height;
 }
 
-glm::vec4 Window::getViewport(void)
+glm::vec4 Window::getViewport(void) const
 {
   return glm::vec4(0.0f, 0.0f, width, height);
 }
 
-bool Window::shouldQuit(void)
+bool Window::shouldQuit(void) const
 {
   return quit;
 }
