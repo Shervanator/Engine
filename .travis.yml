@@ -10,12 +10,22 @@ compiler:
   - clang
 
 env:
+  global:
+    - secure: "bAMutoQUqShP/tl+9yO6JQ8+0ues5HqrCwjAugGaJ4Xqr3fM7eW0JHlJ02fgDCdzlEc6uzCc7ni7S6INJsWHJTSF6vXZxF6ALeZ4OsiwJ0e77AXbT6ZkWY7ST1tPunQpo4U4enLjXqKxkYJuQo3XkBopCwqDRkBkQzduFLl8/xc="
   matrix:
     - BUILD_TYPE=android
     - BUILD_TYPE=native
     # - BUILD_TYPE=emscripten
 
 addons:
+  coverity_scan:
+    project:
+      name: "Shervanator/Engine"
+      description: "Build submitted via Travis CI"
+    notification_email: shervinaflatooni@gmail.com
+    build_command_prepend: "cmake ."
+    build_command: "make -j 4"
+    branch_pattern: coverity_scan
   apt:
     packages:
     # - cmake
