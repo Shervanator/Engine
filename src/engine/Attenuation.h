@@ -10,9 +10,9 @@ class Attenuation
 public:
   Attenuation(float constant, float linear, float exponent);
 
-  float getConstant(void);
-  float getLinear(void);
-  float getExponent(void);
+  float getConstant(void) const;
+  float getLinear(void) const;
+  float getExponent(void) const;
 
 private:
   float m_constant;

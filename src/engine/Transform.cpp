@@ -59,27 +59,27 @@ void Transform::setRotation(const glm::quat& rotation)
   this->m_rotation = rotation;
 }
 
-glm::vec4 Transform::getPosition(void)
+glm::vec4 Transform::getPosition(void) const
 {
   return m_position;
 }
 
-glm::vec3 Transform::getScale(void)
+glm::vec3 Transform::getScale(void) const
 {
   return m_scale;
 }
 
-glm::quat Transform::getRotation(void)
+glm::quat Transform::getRotation(void) const
 {
   return m_rotation;
 }
 
-glm::mat4 Transform::getTransformMatrix(void)
+glm::mat4 Transform::getTransformMatrix(void) const
 {
   return glm::translate(m_position.xyz()) * glm::toMat4(m_rotation) * glm::scale(m_scale);
 }
 
-glm::vec4 Transform::getDirection(void)
+glm::vec4 Transform::getDirection(void) const
 {
   return getRotation() * glm::vec4(0, 0, -1, 0);
 }

@@ -9,12 +9,12 @@ void EntityComponent::setParent(Entity *parentEntity)
   this->parentEntity = parentEntity;
 }
 
-Entity *EntityComponent::getParent(void)
+Entity *EntityComponent::getParent(void) const
 {
   return parentEntity;
 }
 
-Transform& EntityComponent::getTransform(void)
+Transform& EntityComponent::getTransform(void) const
 {
   return parentEntity->getTransform();
 }

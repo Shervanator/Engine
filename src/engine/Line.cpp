@@ -33,7 +33,7 @@ Line::~Line(void)
 #endif
 }
 
-void Line::render(Shader *shader)
+void Line::render(Shader *shader) const
 {
 #if defined(GLES2)
   glBindBuffer(GL_ARRAY_BUFFER, vbo);

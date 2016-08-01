@@ -4,7 +4,7 @@
 
 #include "TextureData.h"
 
-TextureData::TextureData(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter)
+TextureData::TextureData(int width, int height, const unsigned char* data, GLenum textureTarget, GLfloat filter)
 {
   createTexture(width, height, data, textureTarget, filter);
 }
@@ -14,7 +14,7 @@ TextureData::~TextureData()
   glDeleteTextures(1, &m_textureId);
 }
 
-void TextureData::createTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter)
+void TextureData::createTexture(int width, int height, const unsigned char* data, GLenum textureTarget, GLfloat filter)
 {
   m_textureTarget = textureTarget;
 
@@ -28,7 +28,7 @@ void TextureData::createTexture(int width, int height, unsigned char* data, GLen
   glTexImage2D(textureTarget, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 }
 
-void TextureData::bind(unsigned int unit)
+void TextureData::bind(unsigned int unit) const
 {
   glActiveTexture(GL_TEXTURE0 + unit);
   glBindTexture(m_textureTarget, m_textureId);

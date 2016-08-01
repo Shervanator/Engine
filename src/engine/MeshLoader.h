@@ -16,7 +16,7 @@ public:
   MeshLoader(const std::string file);
   ~MeshLoader(void);
 
-  Entity *getEntity(void);
+  Entity *getEntity(void) const;
 
 private:
   void loadScene(const aiScene* scene);

@@ -20,7 +20,7 @@ void Sphere::registerWithEngine(Engine *engine)
   engine->getPhysicsManager()->registerCollider(this);
 }
 
-float Sphere::getRadius(void)
+float Sphere::getRadius(void) const
 {
   return m_radius;
 }

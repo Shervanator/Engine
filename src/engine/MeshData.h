@@ -21,7 +21,7 @@ class MeshData : public ShadedResource
 public:
   MeshData(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   virtual ~MeshData(void);
-  void render(void);
+  void render(void) const;
 
 private:
   void createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);

@@ -26,7 +26,7 @@ Mesh::~Mesh(void)
   m_meshData->decrementReference();
 }
 
-void Mesh::render(void)
+void Mesh::render(void) const
 {
   m_meshData->render();
 }

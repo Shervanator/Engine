@@ -17,7 +17,7 @@ void Game::setEngine(Engine *engine)
   this->engine = engine;
 }
 
-Engine *Game::getEngine(void)
+Engine *Game::getEngine(void) const
 {
   return engine;
 }

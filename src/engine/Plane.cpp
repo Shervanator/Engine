@@ -26,7 +26,7 @@ Plane::~Plane(void)
   delete mesh;
 }
 
-Mesh *Plane::getMesh(void)
+Mesh *Plane::getMesh(void) const
 {
   return mesh;
 }

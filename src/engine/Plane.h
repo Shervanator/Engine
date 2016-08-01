@@ -13,7 +13,7 @@ public:
   Plane(void);
   ~Plane(void);
 
-  Mesh *getMesh(void);
+  Mesh *getMesh(void) const;
 
 private:
   Mesh *mesh;

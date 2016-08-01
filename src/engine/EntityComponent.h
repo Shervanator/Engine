@@ -23,9 +23,9 @@ public:
   virtual void registerWithEngine(Engine *engine) {};
 
   void setParent(Entity *parentEntity);
-  Entity *getParent(void);
+  Entity *getParent(void) const;
 
-  Transform& getTransform(void);
+  Transform& getTransform(void) const;
 
 protected:
   Entity *parentEntity;

@@ -38,7 +38,7 @@ Texture::~Texture()
   m_textureData->decrementReference();
 }
 
-void Texture::bind(unsigned int unit)
+void Texture::bind(unsigned int unit) const
 {
   m_textureData->bind(unit);
 }

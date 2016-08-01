@@ -16,7 +16,7 @@ public:
   Mesh(std::string identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   ~Mesh(void);
 
-  void render(void);
+  void render(void) const;
 
 private:
   MeshData *m_meshData;
