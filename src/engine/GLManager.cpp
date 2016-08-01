@@ -32,6 +32,13 @@ GLManager::~GLManager(void)
   glDeleteBuffers(1, &lineBuffer);
 }
 
+void GLManager::bindRenderTarget(void) const
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, this->width, this->height);
+}
+
 void GLManager::setActiveCamera(Camera *camera)
 {
   m_activeCamera = camera;
