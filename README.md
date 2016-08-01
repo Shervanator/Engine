@@ -21,8 +21,6 @@ All builds require cmake 3.6.0, so the first step is to download that [here](htt
 
 #### Mac/Linux Build
 
-Note: linux builds haven't been tested yet!
-
 Run:
 
 ```bash
