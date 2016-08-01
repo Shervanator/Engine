@@ -11,17 +11,17 @@ Attenuation::Attenuation(float constant, float linear, float exponent)
   m_exponent = exponent;
 }
 
-float Attenuation::getConstant(void)
+float Attenuation::getConstant(void) const
 {
   return m_constant;
 }
 
-float Attenuation::getLinear(void)
+float Attenuation::getLinear(void) const
 {
   return m_linear;
 }
 
-float Attenuation::getExponent(void)
+float Attenuation::getExponent(void) const
 {
   return m_exponent;
 }

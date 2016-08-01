@@ -39,13 +39,13 @@ public:
   void link(void);
 
   void createUniform(const std::string& uniformName);
-  GLuint getUniformLocation(const std::string& uniformName);
+  GLuint getUniformLocation(const std::string& uniformName) const;
 
   void setAttribLocation(const char* name, int i);
 
   GLuint getProgram(void);
 
-  void bind(void);
+  void bind(void) const;
 
   void updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight);
   void updateUniformPointLight(const std::string &uniformName, PointLight *pointLight);

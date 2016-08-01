@@ -25,16 +25,16 @@ public:
   void tick(void);
   void swapBuffer(void);
   int poll_event(SDL_Event *event);
-  Uint32 getDeltaTime(void);
-  Uint32 getFPS(void);
+  Uint32 getDeltaTime(void) const;
+  Uint32 getFPS(void) const;
 
-  int getWidth(void);
-  int getHeight(void);
-  glm::vec4 getViewport(void);
+  int getWidth(void) const;
+  int getHeight(void) const;
+  glm::vec4 getViewport(void) const;
 
   Input* getInput(void);
 
-  bool shouldQuit(void);
+  bool shouldQuit(void) const;
 
 private:
   void logSDLError(const char *msg);

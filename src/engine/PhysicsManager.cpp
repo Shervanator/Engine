@@ -19,7 +19,7 @@ void PhysicsManager::registerCollider(Sphere *sphere)
   m_colliders.push_back(sphere);
 }
 
-Entity *PhysicsManager::pick(Ray *ray)
+Entity *PhysicsManager::pick(Ray *ray) const
 {
   glm::vec3 intersectionPosition;
   float closest = std::numeric_limits<float>::max();

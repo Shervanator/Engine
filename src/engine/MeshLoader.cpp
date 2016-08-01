@@ -43,7 +43,7 @@ MeshLoader::~MeshLoader(void)
 {
 }
 
-Entity *MeshLoader::getEntity(void)
+Entity *MeshLoader::getEntity(void) const
 {
   return m_entity;
 }

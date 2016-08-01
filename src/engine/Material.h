@@ -13,7 +13,7 @@ public:
   Material(Texture *diffuseMap, Texture *normalMap = new Texture(Asset("default_normal.jpg")), Texture *specularMap = new Texture(Asset("default_specular.jpg")));
   ~Material(void);
 
-  void bind(void);
+  void bind(void) const;
 
 private:
   Texture *m_diffuseMap;

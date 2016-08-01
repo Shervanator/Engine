@@ -28,9 +28,9 @@ public:
   void tick(void);
   void start(void);
 
-  Window         *getWindow(void);
-  GLManager      *getGLManager(void);
-  PhysicsManager *getPhysicsManager(void);
+  Window         *getWindow(void) const;
+  GLManager      *getGLManager(void) const;
+  PhysicsManager *getPhysicsManager(void) const;
 
 private:
   Window         *window;

@@ -13,16 +13,16 @@
   #include <GL/glew.h>
 #endif
 
-#include "ShadedResource.h"
+#include "SharedResource.h"
 
-class TextureData : public ShadedResource
+class TextureData : public SharedResource
 {
 public:
-  TextureData(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter);
+  TextureData(int width, int height, const unsigned char* data, GLenum textureTarget, GLfloat filter);
   virtual ~TextureData(void);
 
-  void createTexture(int width, int height, unsigned char* data, GLenum textureTarget, GLfloat filter);
-  void bind(unsigned int unit);
+  void createTexture(int width, int height, const unsigned char* data, GLenum textureTarget, GLfloat filter);
+  void bind(unsigned int unit) const;
 
 private:
   GLenum m_textureTarget;

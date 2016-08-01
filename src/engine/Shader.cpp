@@ -129,9 +129,9 @@ void Shader::createUniform(const std::string& uniformName)
   uniformLocation[uniformName] = glGetUniformLocation(g_shProg, uniformName.c_str());
 }
 
-GLuint Shader::getUniformLocation(const std::string& uniformName)
+GLuint Shader::getUniformLocation(const std::string& uniformName) const
 {
-  return uniformLocation[uniformName];
+  return uniformLocation.at(uniformName);
 }
 
 void Shader::setAttribLocation(const char* name, int i)
@@ -139,7 +139,7 @@ void Shader::setAttribLocation(const char* name, int i)
   glBindAttribLocation(g_shProg, i, name);
 }
 
-void Shader::bind(void)
+void Shader::bind(void) const
 {
   glUseProgram(g_shProg);
 }

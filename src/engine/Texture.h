@@ -22,7 +22,7 @@ public:
   Texture(const Asset &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
   ~Texture(void);
 
-  void bind(unsigned int unit = 0);
+  void bind(unsigned int unit = 0) const;
 
 private:
   TextureData *m_textureData;

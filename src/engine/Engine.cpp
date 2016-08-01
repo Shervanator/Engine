@@ -101,17 +101,17 @@ void Engine::tick(void)
   window->swapBuffer();
 }
 
-Window *Engine::getWindow(void)
+Window *Engine::getWindow(void) const
 {
   return window;
 }
 
-GLManager *Engine::getGLManager(void)
+GLManager *Engine::getGLManager(void) const
 {
   return gl_manager;
 }
 
-PhysicsManager *Engine::getPhysicsManager(void)
+PhysicsManager *Engine::getPhysicsManager(void) const
 {
   return m_physicsManager;
 }

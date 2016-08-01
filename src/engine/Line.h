@@ -15,7 +15,7 @@ public:
   Line(glm::vec3 v1, glm::vec3 v2);
   ~Line(void);
 
-  void render(Shader *shader);
+  void render(Shader *shader) const;
 
 private:
 #if !defined(GLES2)

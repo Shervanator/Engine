@@ -5,11 +5,11 @@
 #ifndef SHARED_RESOURCE
 #define SHARED_RESOURCE
 
-class ShadedResource
+class SharedResource
 {
 public:
-  ShadedResource(void);
-  virtual ~ShadedResource(void) {};
+  SharedResource(void);
+  virtual ~SharedResource(void) {};
 
   void incrementReference(void);
   void decrementReference(void);

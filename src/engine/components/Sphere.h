@@ -15,7 +15,7 @@ public:
 
   virtual void registerWithEngine(Engine *engine);
 
-  float getRadius(void);
+  float getRadius(void) const;
 
 private:
   float m_radius;

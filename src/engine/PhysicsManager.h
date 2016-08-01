@@ -19,7 +19,7 @@ public:
 
   void registerCollider(Sphere *sphere);
 
-  Entity *pick(Ray *ray);
+  Entity *pick(Ray *ray) const;
 
 private:
   std::vector<Sphere *> m_colliders;

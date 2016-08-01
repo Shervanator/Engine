@@ -18,7 +18,7 @@ Material::~Material(void)
   delete m_specularMap;
 }
 
-void Material::bind(void)
+void Material::bind(void) const
 {
   m_diffuseMap->bind(0);
   // if (m_normalMap != NULL)

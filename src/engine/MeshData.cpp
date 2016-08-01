@@ -52,7 +52,7 @@ void MeshData::createMesh(Vertex *vertices, int vertSize, unsigned int *indices,
 #endif
 }
 
-void MeshData::render(void)
+void MeshData::render(void) const
 {
 #if defined(GLES2)
   glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

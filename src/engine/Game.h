@@ -25,11 +25,11 @@ public:
   virtual void update(int delta);
   virtual void render(GLManager *glManager);
 
-  Entity *getRootScene(void) { return &rootScene; };
+  inline Entity *getRootScene(void) { return &rootScene; };
 
 protected:
   void addToScene(Entity *entity);
-  Engine *getEngine(void);
+  Engine *getEngine(void) const;
 
 private:
   Entity rootScene;

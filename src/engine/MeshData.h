@@ -14,14 +14,14 @@
 #endif
 
 #include "Vertex.h"
-#include "ShadedResource.h"
+#include "SharedResource.h"
 
-class MeshData : public ShadedResource
+class MeshData : public SharedResource
 {
 public:
   MeshData(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
   virtual ~MeshData(void);
-  void render(void);
+  void render(void) const;
 
 private:
   void createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
