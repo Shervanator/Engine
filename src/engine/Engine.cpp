@@ -29,6 +29,8 @@ Engine::Engine(Game *game)
   log_info("Initializing GL");
   gl_manager = new GLManager(window->getWidth(), window->getHeight());
 
+  gui_manager = new GuiManager(window);
+
   log_info("Initializing Physics Manager");
   m_physicsManager = new PhysicsManager();
 
@@ -42,6 +44,7 @@ Engine::~Engine(void)
   delete window;
   delete glew_manager;
   delete gl_manager;
+  delete gui_manager;
   delete m_physicsManager;
 }
 
@@ -87,6 +90,8 @@ void Engine::tick(void)
 
   game->update(delta_time);
 
+  gui_manager->tick();
+
   game->render(gl_manager);
 
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
@@ -99,6 +104,8 @@ void Engine::tick(void)
 
     gl_manager->drawLine(ray.getLine(100.0f));
   }
+
+  gui_manager->render();
 
   window->swapBuffer();
 }

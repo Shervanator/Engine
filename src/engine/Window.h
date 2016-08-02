@@ -35,6 +35,7 @@ public:
   void makeCurrentContext(void) const;
 
   Input* getInput(void);
+  SDL_Window* getSDLWindow(void);
 
   bool shouldQuit(void) const;
 

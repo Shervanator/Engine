@@ -72,6 +72,8 @@ Window::~Window(void)
   SDL_Quit();
 }
 
+bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event);
+
 void Window::tick(void)
 {
   old_time     = current_time;
@@ -90,6 +92,7 @@ void Window::tick(void)
 
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
+    ImGui_ImplSdlGL3_ProcessEvent(&event);
     switch (event.type) {
       case SDL_MOUSEMOTION:
         m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
@@ -118,6 +121,11 @@ void Window::swapBuffer(void)
 Input* Window::getInput(void)
 {
   return &m_input;
+}
+
+SDL_Window* Window::getSDLWindow(void)
+{
+  return m_window;
 }
 
 Uint32 Window::getDeltaTime(void) const

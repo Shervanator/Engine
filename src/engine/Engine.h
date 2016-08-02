@@ -8,6 +8,7 @@
 #include "GLManager.h"
 #include "Window.h"
 #include "GLEWManager.h"
+#include "GuiManager.h"
 #include "PhysicsManager.h"
 
 #include "Game.h"
@@ -36,6 +37,7 @@ private:
   Window         *window;
   GLEWManager    *glew_manager;
   GLManager      *gl_manager;
+  GuiManager     *gui_manager;
   PhysicsManager *m_physicsManager;
 
   Game *game;
