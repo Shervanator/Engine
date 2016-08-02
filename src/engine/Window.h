@@ -32,23 +32,23 @@ public:
   int getHeight(void) const;
   glm::vec4 getViewport(void) const;
 
+  void makeCurrentContext(void) const;
+
   Input* getInput(void);
 
   bool shouldQuit(void) const;
 
 private:
-  void logSDLError(const char *msg);
-
-  SDL_Window *win;
-  SDL_GLContext glContext;
+  SDL_Window    *m_window;
+  SDL_GLContext m_glContext;
 
   Uint32 current_time, old_time, delta_time;
 
-  int width, height;
+  int m_width, m_height;
 
-  Input input;
+  Input m_input;
 
-  bool quit;
+  bool m_quit;
 };
 
 #endif

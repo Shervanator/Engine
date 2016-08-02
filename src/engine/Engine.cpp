@@ -54,6 +54,8 @@ void Engine::start(void)
 
   game->getRootScene()->registerWithEngineAll(this);
 
+  window->makeCurrentContext();
+
 #ifdef EMSCRIPTEN
   instance = this;
 

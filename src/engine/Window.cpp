@@ -9,18 +9,18 @@
 
 Window::Window(void)
 {
-  quit = false;
+  m_quit = false;
 
   if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0)
   {
-    logSDLError("SDL_Init");
+    log_err("SDL_Init error: %s", SDL_GetError());
   }
 
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
 
-  this->width = mode.w;
-  this->height = mode.h;
+  this->m_width = mode.w;
+  this->m_height = mode.h;
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,    BITS_PER_CHANNEL);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,  BITS_PER_CHANNEL);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,   BITS_PER_CHANNEL);
@@ -47,31 +47,29 @@ Window::Window(void)
   #endif
 
   // SDL_WINDOW_FULLSCREEN |
-  win = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->width, this->height, SDL_WINDOW_OPENGL);
-  if (win == nullptr)
+  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->m_width, this->m_height, SDL_WINDOW_OPENGL);
+  if (m_window == nullptr)
   {
-    logSDLError("SDL_CreateWindow");
+    log_err("SDL_CreateWindow error: %s", SDL_GetError());
   }
 
-  glContext = SDL_GL_CreateContext(win);
-  SDL_GL_MakeCurrent(win, glContext);
+  m_glContext = SDL_GL_CreateContext(m_window);
+  if (m_glContext == nullptr) {
+    log_err("SDL_GL_CreateContext error: %s", SDL_GetError());
+  }
+
   SDL_GL_SetSwapInterval(0);
 
   current_time = SDL_GetTicks();
 
-  log_info("Window init to: %i x %i", this->width, this->height);
+  log_info("Window init to: %i x %i", this->m_width, this->m_height);
 }
 
 Window::~Window(void)
 {
-  SDL_GL_DeleteContext(glContext);
-  SDL_DestroyWindow(win);
+  SDL_GL_DeleteContext(m_glContext);
+  SDL_DestroyWindow(m_window);
   SDL_Quit();
-}
-
-void Window::logSDLError(const char *msg)
-{
-  log_err("%s error: %s", msg, SDL_GetError());
 }
 
 void Window::tick(void)
@@ -85,28 +83,28 @@ void Window::tick(void)
     // TODO: FIX THIS IN WINDOWS
     //log_info("fps: %d", getFPS());
     //snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
-    //SDL_SetWindowTitle(win, buffer);
+    //SDL_SetWindowTitle(m_window, buffer);
   }
 
-  input.setMouseDelta(0, 0);
+  m_input.setMouseDelta(0, 0);
 
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
       case SDL_MOUSEMOTION:
-        input.setMouseDelta(event.motion.xrel, event.motion.yrel);
-        input.setMousePosition(event.motion.x, event.motion.y);
+        m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
+        m_input.setMousePosition(event.motion.x, event.motion.y);
         break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:
-        input.handleKeyboardEvent(event.key);
+        m_input.handleKeyboardEvent(event.key);
         break;
       case SDL_MOUSEBUTTONDOWN:
       case SDL_MOUSEBUTTONUP:
-        input.handleMouseEvent(event.button);
+        m_input.handleMouseEvent(event.button);
         break;
       case SDL_QUIT:
-        quit = true;
+        m_quit = true;
         break;
     }
   }
@@ -114,12 +112,12 @@ void Window::tick(void)
 
 void Window::swapBuffer(void)
 {
-  SDL_GL_SwapWindow(win);
+  SDL_GL_SwapWindow(m_window);
 }
 
 Input* Window::getInput(void)
 {
-  return &input;
+  return &m_input;
 }
 
 Uint32 Window::getDeltaTime(void) const
@@ -134,20 +132,25 @@ Uint32 Window::getFPS(void) const
 
 int Window::getWidth(void) const
 {
-  return width;
+  return this->m_width;
 }
 
 int Window::getHeight(void) const
 {
-  return height;
+  return this->m_height;
 }
 
 glm::vec4 Window::getViewport(void) const
 {
-  return glm::vec4(0.0f, 0.0f, width, height);
+  return glm::vec4(0.0f, 0.0f, this->m_width, this->m_height);
+}
+
+void Window::makeCurrentContext(void) const
+{
+  SDL_GL_MakeCurrent(m_window, m_glContext);
 }
 
 bool Window::shouldQuit(void) const
 {
-  return quit;
+  return m_quit;
 }
