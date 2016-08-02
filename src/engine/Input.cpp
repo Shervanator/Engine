@@ -6,8 +6,8 @@
 
 Input::Input(void)
 {
-  mouseDelta = glm::vec2(0, 0);
-  mousePosition = glm::vec2(0, 0);
+  m_mouseDelta = glm::vec2(0, 0);
+  m_mousePosition = glm::vec2(0, 0);
 }
 
 Input::~Input(void)
@@ -16,54 +16,54 @@ Input::~Input(void)
 
 void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
 {
-  keyState[keyEvent.keysym.sym] = keyEvent.state;
+  m_keyState[keyEvent.keysym.sym] = keyEvent.state;
 }
 
 void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
 {
-  buttonState[buttonEvent.button] = buttonEvent.state;
+  m_buttonState[buttonEvent.button] = buttonEvent.state;
 }
 
 bool Input::isPressed(SDL_Keycode key)
 {
-  return (keyState[key] == SDL_PRESSED);
+  return (m_keyState[key] == SDL_PRESSED);
 }
 
 bool Input::isReleased(SDL_Keycode key)
 {
-  return (keyState[key] == SDL_RELEASED);
+  return (m_keyState[key] == SDL_RELEASED);
 }
 
 bool Input::mouseIsPressed(Uint8 button)
 {
-  return (buttonState[button] == SDL_PRESSED);
+  return (m_buttonState[button] == SDL_PRESSED);
 }
 
 bool Input::mouseIsReleased(Uint8 button)
 {
-  return (buttonState[button] == SDL_RELEASED);
+  return (m_buttonState[button] == SDL_RELEASED);
 }
 
 void Input::setMouseDelta(int x, int y)
 {
-  mouseDelta.x = x;
-  mouseDelta.y = y;
+  m_mouseDelta.x = x;
+  m_mouseDelta.y = y;
 }
 
 void Input::setMousePosition(int x, int y)
 {
-  mousePosition.x = x;
-  mousePosition.y = y;
+  m_mousePosition.x = x;
+  m_mousePosition.y = y;
 }
 
 glm::vec2 Input::getMouseDelta(void) const
 {
-  return mouseDelta;
+  return m_mouseDelta;
 }
 
 glm::vec2 Input::getMousePosition(void) const
 {
-  return mousePosition;
+  return m_mousePosition;
 }
 
 void Input::grabMouse(void)

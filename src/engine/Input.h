@@ -34,11 +34,11 @@ public:
   void releaseMouse(void);
 
 private:
-  std::map <SDL_Keycode, Uint8> keyState;
-  std::map <Uint8, Uint8> buttonState;
+  std::map <SDL_Keycode, Uint8> m_keyState;
+  std::map <Uint8, Uint8> m_buttonState;
 
-  glm::vec2 mouseDelta;
-  glm::vec2 mousePosition;
+  glm::vec2 m_mouseDelta;
+  glm::vec2 m_mousePosition;
 };
 
 #endif
