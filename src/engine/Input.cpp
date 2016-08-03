@@ -17,6 +17,7 @@ Input::~Input(void)
 void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
 {
   m_keyState[keyEvent.keysym.sym] = keyEvent.state;
+  m_keyModState = SDL_GetModState();
 }
 
 void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
@@ -75,6 +76,11 @@ glm::vec2 Input::getMousePosition(void) const
 glm::vec2 Input::getMouseWheel(void) const
 {
   return m_mouseWheel;
+}
+
+SDL_Keymod Input::getKeyModState(void) const
+{
+  return m_keyModState;
 }
 
 void Input::grabMouse(void)

@@ -25,10 +25,6 @@ bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event)
         {
             int key = event->key.keysym.sym & ~SDLK_SCANCODE_MASK;
             io.KeysDown[key] = (event->type == SDL_KEYDOWN);
-            io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
-            io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);
-            io.KeyAlt = ((SDL_GetModState() & KMOD_ALT) != 0);
-            io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
             return true;
         }
     }
@@ -224,6 +220,7 @@ void GuiManager::render(void)
     const char* listbox_items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
     static int listbox_item_current = 1;
     ImGui::ListBox("listbox\n(single select)", &listbox_item_current, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
+    ImGui::ShowTestWindow();
   }
 
   ImGui::Render();
@@ -358,6 +355,11 @@ void GuiManager::tick(void)
   io.MouseDown[2] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_MIDDLE);
 
   io.MouseWheel = m_window->getInput()->getMouseWheel().y / 15.0f;
+
+  io.KeyShift = (m_window->getInput()->getKeyModState() & KMOD_SHIFT) != 0;
+  io.KeyCtrl = (m_window->getInput()->getKeyModState() & KMOD_CTRL) != 0;
+  io.KeyAlt = (m_window->getInput()->getKeyModState() & KMOD_ALT) != 0;
+  io.KeySuper = (m_window->getInput()->getKeyModState() & KMOD_GUI) != 0;
   // Hide OS mouse cursor if ImGui is drawing it
   SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
 
