@@ -19,6 +19,7 @@ public:
 
   void handleKeyboardEvent(SDL_KeyboardEvent keyEvent);
   void handleMouseEvent(SDL_MouseButtonEvent buttonEvent);
+  void handleMouseWheelEvent(SDL_MouseWheelEvent buttonEvent);
 
   bool isPressed(SDL_Keycode key);
   bool isReleased(SDL_Keycode key);
@@ -29,6 +30,7 @@ public:
   void setMousePosition(int x, int y);
   glm::vec2 getMouseDelta(void) const;
   glm::vec2 getMousePosition(void) const;
+  glm::vec2 getMouseWheel(void) const;
 
   void grabMouse(void);
   void releaseMouse(void);
@@ -39,6 +41,7 @@ private:
 
   glm::vec2 m_mouseDelta;
   glm::vec2 m_mousePosition;
+  glm::vec2 m_mouseWheel;
 };
 
 #endif

@@ -26,7 +26,6 @@ public:
   void swapBuffer(void);
   int poll_event(SDL_Event *event);
   Uint32 getDeltaTime(void) const;
-  Uint32 getFPS(void) const;
 
   int getWidth(void) const;
   int getHeight(void) const;
@@ -43,7 +42,7 @@ private:
   SDL_Window    *m_window;
   SDL_GLContext m_glContext;
 
-  Uint32 current_time, old_time, delta_time;
+  Uint32 m_time, m_lastTime, m_deltaTime;
 
   int m_width, m_height;
 

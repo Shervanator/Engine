@@ -4,9 +4,6 @@
 
 #include <GL/glew.h>
 
-static double       g_Time = 0.0f;
-static bool         g_MousePressed[3] = { false, false, false };
-static float        g_MouseWheel = 0.0f;
 static GLuint       g_FontTexture = 0;
 static int          g_ShaderHandle = 0, g_VertHandle = 0, g_FragHandle = 0;
 static int          g_AttribLocationTex = 0, g_AttribLocationProjMtx = 0;
@@ -18,21 +15,6 @@ bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event)
     ImGuiIO& io = ImGui::GetIO();
     switch (event->type)
     {
-    case SDL_MOUSEWHEEL:
-        {
-            if (event->wheel.y > 0)
-                g_MouseWheel = 1;
-            if (event->wheel.y < 0)
-                g_MouseWheel = -1;
-            return true;
-        }
-    case SDL_MOUSEBUTTONDOWN:
-        {
-            if (event->button.button == SDL_BUTTON_LEFT) g_MousePressed[0] = true;
-            if (event->button.button == SDL_BUTTON_RIGHT) g_MousePressed[1] = true;
-            if (event->button.button == SDL_BUTTON_MIDDLE) g_MousePressed[2] = true;
-            return true;
-        }
     case SDL_TEXTINPUT:
         {
             io.AddInputCharactersUTF8(event->text.text);
@@ -184,6 +166,7 @@ void    ImGui_ImplSdlGL3_InvalidateDeviceObjects()
 
 GuiManager::GuiManager(Window *window)
 {
+  m_window = window;
   m_sdlWindow = window->getSDLWindow();
 
   ImGuiIO& io = ImGui::GetIO();
@@ -227,14 +210,20 @@ GuiManager::~GuiManager(void)
 
 ImVec4 clear_color = ImColor(114, 144, 154);
 
+#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 void GuiManager::render(void)
 {
   {
     static float f = 0.0f;
     ImGui::Text("Hello, world!");
+    char test[20];
+    ImGui::InputText("lol", test, 20);
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
     ImGui::ColorEdit3("clear color", (float*)&clear_color);
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    const char* listbox_items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
+    static int listbox_item_current = 1;
+    ImGui::ListBox("listbox\n(single select)", &listbox_item_current, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
   }
 
   ImGui::Render();
@@ -353,11 +342,7 @@ void GuiManager::tick(void)
   io.DisplaySize = ImVec2((float)w, (float)h);
   io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
-  // Setup time step
-  Uint32	time = SDL_GetTicks();
-  double current_time = time / 1000.0;
-  io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : (float)(1.0f / 60.0f);
-  g_Time = current_time;
+  io.DeltaTime = m_window->getDeltaTime() / 1000.0f;
 
   // Setup inputs
   // (we already got mouse wheel, keyboard keys & characters from SDL_PollEvent())
@@ -368,14 +353,11 @@ void GuiManager::tick(void)
   else
     io.MousePos = ImVec2(-1, -1);
 
-  io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
-  io.MouseDown[1] = g_MousePressed[1] || (mouseMask & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
-  io.MouseDown[2] = g_MousePressed[2] || (mouseMask & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0;
-  g_MousePressed[0] = g_MousePressed[1] = g_MousePressed[2] = false;
+  io.MouseDown[0] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT);
+  io.MouseDown[1] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_RIGHT);
+  io.MouseDown[2] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_MIDDLE);
 
-  io.MouseWheel = g_MouseWheel;
-  g_MouseWheel = 0.0f;
-
+  io.MouseWheel = m_window->getInput()->getMouseWheel().y / 15.0f;
   // Hide OS mouse cursor if ImGui is drawing it
   SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
 

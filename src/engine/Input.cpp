@@ -24,6 +24,12 @@ void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
   m_buttonState[buttonEvent.button] = buttonEvent.state;
 }
 
+void Input::handleMouseWheelEvent(SDL_MouseWheelEvent wheelEvent)
+{
+  m_mouseWheel.x = wheelEvent.x;
+  m_mouseWheel.y = wheelEvent.y;
+}
+
 bool Input::isPressed(SDL_Keycode key)
 {
   return (m_keyState[key] == SDL_PRESSED);
@@ -64,6 +70,11 @@ glm::vec2 Input::getMouseDelta(void) const
 glm::vec2 Input::getMousePosition(void) const
 {
   return m_mousePosition;
+}
+
+glm::vec2 Input::getMouseWheel(void) const
+{
+  return m_mouseWheel;
 }
 
 void Input::grabMouse(void)

@@ -14,6 +14,7 @@ public:
 
 private:
   SDL_Window *m_sdlWindow;
+  Window *m_window;
 };
 
 #endif

@@ -60,7 +60,7 @@ Window::Window(void)
 
   SDL_GL_SetSwapInterval(0);
 
-  current_time = SDL_GetTicks();
+  m_time = SDL_GetTicks();
 
   log_info("Window init to: %i x %i", this->m_width, this->m_height);
 }
@@ -76,17 +76,9 @@ bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event);
 
 void Window::tick(void)
 {
-  old_time     = current_time;
-  current_time = SDL_GetTicks();
-  delta_time   = current_time - old_time;
-
-  if (current_time % 6 == 0) {
-    // char buffer[30];
-    // TODO: FIX THIS IN WINDOWS
-    //log_info("fps: %d", getFPS());
-    //snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
-    //SDL_SetWindowTitle(m_window, buffer);
-  }
+  m_lastTime = m_time;
+  m_time = SDL_GetTicks();
+  m_deltaTime = m_time - m_lastTime;
 
   m_input.setMouseDelta(0, 0);
 
@@ -105,6 +97,13 @@ void Window::tick(void)
       case SDL_MOUSEBUTTONDOWN:
       case SDL_MOUSEBUTTONUP:
         m_input.handleMouseEvent(event.button);
+        break;
+      case SDL_MOUSEWHEEL:
+        m_input.handleMouseWheelEvent(event.wheel);
+        break;
+      case SDL_TEXTINPUT:
+        // log_info("hi: %s", event.text.text);
+        // might want to handle this later for gui AddInputCharactersUTF8
         break;
       case SDL_QUIT:
         m_quit = true;
@@ -130,12 +129,7 @@ SDL_Window* Window::getSDLWindow(void)
 
 Uint32 Window::getDeltaTime(void) const
 {
-  return delta_time;
-}
-
-Uint32 Window::getFPS(void) const
-{
-  return 1000.0 / delta_time;
+  return m_deltaTime;
 }
 
 int Window::getWidth(void) const
