@@ -124,16 +124,6 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data)
     glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
 }
 
-static const char* ImGui_ImplSdlGL3_GetClipboardText()
-{
-    return SDL_GetClipboardText();
-}
-
-static void ImGui_ImplSdlGL3_SetClipboardText(const char* text)
-{
-    SDL_SetClipboardText(text);
-}
-
 void    ImGui_ImplSdlGL3_InvalidateDeviceObjects()
 {
     if (g_VaoHandle) glDeleteVertexArrays(1, &g_VaoHandle);
@@ -187,8 +177,8 @@ GuiManager::GuiManager(Window *window)
   io.KeyMap[ImGuiKey_Z] = SDLK_z;
 
   io.RenderDrawListsFn = ImGui_ImplSdlGL3_RenderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
-  io.SetClipboardTextFn = ImGui_ImplSdlGL3_SetClipboardText;
-  io.GetClipboardTextFn = ImGui_ImplSdlGL3_GetClipboardText;
+  io.SetClipboardTextFn = Window::setClipboardText;
+  io.GetClipboardTextFn = Window::getClipboardText;
 
 #ifdef _WIN32
   SDL_SysWMinfo wmInfo;
@@ -331,24 +321,15 @@ void GuiManager::tick(void)
 
   ImGuiIO& io = ImGui::GetIO();
 
-  // Setup display size (every frame to accommodate for window resizing)
-  int w, h;
-  int display_w, display_h;
-  SDL_GetWindowSize(m_sdlWindow, &w, &h);
-  SDL_GL_GetDrawableSize(m_sdlWindow, &display_w, &display_h);
-  io.DisplaySize = ImVec2((float)w, (float)h);
-  io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
+  glm::vec2 drawableSize = m_window->getDrawableSize();
+  glm::vec2 displaySize = m_window->getDisplaySize();
+  io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
+  io.DisplayFramebufferScale = ImVec2(displaySize.x > 0 ? (drawableSize.x / displaySize.x) : 0, displaySize.y > 0 ? (drawableSize.y / displaySize.y) : 0);
 
   io.DeltaTime = m_window->getDeltaTime() / 1000.0f;
 
-  // Setup inputs
-  // (we already got mouse wheel, keyboard keys & characters from SDL_PollEvent())
-  int mx, my;
-  Uint32 mouseMask = SDL_GetMouseState(&mx, &my);
-  if (SDL_GetWindowFlags(m_sdlWindow) & SDL_WINDOW_MOUSE_FOCUS)
-    io.MousePos = ImVec2((float)mx, (float)my);   // Mouse position, in pixels (set to -1,-1 if no mouse / on another screen, etc.)
-  else
-    io.MousePos = ImVec2(-1, -1);
+  glm::vec2 mousePos = m_window->getInput()->getMousePosition();
+  io.MousePos = ImVec2(mousePos.x, mousePos.y);
 
   io.MouseDown[0] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT);
   io.MouseDown[1] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_RIGHT);
@@ -360,8 +341,8 @@ void GuiManager::tick(void)
   io.KeyCtrl = (m_window->getInput()->getKeyModState() & KMOD_CTRL) != 0;
   io.KeyAlt = (m_window->getInput()->getKeyModState() & KMOD_ALT) != 0;
   io.KeySuper = (m_window->getInput()->getKeyModState() & KMOD_GUI) != 0;
-  // Hide OS mouse cursor if ImGui is drawing it
-  SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
+
+  m_window->drawCursor(io.MouseDrawCursor ? false : true);
 
   // Start the frame
   ImGui::NewFrame();

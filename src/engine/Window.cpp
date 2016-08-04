@@ -147,6 +147,30 @@ glm::vec4 Window::getViewport(void) const
   return glm::vec4(0.0f, 0.0f, this->m_width, this->m_height);
 }
 
+glm::vec2 Window::getDisplaySize(void) const
+{
+  int w, h;
+  SDL_GetWindowSize(m_window, &w, &h);
+  return glm::vec2((float)w, (float)h);
+}
+
+glm::vec2 Window::getDrawableSize(void) const
+{
+  int display_w, display_h;
+  SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
+  return glm::vec2((float)display_w, (float)display_h);
+}
+
+const char* Window::getClipboardText()
+{
+  return SDL_GetClipboardText();
+}
+
+void Window::setClipboardText(const char* text)
+{
+  SDL_SetClipboardText(text);
+}
+
 void Window::makeCurrentContext(void) const
 {
   SDL_GL_MakeCurrent(m_window, m_glContext);
@@ -155,4 +179,9 @@ void Window::makeCurrentContext(void) const
 bool Window::shouldQuit(void) const
 {
   return m_quit;
+}
+
+void Window::drawCursor(bool enabled)
+{
+  SDL_ShowCursor(enabled);
 }

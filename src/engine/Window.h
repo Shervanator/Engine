@@ -30,6 +30,11 @@ public:
   int getWidth(void) const;
   int getHeight(void) const;
   glm::vec4 getViewport(void) const;
+  glm::vec2 getDisplaySize(void) const;
+  glm::vec2 getDrawableSize(void) const;
+
+  static const char* getClipboardText();
+  static void setClipboardText(const char* text);
 
   void makeCurrentContext(void) const;
 
@@ -37,6 +42,8 @@ public:
   SDL_Window* getSDLWindow(void);
 
   bool shouldQuit(void) const;
+
+  void drawCursor(bool enabled);
 
 private:
   SDL_Window    *m_window;
