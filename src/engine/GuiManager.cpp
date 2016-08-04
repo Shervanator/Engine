@@ -1,10 +1,13 @@
 #include "GuiManager.h"
 
+#include "Shader.h"
+
 #include <imgui.h>
 
 #include <GL/glew.h>
 
-static GLuint       g_FontTexture = 0;
+TextureData *m_textureData;
+Shader *m_shader;
 static int          g_ShaderHandle = 0, g_VertHandle = 0, g_FragHandle = 0;
 static int          g_AttribLocationTex = 0, g_AttribLocationProjMtx = 0;
 static int          g_AttribLocationPosition = 0, g_AttribLocationUV = 0, g_AttribLocationColor = 0;
@@ -76,7 +79,8 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data)
       { 0.0f,                  0.0f,                  -1.0f, 0.0f },
       {-1.0f,                  1.0f,                   0.0f, 1.0f },
   };
-  glUseProgram(g_ShaderHandle);
+  // glUseProgram(g_ShaderHandle);
+  m_shader->bind();
   glUniform1i(g_AttribLocationTex, 0);
   glUniformMatrix4fv(g_AttribLocationProjMtx, 1, GL_FALSE, &ortho_projection[0][0]);
   glBindVertexArray(g_VaoHandle);
@@ -100,7 +104,7 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data)
           }
           else
           {
-              glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
+              m_textureData->bind(0);
               glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
               glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, idx_buffer_offset);
           }
@@ -131,23 +135,82 @@ void    ImGui_ImplSdlGL3_InvalidateDeviceObjects()
     if (g_ElementsHandle) glDeleteBuffers(1, &g_ElementsHandle);
     g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
 
-    glDetachShader(g_ShaderHandle, g_VertHandle);
-    glDeleteShader(g_VertHandle);
-    g_VertHandle = 0;
+    delete m_shader;
+}
 
-    glDetachShader(g_ShaderHandle, g_FragHandle);
-    glDeleteShader(g_FragHandle);
-    g_FragHandle = 0;
+ImVec4 clear_color = ImColor(114, 144, 154);
 
-    glDeleteProgram(g_ShaderHandle);
-    g_ShaderHandle = 0;
+#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
+void GuiManager::render(void)
+{
+  {
+    static float f = 0.0f;
+    ImGui::Text("Hello, world!");
+    char test[20];
+    ImGui::InputText("lol", test, 20);
+    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    ImGui::ColorEdit3("clear color", (float*)&clear_color);
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    const char* listbox_items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
+    static int listbox_item_current = 1;
+    ImGui::ListBox("listbox\n(single select)", &listbox_item_current, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
+    ImGui::ShowTestWindow();
+  }
 
-    if (g_FontTexture)
-    {
-        glDeleteTextures(1, &g_FontTexture);
-        ImGui::GetIO().Fonts->TexID = 0;
-        g_FontTexture = 0;
-    }
+  ImGui::Render();
+}
+
+void ImGui_ImplSdlGL3_CreateDeviceObjects(void) {
+  const GLchar *vertex_shader =
+      "#version 330\n"
+      "uniform mat4 ProjMtx;\n"
+      "in vec2 Position;\n"
+      "in vec2 UV;\n"
+      "in vec4 Color;\n"
+      "out vec2 Frag_UV;\n"
+      "out vec4 Frag_Color;\n"
+      "void main()\n"
+      "{\n"
+      "	Frag_UV = UV;\n"
+      "	Frag_Color = Color;\n"
+      "	gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
+      "}\n";
+
+  const GLchar* fragment_shader =
+      "#version 330\n"
+      "uniform sampler2D Texture;\n"
+      "in vec2 Frag_UV;\n"
+      "in vec4 Frag_Color;\n"
+      "out vec4 Out_Color;\n"
+      "void main()\n"
+      "{\n"
+      "	Out_Color = Frag_Color * texture( Texture, Frag_UV.st);\n"
+      "}\n";
+
+  m_shader = new Shader(vertex_shader, fragment_shader);
+  m_shader->link();
+
+  g_AttribLocationTex = glGetUniformLocation(m_shader->getProgram(), "Texture");
+  g_AttribLocationProjMtx = glGetUniformLocation(m_shader->getProgram(), "ProjMtx");
+  g_AttribLocationPosition = glGetAttribLocation(m_shader->getProgram(), "Position");
+  g_AttribLocationUV = glGetAttribLocation(m_shader->getProgram(), "UV");
+  g_AttribLocationColor = glGetAttribLocation(m_shader->getProgram(), "Color");
+
+  glGenBuffers(1, &g_VboHandle);
+  glGenBuffers(1, &g_ElementsHandle);
+
+  glGenVertexArrays(1, &g_VaoHandle);
+  glBindVertexArray(g_VaoHandle);
+  glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
+  glEnableVertexAttribArray(g_AttribLocationPosition);
+  glEnableVertexAttribArray(g_AttribLocationUV);
+  glEnableVertexAttribArray(g_AttribLocationColor);
+
+#define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
+  glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
+  glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
+  glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
+#undef OFFSETOF
 }
 
 GuiManager::GuiManager(Window *window)
@@ -186,145 +249,30 @@ GuiManager::GuiManager(Window *window)
   SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
   io.ImeWindowHandle = wmInfo.info.win.window;
 #endif
-}
 
-GuiManager::~GuiManager(void)
-{
-  ImGui_ImplSdlGL3_InvalidateDeviceObjects();
-  ImGui::Shutdown();
-}
+  ImGui_ImplSdlGL3_CreateDeviceObjects();
 
-ImVec4 clear_color = ImColor(114, 144, 154);
-
-#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
-void GuiManager::render(void)
-{
-  {
-    static float f = 0.0f;
-    ImGui::Text("Hello, world!");
-    char test[20];
-    ImGui::InputText("lol", test, 20);
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-    ImGui::ColorEdit3("clear color", (float*)&clear_color);
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    const char* listbox_items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
-    static int listbox_item_current = 1;
-    ImGui::ListBox("listbox\n(single select)", &listbox_item_current, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
-    ImGui::ShowTestWindow();
-  }
-
-  ImGui::Render();
-}
-
-void ImGui_ImplSdlGL3_CreateFontsTexture(void) {
-  // Build texture atlas
-  ImGuiIO& io = ImGui::GetIO();
   unsigned char* pixels;
   int width, height;
   io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits for OpenGL3 demo because it is more likely to be compatible with user's existing shader.
-
-  // Upload texture to graphics system
-  GLint last_texture;
-  glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-  glGenTextures(1, &g_FontTexture);
-  glBindTexture(GL_TEXTURE_2D, g_FontTexture);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-  // Store our identifier
-  io.Fonts->TexID = (void *)(intptr_t)g_FontTexture;
-
-  // Restore state
-  glBindTexture(GL_TEXTURE_2D, last_texture);
-}
-
-void ImGui_ImplSdlGL3_CreateDeviceObjects(void) {
-  // Backup GL state
-  GLint last_texture, last_array_buffer, last_vertex_array;
-  glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-  glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
-  glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
-
-  const GLchar *vertex_shader =
-      "#version 330\n"
-      "uniform mat4 ProjMtx;\n"
-      "in vec2 Position;\n"
-      "in vec2 UV;\n"
-      "in vec4 Color;\n"
-      "out vec2 Frag_UV;\n"
-      "out vec4 Frag_Color;\n"
-      "void main()\n"
-      "{\n"
-      "	Frag_UV = UV;\n"
-      "	Frag_Color = Color;\n"
-      "	gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
-      "}\n";
-
-  const GLchar* fragment_shader =
-      "#version 330\n"
-      "uniform sampler2D Texture;\n"
-      "in vec2 Frag_UV;\n"
-      "in vec4 Frag_Color;\n"
-      "out vec4 Out_Color;\n"
-      "void main()\n"
-      "{\n"
-      "	Out_Color = Frag_Color * texture( Texture, Frag_UV.st);\n"
-      "}\n";
-
-  g_ShaderHandle = glCreateProgram();
-  g_VertHandle = glCreateShader(GL_VERTEX_SHADER);
-  g_FragHandle = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(g_VertHandle, 1, &vertex_shader, 0);
-  glShaderSource(g_FragHandle, 1, &fragment_shader, 0);
-  glCompileShader(g_VertHandle);
-  glCompileShader(g_FragHandle);
-  glAttachShader(g_ShaderHandle, g_VertHandle);
-  glAttachShader(g_ShaderHandle, g_FragHandle);
-  glLinkProgram(g_ShaderHandle);
-
-  g_AttribLocationTex = glGetUniformLocation(g_ShaderHandle, "Texture");
-  g_AttribLocationProjMtx = glGetUniformLocation(g_ShaderHandle, "ProjMtx");
-  g_AttribLocationPosition = glGetAttribLocation(g_ShaderHandle, "Position");
-  g_AttribLocationUV = glGetAttribLocation(g_ShaderHandle, "UV");
-  g_AttribLocationColor = glGetAttribLocation(g_ShaderHandle, "Color");
-
-  glGenBuffers(1, &g_VboHandle);
-  glGenBuffers(1, &g_ElementsHandle);
-
-  glGenVertexArrays(1, &g_VaoHandle);
-  glBindVertexArray(g_VaoHandle);
-  glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
-  glEnableVertexAttribArray(g_AttribLocationPosition);
-  glEnableVertexAttribArray(g_AttribLocationUV);
-  glEnableVertexAttribArray(g_AttribLocationColor);
-
-#define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
-  glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
-  glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
-  glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
-#undef OFFSETOF
-
-  ImGui_ImplSdlGL3_CreateFontsTexture();
-
-  // Restore modified GL state
-  glBindTexture(GL_TEXTURE_2D, last_texture);
-  glBindBuffer(GL_ARRAY_BUFFER, last_array_buffer);
-  glBindVertexArray(last_vertex_array);
-}
-
-void GuiManager::tick(void)
-{
-  if (!g_FontTexture)
-    ImGui_ImplSdlGL3_CreateDeviceObjects();
-
-  ImGuiIO& io = ImGui::GetIO();
+  m_textureData = new TextureData(width, height, pixels, GL_TEXTURE_2D, GL_LINEAR);
 
   glm::vec2 drawableSize = m_window->getDrawableSize();
   glm::vec2 displaySize = m_window->getDisplaySize();
   io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
   io.DisplayFramebufferScale = ImVec2(displaySize.x > 0 ? (drawableSize.x / displaySize.x) : 0, displaySize.y > 0 ? (drawableSize.y / displaySize.y) : 0);
+}
+
+GuiManager::~GuiManager(void)
+{
+  ImGui_ImplSdlGL3_InvalidateDeviceObjects();
+  delete m_textureData;
+  ImGui::Shutdown();
+}
+
+void GuiManager::tick(void)
+{
+  ImGuiIO& io = ImGui::GetIO();
 
   io.DeltaTime = m_window->getDeltaTime() / 1000.0f;
 
