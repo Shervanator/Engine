@@ -5,11 +5,10 @@
 #include <imgui.h>
 
 #include <GL/glew.h>
+#include <glm/gtx/transform.hpp>
 
 TextureData *m_textureData;
 Shader *m_shader;
-static int          g_ShaderHandle = 0, g_VertHandle = 0, g_FragHandle = 0;
-static int          g_AttribLocationTex = 0, g_AttribLocationProjMtx = 0;
 static int          g_AttribLocationPosition = 0, g_AttribLocationUV = 0, g_AttribLocationColor = 0;
 static unsigned int g_VboHandle = 0, g_VaoHandle = 0, g_ElementsHandle = 0;
 
@@ -72,17 +71,10 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data)
 
   // Setup orthographic projection matrix
   glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
-  const float ortho_projection[4][4] =
-  {
-      { 2.0f/io.DisplaySize.x, 0.0f,                   0.0f, 0.0f },
-      { 0.0f,                  2.0f/-io.DisplaySize.y, 0.0f, 0.0f },
-      { 0.0f,                  0.0f,                  -1.0f, 0.0f },
-      {-1.0f,                  1.0f,                   0.0f, 1.0f },
-  };
-  // glUseProgram(g_ShaderHandle);
+  auto ortho_projection = glm::ortho(0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f);
   m_shader->bind();
-  glUniform1i(g_AttribLocationTex, 0);
-  glUniformMatrix4fv(g_AttribLocationProjMtx, 1, GL_FALSE, &ortho_projection[0][0]);
+  m_shader->setUniform1i("Texture", 0);
+  m_shader->setUniformMatrix4f("ProjMtx", ortho_projection);
   glBindVertexArray(g_VaoHandle);
 
   for (int n = 0; n < draw_data->CmdListsCount; n++)
@@ -189,9 +181,9 @@ void ImGui_ImplSdlGL3_CreateDeviceObjects(void) {
 
   m_shader = new Shader(vertex_shader, fragment_shader);
   m_shader->link();
+  m_shader->createUniform("Texture");
+  m_shader->createUniform("ProjMtx");
 
-  g_AttribLocationTex = glGetUniformLocation(m_shader->getProgram(), "Texture");
-  g_AttribLocationProjMtx = glGetUniformLocation(m_shader->getProgram(), "ProjMtx");
   g_AttribLocationPosition = glGetAttribLocation(m_shader->getProgram(), "Position");
   g_AttribLocationUV = glGetAttribLocation(m_shader->getProgram(), "UV");
   g_AttribLocationColor = glGetAttribLocation(m_shader->getProgram(), "Color");
