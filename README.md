@@ -12,6 +12,9 @@ A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine maki
 
 ## Usage
 
+First clone repo with the following command to download all submodules (which are located in the dependencies folder):
+`git clone --recursive git@github.com:Shervanator/Engine.git`
+
 All builds require cmake 3.6.0, so the first step is to download that [here](https://cmake.org/download/)
 
 #### Windows Build
