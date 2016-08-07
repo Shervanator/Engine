@@ -10,6 +10,9 @@ FreeMove::FreeMove(bool moveForwards, float speed)
 {
   m_speed = speed;
   m_moveForwards = moveForwards;
+
+  m_properties["speed"] = Property{FLOAT, &m_speed, 0, 0.1};
+  m_properties["forwards"] = Property{BOOLEAN, &m_moveForwards};
 }
 
 FreeMove::~FreeMove(void)

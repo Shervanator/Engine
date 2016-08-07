@@ -37,7 +37,7 @@ void CoolGame::update(int delta)
 {
   static float angle = 0;
   angle += delta * 0.0008;
-  plane->getTransform().setRotation(glm::vec3(1, 0, 0), angle);
+  // plane->getTransform().setRotation(glm::vec3(1, 0, 0), angle);
   //plane->getTransform().setPosition(glm::vec3(glm::sin(angle) * 5, 0, 0));
 
   Game::update(delta);

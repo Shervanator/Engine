@@ -16,6 +16,8 @@ public:
   virtual void registerWithEngine(Engine *engine);
   virtual void deregisterFromEngine(Engine *engine);
 
+  inline virtual const char *getType(void) { return "SPHERE"; }
+
   float getRadius(void) const;
 
   inline virtual const char *getType(void) { return "SPHERE"; }

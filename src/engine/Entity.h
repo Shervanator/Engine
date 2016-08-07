@@ -35,6 +35,7 @@ public:
   Transform& getTransform(void);
 
   std::vector<Entity*> *getChildren(void);
+  std::vector<EntityComponent*> *getComponents(void);
 
   glm::mat4& getWorldMatrix(void);
 

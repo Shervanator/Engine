@@ -105,7 +105,7 @@ void Engine::tick(void)
     gl_manager->drawLine(ray.getLine(100.0f));
   }
 
-  gui_manager->render();
+  gui_manager->render(game->getRootScene());
 
   window->swapBuffer();
 }

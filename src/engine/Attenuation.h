@@ -14,7 +14,7 @@ public:
   float getLinear(void) const;
   float getExponent(void) const;
 
-private:
+// private:
   float m_constant;
   float m_linear;
   float m_exponent;

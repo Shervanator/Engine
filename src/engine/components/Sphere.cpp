@@ -9,6 +9,7 @@
 Sphere::Sphere(float radius)
 {
   m_radius = radius;
+  m_properties["radius"] = Property{FLOAT, &m_radius, 0, 10};
 }
 
 Sphere::~Sphere(void)

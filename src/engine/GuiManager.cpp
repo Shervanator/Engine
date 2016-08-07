@@ -1,6 +1,8 @@
 #include "GuiManager.h"
 
 #include "Shader.h"
+#include "TextureData.h"
+#include "EntityComponent.h"
 
 #include <imgui.h>
 
@@ -128,28 +130,6 @@ void    ImGui_ImplSdlGL3_InvalidateDeviceObjects()
     g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
 
     delete m_shader;
-}
-
-ImVec4 clear_color = ImColor(114, 144, 154);
-
-#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
-void GuiManager::render(void)
-{
-  {
-    static float f = 0.0f;
-    ImGui::Text("Hello, world!");
-    char test[20];
-    ImGui::InputText("lol", test, 20);
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-    ImGui::ColorEdit3("clear color", (float*)&clear_color);
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    const char* listbox_items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
-    static int listbox_item_current = 1;
-    ImGui::ListBox("listbox\n(single select)", &listbox_item_current, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
-    ImGui::ShowTestWindow();
-  }
-
-  ImGui::Render();
 }
 
 void ImGui_ImplSdlGL3_CreateDeviceObjects(void) {
@@ -286,4 +266,147 @@ void GuiManager::tick(void)
 
   // Start the frame
   ImGui::NewFrame();
+}
+
+void renderComponent(EntityComponent *component) {
+  ImGui::PushID(component);
+  ImGui::AlignFirstTextHeightToWidgets();
+
+  bool node_open = ImGui::TreeNodeEx("Object", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "component", component->getType());
+  ImGui::NextColumn();
+  ImGui::AlignFirstTextHeightToWidgets();
+  ImGui::Text(component->getType());
+  ImGui::NextColumn();
+
+  int id = 0;
+  for (auto& property : component->m_properties) {
+    ImGui::PushID(id++);
+
+    ImGui::AlignFirstTextHeightToWidgets();
+    ImGui::Bullet();
+    ImGui::Selectable(property.first);
+    ImGui::NextColumn();
+    ImGui::PushItemWidth(-1);
+
+    switch (property.second.type) {
+      case FLOAT:
+      ImGui::SliderFloat("##value", (float *)property.second.p, property.second.min, property.second.max);
+      break;
+      case FLOAT3:
+      ImGui::SliderFloat3("##value", (float *)property.second.p, property.second.min, property.second.max);
+      break;
+      case BOOLEAN:
+      ImGui::Checkbox("##value", (bool *)property.second.p);
+      break;
+    }
+
+    ImGui::PopItemWidth();
+    ImGui::NextColumn();
+
+    ImGui::PopID();
+  }
+
+  ImGui::TreePop();
+  ImGui::PopID();
+}
+
+void renderSceneGraph(Entity *sceneGraph)
+{
+  // ImGui::Text("my sailor is rich");
+  //
+  // for (auto entity : *sceneGraph->getChildren()) {
+  //   renderSceneGraph(entity);
+  // }
+
+  ImGui::PushID(sceneGraph);
+  ImGui::AlignFirstTextHeightToWidgets();
+
+  bool node_open = ImGui::TreeNodeEx("Object", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "node", sceneGraph);
+  ImGui::NextColumn();
+  ImGui::AlignFirstTextHeightToWidgets();
+  ImGui::NextColumn();
+
+  int id = 0;
+
+  if (node_open)
+  {
+    ImGui::PushID(id);
+
+    ImGui::AlignFirstTextHeightToWidgets();
+    ImGui::Bullet();
+    ImGui::Selectable("translation");
+    ImGui::NextColumn();
+    ImGui::PushItemWidth(-1);
+    ImGui::SliderFloat3("##value", &(sceneGraph->getTransform().m_position.x), -10.0f, 10.0f);
+    ImGui::PopItemWidth();
+    ImGui::NextColumn();
+
+    ImGui::PopID();
+    ImGui::PushID(++id);
+
+    ImGui::Bullet();
+    ImGui::Selectable("rotation");
+    ImGui::NextColumn();
+    ImGui::PushItemWidth(-1);
+    ImGui::SliderFloat4("##value", &(sceneGraph->getTransform().m_rotation.x), -1.0f, 1.0f);
+    ImGui::PopItemWidth();
+    ImGui::NextColumn();
+
+    ImGui::PopID();
+    ImGui::PushID(++id);
+
+    ImGui::Bullet();
+    ImGui::Selectable("scale");
+    ImGui::NextColumn();
+    ImGui::PushItemWidth(-1);
+    ImGui::SliderFloat3("##value", &(sceneGraph->getTransform().m_scale.x), 0.0f, 10.0f);
+    ImGui::PopItemWidth();
+    ImGui::NextColumn();
+
+    ImGui::PopID();
+
+    for (auto component : *sceneGraph->getComponents()) {
+      ImGui::PushID(++id);
+      renderComponent(component);
+      ImGui::PopID();
+    }
+
+    for (auto entity : *sceneGraph->getChildren()) {
+      ImGui::PushID(++id);
+      renderSceneGraph(entity);
+      ImGui::PopID();
+    }
+
+    ImGui::TreePop();
+  }
+
+  ImGui::PopID();
+}
+
+void GuiManager::render(Entity *sceneGraph)
+{
+  {
+    ImGui::SetNextWindowPos(ImVec2(10,10));
+    ImGui::SetNextWindowSize(ImVec2(500,0), ImGuiSetCond_FirstUseEver);
+    if (!ImGui::Begin("Example: Fixed Overlay", nullptr, ImVec2(0,0), 0.3f, ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoSavedSettings))
+    {
+        ImGui::End();
+        return;
+    }
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2,2));
+    ImGui::Separator();
+    ImGui::Columns(2);
+
+    renderSceneGraph(sceneGraph);
+
+    ImGui::Columns(1);
+    ImGui::Separator();
+    ImGui::PopStyleVar();
+    ImGui::End();
+
+    // ImGui::ShowTestWindow();
+  }
+
+  ImGui::Render();
 }

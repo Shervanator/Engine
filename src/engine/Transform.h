@@ -36,7 +36,7 @@ public:
 
   glm::vec4 getDirection(void) const;
 
-private:
+// private:
   glm::vec4 m_position;
   glm::quat m_rotation;
   glm::vec3 m_scale;

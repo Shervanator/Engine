@@ -15,12 +15,9 @@ public:
   virtual ~Camera(void) {}
 
   glm::mat4 getViewMatrix(void) const;
-  glm::mat4 getProjectionMatrix(void) const;
+  virtual glm::mat4 getProjectionMatrix(void) const = 0;
 
   inline virtual const char *getType(void) { return "CAMERA"; }
-
-protected:
-  glm::mat4 projection;
 };
 
 #endif
