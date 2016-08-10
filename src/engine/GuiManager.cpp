@@ -274,10 +274,12 @@ void renderComponent(EntityComponent *component) {
   ImGui::PushID(component);
   ImGui::AlignFirstTextHeightToWidgets();
 
+  ImGui::PushStyleColor(ImGuiCol_Text, ImColor(1.0f,0.78f,0.58f,1.0f));
   bool node_open = ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "component", component);
   ImGui::NextColumn();
   ImGui::AlignFirstTextHeightToWidgets();
   ImGui::Text(component->getType());
+  ImGui::PopStyleColor();
   ImGui::NextColumn();
 
   int id = 0;
@@ -288,6 +290,7 @@ void renderComponent(EntityComponent *component) {
 
       ImGui::AlignFirstTextHeightToWidgets();
       ImGui::Bullet();
+      ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f,0.58f,1.0f,1.0f));
       ImGui::Selectable(property.first);
       ImGui::NextColumn();
       ImGui::PushItemWidth(-1);
@@ -302,7 +305,14 @@ void renderComponent(EntityComponent *component) {
         case BOOLEAN:
         ImGui::Checkbox("##value", (bool *)property.second.p);
         break;
+        case COLOR:
+        ImGui::ColorEdit3("##value", (float *)property.second.p);
+        break;
+        case ANGLE:
+        ImGui::SliderAngle("##value", (float *)property.second.p, property.second.min, property.second.max);
+        break;
       }
+      ImGui::PopStyleColor();
 
       ImGui::PopItemWidth();
       ImGui::NextColumn();
@@ -319,7 +329,9 @@ void renderSceneGraph(Entity *sceneGraph)
   ImGui::PushID(sceneGraph);
   ImGui::AlignFirstTextHeightToWidgets();
 
+  ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f,1.0f,0.58f,1.0f));
   bool node_open = ImGui::TreeNodeEx("Node", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "node", sceneGraph);
+  ImGui::PopStyleColor();
   ImGui::NextColumn();
   ImGui::AlignFirstTextHeightToWidgets();
   ImGui::NextColumn();
@@ -329,6 +341,7 @@ void renderSceneGraph(Entity *sceneGraph)
   if (node_open)
   {
     ImGui::PushID(id);
+    ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.0f,0.8f,1.0f,1.0f));
 
     ImGui::AlignFirstTextHeightToWidgets();
     ImGui::Bullet();
@@ -361,6 +374,7 @@ void renderSceneGraph(Entity *sceneGraph)
     ImGui::PopItemWidth();
     ImGui::NextColumn();
 
+    ImGui::PopStyleColor();
     ImGui::PopID();
 
     for (auto component : *sceneGraph->getComponents()) {

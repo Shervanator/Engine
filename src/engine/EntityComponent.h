@@ -15,7 +15,9 @@ class Engine;
 enum PropertyType {
   FLOAT,
   FLOAT3,
-  BOOLEAN
+  BOOLEAN,
+  ANGLE,
+  COLOR
 };
 
 struct Property {

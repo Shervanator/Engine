@@ -45,7 +45,7 @@ Window::Window(void)
   #endif
 
   // SDL_WINDOW_FULLSCREEN |
-  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.w, mode.h, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.w, mode.h - 100, SDL_WINDOW_OPENGL);
   if (m_window == nullptr)
   {
     log_err("SDL_CreateWindow error: %s", SDL_GetError());
