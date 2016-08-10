@@ -52,10 +52,12 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(plane);
 
-  MeshLoader ml("Pregnant.obj");
-  ml.getEntity()->getTransform().setPosition(glm::vec3(0, -2, 0));
-  ml.getEntity()->addComponent(new Sphere(1));
-  addToScene(ml.getEntity());
+  for (int i = 0; i < 1; i++) {
+    MeshLoader ml("Pregnant.obj");
+    ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, 0));
+    ml.getEntity()->addComponent(new Sphere(1));
+    addToScene(ml.getEntity());
+  }
 
   MeshLoader money("monkey3.obj");
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));

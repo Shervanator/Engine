@@ -27,7 +27,7 @@ Engine::Engine(Game *game)
   glew_manager = new GLEWManager();
 
   log_info("Initializing GL");
-  gl_manager = new GLManager(window->getWidth(), window->getHeight());
+  gl_manager = new GLManager(window);
 
   gui_manager = new GuiManager(window);
 

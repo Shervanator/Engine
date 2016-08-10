@@ -17,6 +17,7 @@
 
 #include "Shader.h"
 #include "Entity.h"
+#include "Window.h"
 #include "components/Camera.h"
 
 #include "components/DirectionalLight.h"
@@ -28,7 +29,7 @@
 class GLManager
 {
 public:
-  GLManager(int width, int height);
+  GLManager(Window *window);
   ~GLManager(void);
 
   void bindRenderTarget(void) const;

@@ -19,8 +19,6 @@ Window::Window(void)
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
 
-  this->m_width = mode.w;
-  this->m_height = mode.h;
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,    BITS_PER_CHANNEL);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,  BITS_PER_CHANNEL);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,   BITS_PER_CHANNEL);
@@ -47,7 +45,7 @@ Window::Window(void)
   #endif
 
   // SDL_WINDOW_FULLSCREEN |
-  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->m_width, this->m_height, SDL_WINDOW_OPENGL);
+  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.w, mode.h, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
   if (m_window == nullptr)
   {
     log_err("SDL_CreateWindow error: %s", SDL_GetError());
@@ -61,6 +59,11 @@ Window::Window(void)
   SDL_GL_SetSwapInterval(0);
 
   m_time = SDL_GetTicks();
+
+  int display_w, display_h;
+  SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
+  this->m_width = display_w;
+  this->m_height = display_h;
 
   log_info("Window init to: %i x %i", this->m_width, this->m_height);
 }

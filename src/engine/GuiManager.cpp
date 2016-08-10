@@ -268,60 +268,58 @@ void GuiManager::tick(void)
   ImGui::NewFrame();
 }
 
+#include "Logger.h"
+
 void renderComponent(EntityComponent *component) {
   ImGui::PushID(component);
   ImGui::AlignFirstTextHeightToWidgets();
 
-  bool node_open = ImGui::TreeNodeEx("Object", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "component", component->getType());
+  bool node_open = ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "component", component);
   ImGui::NextColumn();
   ImGui::AlignFirstTextHeightToWidgets();
   ImGui::Text(component->getType());
   ImGui::NextColumn();
 
   int id = 0;
-  for (auto& property : component->m_properties) {
-    ImGui::PushID(id++);
 
-    ImGui::AlignFirstTextHeightToWidgets();
-    ImGui::Bullet();
-    ImGui::Selectable(property.first);
-    ImGui::NextColumn();
-    ImGui::PushItemWidth(-1);
+  if (node_open) {
+    for (auto& property : component->m_properties) {
+      ImGui::PushID(id++);
 
-    switch (property.second.type) {
-      case FLOAT:
-      ImGui::SliderFloat("##value", (float *)property.second.p, property.second.min, property.second.max);
-      break;
-      case FLOAT3:
-      ImGui::SliderFloat3("##value", (float *)property.second.p, property.second.min, property.second.max);
-      break;
-      case BOOLEAN:
-      ImGui::Checkbox("##value", (bool *)property.second.p);
-      break;
+      ImGui::AlignFirstTextHeightToWidgets();
+      ImGui::Bullet();
+      ImGui::Selectable(property.first);
+      ImGui::NextColumn();
+      ImGui::PushItemWidth(-1);
+
+      switch (property.second.type) {
+        case FLOAT:
+        ImGui::SliderFloat("##value", (float *)property.second.p, property.second.min, property.second.max);
+        break;
+        case FLOAT3:
+        ImGui::SliderFloat3("##value", (float *)property.second.p, property.second.min, property.second.max);
+        break;
+        case BOOLEAN:
+        ImGui::Checkbox("##value", (bool *)property.second.p);
+        break;
+      }
+
+      ImGui::PopItemWidth();
+      ImGui::NextColumn();
+
+      ImGui::PopID();
     }
-
-    ImGui::PopItemWidth();
-    ImGui::NextColumn();
-
-    ImGui::PopID();
+    ImGui::TreePop();
   }
-
-  ImGui::TreePop();
   ImGui::PopID();
 }
 
 void renderSceneGraph(Entity *sceneGraph)
 {
-  // ImGui::Text("my sailor is rich");
-  //
-  // for (auto entity : *sceneGraph->getChildren()) {
-  //   renderSceneGraph(entity);
-  // }
-
   ImGui::PushID(sceneGraph);
   ImGui::AlignFirstTextHeightToWidgets();
 
-  bool node_open = ImGui::TreeNodeEx("Object", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "node", sceneGraph);
+  bool node_open = ImGui::TreeNodeEx("Node", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "node", sceneGraph);
   ImGui::NextColumn();
   ImGui::AlignFirstTextHeightToWidgets();
   ImGui::NextColumn();
@@ -366,15 +364,11 @@ void renderSceneGraph(Entity *sceneGraph)
     ImGui::PopID();
 
     for (auto component : *sceneGraph->getComponents()) {
-      ImGui::PushID(++id);
       renderComponent(component);
-      ImGui::PopID();
     }
 
     for (auto entity : *sceneGraph->getChildren()) {
-      ImGui::PushID(++id);
       renderSceneGraph(entity);
-      ImGui::PopID();
     }
 
     ImGui::TreePop();
