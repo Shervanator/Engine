@@ -12,13 +12,12 @@
 class Camera : public EntityComponent
 {
 public:
-  Camera(float fov, float aspect, float zNear, float zFar);
-  ~Camera(void);
+  virtual ~Camera(void) {}
 
   glm::mat4 getViewMatrix(void) const;
   glm::mat4 getProjectionMatrix(void) const;
 
-private:
+protected:
   glm::mat4 projection;
 };
 

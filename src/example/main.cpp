@@ -5,7 +5,7 @@
 #include "Engine.h"
 
 #include "components/MeshRenderer.h"
-#include "components/Camera.h"
+#include "components/PerspectiveCamera.h"
 #include "components/FreeMove.h"
 #include "components/FreeLook.h"
 #include "components/DirectionalLight.h"
@@ -30,7 +30,7 @@ public:
   virtual void update(int delta);
 
 private:
-  Camera *primary_camera;
+  PerspectiveCamera *primary_camera;
 };
 
 void CoolGame::update(int delta)
@@ -59,13 +59,13 @@ void CoolGame::init(GLManager *glManager)
 
   MeshLoader money("monkey3.obj");
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
-  Camera *cam1 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
+  PerspectiveCamera *cam1 = new PerspectiveCamera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
   money.getEntity()->addComponent(cam1);
   money.getEntity()->addComponent(new Sphere(1));
   addToScene(money.getEntity());
 
   MeshLoader money2("monkey3.obj");
-  Camera *cam2 = new Camera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
+  PerspectiveCamera *cam2 = new PerspectiveCamera(45.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.1f, 100.0f);
   money2.getEntity()->addComponent(cam2);
   money2.getEntity()->addComponent(new FreeMove());
 #if defined(ANDROID)
