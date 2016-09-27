@@ -56,7 +56,10 @@ void Entity::addChild(Entity* child)
   child->parentEntity = this;
   children.push_back(child);
 
-  child->registerWithEngineAll(m_engine);
+  // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
+  if (m_engine) {
+    child->registerWithEngineAll(m_engine);
+  }
 }
 
 void Entity::addComponent(EntityComponent* component)
