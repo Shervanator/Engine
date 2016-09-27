@@ -6,6 +6,7 @@
 #define ENTITY_H
 
 #include <vector>
+#include <map>
 
 #include "Transform.h"
 #include "Shader.h"
@@ -18,6 +19,7 @@ class EntityComponent;
 class Entity
 {
 public:
+  Entity(const std::string& tag);
   Entity(void);
   ~Entity(void);
 
@@ -37,6 +39,9 @@ public:
 
   glm::vec4 getPosition(void);
   glm::vec4 getDirection(void);
+
+  static std::vector<Entity*> findByTag(const std::string& tag);
+
 private:
   Transform transform;
 
@@ -46,6 +51,12 @@ private:
   std::vector<EntityComponent*> components;
 
   glm::mat4 worldMatrix;
+
+  std::string m_tag;
+
+  static void setTag(Entity *entity, const std::string& tag);
+
+  static std::map<std::string, std::vector<Entity*>> taggedEntities;
 };
 
 #endif

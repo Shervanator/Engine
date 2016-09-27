@@ -6,13 +6,30 @@
 
 #include "EntityComponent.h"
 
+#include <algorithm>
+
+std::map<std::string, std::vector<Entity*>> Entity::taggedEntities;
+
+Entity::Entity(const std::string& tag)
+{
+  Entity::setTag(this, tag);
+
+  m_tag = tag;
+  parentEntity = NULL;
+}
+
 Entity::Entity(void)
 {
   parentEntity = NULL;
 }
-
+#include "Logger.h"
 Entity::~Entity(void)
 {
+  if (!m_tag.empty()) {
+    auto taggedEntitiesVec = &Entity::taggedEntities[m_tag];
+    taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this), taggedEntitiesVec->end());
+  }
+
   for (unsigned int i = 0; i < components.size(); i++)
   {
     delete components[i];
@@ -22,6 +39,16 @@ Entity::~Entity(void)
   {
     delete children[i];
   }
+}
+
+void Entity::setTag(Entity *entity, const std::string& tag)
+{
+  Entity::taggedEntities[tag].push_back(entity);
+}
+
+std::vector<Entity*> Entity::findByTag(const std::string& tag)
+{
+  return Entity::taggedEntities[tag];
 }
 
 void Entity::addChild(Entity* child)
