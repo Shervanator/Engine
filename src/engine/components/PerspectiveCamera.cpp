@@ -14,7 +14,7 @@ PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float zNear, float
   m_zNear = zNear;
   m_zFar = zFar;
 
-  m_properties["fov"] = Property{FLOAT, &m_fov, 0, 100};
+  m_properties["fov"] = Property{ANGLE, &m_fov, 0, 100};
   m_properties["aspect"] = Property{FLOAT, &m_aspect, 0, 10};
   m_properties["zNear"] = Property{FLOAT, &m_zNear, 0, 1};
   m_properties["zFar"] = Property{FLOAT, &m_zFar, 0, 1000};
