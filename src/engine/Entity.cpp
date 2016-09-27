@@ -22,7 +22,7 @@ Entity::Entity(void)
 {
   parentEntity = NULL;
 }
-#include "Logger.h"
+
 Entity::~Entity(void)
 {
   if (!m_tag.empty()) {
