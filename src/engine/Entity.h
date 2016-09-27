@@ -30,6 +30,7 @@ public:
   void updateAll(int delta);
   void renderAll(Shader *shader);
   void registerWithEngineAll(Engine *engine);
+  void deregisterFromEngineAll(void);
 
   Transform& getTransform(void);
 
@@ -53,6 +54,8 @@ private:
   glm::mat4 worldMatrix;
 
   std::string m_tag;
+
+  Engine *m_engine;
 
   static void setTag(Entity *entity, const std::string& tag);
 

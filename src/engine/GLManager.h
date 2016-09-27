@@ -38,6 +38,10 @@ public:
   void addPointLight(PointLight *light);
   void addSpotLight(SpotLight *light);
 
+  void removeDirectionalLight(DirectionalLight *light);
+  void removePointLight(PointLight *light);
+  void removeSpotLight(SpotLight *light);
+
   glm::mat4 getViewMatrix(void);
   glm::mat4 getProjectionMatrix(void);
 

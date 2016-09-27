@@ -21,6 +21,7 @@ public:
   virtual void update(int delta) {};
   virtual void render(Shader *shader) {};
   virtual void registerWithEngine(Engine *engine) {};
+  virtual void deregisterFromEngine(Engine *engine) {};
 
   void setParent(Entity *parentEntity);
   Entity *getParent(void) const;

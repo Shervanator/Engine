@@ -14,6 +14,7 @@ public:
   virtual ~Sphere(void);
 
   virtual void registerWithEngine(Engine *engine);
+  virtual void deregisterFromEngine(Engine *engine);
 
   float getRadius(void) const;
 

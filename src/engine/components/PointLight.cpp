@@ -28,6 +28,11 @@ void PointLight::registerWithEngine(Engine *engine)
   engine->getGLManager()->addPointLight(this);
 }
 
+void PointLight::deregisterFromEngine(Engine *engine)
+{
+  engine->getGLManager()->removePointLight(this);
+}
+
 void PointLight::updateShader(Shader *shader)
 {
   shader->updateUniformPointLight("pointLight", this);

@@ -18,6 +18,7 @@ public:
   ~PhysicsManager(void);
 
   void registerCollider(Sphere *sphere);
+  void deregisterCollider(Sphere *sphere);
 
   Entity *pick(Ray *ray) const;
 

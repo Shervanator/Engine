@@ -49,14 +49,29 @@ void GLManager::addDirectionalLight(DirectionalLight *light)
   m_directionalLights.push_back(light);
 }
 
+void GLManager::removeDirectionalLight(DirectionalLight *light)
+{
+  m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light), m_directionalLights.end());
+}
+
 void GLManager::addPointLight(PointLight *light)
 {
   m_pointLights.push_back(light);
 }
 
+void GLManager::removePointLight(PointLight *light)
+{
+  m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
+}
+
 void GLManager::addSpotLight(SpotLight *light)
 {
   m_spotLights.push_back(light);
+}
+
+void GLManager::removeSpotLight(SpotLight *light)
+{
+  m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
 }
 
 glm::mat4 GLManager::getViewMatrix(void)

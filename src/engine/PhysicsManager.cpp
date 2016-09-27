@@ -19,6 +19,11 @@ void PhysicsManager::registerCollider(Sphere *sphere)
   m_colliders.push_back(sphere);
 }
 
+void PhysicsManager::deregisterCollider(Sphere *sphere)
+{
+  m_colliders.erase(std::remove(m_colliders.begin(), m_colliders.end(), sphere), m_colliders.end());
+}
+
 Entity *PhysicsManager::pick(Ray *ray) const
 {
   glm::vec3 intersectionPosition;

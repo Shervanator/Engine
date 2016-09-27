@@ -16,6 +16,11 @@ void SpotLight::registerWithEngine(Engine *engine)
   engine->getGLManager()->addSpotLight(this);
 }
 
+void SpotLight::deregisterFromEngine(Engine *engine)
+{
+  engine->getGLManager()->removeSpotLight(this);
+}
+
 void SpotLight::updateShader(Shader *shader)
 {
   shader->updateUniformSpotLight("spotLight", this);

@@ -55,6 +55,8 @@ void Entity::addChild(Entity* child)
 {
   child->parentEntity = this;
   children.push_back(child);
+
+  child->registerWithEngineAll(m_engine);
 }
 
 void Entity::addComponent(EntityComponent* component)
@@ -110,6 +112,8 @@ void Entity::renderAll(Shader *shader)
 
 void Entity::registerWithEngineAll(Engine *engine)
 {
+  m_engine = engine;
+
   for (unsigned int i = 0; i < components.size(); i++)
   {
     components[i]->registerWithEngine(engine);
@@ -121,6 +125,20 @@ void Entity::registerWithEngineAll(Engine *engine)
   }
 }
 
+void Entity::deregisterFromEngineAll(void)
+{
+  for (unsigned int i = 0; i < components.size(); i++)
+  {
+    components[i]->deregisterFromEngine(m_engine);
+  }
+
+  for (unsigned int i = 0; i < children.size(); i++)
+  {
+    children[i]->deregisterFromEngineAll();
+  }
+
+  m_engine = nullptr;
+}
 
 Transform& Entity::getTransform(void)
 {
