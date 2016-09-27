@@ -4,6 +4,8 @@
 
 #include "GLManager.h"
 
+#include <algorithm>
+
 GLManager::GLManager(int width, int height)
 {
   this->width = width;

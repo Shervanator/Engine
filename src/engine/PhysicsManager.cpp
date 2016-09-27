@@ -6,6 +6,8 @@
 
 #include <glm/gtx/norm.hpp>
 
+#include <algorithm>
+
 PhysicsManager::PhysicsManager(void)
 {
 }
