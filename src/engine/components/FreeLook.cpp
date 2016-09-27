@@ -22,6 +22,7 @@ void FreeLook::updateInput(Input *input, int delta)
   if (input->mouseIsPressed(SDL_BUTTON_RIGHT)) {
     input->grabMouse();
     glm::vec2 pos = input->getMouseDelta();
+    // FIXME: Dont reset pos to empty quat, maybe set to init rotation
     parentEntity->getTransform().setRotation(glm::quat());
     if (pos.y != 0) {
       vertical_r-=pos.y*m_speed;
