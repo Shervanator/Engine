@@ -16,11 +16,15 @@
 // https://stackoverflow.com/questions/4845410/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-tmainc
 // #undef main
 
+class GuiManager;
+
 class Window
 {
 public:
   Window(void);
   ~Window(void);
+
+  void init(void);
 
   void tick(void);
   void swapBuffer(void);
@@ -32,6 +36,8 @@ public:
   glm::vec4 getViewport(void) const;
   glm::vec2 getDisplaySize(void) const;
   glm::vec2 getDrawableSize(void) const;
+
+  GuiManager *getGuiManager(void) const;
 
   static const char* getClipboardText();
   static void setClipboardText(const char* text);
@@ -48,6 +54,7 @@ public:
 private:
   SDL_Window    *m_window;
   SDL_GLContext m_glContext;
+  GuiManager    *gui_manager;
 
   Uint32 m_time, m_lastTime, m_deltaTime;
 

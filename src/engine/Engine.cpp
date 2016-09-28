@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Logger.h"
 #include "Ray.h"
+#include "GuiManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -29,8 +30,6 @@ Engine::Engine(Game *game)
   log_info("Initializing GL");
   gl_manager = new GLManager(window);
 
-  gui_manager = new GuiManager(window);
-
   log_info("Initializing Physics Manager");
   m_physicsManager = new PhysicsManager();
 
@@ -42,9 +41,8 @@ Engine::Engine(Game *game)
 Engine::~Engine(void)
 {
   delete window;
-  delete glew_manager;
   delete gl_manager;
-  delete gui_manager;
+  delete glew_manager;
   delete m_physicsManager;
 }
 
@@ -55,6 +53,8 @@ void Engine::start(void)
   game->getRootScene()->registerWithEngineAll(this);
 
   log_info("Initializing game");
+
+  window->init();
 
   game->init(gl_manager);
 
@@ -91,8 +91,6 @@ void Engine::tick(void)
 
   game->update(delta_time);
 
-  gui_manager->tick();
-
   game->render(gl_manager);
 
   if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
@@ -106,7 +104,16 @@ void Engine::tick(void)
     gl_manager->drawLine(ray.getLine(100.0f));
   }
 
-  gui_manager->render(game->getRootScene());
+  static bool f1Pressed = false;
+
+  if (!f1Pressed && window->getInput()->isPressed(SDLK_F1)) {
+    f1Pressed = true;
+    window->getGuiManager()->togglePropertyEditor();
+  } else if (f1Pressed && window->getInput()->isReleased(SDLK_F1)) {
+    f1Pressed = false;
+  }
+
+  window->getGuiManager()->render(game->getRootScene());
 
   window->swapBuffer();
 }

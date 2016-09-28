@@ -4,9 +4,14 @@
 #include "TextureData.h"
 #include "EntityComponent.h"
 
-#include <imgui.h>
+#if defined(GLES2)
+  #include <GLES2/gl2.h>
+#elif defined(GLES3)
+  #include <GLES3/gl3.h>
+#else
+  #include <GL/glew.h>
+#endif
 
-#include <GL/glew.h>
 #include <glm/gtx/transform.hpp>
 
 TextureData *m_textureData;
@@ -14,28 +19,19 @@ Shader *m_shader;
 static int          g_AttribLocationPosition = 0, g_AttribLocationUV = 0, g_AttribLocationColor = 0;
 static unsigned int g_VboHandle = 0, g_VaoHandle = 0, g_ElementsHandle = 0;
 
-bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event)
+void GuiManager::addInputCharactersUTF8(const char *text)
 {
-    ImGuiIO& io = ImGui::GetIO();
-    switch (event->type)
-    {
-    case SDL_TEXTINPUT:
-        {
-            io.AddInputCharactersUTF8(event->text.text);
-            return true;
-        }
-    case SDL_KEYDOWN:
-    case SDL_KEYUP:
-        {
-            int key = event->key.keysym.sym & ~SDLK_SCANCODE_MASK;
-            io.KeysDown[key] = (event->type == SDL_KEYDOWN);
-            return true;
-        }
-    }
-    return false;
+  ImGuiIO& io = ImGui::GetIO();
+  io.AddInputCharactersUTF8(text);
 }
 
-void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data)
+void GuiManager::setKeyEvent(int key, bool keydown)
+{
+  ImGuiIO& io = ImGui::GetIO();
+  io.KeysDown[key] = keydown;
+}
+
+void GuiManager::renderDrawLists(ImDrawData* draw_data)
 {
   // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
   ImGuiIO& io = ImGui::GetIO();
@@ -122,7 +118,7 @@ void ImGui_ImplSdlGL3_RenderDrawLists(ImDrawData* draw_data)
     glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
 }
 
-void    ImGui_ImplSdlGL3_InvalidateDeviceObjects()
+void GuiManager::invalidateDeviceObjects(void)
 {
     if (g_VaoHandle) glDeleteVertexArrays(1, &g_VaoHandle);
     if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
@@ -132,7 +128,8 @@ void    ImGui_ImplSdlGL3_InvalidateDeviceObjects()
     delete m_shader;
 }
 
-void ImGui_ImplSdlGL3_CreateDeviceObjects(void) {
+void GuiManager::createDeviceObjects(void)
+{
   const GLchar *vertex_shader =
       "#version 330\n"
       "uniform mat4 ProjMtx;\n"
@@ -190,6 +187,8 @@ GuiManager::GuiManager(Window *window)
   m_window = window;
   m_sdlWindow = window->getSDLWindow();
 
+  showProps = false;
+
   ImGuiIO& io = ImGui::GetIO();
   io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
   io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
@@ -211,7 +210,7 @@ GuiManager::GuiManager(Window *window)
   io.KeyMap[ImGuiKey_Y] = SDLK_y;
   io.KeyMap[ImGuiKey_Z] = SDLK_z;
 
-  io.RenderDrawListsFn = ImGui_ImplSdlGL3_RenderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
+  io.RenderDrawListsFn = GuiManager::renderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
   io.SetClipboardTextFn = Window::setClipboardText;
   io.GetClipboardTextFn = Window::getClipboardText;
 
@@ -222,7 +221,7 @@ GuiManager::GuiManager(Window *window)
   io.ImeWindowHandle = wmInfo.info.win.window;
 #endif
 
-  ImGui_ImplSdlGL3_CreateDeviceObjects();
+  createDeviceObjects();
 
   unsigned char* pixels;
   int width, height;
@@ -237,7 +236,7 @@ GuiManager::GuiManager(Window *window)
 
 GuiManager::~GuiManager(void)
 {
-  ImGui_ImplSdlGL3_InvalidateDeviceObjects();
+  invalidateDeviceObjects();
   delete m_textureData;
   ImGui::Shutdown();
 }
@@ -267,8 +266,6 @@ void GuiManager::tick(void)
   // Start the frame
   ImGui::NewFrame();
 }
-
-#include "Logger.h"
 
 void renderComponent(EntityComponent *component) {
   ImGui::PushID(component);
@@ -391,9 +388,14 @@ void renderSceneGraph(Entity *sceneGraph)
   ImGui::PopID();
 }
 
+void GuiManager::togglePropertyEditor(void)
+{
+  showProps = !showProps;
+}
+
 void GuiManager::render(Entity *sceneGraph)
 {
-  {
+  if (showProps) {
     ImGui::SetNextWindowPos(ImVec2(10,10));
     ImGui::SetNextWindowSize(ImVec2(500,0), ImGuiSetCond_FirstUseEver);
     if (!ImGui::Begin("Example: Fixed Overlay", nullptr, ImVec2(0,0), 0.3f, ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoSavedSettings))
@@ -402,6 +404,8 @@ void GuiManager::render(Entity *sceneGraph)
         return;
     }
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2,2));
     ImGui::Separator();
     ImGui::Columns(2);
@@ -414,7 +418,7 @@ void GuiManager::render(Entity *sceneGraph)
     ImGui::End();
 
     // ImGui::ShowTestWindow();
-  }
 
-  ImGui::Render();
+    ImGui::Render();
+  }
 }

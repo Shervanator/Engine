@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include "Window.h"
+#include "GuiManager.h"
 #include "Logger.h"
 
 Window::Window(void)
@@ -70,12 +71,17 @@ Window::Window(void)
 
 Window::~Window(void)
 {
+  delete gui_manager;
   SDL_GL_DeleteContext(m_glContext);
   SDL_DestroyWindow(m_window);
   SDL_Quit();
 }
 
-bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event);
+void Window::init(void)
+{
+  log_info("Initializing GUI");
+  gui_manager = new GuiManager(this);
+}
 
 void Window::tick(void)
 {
@@ -87,7 +93,6 @@ void Window::tick(void)
 
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
-    ImGui_ImplSdlGL3_ProcessEvent(&event);
     switch (event.type) {
       case SDL_MOUSEMOTION:
         m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
@@ -95,6 +100,7 @@ void Window::tick(void)
         break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:
+        gui_manager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
         m_input.handleKeyboardEvent(event.key);
         break;
       case SDL_MOUSEBUTTONDOWN:
@@ -105,14 +111,15 @@ void Window::tick(void)
         m_input.handleMouseWheelEvent(event.wheel);
         break;
       case SDL_TEXTINPUT:
-        // log_info("hi: %s", event.text.text);
-        // might want to handle this later for gui AddInputCharactersUTF8
+        gui_manager->addInputCharactersUTF8(event.text.text);
         break;
       case SDL_QUIT:
         m_quit = true;
         break;
     }
   }
+
+  gui_manager->tick();
 }
 
 void Window::swapBuffer(void)
@@ -162,6 +169,11 @@ glm::vec2 Window::getDrawableSize(void) const
   int display_w, display_h;
   SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
   return glm::vec2((float)display_w, (float)display_h);
+}
+
+GuiManager *Window::getGuiManager(void) const
+{
+  return gui_manager;
 }
 
 const char* Window::getClipboardText()
