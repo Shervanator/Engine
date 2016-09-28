@@ -55,6 +55,7 @@ void Engine::start(void)
   game->getRootScene()->registerWithEngineAll(this);
 
   log_info("Initializing game");
+
   game->init(gl_manager);
 
   window->makeCurrentContext();
