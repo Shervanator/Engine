@@ -49,10 +49,10 @@ void Engine::start(void)
 {
   game->setEngine(this);
 
+  game->getRootScene()->registerWithEngineAll(this);
+
   log_info("Initializing game");
   game->init(gl_manager);
-
-  game->getRootScene()->registerWithEngineAll(this);
 
   window->makeCurrentContext();
 
