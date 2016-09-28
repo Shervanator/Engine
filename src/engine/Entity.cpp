@@ -51,6 +51,11 @@ std::vector<Entity*> Entity::findByTag(const std::string& tag)
   return Entity::taggedEntities[tag];
 }
 
+std::vector<EntityComponent*> Entity::getComponentsByType(const char *type)
+{
+  return componentsByType[type];
+}
+
 void Entity::addChild(Entity* child)
 {
   child->parentEntity = this;
@@ -65,6 +70,7 @@ void Entity::addChild(Entity* child)
 void Entity::addComponent(EntityComponent* component)
 {
   component->setParent(this);
+  componentsByType[component->getType()].push_back(component);
   components.push_back(component);
 }
 

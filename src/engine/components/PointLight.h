@@ -17,6 +17,8 @@ public:
 
   virtual void updateShader(Shader *shader);
 
+  inline virtual const char *getType(void) { return "POINT_LIGHT"; }
+
   Attenuation *getAttenuation(void) const;
   float getRange(void) const;
 

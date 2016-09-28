@@ -17,6 +17,8 @@ public:
   glm::mat4 getViewMatrix(void) const;
   glm::mat4 getProjectionMatrix(void) const;
 
+  inline virtual const char *getType(void) { return "CAMERA"; }
+
 protected:
   glm::mat4 projection;
 };

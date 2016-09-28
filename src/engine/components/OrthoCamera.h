@@ -13,6 +13,8 @@ class OrthoCamera : public Camera
 {
 public:
   OrthoCamera(float aspect, float scale, float zNear, float zFar);
+
+  inline virtual const char *getType(void) { return "ORTHO_CAMERA"; }
 };
 
 #endif

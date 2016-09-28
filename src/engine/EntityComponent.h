@@ -23,6 +23,8 @@ public:
   virtual void registerWithEngine(Engine *engine) {};
   virtual void deregisterFromEngine(Engine *engine) {};
 
+  virtual const char *getType(void) = 0;
+
   void setParent(Entity *parentEntity);
   Entity *getParent(void) const;
 

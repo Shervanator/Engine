@@ -18,6 +18,8 @@ public:
   virtual void update(int delta);
   virtual void render(Shader *shader);
 
+  inline virtual const char *getType(void) { return "MESH_RENDERER"; }
+
 private:
   Mesh *mesh;
   Material *material;

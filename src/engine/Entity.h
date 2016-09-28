@@ -41,6 +41,8 @@ public:
   glm::vec4 getPosition(void);
   glm::vec4 getDirection(void);
 
+  std::vector<EntityComponent*> getComponentsByType(const char *type);
+
   static std::vector<Entity*> findByTag(const std::string& tag);
 
 private:
@@ -60,6 +62,8 @@ private:
   static void setTag(Entity *entity, const std::string& tag);
 
   static std::map<std::string, std::vector<Entity*>> taggedEntities;
+
+  std::map<const char *, std::vector<EntityComponent*>> componentsByType;
 };
 
 #endif

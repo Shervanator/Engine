@@ -14,6 +14,8 @@ public:
   virtual void registerWithEngine(Engine *engine);
   virtual void deregisterFromEngine(Engine *engine);
 
+  inline virtual const char *getType(void) { return "SPOT_LIGHT"; }
+
   virtual void updateShader(Shader *shader);
 
   float getCutoff(void) const;

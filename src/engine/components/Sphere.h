@@ -18,6 +18,8 @@ public:
 
   float getRadius(void) const;
 
+  inline virtual const char *getType(void) { return "SPHERE"; }
+
 private:
   float m_radius;
 };

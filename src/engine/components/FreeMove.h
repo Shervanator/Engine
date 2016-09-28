@@ -18,6 +18,8 @@ public:
 
   virtual void updateInput(Input *input, int delta);
 
+  inline virtual const char *getType(void) { return "FREE_MOVE"; }
+
 private:
   void Move(const glm::vec3& direction, float amount);
 

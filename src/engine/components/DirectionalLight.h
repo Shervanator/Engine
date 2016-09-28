@@ -15,6 +15,8 @@ public:
   virtual void deregisterFromEngine(Engine *engine);
 
   virtual void updateShader(Shader *shader);
+
+  inline virtual const char *getType(void) { return "DIRECTIONAL_LIGHT"; }
 };
 
 #endif

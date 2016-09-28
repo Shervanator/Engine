@@ -15,6 +15,8 @@ public:
 
   virtual void updateInput(Input *input, int delta);
 
+  inline virtual const char *getType(void) { return "FREE_LOOK"; }
+
 private:
   float m_speed;
   float horizontal_r;
