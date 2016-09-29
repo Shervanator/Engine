@@ -78,11 +78,11 @@ void CoolGame::init(GLManager *glManager)
 #endif
   money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
   money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  money2.getEntity()->addComponent(new PointLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, new Attenuation(0, 0, 0.05)));
+  money2.getEntity()->addComponent(new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, 0.7f, new Attenuation(0, 0, 0.05)));
 
   addToScene(money2.getEntity());
 
-  primary_camera = cam2;
+  primary_camera = cam1;
 
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
