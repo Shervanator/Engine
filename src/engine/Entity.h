@@ -61,9 +61,9 @@ private:
 
   static void setTag(Entity *entity, const std::string& tag);
 
-  static std::map<std::string, std::vector<Entity*>> taggedEntities;
+  static std::map<std::string, std::vector<Entity*> > taggedEntities;
 
-  std::map<const char *, std::vector<EntityComponent*>> componentsByType;
+  std::map<const char *, std::vector<EntityComponent*> > componentsByType;
 };
 
 #endif

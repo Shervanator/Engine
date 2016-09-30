@@ -8,7 +8,7 @@
 
 #include <algorithm>
 
-std::map<std::string, std::vector<Entity*>> Entity::taggedEntities;
+std::map<std::string, std::vector<Entity*> > Entity::taggedEntities;
 
 Entity::Entity(const std::string& tag)
 {
