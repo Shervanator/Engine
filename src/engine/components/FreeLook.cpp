@@ -12,7 +12,7 @@ FreeLook::FreeLook(float speed)
   horizontal_r=0;
   vertical_r=0;
 
-  m_properties["speed"] = Property{FLOAT, &m_speed, 0, 0.01};
+  m_properties["speed"] = (Property){FLOAT, &m_speed, 0, 0.01};
 }
 
 FreeLook::~FreeLook(void)
