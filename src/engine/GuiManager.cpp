@@ -191,8 +191,11 @@ GuiManager::GuiManager(Window *window)
   m_window = window;
   m_sdlWindow = window->getSDLWindow();
 
+#ifdef ANDROID
+  showProps = true;
+#else
   showProps = false;
-
+#endif
   ImGuiIO& io = ImGui::GetIO();
   io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
   io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
