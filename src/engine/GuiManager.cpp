@@ -47,9 +47,11 @@ void GuiManager::renderDrawLists(ImDrawData* draw_data)
   GLint last_active_texture; glGetIntegerv(GL_ACTIVE_TEXTURE, &last_active_texture);
   GLint last_array_buffer; glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
   GLint last_element_array_buffer; glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &last_element_array_buffer);
+#if !defined(GLES2)
   GLint last_vertex_array; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
   GLint last_blend_src; glGetIntegerv(GL_BLEND_SRC, &last_blend_src);
   GLint last_blend_dst; glGetIntegerv(GL_BLEND_DST, &last_blend_dst);
+#endif
   GLint last_blend_equation_rgb; glGetIntegerv(GL_BLEND_EQUATION_RGB, &last_blend_equation_rgb);
   GLint last_blend_equation_alpha; glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &last_blend_equation_alpha);
   GLint last_viewport[4]; glGetIntegerv(GL_VIEWPORT, last_viewport);
@@ -73,7 +75,20 @@ void GuiManager::renderDrawLists(ImDrawData* draw_data)
   m_shader->bind();
   m_shader->setUniform1i("Texture", 0);
   m_shader->setUniformMatrix4f("ProjMtx", ortho_projection);
+#if !defined(GLES2)
   glBindVertexArray(g_VaoHandle);
+#else
+  glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
+  glEnableVertexAttribArray(g_AttribLocationPosition);
+  glEnableVertexAttribArray(g_AttribLocationUV);
+  glEnableVertexAttribArray(g_AttribLocationColor);
+
+  #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
+    glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
+    glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
+    glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
+  #undef OFFSETOF
+#endif
 
   for (int n = 0; n < draw_data->CmdListsCount; n++)
   {
@@ -102,15 +117,25 @@ void GuiManager::renderDrawLists(ImDrawData* draw_data)
       }
   }
 
+#if defined(GLES2)
+  glDisableVertexAttribArray(g_AttribLocationPosition);
+  glDisableVertexAttribArray(g_AttribLocationUV);
+  glDisableVertexAttribArray(g_AttribLocationColor);
+#endif
+
   // Restore modified GL state
   glUseProgram(last_program);
   glActiveTexture(last_active_texture);
   glBindTexture(GL_TEXTURE_2D, last_texture);
+#if !defined(GLES2)
   glBindVertexArray(last_vertex_array);
+#endif
   glBindBuffer(GL_ARRAY_BUFFER, last_array_buffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, last_element_array_buffer);
   glBlendEquationSeparate(last_blend_equation_rgb, last_blend_equation_alpha);
+#if !defined(GLES2)
   glBlendFunc(last_blend_src, last_blend_dst);
+#endif
   if (last_enable_blend) glEnable(GL_BLEND); else glDisable(GL_BLEND);
   if (last_enable_cull_face) glEnable(GL_CULL_FACE); else glDisable(GL_CULL_FACE);
   if (last_enable_depth_test) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
@@ -120,43 +145,19 @@ void GuiManager::renderDrawLists(ImDrawData* draw_data)
 
 void GuiManager::invalidateDeviceObjects(void)
 {
-    if (g_VaoHandle) glDeleteVertexArrays(1, &g_VaoHandle);
-    if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
-    if (g_ElementsHandle) glDeleteBuffers(1, &g_ElementsHandle);
-    g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
+#if !defined(GLES2)
+  if (g_VaoHandle) glDeleteVertexArrays(1, &g_VaoHandle);
+#endif
+  if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
+  if (g_ElementsHandle) glDeleteBuffers(1, &g_ElementsHandle);
+  g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
 
-    delete m_shader;
+  delete m_shader;
 }
 
 void GuiManager::createDeviceObjects(void)
 {
-  const GLchar *vertex_shader =
-      "#version 330\n"
-      "uniform mat4 ProjMtx;\n"
-      "in vec2 Position;\n"
-      "in vec2 UV;\n"
-      "in vec4 Color;\n"
-      "out vec2 Frag_UV;\n"
-      "out vec4 Frag_Color;\n"
-      "void main()\n"
-      "{\n"
-      "	Frag_UV = UV;\n"
-      "	Frag_Color = Color;\n"
-      "	gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
-      "}\n";
-
-  const GLchar* fragment_shader =
-      "#version 330\n"
-      "uniform sampler2D Texture;\n"
-      "in vec2 Frag_UV;\n"
-      "in vec4 Frag_Color;\n"
-      "out vec4 Out_Color;\n"
-      "void main()\n"
-      "{\n"
-      "	Out_Color = Frag_Color * texture( Texture, Frag_UV.st);\n"
-      "}\n";
-
-  m_shader = new Shader(vertex_shader, fragment_shader);
+  m_shader = new Shader("shaders/gui");
   m_shader->link();
   m_shader->createUniform("Texture");
   m_shader->createUniform("ProjMtx");
@@ -168,18 +169,21 @@ void GuiManager::createDeviceObjects(void)
   glGenBuffers(1, &g_VboHandle);
   glGenBuffers(1, &g_ElementsHandle);
 
+#if !defined(GLES2)
   glGenVertexArrays(1, &g_VaoHandle);
   glBindVertexArray(g_VaoHandle);
+
   glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
   glEnableVertexAttribArray(g_AttribLocationPosition);
   glEnableVertexAttribArray(g_AttribLocationUV);
   glEnableVertexAttribArray(g_AttribLocationColor);
 
-#define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
-  glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
-  glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
-  glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
-#undef OFFSETOF
+  #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
+    glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
+    glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
+    glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
+  #undef OFFSETOF
+#endif
 }
 
 GuiManager::GuiManager(Window *window)
@@ -187,7 +191,7 @@ GuiManager::GuiManager(Window *window)
   m_window = window;
   m_sdlWindow = window->getSDLWindow();
 
-  showProps = false;
+  showProps = true;
 
   ImGuiIO& io = ImGui::GetIO();
   io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
