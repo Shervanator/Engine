@@ -12,6 +12,21 @@
 
 class Engine;
 
+enum PropertyType {
+  FLOAT,
+  FLOAT3,
+  BOOLEAN,
+  ANGLE,
+  COLOR
+};
+
+struct Property {
+  PropertyType type;
+  void *p;
+  float min;
+  float max;
+};
+
 class EntityComponent
 {
 public:
@@ -29,6 +44,8 @@ public:
   Entity *getParent(void) const;
 
   Transform& getTransform(void) const;
+
+  std::map<const char *, Property> m_properties;
 
 protected:
   Entity *parentEntity;

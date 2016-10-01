@@ -11,6 +11,8 @@ FreeLook::FreeLook(float speed)
   m_speed = speed;
   horizontal_r=0;
   vertical_r=0;
+
+  m_properties["speed"] = (Property){FLOAT, &m_speed, 0, 0.01};
 }
 
 FreeLook::~FreeLook(void)
@@ -19,7 +21,7 @@ FreeLook::~FreeLook(void)
 
 void FreeLook::updateInput(Input *input, int delta)
 {
-  if (input->mouseIsPressed(SDL_BUTTON_RIGHT)) {
+  if (input->mouseIsPressed(SDL_BUTTON_LEFT)) {
     input->grabMouse();
     glm::vec2 pos = input->getMouseDelta();
     // FIXME: Dont reset pos to empty quat, maybe set to init rotation
@@ -40,7 +42,7 @@ void FreeLook::updateInput(Input *input, int delta)
     }
     parentEntity->getTransform().rotate(glm::vec3(0,1,0),horizontal_r);
     parentEntity->getTransform().rotate(glm::vec3(1,0,0),vertical_r);
-  } else if (input->mouseIsReleased(SDL_BUTTON_RIGHT)) {
+  } else if (input->mouseIsReleased(SDL_BUTTON_LEFT)) {
     input->releaseMouse();
   }
 }

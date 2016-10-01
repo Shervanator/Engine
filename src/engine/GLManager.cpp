@@ -3,13 +3,17 @@
 //
 
 #include "GLManager.h"
+#include "Logger.h"
 
 #include <algorithm>
 
-GLManager::GLManager(int width, int height)
+GLManager::GLManager(Window *window)
 {
-  this->width = width;
-  this->height = height;
+  glm::vec2 drawableSize = window->getDrawableSize();
+  this->width = (int)(drawableSize.x);
+  this->height = (int)(drawableSize.y);
+  // this->width = width;
+  // this->height = height;
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   glClearDepthf(1.0f);

@@ -17,11 +17,22 @@ Input::~Input(void)
 void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
 {
   m_keyState[keyEvent.keysym.sym] = keyEvent.state;
+  m_keyModState = SDL_GetModState();
 }
 
 void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
 {
   m_buttonState[buttonEvent.button] = buttonEvent.state;
+}
+
+void Input::handleMouseWheelEvent(SDL_MouseWheelEvent wheelEvent)
+{
+  m_mouseWheel.x = wheelEvent.x;
+  m_mouseWheel.y = wheelEvent.y;
+}
+
+void Input::handleMultigesture(SDL_MultiGestureEvent multigestureEvent)
+{
 }
 
 bool Input::isPressed(SDL_Keycode key)
@@ -64,6 +75,16 @@ glm::vec2 Input::getMouseDelta(void) const
 glm::vec2 Input::getMousePosition(void) const
 {
   return m_mousePosition;
+}
+
+glm::vec2 Input::getMouseWheel(void) const
+{
+  return m_mouseWheel;
+}
+
+SDL_Keymod Input::getKeyModState(void) const
+{
+  return m_keyModState;
 }
 
 void Input::grabMouse(void)

@@ -159,6 +159,11 @@ std::vector<Entity*> *Entity::getChildren(void)
   return &children;
 }
 
+std::vector<EntityComponent*> *Entity::getComponents(void)
+{
+  return &components;
+}
+
 glm::mat4& Entity::getWorldMatrix(void)
 {
   return worldMatrix;

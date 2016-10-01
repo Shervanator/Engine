@@ -36,6 +36,12 @@ Shader::Shader(const char* vert_src, const char* frag_src)
 
 Shader::~Shader(void)
 {
+  glDetachShader(g_shProg, g_shVert);
+  glDeleteShader(g_shVert);
+
+  glDetachShader(g_shProg, g_shFrag);
+  glDeleteShader(g_shFrag);
+
   glDeleteProgram(g_shProg);
 }
 

@@ -20,7 +20,7 @@ public:
   inline virtual const char *getType(void) { return "POINT_LIGHT"; }
 
   Attenuation *getAttenuation(void) const;
-  float getRange(void) const;
+  float getRange(void);
 
 private:
   Attenuation *m_attenuation;

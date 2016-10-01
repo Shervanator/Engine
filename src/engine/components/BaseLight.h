@@ -23,7 +23,7 @@ public:
 
   virtual void updateShader(Shader *shader) = 0;
 
-private:
+protected:
   glm::vec3 m_color;
   float m_intensity;
 };

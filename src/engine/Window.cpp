@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include "Window.h"
+#include "GuiManager.h"
 #include "Logger.h"
 
 Window::Window(void)
@@ -19,8 +20,6 @@ Window::Window(void)
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
 
-  this->m_width = mode.w;
-  this->m_height = mode.h;
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,    BITS_PER_CHANNEL);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,  BITS_PER_CHANNEL);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,   BITS_PER_CHANNEL);
@@ -47,7 +46,7 @@ Window::Window(void)
   #endif
 
   // SDL_WINDOW_FULLSCREEN |
-  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->m_width, this->m_height, SDL_WINDOW_OPENGL);
+  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.w, mode.h - 100, SDL_WINDOW_OPENGL);
   if (m_window == nullptr)
   {
     log_err("SDL_CreateWindow error: %s", SDL_GetError());
@@ -60,31 +59,35 @@ Window::Window(void)
 
   SDL_GL_SetSwapInterval(0);
 
-  current_time = SDL_GetTicks();
+  m_time = SDL_GetTicks();
+
+  int display_w, display_h;
+  SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
+  this->m_width = display_w;
+  this->m_height = display_h;
 
   log_info("Window init to: %i x %i", this->m_width, this->m_height);
 }
 
 Window::~Window(void)
 {
+  delete gui_manager;
   SDL_GL_DeleteContext(m_glContext);
   SDL_DestroyWindow(m_window);
   SDL_Quit();
 }
 
+void Window::init(void)
+{
+  log_info("Initializing GUI");
+  gui_manager = new GuiManager(this);
+}
+
 void Window::tick(void)
 {
-  old_time     = current_time;
-  current_time = SDL_GetTicks();
-  delta_time   = current_time - old_time;
-
-  if (current_time % 6 == 0) {
-    // char buffer[30];
-    // TODO: FIX THIS IN WINDOWS
-    //log_info("fps: %d", getFPS());
-    //snprintf(buffer, 30, "FPS: %d, %dms per frame", getFPS(), getDeltaTime() );
-    //SDL_SetWindowTitle(m_window, buffer);
-  }
+  m_lastTime = m_time;
+  m_time = SDL_GetTicks();
+  m_deltaTime = m_time - m_lastTime;
 
   m_input.setMouseDelta(0, 0);
 
@@ -97,17 +100,29 @@ void Window::tick(void)
         break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:
+        gui_manager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
         m_input.handleKeyboardEvent(event.key);
         break;
       case SDL_MOUSEBUTTONDOWN:
       case SDL_MOUSEBUTTONUP:
         m_input.handleMouseEvent(event.button);
         break;
+      case SDL_MOUSEWHEEL:
+        m_input.handleMouseWheelEvent(event.wheel);
+        break;
+      case SDL_TEXTINPUT:
+        gui_manager->addInputCharactersUTF8(event.text.text);
+        break;
+      case SDL_MULTIGESTURE:
+        m_input.handleMultigesture(event.mgesture);
+        break;
       case SDL_QUIT:
         m_quit = true;
         break;
     }
   }
+
+  gui_manager->tick();
 }
 
 void Window::swapBuffer(void)
@@ -120,14 +135,14 @@ Input* Window::getInput(void)
   return &m_input;
 }
 
-Uint32 Window::getDeltaTime(void) const
+SDL_Window* Window::getSDLWindow(void)
 {
-  return delta_time;
+  return m_window;
 }
 
-Uint32 Window::getFPS(void) const
+Uint32 Window::getDeltaTime(void) const
 {
-  return 1000.0 / delta_time;
+  return m_deltaTime;
 }
 
 int Window::getWidth(void) const
@@ -145,6 +160,35 @@ glm::vec4 Window::getViewport(void) const
   return glm::vec4(0.0f, 0.0f, this->m_width, this->m_height);
 }
 
+glm::vec2 Window::getDisplaySize(void) const
+{
+  int w, h;
+  SDL_GetWindowSize(m_window, &w, &h);
+  return glm::vec2((float)w, (float)h);
+}
+
+glm::vec2 Window::getDrawableSize(void) const
+{
+  int display_w, display_h;
+  SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
+  return glm::vec2((float)display_w, (float)display_h);
+}
+
+GuiManager *Window::getGuiManager(void) const
+{
+  return gui_manager;
+}
+
+const char* Window::getClipboardText()
+{
+  return SDL_GetClipboardText();
+}
+
+void Window::setClipboardText(const char* text)
+{
+  SDL_SetClipboardText(text);
+}
+
 void Window::makeCurrentContext(void) const
 {
   SDL_GL_MakeCurrent(m_window, m_glContext);
@@ -153,4 +197,9 @@ void Window::makeCurrentContext(void) const
 bool Window::shouldQuit(void) const
 {
   return m_quit;
+}
+
+void Window::drawCursor(bool enabled)
+{
+  SDL_ShowCursor(enabled);
 }
