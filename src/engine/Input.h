@@ -20,6 +20,7 @@ public:
   void handleKeyboardEvent(SDL_KeyboardEvent keyEvent);
   void handleMouseEvent(SDL_MouseButtonEvent buttonEvent);
   void handleMouseWheelEvent(SDL_MouseWheelEvent buttonEvent);
+  void handleMultigesture(SDL_MultiGestureEvent multigestureEvent);
 
   bool isPressed(SDL_Keycode key);
   bool isReleased(SDL_Keycode key);

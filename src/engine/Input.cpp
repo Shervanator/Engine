@@ -31,6 +31,10 @@ void Input::handleMouseWheelEvent(SDL_MouseWheelEvent wheelEvent)
   m_mouseWheel.y = wheelEvent.y;
 }
 
+void Input::handleMultigesture(SDL_MultiGestureEvent multigestureEvent)
+{
+}
+
 bool Input::isPressed(SDL_Keycode key)
 {
   return (m_keyState[key] == SDL_PRESSED);

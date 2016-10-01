@@ -113,6 +113,9 @@ void Window::tick(void)
       case SDL_TEXTINPUT:
         gui_manager->addInputCharactersUTF8(event.text.text);
         break;
+      case SDL_MULTIGESTURE:
+        m_input.handleMultigesture(event.mgesture);
+        break;
       case SDL_QUIT:
         m_quit = true;
         break;
