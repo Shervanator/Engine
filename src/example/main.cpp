@@ -68,7 +68,7 @@ void CoolGame::init(GLManager *glManager)
   addToScene(money.getEntity());
 
   MeshLoader money2("monkey3.obj");
-  OrthoCamera *cam2 = new OrthoCamera(getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 10.0f, 0.1f, 100.0f);
+  PerspectiveCamera *cam2 = new PerspectiveCamera(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
   money2.getEntity()->addComponent(cam2);
   money2.getEntity()->addComponent(new FreeMove());
 #if defined(ANDROID)
@@ -78,11 +78,11 @@ void CoolGame::init(GLManager *glManager)
 #endif
   money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
   money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  money2.getEntity()->addComponent(new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 0.6f, 0.7f, new Attenuation(0, 0, 0.05)));
+  money2.getEntity()->addComponent(new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.8f, 0.7f, new Attenuation(0, 0, 0.2)));
 
   addToScene(money2.getEntity());
 
-  primary_camera = cam1;
+  primary_camera = cam2;
 
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
