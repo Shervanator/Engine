@@ -9,8 +9,15 @@ BaseLight::BaseLight(glm::vec3 color, float intensity)
   m_color = color;
   m_intensity = intensity;
 
-  m_properties["color"] = (Property){COLOR, &m_color.x, 0, 1};
-  m_properties["intensity"] = (Property){FLOAT, &m_intensity, 0, 100};
+  m_properties["color"].type = COLOR;
+  m_properties["color"].p = &m_color.x;
+  m_properties["color"].min = 0;
+  m_properties["color"].max = 1;
+
+  m_properties["intensity"].type = FLOAT;
+  m_properties["intensity"].p = &m_intensity;
+  m_properties["intensity"].min = 0;
+  m_properties["intensity"].max = 100;
 }
 
 BaseLight::~BaseLight(void)
