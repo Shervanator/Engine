@@ -11,13 +11,8 @@ FreeMove::FreeMove(bool moveForwards, float speed)
   m_speed = speed;
   m_moveForwards = moveForwards;
 
-  m_properties["speed"].type = FLOAT;
-  m_properties["speed"].p = &m_speed;
-  m_properties["speed"].min = 0;
-  m_properties["speed"].max = 0.1;
-
-  m_properties["forwards"].type = BOOLEAN;
-  m_properties["forwards"].p = &m_moveForwards;
+  m_properties["speed"] = (Property){FLOAT, &m_speed, 0, 0.1};
+  m_properties["forwards"] = (Property){BOOLEAN, &m_moveForwards};
 }
 
 FreeMove::~FreeMove(void)

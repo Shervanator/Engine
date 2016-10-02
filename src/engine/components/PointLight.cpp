@@ -15,20 +15,9 @@ PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuatio
   // float b = attenuation->getLinear();
   // float c = attenuation->getConstant() - BITS_PER_CHANNEL * getIntensity() * glm::max(color.x, glm::max(color.y, color.z));
 
-  m_properties["exp"].type = FLOAT;
-  m_properties["exp"].p = &m_attenuation->m_exponent;
-  m_properties["exp"].min = 0;
-  m_properties["exp"].max = 0.5;
-
-  m_properties["linear"].type = FLOAT;
-  m_properties["linear"].p = &m_attenuation->m_linear;
-  m_properties["linear"].min = 0;
-  m_properties["linear"].max = 1;
-
-  m_properties["const"].type = FLOAT;
-  m_properties["const"].p = &m_attenuation->m_constant;
-  m_properties["const"].min = 0;
-  m_properties["const"].max = 1;
+  m_properties["exp"] = (Property){FLOAT, &m_attenuation->m_exponent, 0, 0.5};
+  m_properties["linear"] = (Property){FLOAT, &m_attenuation->m_linear, 0, 1};
+  m_properties["const"] = (Property){FLOAT, &m_attenuation->m_constant, 0, 1};
 
   // m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
 }

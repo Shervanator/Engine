@@ -14,25 +14,10 @@ PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float zNear, float
   m_zNear = zNear;
   m_zFar = zFar;
 
-  m_properties["fov"].type = ANGLE;
-  m_properties["fov"].p = &m_fov;
-  m_properties["fov"].min = 0;
-  m_properties["fov"].max = 180;
-
-  m_properties["aspect"].type = FLOAT;
-  m_properties["aspect"].p = &m_aspect;
-  m_properties["aspect"].min = 0;
-  m_properties["aspect"].max = 10;
-
-  m_properties["zNear"].type = FLOAT;
-  m_properties["zNear"].p = &m_zNear;
-  m_properties["zNear"].min = 0;
-  m_properties["zNear"].max = 1;
-
-  m_properties["zFar"].type = FLOAT;
-  m_properties["zFar"].p = &m_zFar;
-  m_properties["zFar"].min = 0;
-  m_properties["zFar"].max = 1000;
+  m_properties["fov"] = (Property){ANGLE, &m_fov, 0, 180};
+  m_properties["aspect"] = (Property){FLOAT, &m_aspect, 0, 10};
+  m_properties["zNear"] = (Property){FLOAT, &m_zNear, 0, 1};
+  m_properties["zFar"] = (Property){FLOAT, &m_zFar, 0, 1000};
 }
 
 glm::mat4 PerspectiveCamera::getProjectionMatrix(void) const

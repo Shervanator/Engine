@@ -9,10 +9,7 @@
 SpotLight::SpotLight(glm::vec3 color, float intensity, float cutoff, Attenuation *attenuation) : PointLight(color, intensity, attenuation)
 {
   m_cutoff = cutoff;
-  m_properties["cutoff"].type = FLOAT;
-  m_properties["cutoff"].p = &m_cutoff;
-  m_properties["cutoff"].min = 0;
-  m_properties["cutoff"].max = 1;
+  m_properties["cutoff"] = (Property){FLOAT, &m_cutoff, 0, 1};
 }
 
 void SpotLight::registerWithEngine(Engine *engine)
