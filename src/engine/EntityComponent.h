@@ -40,6 +40,9 @@ public:
 
   virtual const char *getType(void) = 0;
 
+  void setProperty(const char *name, PropertyType type, void *p, float min, float max);
+  void setProperty(const char *name, PropertyType type, void *p);
+
   void setParent(Entity *parentEntity);
   Entity *getParent(void) const;
 
