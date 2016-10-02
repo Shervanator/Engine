@@ -221,12 +221,12 @@ GuiManager::GuiManager(Window *window)
   io.SetClipboardTextFn = Window::setClipboardText;
   io.GetClipboardTextFn = Window::getClipboardText;
 
-#ifdef _WIN32
-  SDL_SysWMinfo wmInfo;
-  SDL_VERSION(&wmInfo.version);
-  SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
-  io.ImeWindowHandle = wmInfo.info.win.window;
-#endif
+//#ifdef _WIN32
+//  SDL_SysWMinfo wmInfo;
+//  SDL_VERSION(&wmInfo.version);
+//  SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
+//  io.ImeWindowHandle = wmInfo.info.win.window;
+//#endif
 
   createDeviceObjects();
 
