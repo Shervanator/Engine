@@ -66,7 +66,6 @@ public:
     }
   }
 
-
   template <class T>
   inline T* getComponent(void)
   {
