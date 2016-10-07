@@ -1,12 +1,24 @@
 # Engine
 
-A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine making use of:
+A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine:
 
+Feature:
+- Scene Graph
+- 3D model loading (most common file formats)
+- Entity/Component Object Model
+- Lighting system (ambient/spot/point/directional lights) - Forward rendering
+- Bump mapping
+- Perspective/Ortho camera
+- Object picking (basic ray tracing/sphere collider collision detection)
+- Fully cross platform
+
+Uses the following 3rd party libraries:
 - SDL2 window library.
 - stb_image.h image library.
 - OpenGL 3 / OpenGL ES 2.0 / OpenGL ES 3.0 Graphics APIs.
 - Assimp asset importing library.
 - GLEW extension loading library.
+- Dear ImGui UI library.
 
 [![Build Status](https://travis-ci.org/Shervanator/Engine.svg?branch=master)](https://travis-ci.org/Shervanator/Engine)
 
@@ -129,8 +141,8 @@ private:
 
 void CoolGame::init(void)
 {
-  test_entity = new Entity();
-  test_entity->addComponent(new MeshRenderer(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
+  test_entity = new Entity("monkey");
+  test_entity->addComponent<MeshRenderer>(new MeshRenderer(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
   addToScene(test_entity);
 }
 
