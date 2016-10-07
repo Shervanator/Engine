@@ -47,7 +47,7 @@ void CoolGame::update(int delta)
 void CoolGame::init(GLManager *glManager)
 {
   plane = new Entity();
-  plane->addComponent(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
+  plane->addComponent<MeshRenderer>(new MeshRenderer((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png")))));
   plane->getTransform().setPosition(glm::vec3(0, -2, 0));
   plane->getTransform().setScale(glm::vec3(10, 10, 10));
 
@@ -56,29 +56,29 @@ void CoolGame::init(GLManager *glManager)
   for (int i = 0; i < 1; i++) {
     MeshLoader ml("Pregnant.obj");
     ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, 0));
-    ml.getEntity()->addComponent(new Sphere(1));
+    ml.getEntity()->addComponent<Sphere>(new Sphere(1));
     addToScene(ml.getEntity());
   }
 
   MeshLoader money("monkey3.obj");
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
   PerspectiveCamera *cam1 = new PerspectiveCamera(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
-  money.getEntity()->addComponent(cam1);
-  money.getEntity()->addComponent(new Sphere(1));
+  money.getEntity()->addComponent<PerspectiveCamera>(cam1);
+  money.getEntity()->addComponent<Sphere>(new Sphere(1));
   addToScene(money.getEntity());
 
   MeshLoader money2("monkey3.obj");
   PerspectiveCamera *cam2 = new PerspectiveCamera(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.9f, 100.0f);
-  money2.getEntity()->addComponent(cam2);
-  money2.getEntity()->addComponent(new FreeMove());
+  money2.getEntity()->addComponent<PerspectiveCamera>(cam2);
+  money2.getEntity()->addComponent<FreeMove>(new FreeMove());
 #if defined(ANDROID)
-  money2.getEntity()->addComponent(new FreeLook(0.0001f));
+  money2.getEntity()->addComponent<FreeLook>(new FreeLook(0.0001f));
 #else
-  money2.getEntity()->addComponent(new FreeLook());
+  money2.getEntity()->addComponent<FreeLook>(new FreeLook());
 #endif
   money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
   money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
-  money2.getEntity()->addComponent(new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.8f, 0.7f, new Attenuation(0, 0, 0.2)));
+  money2.getEntity()->addComponent<SpotLight>(new SpotLight(glm::vec3(1.0f, 1.0f, 1.0f), 1.8f, 0.7f, new Attenuation(0, 0, 0.2)));
 
   addToScene(money2.getEntity());
 
