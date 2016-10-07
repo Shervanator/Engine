@@ -1,6 +1,8 @@
 # Engine
 
-A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine:
+A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine.
+
+[![Build Status](https://travis-ci.org/Shervanator/Engine.svg?branch=master)](https://travis-ci.org/Shervanator/Engine)
 
 Feature:
 - Scene Graph
@@ -21,8 +23,6 @@ Uses the following 3rd party libraries:
 - Assimp asset importing library.
 - GLEW extension loading library.
 - Dear ImGui UI library.
-
-[![Build Status](https://travis-ci.org/Shervanator/Engine.svg?branch=master)](https://travis-ci.org/Shervanator/Engine)
 
 ## Usage
 
