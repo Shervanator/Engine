@@ -12,6 +12,8 @@ Feature:
 - Object picking (basic ray tracing/sphere collider collision detection)
 - Fully cross platform
 
+![engine screenshot](https://cloud.githubusercontent.com/assets/1892180/19194155/843d0b7a-8cf8-11e6-9c1e-0982058c4594.png)
+
 Uses the following 3rd party libraries:
 - SDL2 window library.
 - stb_image.h image library.
