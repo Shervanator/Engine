@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <map>
+#include <typeindex>
+#include <algorithm>
 
 #include "Transform.h"
 #include "Shader.h"
@@ -24,7 +26,14 @@ public:
   ~Entity(void);
 
   void addChild(Entity* child);
-  void addComponent(EntityComponent* component);
+
+  template <class T>
+  inline void addComponent(T* component)
+  {
+    component->setParent(this);
+    componentsByTypeid[typeid(T)].push_back(component);
+    components.push_back(component);
+  }
 
   void updateInputAll(Input *input, int delta);
   void updateAll(int delta);
@@ -42,7 +51,37 @@ public:
   glm::vec4 getPosition(void);
   glm::vec4 getDirection(void);
 
-  std::vector<EntityComponent*> getComponentsByType(const char *type);
+  template <class T>
+  inline std::vector<T*> getComponentsByType(void)
+  {
+    auto i = componentsByTypeid.find(typeid(T));
+    if (i == componentsByTypeid.end()) {
+      return std::vector<T*>();
+    } else {
+      auto vec = i->second;
+
+      std::vector<T*> target(vec.size());
+      std::transform(vec.begin(), vec.end(), target.begin(), [](EntityComponent* t) { return static_cast<T*>(t); });
+      return target;
+    }
+  }
+
+
+  template <class T>
+  inline T* getComponent(void)
+  {
+    auto i = componentsByTypeid.find(typeid(T));
+    if (i == componentsByTypeid.end()) {
+      return nullptr;
+    } else {
+      auto vec = i->second;
+      if (vec.size() > 0) {
+        return static_cast<T*>(vec[0]);
+      } else {
+        return nullptr;
+      }
+    }
+  }
 
   static std::vector<Entity*> findByTag(const std::string& tag);
 
@@ -64,7 +103,7 @@ private:
 
   static std::map<std::string, std::vector<Entity*> > taggedEntities;
 
-  std::map<const char *, std::vector<EntityComponent*> > componentsByType;
+  std::map<std::type_index, std::vector<EntityComponent*> > componentsByTypeid;
 };
 
 #endif
