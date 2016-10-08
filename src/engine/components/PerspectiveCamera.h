@@ -18,6 +18,9 @@ public:
 
   inline virtual const char *getType(void) { return "PERSPECTIVE_CAMERA"; }
 
+  void setFov(float fov);
+  float getFov(void);
+
 private:
   float m_fov, m_aspect, m_zNear, m_zFar;
 };

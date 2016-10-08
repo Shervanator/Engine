@@ -24,3 +24,13 @@ glm::mat4 PerspectiveCamera::getProjectionMatrix(void) const
 {
   return glm::perspective(m_fov, m_aspect, m_zNear, m_zFar);
 }
+
+void PerspectiveCamera::setFov(float fov)
+{
+  m_fov = fov;
+}
+
+float PerspectiveCamera::getFov(void)
+{
+  return m_fov;
+}
