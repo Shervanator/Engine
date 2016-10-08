@@ -4,14 +4,9 @@
 
 #include "FreeLook.h"
 
-#include "../Logger.h"
-
 FreeLook::FreeLook(float speed)
 {
   m_speed = speed;
-  horizontal_r=0;
-  vertical_r=0;
-
   setProperty("speed", FLOAT, &m_speed, 0, 0.01);
 }
 
@@ -28,24 +23,12 @@ void FreeLook::updateInput(Input *input, int delta)
 #endif
     input->grabMouse();
     glm::vec2 pos = input->getMouseDelta();
-    // FIXME: Dont reset pos to empty quat, maybe set to init rotation
-    parentEntity->getTransform().setRotation(glm::quat());
     if (pos.y != 0) {
-      vertical_r-=pos.y*m_speed;
-      if(vertical_r<-glm::pi<float>()/2)
-      vertical_r=-glm::pi<float>()/2;
-      if(vertical_r>glm::pi<float>()/2)
-      vertical_r=glm::pi<float>()/2;
+      parentEntity->getTransform().rotate(glm::vec3(1, 0, 0), -pos.y * m_speed);
     }
     if (pos.x != 0) {
-      horizontal_r-=pos.x*m_speed;
-      while(horizontal_r<-2*glm::pi<float>())
-      horizontal_r+=2*glm::pi<float>();
-      while(horizontal_r>2*glm::pi<float>())
-      horizontal_r-=2*glm::pi<float>();
+      parentEntity->getTransform().setRotation(glm::angleAxis(-pos.x * m_speed, glm::vec3(0, 1, 0)) * parentEntity->getTransform().getRotation());
     }
-    parentEntity->getTransform().rotate(glm::vec3(0,1,0),horizontal_r);
-    parentEntity->getTransform().rotate(glm::vec3(1,0,0),vertical_r);
 #ifdef ANDROID
   } else if (input->mouseIsReleased(SDL_BUTTON_LEFT)) {
 #else

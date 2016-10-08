@@ -19,8 +19,6 @@ public:
 
 private:
   float m_speed;
-  float horizontal_r;
-  float vertical_r;
 };
 
 #endif
