@@ -25,10 +25,10 @@ void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
   m_buttonState[buttonEvent.button] = buttonEvent.state;
 }
 
-void Input::handleMouseWheelEvent(SDL_MouseWheelEvent wheelEvent)
+void Input::handleMouseWheelEvent(Sint32 x, Sint32 y)
 {
-  m_mouseWheel.x = wheelEvent.x;
-  m_mouseWheel.y = wheelEvent.y;
+  m_mouseWheel.x = x;
+  m_mouseWheel.y = y;
 }
 
 void Input::handleMultigesture(SDL_MultiGestureEvent multigestureEvent)

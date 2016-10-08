@@ -92,6 +92,9 @@ void Window::tick(void)
   m_input.setMouseDelta(0, 0);
 
   SDL_Event event;
+
+  bool mouseWheelEvent = false;
+  
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
       case SDL_MOUSEMOTION:
@@ -108,7 +111,8 @@ void Window::tick(void)
         m_input.handleMouseEvent(event.button);
         break;
       case SDL_MOUSEWHEEL:
-        m_input.handleMouseWheelEvent(event.wheel);
+        m_input.handleMouseWheelEvent(event.wheel.x, event.wheel.y);
+        mouseWheelEvent = true;
         break;
       case SDL_TEXTINPUT:
         gui_manager->addInputCharactersUTF8(event.text.text);
@@ -120,6 +124,10 @@ void Window::tick(void)
         m_quit = true;
         break;
     }
+  }
+
+  if (mouseWheelEvent == false) {
+    m_input.handleMouseWheelEvent(0, 0);
   }
 
   gui_manager->tick();
