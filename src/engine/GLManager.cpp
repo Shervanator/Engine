@@ -31,6 +31,7 @@ GLManager::GLManager(Window *window)
 
 GLManager::~GLManager(void)
 {
+  delete simple;
   delete forwardAmbient;
   delete forwardDirectional;
   delete forwardPoint;
