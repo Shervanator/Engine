@@ -30,14 +30,14 @@ Entity::~Entity(void)
     taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this), taggedEntitiesVec->end());
   }
 
-  for (unsigned int i = 0; i < components.size(); i++)
+  for (auto component : components)
   {
-    delete components[i];
+    delete component;
   }
 
-  for (unsigned int i = 0; i < children.size(); i++)
+  for (auto child : children)
   {
-    delete children[i];
+    delete child;
   }
 }
 
@@ -70,40 +70,39 @@ void Entity::updateInputAll(Input *input, int delta)
     worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
   }
 
-  for (unsigned int i = 0; i < components.size(); i++)
+  for (auto component : components)
   {
-    components[i]->updateInput(input, delta);
+    component->updateInput(input, delta);
   }
 
-  for (unsigned int i = 0; i < children.size(); i++)
+  for (auto child : children)
   {
-    children[i]->updateInputAll(input, delta);
+    child->updateInputAll(input, delta);
   }
 }
 
 void Entity::updateAll(int delta)
 {
-  for (unsigned int i = 0; i < components.size(); i++)
-  {
-    components[i]->update(delta);
+  for (auto component : components) {
+    component->update(delta);
   }
 
-  for (unsigned int i = 0; i < children.size(); i++)
+  for (auto child : children)
   {
-    children[i]->updateAll(delta);
+    child->updateAll(delta);
   }
 }
 
 void Entity::renderAll(Shader *shader)
 {
-  for (unsigned int i = 0; i < components.size(); i++)
+  for (auto component : components)
   {
-    components[i]->render(shader);
+    component->render(shader);
   }
 
-  for (unsigned int i = 0; i < children.size(); i++)
+  for (auto child : children)
   {
-    children[i]->renderAll(shader);
+    child->renderAll(shader);
   }
 }
 
@@ -111,27 +110,27 @@ void Entity::registerWithEngineAll(Engine *engine)
 {
   m_engine = engine;
 
-  for (unsigned int i = 0; i < components.size(); i++)
+  for (auto component : components)
   {
-    components[i]->registerWithEngine(engine);
+    component->registerWithEngine(engine);
   }
 
-  for (unsigned int i = 0; i < children.size(); i++)
+  for (auto child : children)
   {
-    children[i]->registerWithEngineAll(engine);
+    child->registerWithEngineAll(engine);
   }
 }
 
 void Entity::deregisterFromEngineAll(void)
 {
-  for (unsigned int i = 0; i < components.size(); i++)
+  for (auto component : components)
   {
-    components[i]->deregisterFromEngine(m_engine);
+    component->deregisterFromEngine(m_engine);
   }
 
-  for (unsigned int i = 0; i < children.size(); i++)
+  for (auto child : children)
   {
-    children[i]->deregisterFromEngineAll();
+    child->deregisterFromEngineAll();
   }
 
   m_engine = nullptr;
