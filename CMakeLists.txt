@@ -13,9 +13,15 @@ set(CP_CMAKE_DIR ${PROJECT_SOURCE_DIR}/cmake)
 
 include(${CP_CMAKE_DIR}/macros.cmake)
 
+IF (ANDROID)
+  include(${CP_CMAKE_DIR}/android.cmake)
+ENDIF ()
+
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/lib)
 
 add_subdirectory(dependencies)
 
@@ -40,7 +46,7 @@ set ( IMGUI_LIBRARY imgui )
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2 -std=c++11")
   add_definitions(-DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/")
 
   set(ENGINE_LIBS
