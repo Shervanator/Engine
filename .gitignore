@@ -8,7 +8,7 @@ bin/
 bin-xcode/
 bin-emscripten/
 bin-android/
-
+build/
 gen/
 libs/
 obj/
