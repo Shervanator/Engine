@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -51,7 +52,7 @@ public:
   void updateUniformPointLight(const std::string &uniformName, PointLight *pointLight);
   void updateUniformSpotLight(const std::string &uniformName, SpotLight *spotLight);
 
-  void setUniformAttenuation(const std::string &uniformName, Attenuation *attenuation);
+  void setUniformAttenuation(const std::string &uniformName, std::shared_ptr<Attenuation> attenuation);
   void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
   void setUniform1i(const std::string &uniformName, int value);
   void setUniform1f(const std::string &uniformName, float value);

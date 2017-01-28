@@ -35,6 +35,15 @@ public:
     components.push_back(component);
   }
 
+  template <class T, class... _Types>
+  inline void addComponent(_Types&&... _Args)
+  {
+    auto component = new T(_Args...);
+    component->setParent(this);
+    componentsByTypeid[typeid(T)].push_back(component);
+    components.push_back(component);
+  }
+
   void updateInputAll(Input *input, int delta);
   void updateAll(int delta);
   void renderAll(Shader *shader);

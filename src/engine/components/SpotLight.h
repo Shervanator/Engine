@@ -10,7 +10,7 @@
 class SpotLight : public PointLight
 {
 public:
-  SpotLight(glm::vec3 color, float intensity, float cutoff, Attenuation *attenuation);
+  SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation);
   virtual void registerWithEngine(Engine *engine);
   virtual void deregisterFromEngine(Engine *engine);
 

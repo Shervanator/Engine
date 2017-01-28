@@ -16,6 +16,8 @@
 #include "Asset.h"
 #include "TextureData.h"
 
+#include <memory>
+
 class Texture
 {
 public:
@@ -25,7 +27,7 @@ public:
   void bind(unsigned int unit = 0) const;
 
 private:
-  TextureData *m_textureData;
+  std::shared_ptr<TextureData> m_textureData;
 };
 
 #endif
