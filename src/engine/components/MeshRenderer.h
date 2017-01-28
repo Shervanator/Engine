@@ -5,11 +5,11 @@
 #ifndef MESH_RENDERER_H
 #define MESH_RENDERER_H
 
-#include "../EntityComponent.h"
+#include "../Component.h"
 #include "../Mesh.h"
 #include "../Material.h"
 
-class MeshRenderer : public EntityComponent
+class MeshRenderer : public Component
 {
 public:
   MeshRenderer(Mesh *mesh, Material *material);

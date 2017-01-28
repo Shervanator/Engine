@@ -5,12 +5,12 @@
 #ifndef FREE_MOVE_H
 #define FREE_MOVE_H
 
-#include "../EntityComponent.h"
+#include "../Component.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-class FreeMove : public EntityComponent
+class FreeMove : public Component
 {
 public:
   FreeMove(bool moveForwards = true, float speed = 0.01f);

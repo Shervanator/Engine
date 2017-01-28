@@ -16,7 +16,7 @@
 
 class Engine;
 
-class EntityComponent;
+class Component;
 
 class Entity
 {
@@ -44,7 +44,7 @@ public:
   Transform& getTransform(void);
 
   std::vector<Entity*> *getChildren(void);
-  std::vector<EntityComponent*> *getComponents(void);
+  std::vector<Component*> *getComponents(void);
 
   glm::mat4& getWorldMatrix(void);
 
@@ -61,7 +61,7 @@ public:
       auto vec = i->second;
 
       std::vector<T*> target(vec.size());
-      std::transform(vec.begin(), vec.end(), target.begin(), [](EntityComponent* t) { return static_cast<T*>(t); });
+      std::transform(vec.begin(), vec.end(), target.begin(), [](Component* t) { return static_cast<T*>(t); });
       return target;
     }
   }
@@ -90,7 +90,7 @@ private:
   Entity *parentEntity;
 
   std::vector<Entity*> children;
-  std::vector<EntityComponent*> components;
+  std::vector<Component*> components;
 
   glm::mat4 worldMatrix;
 
@@ -102,7 +102,7 @@ private:
 
   static std::map<std::string, std::vector<Entity*> > taggedEntities;
 
-  std::map<std::type_index, std::vector<EntityComponent*> > componentsByTypeid;
+  std::map<std::type_index, std::vector<Component*> > componentsByTypeid;
 };
 
 #endif

@@ -5,9 +5,9 @@
 #ifndef FREE_LOOK_H
 #define FREE_LOOK_H
 
-#include "../EntityComponent.h"
+#include "../Component.h"
 
-class FreeLook : public EntityComponent
+class FreeLook : public Component
 {
 public:
   FreeLook(float speed = 0.001f);

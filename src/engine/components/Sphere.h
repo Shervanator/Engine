@@ -5,9 +5,9 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "../EntityComponent.h"
+#include "../Component.h"
 
-class Sphere : public EntityComponent
+class Sphere : public Component
 {
 public:
   Sphere(float radius = 0);

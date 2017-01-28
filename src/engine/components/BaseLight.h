@@ -7,10 +7,10 @@
 
 #include <glm/glm.hpp>
 
-#include "../EntityComponent.h"
+#include "../Component.h"
 #include "../Shader.h"
 
-class BaseLight : public EntityComponent
+class BaseLight : public Component
 {
 public:
   BaseLight(glm::vec3 color, float intensity);

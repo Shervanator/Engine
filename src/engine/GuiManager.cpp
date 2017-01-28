@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 #include "TextureData.h"
-#include "EntityComponent.h"
+#include "Component.h"
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -274,7 +274,7 @@ void GuiManager::tick(void)
   ImGui::NewFrame();
 }
 
-void renderComponent(EntityComponent *component) {
+void renderComponent(Component *component) {
   ImGui::PushID(component);
   ImGui::AlignFirstTextHeightToWidgets();
 

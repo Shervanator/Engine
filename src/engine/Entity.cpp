@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 
-#include "EntityComponent.h"
+#include "Component.h"
 
 #include <algorithm>
 
@@ -146,7 +146,7 @@ std::vector<Entity*> *Entity::getChildren(void)
   return &children;
 }
 
-std::vector<EntityComponent*> *Entity::getComponents(void)
+std::vector<Component*> *Entity::getComponents(void)
 {
   return &components;
 }

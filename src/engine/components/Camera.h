@@ -5,11 +5,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "../EntityComponent.h"
+#include "../Component.h"
 
 #include <glm/glm.hpp>
 
-class Camera : public EntityComponent
+class Camera : public Component
 {
 public:
   virtual ~Camera(void) {}

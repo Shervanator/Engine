@@ -27,10 +27,10 @@ struct Property {
   float max;
 };
 
-class EntityComponent
+class Component
 {
 public:
-  virtual ~EntityComponent(void) {};
+  virtual ~Component(void) {};
 
   virtual void updateInput(Input *input, int delta) {};
   virtual void update(int delta) {};
