@@ -98,7 +98,7 @@ void Engine::tick(void)
 
     Entity *pickedEntity = m_physicsManager->pick(&ray);
 
-    if (pickedEntity != NULL)
+    if (pickedEntity != nullptr)
       gl_manager->drawEntity(pickedEntity);
 
     gl_manager->drawLine(ray.getLine(100.0f));
@@ -113,7 +113,7 @@ void Engine::tick(void)
     f1Pressed = false;
   }
 
-  window->getGuiManager()->render(game->getRootScene());
+  window->getGuiManager()->render(game->getRootScene().get());
 
   window->swapBuffer();
 }

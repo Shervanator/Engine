@@ -16,14 +16,14 @@ public:
   MeshLoader(const std::string file);
   ~MeshLoader(void);
 
-  Entity *getEntity(void) const;
+  std::shared_ptr<Entity> getEntity(void) const;
 
 private:
   void loadScene(const aiScene* scene);
 
   std::string m_fileName;
 
-  Entity *m_entity;
+  std::shared_ptr<Entity> m_entity;
 };
 
 #endif

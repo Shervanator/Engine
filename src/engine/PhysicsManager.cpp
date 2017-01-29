@@ -30,7 +30,7 @@ Entity *PhysicsManager::pick(Ray *ray) const
 {
   glm::vec3 intersectionPosition;
   float closest = std::numeric_limits<float>::max();
-  Entity *entity = NULL;
+  Entity *entity = nullptr;
 
   for (unsigned int i = 0; i < m_colliders.size(); i++)
   {

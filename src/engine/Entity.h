@@ -9,6 +9,7 @@
 #include <map>
 #include <typeindex>
 #include <algorithm>
+#include <memory>
 
 #include "Transform.h"
 #include "Shader.h"
@@ -25,7 +26,7 @@ public:
   Entity(void);
   ~Entity(void);
 
-  void addChild(Entity* child);
+  void addChild(std::shared_ptr<Entity> child);
 
   template <class T>
   inline void addComponent(T* component)
@@ -52,7 +53,7 @@ public:
 
   Transform& getTransform(void);
 
-  std::vector<Entity*> *getChildren(void);
+  std::vector<std::shared_ptr<Entity>> getChildren(void);
   std::vector<Component*> *getComponents(void);
 
   glm::mat4& getWorldMatrix(void);
@@ -98,7 +99,7 @@ private:
 
   Entity *parentEntity;
 
-  std::vector<Entity*> children;
+  std::vector<std::shared_ptr<Entity>> children;
   std::vector<Component*> components;
 
   glm::mat4 worldMatrix;

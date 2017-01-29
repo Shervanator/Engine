@@ -385,8 +385,8 @@ void renderSceneGraph(Entity *sceneGraph)
       renderComponent(component);
     }
 
-    for (auto entity : *sceneGraph->getChildren()) {
-      renderSceneGraph(entity);
+    for (auto entity : sceneGraph->getChildren()) {
+      renderSceneGraph(entity.get());
     }
 
     ImGui::TreePop();

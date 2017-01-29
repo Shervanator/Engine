@@ -14,7 +14,7 @@ std::map<std::string, std::weak_ptr<TextureData>> m_textureCache;
 
 Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter)
 {
-  auto it = m_textureCache.find(file.getIOStream()->getFileName().c_str());
+  auto it = m_textureCache.find(file.getIOStream()->getFileName());
 
   if(it == m_textureCache.end() || !(m_textureData = it->second.lock())) {
     int x, y, bytesPerPixel;
@@ -25,7 +25,7 @@ Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter)
     }
     else {
       m_textureData = std::make_shared<TextureData>(x, y, data, textureTarget, filter);
-      m_textureCache[file.getIOStream()->getFileName().c_str()] = m_textureData;
+      m_textureCache[file.getIOStream()->getFileName()] = m_textureData;
       stbi_image_free(data);
     }
   }

@@ -22,8 +22,6 @@
 
 #include <SDL_main.h>
 
-Entity *plane;
-
 class CoolGame : public Game
 {
 public:
@@ -46,12 +44,22 @@ void CoolGame::update(int delta)
 
 void CoolGame::init(GLManager *glManager)
 {
-  plane = new Entity();
-  plane->addComponent<MeshRenderer>((new Plane())->getMesh(), new Material(new Texture(Asset("bricks2.jpg")), new Texture(Asset("bricks2_normal.jpg")), new Texture(Asset("bricks2_specular.png"))));
+  auto brickMat = std::make_shared<Material>(std::make_shared<Texture>(Asset("bricks2.jpg")), std::make_shared<Texture>(Asset("bricks2_normal.jpg")), std::make_shared<Texture>(Asset("bricks2_specular.png")));
+  auto planeMesh = Plane::getMesh();
+  auto plane = std::make_shared<Entity>();
+  plane->addComponent<MeshRenderer>(planeMesh, brickMat);
   plane->getTransform().setPosition(glm::vec3(0, -2, 0));
   plane->getTransform().setScale(glm::vec3(10, 10, 10));
 
   addToScene(plane);
+
+  auto plane2 = std::make_shared<Entity>();
+  plane2->addComponent<MeshRenderer>(planeMesh, brickMat);
+  plane2->getTransform().setPosition(glm::vec3(0, 3, -5));
+  plane2->getTransform().setScale(glm::vec3(10, 10, 10));
+  plane2->getTransform().rotate(glm::vec3(1, 0, 0), glm::pi<float>() / 2.f);
+
+  addToScene(plane2);
 
   for (int i = 0; i < 1; i++) {
     MeshLoader ml("Pregnant.obj");

@@ -25,14 +25,14 @@ public:
   virtual void update(int delta);
   virtual void render(GLManager *glManager);
 
-  inline Entity *getRootScene(void) { return &rootScene; };
+  inline std::shared_ptr<Entity> getRootScene(void) { return rootScene; };
 
 protected:
-  void addToScene(Entity *entity);
+  void addToScene(std::shared_ptr<Entity> entity);
   Engine *getEngine(void) const;
 
 private:
-  Entity rootScene;
+  std::shared_ptr<Entity> rootScene;
   Engine *engine;
 };
 
