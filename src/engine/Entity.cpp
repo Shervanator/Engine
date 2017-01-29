@@ -29,11 +29,6 @@ Entity::~Entity(void)
     auto taggedEntitiesVec = &Entity::taggedEntities[m_tag];
     taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this), taggedEntitiesVec->end());
   }
-
-  for (auto component : components)
-  {
-    delete component;
-  }
 }
 
 void Entity::setTag(Entity *entity, const std::string& tag)
@@ -141,9 +136,9 @@ std::vector<std::shared_ptr<Entity>> Entity::getChildren(void)
   return children;
 }
 
-std::vector<Component*> *Entity::getComponents(void)
+std::vector<std::shared_ptr<Component>> Entity::getComponents(void)
 {
-  return &components;
+  return components;
 }
 
 glm::mat4& Entity::getWorldMatrix(void)

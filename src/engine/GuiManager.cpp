@@ -381,8 +381,8 @@ void renderSceneGraph(Entity *sceneGraph)
     ImGui::PopStyleColor();
     ImGui::PopID();
 
-    for (auto component : *sceneGraph->getComponents()) {
-      renderComponent(component);
+    for (auto component : sceneGraph->getComponents()) {
+      renderComponent(component.get());
     }
 
     for (auto entity : sceneGraph->getChildren()) {

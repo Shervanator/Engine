@@ -29,7 +29,7 @@ public:
   void addChild(std::shared_ptr<Entity> child);
 
   template <class T>
-  inline void addComponent(T* component)
+  inline void addComponent(std::shared_ptr<T> component)
   {
     component->setParent(this);
     componentsByTypeid[typeid(T)].push_back(component);
@@ -39,9 +39,9 @@ public:
   template <class T, class... _Types>
   inline void addComponent(_Types&&... _Args)
   {
-    auto component = new T(_Args...);
+    auto component = std::make_shared<T>(_Args...);
     component->setParent(this);
-    componentsByTypeid[typeid(T)].push_back(component);
+    componentsByTypeid[typeid(T)].push_back(component.get());
     components.push_back(component);
   }
 
@@ -54,7 +54,7 @@ public:
   Transform& getTransform(void);
 
   std::vector<std::shared_ptr<Entity>> getChildren(void);
-  std::vector<Component*> *getComponents(void);
+  std::vector<std::shared_ptr<Component>> getComponents(void);
 
   glm::mat4& getWorldMatrix(void);
 
@@ -100,7 +100,7 @@ private:
   Entity *parentEntity;
 
   std::vector<std::shared_ptr<Entity>> children;
-  std::vector<Component*> components;
+  std::vector<std::shared_ptr<Component>> components;
 
   glm::mat4 worldMatrix;
 
