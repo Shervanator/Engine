@@ -136,15 +136,12 @@ class CoolGame : public Game
 {
 public:
   virtual void init(void);
-
-private:
-  Entity *test_entity;
 };
 
 void CoolGame::init(void)
 {
-  test_entity = new Entity("monkey");
-  test_entity->addComponent<MeshRenderer>(new MeshRenderer(new Mesh("../assets/monkey3.obj"), new Texture("../assets/t.jpg")));
+  auto test_entity = std::make_shared<Entity>();
+  test_entity->addComponent<MeshRenderer>(std::make_shared<Mesh>(Asset("../assets/monkey3.obj")), std::make_shared<Texture>(Asset("../assets/t.jpg")));
   addToScene(test_entity);
 }
 

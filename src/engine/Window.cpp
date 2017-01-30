@@ -71,7 +71,6 @@ Window::Window(void)
 
 Window::~Window(void)
 {
-  delete gui_manager;
   SDL_GL_DeleteContext(m_glContext);
   SDL_DestroyWindow(m_window);
   SDL_Quit();
@@ -80,7 +79,7 @@ Window::~Window(void)
 void Window::init(void)
 {
   log_info("Initializing GUI");
-  gui_manager = new GuiManager(this);
+  m_guiManager = std::make_unique<GuiManager>(this);
 }
 
 void Window::tick(void)
@@ -103,7 +102,7 @@ void Window::tick(void)
         break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:
-        gui_manager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
+        m_guiManager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
         m_input.handleKeyboardEvent(event.key);
         break;
       case SDL_MOUSEBUTTONDOWN:
@@ -115,7 +114,7 @@ void Window::tick(void)
         mouseWheelEvent = true;
         break;
       case SDL_TEXTINPUT:
-        gui_manager->addInputCharactersUTF8(event.text.text);
+        m_guiManager->addInputCharactersUTF8(event.text.text);
         break;
       case SDL_MULTIGESTURE:
         m_input.handleMultigesture(event.mgesture);
@@ -130,7 +129,7 @@ void Window::tick(void)
     m_input.handleMouseWheelEvent(0, 0);
   }
 
-  gui_manager->tick();
+  m_guiManager->tick();
 }
 
 void Window::swapBuffer(void)
@@ -184,7 +183,7 @@ glm::vec2 Window::getDrawableSize(void) const
 
 GuiManager *Window::getGuiManager(void) const
 {
-  return gui_manager;
+  return m_guiManager.get();
 }
 
 const char* Window::getClipboardText()

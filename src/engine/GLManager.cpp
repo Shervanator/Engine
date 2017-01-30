@@ -7,7 +7,7 @@
 
 #include <algorithm>
 
-GLManager::GLManager(Window *window)
+GLManager::GLManager(const Window *window)
 {
   glm::vec2 drawableSize = window->getDrawableSize();
   this->width = (int)(drawableSize.x);

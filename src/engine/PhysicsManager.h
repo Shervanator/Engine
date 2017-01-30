@@ -17,13 +17,13 @@ public:
   PhysicsManager(void);
   ~PhysicsManager(void);
 
-  void registerCollider(Sphere *sphere);
-  void deregisterCollider(Sphere *sphere);
+  void registerCollider(std::shared_ptr<Sphere> sphere);
+  void deregisterCollider(std::shared_ptr<Sphere> sphere);
 
   Entity *pick(Ray *ray) const;
 
 private:
-  std::vector<Sphere *> m_colliders;
+  std::vector<std::shared_ptr<Sphere>> m_colliders;
 };
 
 #endif

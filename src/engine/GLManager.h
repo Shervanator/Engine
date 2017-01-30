@@ -29,7 +29,7 @@
 class GLManager
 {
 public:
-  GLManager(Window *window);
+  GLManager(const Window *window);
   ~GLManager(void);
 
   void bindRenderTarget(void) const;
