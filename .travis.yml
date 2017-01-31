@@ -31,8 +31,8 @@ addons:
     # - cmake
     # - cmake-data
     # - build-essential
-    - clang
-    # - clang-3.8
+    # - clang
+    - clang-3.8
     # - g++-5
     # - gcc-5
     # - libc6-dev-i386
