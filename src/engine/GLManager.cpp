@@ -41,7 +41,7 @@ void GLManager::bindRenderTarget(void) const
 	glViewport(0, 0, this->width, this->height);
 }
 
-void GLManager::setActiveCamera(Camera *camera)
+void GLManager::setActiveCamera(std::shared_ptr<Camera> camera)
 {
   m_activeCamera = camera;
 }

@@ -34,7 +34,7 @@ public:
 
   void bindRenderTarget(void) const;
   void renderScene(Entity *entity);
-  void setActiveCamera(Camera *camera);
+  void setActiveCamera(std::shared_ptr<Camera> camera);
   void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
   void addPointLight(std::shared_ptr<PointLight> light);
   void addSpotLight(std::shared_ptr<SpotLight> light);
@@ -64,7 +64,7 @@ private:
   std::unique_ptr<Shader> m_forwardPoint;
   std::unique_ptr<Shader> m_forwardSpot;
 
-  Camera *m_activeCamera;
+  std::shared_ptr<Camera> m_activeCamera;
 
   std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
   std::vector<std::shared_ptr<PointLight>> m_pointLights;

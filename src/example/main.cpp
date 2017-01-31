@@ -27,9 +27,6 @@ class CoolGame : public Game
 public:
   virtual void init(GLManager *glManager);
   virtual void update(int delta);
-
-private:
-  Camera *primary_camera;
 };
 
 void CoolGame::update(int delta)
@@ -89,7 +86,7 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(money2.getEntity());
 
-  primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
+  auto primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
 
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }

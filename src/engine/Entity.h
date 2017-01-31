@@ -41,7 +41,7 @@ public:
   {
     auto component = std::make_shared<T>(_Args...);
     component->setParent(this);
-    componentsByTypeid[typeid(T)].push_back(component.get());
+    componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
     components.push_back(component);
   }
 
@@ -62,22 +62,22 @@ public:
   glm::vec4 getDirection(void);
 
   template <class T>
-  inline std::vector<T*> getComponentsByType(void)
+  inline std::vector<std::shared_ptr<T>> getComponentsByType(void)
   {
     auto i = componentsByTypeid.find(typeid(T));
     if (i == componentsByTypeid.end()) {
-      return std::vector<T*>();
+      return std::vector<std::shared_ptr<T>>();
     } else {
       auto vec = i->second;
 
-      std::vector<T*> target(vec.size());
-      std::transform(vec.begin(), vec.end(), target.begin(), [](Component* t) { return static_cast<T*>(t); });
+      std::vector<std::shared_ptr<T>> target(vec.size());
+      std::transform(vec.begin(), vec.end(), target.begin(), [](std::shared_ptr<Component> t) { return std::dynamic_pointer_cast<T>(t); });
       return target;
     }
   }
 
   template <class T>
-  inline T* getComponent(void)
+  inline std::shared_ptr<T> getComponent(void)
   {
     auto i = componentsByTypeid.find(typeid(T));
     if (i == componentsByTypeid.end()) {
@@ -85,7 +85,7 @@ public:
     } else {
       auto vec = i->second;
       if (vec.size() > 0) {
-        return static_cast<T*>(vec[0]);
+        return std::dynamic_pointer_cast<T>(vec[0]);
       } else {
         return nullptr;
       }
@@ -112,7 +112,7 @@ private:
 
   static std::map<std::string, std::vector<Entity*> > taggedEntities;
 
-  std::map<std::type_index, std::vector<Component*> > componentsByTypeid;
+  std::map<std::type_index, std::vector<std::shared_ptr<Component>> > componentsByTypeid;
 };
 
 #endif
