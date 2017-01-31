@@ -38,8 +38,8 @@ addons:
     # - libc6-dev-i386
     sources:
     - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.8
     # - george-edison55-precise-backports
-    # - llvm-toolchain-precise-3.8
 
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
