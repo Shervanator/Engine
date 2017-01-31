@@ -187,7 +187,7 @@ void Shader::updateUniformSpotLight(const std::string &uniformName, SpotLight *s
   setUniform1f(uniformName + ".cutoff", spotLight->getCutoff());
 }
 
-void Shader::setUniformAttenuation(const std::string &uniformName, Attenuation *attenuation)
+void Shader::setUniformAttenuation(const std::string &uniformName, std::shared_ptr<Attenuation> attenuation)
 {
   setUniform1f(uniformName + ".constant", attenuation->getConstant());
   setUniform1f(uniformName + ".linear", attenuation->getLinear());

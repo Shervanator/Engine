@@ -9,11 +9,11 @@
 class GuiManager
 {
 public:
-  GuiManager(Window *window);
+  GuiManager(const glm::vec2& drawableSize, const glm::vec2& displaySize, SDL_Window *sdlWindow);
   ~GuiManager(void);
 
   void render(Entity *sceneGraph);
-  void tick(void);
+  void tick(Window *window);
 
   void addInputCharactersUTF8(const char *text);
   void setKeyEvent(int key, bool keydown);
@@ -28,7 +28,6 @@ private:
   bool showProps;
 
   SDL_Window *m_sdlWindow;
-  Window *m_window;
 };
 
 #endif

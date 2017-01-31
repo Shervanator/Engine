@@ -9,6 +9,7 @@
 #include "Input.h"
 
 #include <string>
+#include <memory>
 
 #include <glm/glm.hpp>
 #include <SDL.h>
@@ -56,7 +57,7 @@ public:
 private:
   SDL_Window    *m_window;
   SDL_GLContext m_glContext;
-  GuiManager    *gui_manager;
+  std::unique_ptr<GuiManager> m_guiManager;
 
   Uint32 m_time, m_lastTime, m_deltaTime;
 

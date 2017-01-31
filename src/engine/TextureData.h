@@ -13,9 +13,7 @@
   #include <GL/glew.h>
 #endif
 
-#include "SharedResource.h"
-
-class TextureData : public SharedResource
+class TextureData
 {
 public:
   TextureData(int width, int height, const unsigned char* data, GLenum textureTarget, GLfloat filter);

@@ -18,12 +18,12 @@ Sphere::~Sphere(void)
 
 void Sphere::registerWithEngine(Engine *engine)
 {
-  engine->getPhysicsManager()->registerCollider(this);
+  engine->getPhysicsManager()->registerCollider(shared_from_this());
 }
 
 void Sphere::deregisterFromEngine(Engine *engine)
 {
-  engine->getPhysicsManager()->deregisterCollider(this);
+  engine->getPhysicsManager()->deregisterCollider(shared_from_this());
 }
 
 float Sphere::getRadius(void) const

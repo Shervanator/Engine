@@ -13,10 +13,7 @@ public:
   Plane(void);
   ~Plane(void);
 
-  Mesh *getMesh(void) const;
-
-private:
-  Mesh *mesh;
+  static std::shared_ptr<Mesh> getMesh(void);
 };
 
 #endif

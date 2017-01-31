@@ -10,7 +10,7 @@
 #include "../Component.h"
 #include "../Shader.h"
 
-class BaseLight : public Component
+class BaseLight : public Component, public std::enable_shared_from_this<BaseLight>
 {
 public:
   BaseLight(glm::vec3 color, float intensity);

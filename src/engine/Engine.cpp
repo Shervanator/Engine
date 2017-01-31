@@ -22,16 +22,16 @@
 Engine::Engine(Game *game)
 {
   log_info("Initializing SDL");
-  window = new Window();
+  m_window = std::make_unique<Window>();
 
   log_info("Initializing GLEW");
-  glew_manager = new GLEWManager();
+  m_glewManager = std::make_unique<GLEWManager>();
 
   log_info("Initializing GL");
-  gl_manager = new GLManager(window);
+  m_glManager = std::make_unique<GLManager>(m_window.get());
 
   log_info("Initializing Physics Manager");
-  m_physicsManager = new PhysicsManager();
+  m_physicsManager = std::make_unique<PhysicsManager>();
 
   this->game = game;
 
@@ -40,10 +40,6 @@ Engine::Engine(Game *game)
 
 Engine::~Engine(void)
 {
-  delete window;
-  delete gl_manager;
-  delete glew_manager;
-  delete m_physicsManager;
 }
 
 void Engine::start(void)
@@ -54,11 +50,11 @@ void Engine::start(void)
 
   log_info("Initializing game");
 
-  window->init();
+  m_window->init();
 
-  game->init(gl_manager);
+  game->init(m_glManager.get());
 
-  window->makeCurrentContext();
+  m_window->makeCurrentContext();
 
 #ifdef EMSCRIPTEN
   instance = this;
@@ -82,53 +78,53 @@ void Engine::loop(void)
 
 void Engine::tick(void)
 {
-  window->tick();
-  Uint32 delta_time = window->getDeltaTime();
+  m_window->tick();
+  Uint32 delta_time = m_window->getDeltaTime();
 
-  quit = window->shouldQuit();
+  quit = m_window->shouldQuit();
 
-  game->updateInput(window->getInput(), delta_time);
+  game->updateInput(m_window->getInput(), delta_time);
 
   game->update(delta_time);
 
-  game->render(gl_manager);
+  game->render(m_glManager.get());
 
-  if (window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
-    Ray ray = Ray::getPickRay(window->getInput()->getMousePosition(), window->getViewport(), gl_manager->getViewMatrix(), gl_manager->getProjectionMatrix());
+  if (m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
+    Ray ray = Ray::getPickRay(m_window->getInput()->getMousePosition(), m_window->getViewport(), m_glManager->getViewMatrix(), m_glManager->getProjectionMatrix());
 
     Entity *pickedEntity = m_physicsManager->pick(&ray);
 
-    if (pickedEntity != NULL)
-      gl_manager->drawEntity(pickedEntity);
+    if (pickedEntity != nullptr)
+      m_glManager->drawEntity(pickedEntity);
 
-    gl_manager->drawLine(ray.getLine(100.0f));
+    m_glManager->drawLine(ray.getLine(100.0f));
   }
 
   static bool f1Pressed = false;
 
-  if (!f1Pressed && window->getInput()->isPressed(SDLK_F1)) {
+  if (!f1Pressed && m_window->getInput()->isPressed(SDLK_F1)) {
     f1Pressed = true;
-    window->getGuiManager()->togglePropertyEditor();
-  } else if (f1Pressed && window->getInput()->isReleased(SDLK_F1)) {
+    m_window->getGuiManager()->togglePropertyEditor();
+  } else if (f1Pressed && m_window->getInput()->isReleased(SDLK_F1)) {
     f1Pressed = false;
   }
 
-  window->getGuiManager()->render(game->getRootScene());
+  m_window->getGuiManager()->render(game->getRootScene().get());
 
-  window->swapBuffer();
+  m_window->swapBuffer();
 }
 
 Window *Engine::getWindow(void) const
 {
-  return window;
+  return m_window.get();
 }
 
 GLManager *Engine::getGLManager(void) const
 {
-  return gl_manager;
+  return m_glManager.get();
 }
 
 PhysicsManager *Engine::getPhysicsManager(void) const
 {
-  return m_physicsManager;
+  return m_physicsManager.get();
 }

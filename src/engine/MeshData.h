@@ -14,9 +14,8 @@
 #endif
 
 #include "Vertex.h"
-#include "SharedResource.h"
 
-class MeshData : public SharedResource
+class MeshData
 {
 public:
   MeshData(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);

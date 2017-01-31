@@ -15,12 +15,12 @@ Entity::Entity(const std::string& tag)
   Entity::setTag(this, tag);
 
   m_tag = tag;
-  parentEntity = NULL;
+  parentEntity = nullptr;
 }
 
 Entity::Entity(void)
 {
-  parentEntity = NULL;
+  parentEntity = nullptr;
 }
 
 Entity::~Entity(void)
@@ -28,16 +28,6 @@ Entity::~Entity(void)
   if (!m_tag.empty()) {
     auto taggedEntitiesVec = &Entity::taggedEntities[m_tag];
     taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this), taggedEntitiesVec->end());
-  }
-
-  for (auto component : components)
-  {
-    delete component;
-  }
-
-  for (auto child : children)
-  {
-    delete child;
   }
 }
 
@@ -51,7 +41,7 @@ std::vector<Entity*> Entity::findByTag(const std::string& tag)
   return Entity::taggedEntities[tag];
 }
 
-void Entity::addChild(Entity* child)
+void Entity::addChild(std::shared_ptr<Entity> child)
 {
   child->parentEntity = this;
   children.push_back(child);
@@ -64,7 +54,7 @@ void Entity::addChild(Entity* child)
 
 void Entity::updateInputAll(Input *input, int delta)
 {
-  if (parentEntity == NULL) {
+  if (parentEntity == nullptr) {
     worldMatrix = transform.getTransformMatrix();
   } else {
     worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
@@ -141,14 +131,14 @@ Transform& Entity::getTransform(void)
   return transform;
 }
 
-std::vector<Entity*> *Entity::getChildren(void)
+std::vector<std::shared_ptr<Entity>> Entity::getChildren(void)
 {
-  return &children;
+  return children;
 }
 
-std::vector<Component*> *Entity::getComponents(void)
+std::vector<std::shared_ptr<Component>> Entity::getComponents(void)
 {
-  return &components;
+  return components;
 }
 
 glm::mat4& Entity::getWorldMatrix(void)
@@ -158,7 +148,7 @@ glm::mat4& Entity::getWorldMatrix(void)
 
 glm::vec4 Entity::getPosition(void)
 {
-  if (parentEntity == NULL) {
+  if (parentEntity == nullptr) {
     return transform.getPosition();
   } else {
     return parentEntity->worldMatrix * transform.getPosition();
@@ -167,7 +157,7 @@ glm::vec4 Entity::getPosition(void)
 
 glm::vec4 Entity::getDirection(void)
 {
-  if (parentEntity == NULL) {
+  if (parentEntity == nullptr) {
     return transform.getDirection();
   } else {
     return glm::normalize(parentEntity->worldMatrix * transform.getDirection());

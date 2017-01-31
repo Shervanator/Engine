@@ -12,7 +12,7 @@
 class MeshRenderer : public Component
 {
 public:
-  MeshRenderer(Mesh *mesh, Material *material);
+  MeshRenderer(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);
   virtual ~MeshRenderer(void);
 
   virtual void update(int delta);
@@ -21,8 +21,8 @@ public:
   inline virtual const char *getType(void) { return "MESH_RENDERER"; }
 
 private:
-  Mesh *mesh;
-  Material *material;
+  std::shared_ptr<Mesh> m_mesh;
+  std::shared_ptr<Material> m_material;
 };
 
 #endif

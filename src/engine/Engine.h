@@ -33,10 +33,10 @@ public:
   PhysicsManager *getPhysicsManager(void) const;
 
 private:
-  Window         *window;
-  GLEWManager    *glew_manager;
-  GLManager      *gl_manager;
-  PhysicsManager *m_physicsManager;
+  std::unique_ptr<Window> m_window;
+  std::unique_ptr<GLEWManager> m_glewManager;
+  std::unique_ptr<GLManager> m_glManager;
+  std::unique_ptr<PhysicsManager> m_physicsManager;
 
   Game *game;
 

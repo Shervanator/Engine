@@ -4,7 +4,7 @@
 
 #include "Material.h"
 
-Material::Material(Texture *diffuseMap, Texture *normalMap, Texture *specularMap)
+Material::Material(std::shared_ptr<Texture> diffuseMap, std::shared_ptr<Texture> normalMap, std::shared_ptr<Texture> specularMap)
 {
   m_diffuseMap  = diffuseMap;
   m_normalMap   = normalMap;
@@ -13,9 +13,6 @@ Material::Material(Texture *diffuseMap, Texture *normalMap, Texture *specularMap
 
 Material::~Material(void)
 {
-  delete m_diffuseMap;
-  delete m_normalMap;
-  delete m_specularMap;
 }
 
 void Material::bind(void) const

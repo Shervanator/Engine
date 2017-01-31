@@ -6,6 +6,7 @@
 
 Game::Game(void)
 {
+  this->rootScene = std::make_shared<Entity>();
 }
 
 Game::~Game(void)
@@ -26,22 +27,22 @@ void Game::init(GLManager *glManager)
 {
 }
 
-void Game::addToScene(Entity *entity)
+void Game::addToScene(std::shared_ptr<Entity> entity)
 {
-  rootScene.addChild(entity);
+  rootScene->addChild(entity);
 }
 
 void Game::updateInput(Input *input, int delta)
 {
-  rootScene.updateInputAll(input, delta);
+  rootScene->updateInputAll(input, delta);
 }
 
 void Game::update(int delta)
 {
-  rootScene.updateAll(delta);
+  rootScene->updateAll(delta);
 }
 
 void Game::render(GLManager *glManager)
 {
-  glManager->renderScene(&rootScene);
+  glManager->renderScene(rootScene.get());
 }

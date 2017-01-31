@@ -5,6 +5,8 @@
 #ifndef ENTITY_COMPONENT_H
 #define ENTITY_COMPONENT_H
 
+#include <memory>
+
 #include "Input.h"
 #include "Shader.h"
 #include "Entity.h"

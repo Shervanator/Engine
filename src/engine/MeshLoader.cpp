@@ -43,14 +43,14 @@ MeshLoader::~MeshLoader(void)
 {
 }
 
-Entity *MeshLoader::getEntity(void) const
+std::shared_ptr<Entity> MeshLoader::getEntity(void) const
 {
   return m_entity;
 }
 
 void MeshLoader::loadScene(const aiScene* scene)
 {
-  m_entity = new Entity();
+  m_entity = std::make_shared<Entity>();
 
   for (int i = 0; i < scene->mNumMeshes; i++) {
     const aiMesh* model = scene->mMeshes[i];
@@ -85,37 +85,36 @@ void MeshLoader::loadScene(const aiScene* scene)
     const aiMaterial* pMaterial = scene->mMaterials[model->mMaterialIndex];
     log_info("tex num: %i", model->mMaterialIndex);
 
-    Texture *diffuseMap = NULL;
-    Texture *normalMap = NULL;
-    Texture *specularMap = NULL;
+    std::shared_ptr<Texture> diffuseMap;
+    std::shared_ptr<Texture> normalMap;
+    std::shared_ptr<Texture> specularMap;
 
     aiString Path;
 
     if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0
         && pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-      diffuseMap = new Texture(Asset(Path.data));
+      diffuseMap = std::make_shared<Texture>(Asset(Path.data));
     } else {
-      diffuseMap = new Texture(Asset("default_normal.jpg"));
+      diffuseMap = std::make_shared<Texture>(Asset("default_normal.jpg"));
     }
 
     if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0
         && pMaterial->GetTexture(aiTextureType_HEIGHT, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-      normalMap = new Texture(Asset(Path.data));
+      normalMap = std::make_shared<Texture>(Asset(Path.data));
     } else {
-      normalMap = new Texture(Asset("default_normal.jpg"));
+      normalMap = std::make_shared<Texture>(Asset("default_normal.jpg"));
     }
 
     if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0
         && pMaterial->GetTexture(aiTextureType_SPECULAR, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
-      specularMap = new Texture(Asset(Path.data));
+      specularMap = std::make_shared<Texture>(Asset(Path.data));
     } else {
-      specularMap = new Texture(Asset("default_specular.jpg"));
+      specularMap = std::make_shared<Texture>(Asset("default_specular.jpg"));
     }
 
-    m_entity->addComponent(
-      new MeshRenderer(
-        new Mesh(m_fileName + std::string(model->mName.C_Str()), &vertices[0], vertices.size(), &indices[0], indices.size()),
-        new Material(diffuseMap, normalMap, specularMap)
-    ));
+    m_entity->addComponent<MeshRenderer>(
+        std::make_shared<Mesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0], vertices.size(), &indices[0], indices.size()),
+        std::make_shared<Material>(diffuseMap, normalMap, specularMap)
+    );
   }
 }

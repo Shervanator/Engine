@@ -7,7 +7,7 @@
 #include "../Engine.h"
 #include "../settings.h"
 
-PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuation) : BaseLight(color, intensity)
+PointLight::PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation) : BaseLight(color, intensity)
 {
   m_attenuation = attenuation;
 
@@ -24,17 +24,16 @@ PointLight::PointLight(glm::vec3 color, float intensity, Attenuation *attenuatio
 
 PointLight::~PointLight(void)
 {
-  delete m_attenuation;
 }
 
 void PointLight::registerWithEngine(Engine *engine)
 {
-  engine->getGLManager()->addPointLight(this);
+  engine->getGLManager()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::deregisterFromEngine(Engine *engine)
 {
-  engine->getGLManager()->removePointLight(this);
+  engine->getGLManager()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::updateShader(Shader *shader)
@@ -42,7 +41,7 @@ void PointLight::updateShader(Shader *shader)
   shader->updateUniformPointLight("pointLight", this);
 }
 
-Attenuation *PointLight::getAttenuation(void) const
+std::shared_ptr<Attenuation> PointLight::getAttenuation(void) const
 {
   return m_attenuation;
 }

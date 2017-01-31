@@ -5,12 +5,14 @@
 #ifndef POINT_LIGHT_H
 #define POINT_LIGHT_H
 
+#include <memory>
+
 #include "BaseLight.h"
 
 class PointLight : public BaseLight
 {
 public:
-  PointLight(glm::vec3 color, float intensity, Attenuation *attenuation);
+  PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation);
   virtual ~PointLight(void);
   virtual void registerWithEngine(Engine *engine);
   virtual void deregisterFromEngine(Engine *engine);
@@ -19,11 +21,11 @@ public:
 
   inline virtual const char *getType(void) { return "POINT_LIGHT"; }
 
-  Attenuation *getAttenuation(void) const;
+  std::shared_ptr<Attenuation> getAttenuation(void) const;
   float getRange(void);
 
 private:
-  Attenuation *m_attenuation;
+  std::shared_ptr<Attenuation> m_attenuation;
 
   float m_range;
 };
