@@ -28,12 +28,12 @@ PointLight::~PointLight(void)
 
 void PointLight::registerWithEngine(Engine *engine)
 {
-  engine->getGLManager()->addPointLight(this);
+  engine->getGLManager()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::deregisterFromEngine(Engine *engine)
 {
-  engine->getGLManager()->removePointLight(this);
+  engine->getGLManager()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::updateShader(Shader *shader)

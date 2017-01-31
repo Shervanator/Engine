@@ -35,13 +35,13 @@ public:
   void bindRenderTarget(void) const;
   void renderScene(Entity *entity);
   void setActiveCamera(Camera *camera);
-  void addDirectionalLight(DirectionalLight *light);
-  void addPointLight(PointLight *light);
-  void addSpotLight(SpotLight *light);
+  void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+  void addPointLight(std::shared_ptr<PointLight> light);
+  void addSpotLight(std::shared_ptr<SpotLight> light);
 
-  void removeDirectionalLight(DirectionalLight *light);
-  void removePointLight(PointLight *light);
-  void removeSpotLight(SpotLight *light);
+  void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
+  void removePointLight(std::shared_ptr<PointLight> light);
+  void removeSpotLight(std::shared_ptr<SpotLight> light);
 
   glm::mat4 getViewMatrix(void);
   glm::mat4 getProjectionMatrix(void);
@@ -56,19 +56,19 @@ public:
 private:
   void createShaders(void);
 
-  void renderLights(std::vector<BaseLight *> &lights, Shader *shader, Entity *scene);
+  void renderLights(Entity *scene);
 
-  Shader *simple;
-  Shader *forwardAmbient;
-  Shader *forwardDirectional;
-  Shader *forwardPoint;
-  Shader *forwardSpot;
+  std::unique_ptr<Shader> m_simple;
+  std::unique_ptr<Shader> m_forwardAmbient;
+  std::unique_ptr<Shader> m_forwardDirectional;
+  std::unique_ptr<Shader> m_forwardPoint;
+  std::unique_ptr<Shader> m_forwardSpot;
 
   Camera *m_activeCamera;
 
-  std::vector<BaseLight *> m_directionalLights;
-  std::vector<BaseLight *> m_pointLights;
-  std::vector<BaseLight *> m_spotLights;
+  std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
+  std::vector<std::shared_ptr<PointLight>> m_pointLights;
+  std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
 
 #endif

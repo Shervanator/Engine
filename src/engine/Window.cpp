@@ -79,7 +79,7 @@ Window::~Window(void)
 void Window::init(void)
 {
   log_info("Initializing GUI");
-  m_guiManager = std::make_unique<GuiManager>(this);
+  m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());
 }
 
 void Window::tick(void)
@@ -129,7 +129,7 @@ void Window::tick(void)
     m_input.handleMouseWheelEvent(0, 0);
   }
 
-  m_guiManager->tick();
+  m_guiManager->tick(this);
 }
 
 void Window::swapBuffer(void)

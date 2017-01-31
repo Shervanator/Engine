@@ -12,12 +12,12 @@ DirectionalLight::DirectionalLight(glm::vec3 color, float intensity) : BaseLight
 
 void DirectionalLight::registerWithEngine(Engine *engine)
 {
-  engine->getGLManager()->addDirectionalLight(this);
+  engine->getGLManager()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::deregisterFromEngine(Engine *engine)
 {
-  engine->getGLManager()->removeDirectionalLight(this);
+  engine->getGLManager()->removeDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::updateShader(Shader *shader)

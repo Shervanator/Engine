@@ -186,10 +186,9 @@ void GuiManager::createDeviceObjects(void)
 #endif
 }
 
-GuiManager::GuiManager(Window *window)
+GuiManager::GuiManager(const glm::vec2& drawableSize, const glm::vec2& displaySize, SDL_Window *sdlWindow)
 {
-  m_window = window;
-  m_sdlWindow = window->getSDLWindow();
+  m_sdlWindow = sdlWindow;
 
 #ifdef ANDROID
   showProps = true;
@@ -235,8 +234,6 @@ GuiManager::GuiManager(Window *window)
   io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits for OpenGL3 demo because it is more likely to be compatible with user's existing shader.
   m_textureData = new TextureData(width, height, pixels, GL_TEXTURE_2D, GL_LINEAR);
 
-  glm::vec2 drawableSize = m_window->getDrawableSize();
-  glm::vec2 displaySize = m_window->getDisplaySize();
   io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
   io.DisplayFramebufferScale = ImVec2(displaySize.x > 0 ? (drawableSize.x / displaySize.x) : 0, displaySize.y > 0 ? (drawableSize.y / displaySize.y) : 0);
 }
@@ -248,27 +245,27 @@ GuiManager::~GuiManager(void)
   ImGui::Shutdown();
 }
 
-void GuiManager::tick(void)
+void GuiManager::tick(Window *window)
 {
   ImGuiIO& io = ImGui::GetIO();
 
-  io.DeltaTime = m_window->getDeltaTime() / 1000.0f;
+  io.DeltaTime = window->getDeltaTime() / 1000.0f;
 
-  glm::vec2 mousePos = m_window->getInput()->getMousePosition();
+  glm::vec2 mousePos = window->getInput()->getMousePosition();
   io.MousePos = ImVec2(mousePos.x, mousePos.y);
 
-  io.MouseDown[0] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT);
-  io.MouseDown[1] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_RIGHT);
-  io.MouseDown[2] = m_window->getInput()->mouseIsPressed(SDL_BUTTON_MIDDLE);
+  io.MouseDown[0] = window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT);
+  io.MouseDown[1] = window->getInput()->mouseIsPressed(SDL_BUTTON_RIGHT);
+  io.MouseDown[2] = window->getInput()->mouseIsPressed(SDL_BUTTON_MIDDLE);
 
-  io.MouseWheel = m_window->getInput()->getMouseWheel().y / 15.0f;
+  io.MouseWheel = window->getInput()->getMouseWheel().y / 15.0f;
 
-  io.KeyShift = (m_window->getInput()->getKeyModState() & KMOD_SHIFT) != 0;
-  io.KeyCtrl = (m_window->getInput()->getKeyModState() & KMOD_CTRL) != 0;
-  io.KeyAlt = (m_window->getInput()->getKeyModState() & KMOD_ALT) != 0;
-  io.KeySuper = (m_window->getInput()->getKeyModState() & KMOD_GUI) != 0;
+  io.KeyShift = (window->getInput()->getKeyModState() & KMOD_SHIFT) != 0;
+  io.KeyCtrl = (window->getInput()->getKeyModState() & KMOD_CTRL) != 0;
+  io.KeyAlt = (window->getInput()->getKeyModState() & KMOD_ALT) != 0;
+  io.KeySuper = (window->getInput()->getKeyModState() & KMOD_GUI) != 0;
 
-  m_window->drawCursor(io.MouseDrawCursor ? false : true);
+  window->drawCursor(io.MouseDrawCursor ? false : true);
 
   // Start the frame
   ImGui::NewFrame();
