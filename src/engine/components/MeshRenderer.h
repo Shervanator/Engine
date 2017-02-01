@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef MESH_RENDERER_H
-#define MESH_RENDERER_H
+#pragma once
 
 #include "../Component.h"
 #include "../Mesh.h"
@@ -24,5 +23,3 @@ private:
   std::shared_ptr<Mesh> m_mesh;
   std::shared_ptr<Material> m_material;
 };
-
-#endif

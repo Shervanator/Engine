@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -29,5 +28,3 @@ public:
 private:
   std::shared_ptr<TextureData> m_textureData;
 };
-
-#endif

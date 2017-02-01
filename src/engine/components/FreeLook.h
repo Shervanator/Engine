@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef FREE_LOOK_H
-#define FREE_LOOK_H
+#pragma once
 
 #include "../Component.h"
 
@@ -20,5 +19,3 @@ public:
 private:
   float m_speed;
 };
-
-#endif

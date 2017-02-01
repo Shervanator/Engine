@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef SPOT_LIGHT_H
-#define SPOT_LIGHT_H
+#pragma once
 
 #include "PointLight.h"
 
@@ -23,5 +22,3 @@ public:
 private:
   float m_cutoff;
 };
-
-#endif

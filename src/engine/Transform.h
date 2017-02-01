@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#pragma once
 
 #define GLM_SWIZZLE
 #define GLM_FORCE_RADIANS
@@ -41,5 +40,3 @@ public:
   glm::quat m_rotation;
   glm::vec3 m_scale;
 };
-
-#endif

@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef SPHERE_H
-#define SPHERE_H
+#pragma once
 
 #include "../Component.h"
 
@@ -23,5 +22,3 @@ public:
 private:
   float m_radius;
 };
-
-#endif

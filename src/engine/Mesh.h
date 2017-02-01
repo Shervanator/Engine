@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef MESH_H
-#define MESH_H
+#pragma once
 
 #include "Vertex.h"
 #include "MeshData.h"
@@ -22,5 +21,3 @@ public:
 private:
   std::shared_ptr<MeshData> m_meshData;
 };
-
-#endif

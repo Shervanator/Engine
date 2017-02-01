@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef PLANE_H
-#define PLANE_H
+#pragma once
 
 #include "Mesh.h"
 
@@ -15,5 +14,3 @@ public:
 
   static std::shared_ptr<Mesh> getMesh(void);
 };
-
-#endif

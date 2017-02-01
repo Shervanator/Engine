@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef GL_MANAGER_H
-#define GL_MANAGER_H
+#pragma once
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -70,5 +69,3 @@ private:
   std::vector<std::shared_ptr<PointLight>> m_pointLights;
   std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
-
-#endif

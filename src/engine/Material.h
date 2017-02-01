@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#pragma once
 
 #include "Texture.h"
 
@@ -20,5 +19,3 @@ private:
   std::shared_ptr<Texture> m_specularMap;
   std::shared_ptr<Texture> m_normalMap;
 };
-
-#endif

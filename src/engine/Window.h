@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#pragma once
 
 #include "settings.h"
 #include "Input.h"
@@ -67,5 +66,3 @@ private:
 
   bool m_quit;
 };
-
-#endif

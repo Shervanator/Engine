@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef DIRECTIONAL_LIGHT_H
-#define DIRECTIONAL_LIGHT_H
+#pragma once
 
 #include "BaseLight.h"
 
@@ -18,5 +17,3 @@ public:
 
   inline virtual const char *getType(void) { return "DIRECTIONAL_LIGHT"; }
 };
-
-#endif

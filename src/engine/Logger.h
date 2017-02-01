@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef LOGGER_H
-#define LOGGER_H
+#pragma once
 
 #ifdef ANDROID
   #include <android/log.h>
@@ -51,5 +50,3 @@
 #define check_mem(A) check((A), "Out of memory.")
 
 #define check_debug(A, M, ...) if(!(A)) { debug(M, ##__VA_ARGS__); errno=0; goto error; }
-
-#endif

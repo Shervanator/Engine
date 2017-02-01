@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef BASE_LIGHT_H
-#define BASE_LIGHT_H
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -27,5 +26,3 @@ protected:
   glm::vec3 m_color;
   float m_intensity;
 };
-
-#endif

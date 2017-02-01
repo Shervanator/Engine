@@ -1,5 +1,8 @@
-#ifndef GUI_MANAGER_H
-#define GUI_MANAGER_H
+//
+//  Author: Shervin Aflatooni
+//
+
+#pragma once
 
 #include "Window.h"
 #include "Entity.h"
@@ -29,5 +32,3 @@ private:
 
   SDL_Window *m_sdlWindow;
 };
-
-#endif

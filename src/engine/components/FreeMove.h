@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef FREE_MOVE_H
-#define FREE_MOVE_H
+#pragma once
 
 #include "../Component.h"
 
@@ -26,5 +25,3 @@ private:
   float m_speed;
   bool m_moveForwards;
 };
-
-#endif

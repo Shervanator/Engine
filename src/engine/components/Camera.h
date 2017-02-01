@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include "../Component.h"
 
@@ -19,5 +18,3 @@ public:
 
   inline virtual const char *getType(void) { return "CAMERA"; }
 };
-
-#endif

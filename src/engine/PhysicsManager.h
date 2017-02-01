@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef PHYSICS_MANAGER_H
-#define PHYSICS_MANAGER_H
+#pragma once
 
 #include "components/Sphere.h"
 #include "Entity.h"
@@ -25,5 +24,3 @@ public:
 private:
   std::vector<std::shared_ptr<Sphere>> m_colliders;
 };
-
-#endif

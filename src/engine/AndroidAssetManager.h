@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ANDROID_ASSET_MANAGER
-#define ANDROID_ASSET_MANAGER
+#pragma once
 
 #ifdef ANDROID
 
@@ -15,7 +14,5 @@ class AndroidAssetManager
 public:
   static AAssetManager *getAssetManager(void);
 };
-
-#endif
 
 #endif

@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ENTITY_COMPONENT_H
-#define ENTITY_COMPONENT_H
+#pragma once
 
 #include <memory>
 
@@ -55,5 +54,3 @@ public:
 protected:
   Entity *parentEntity;
 };
-
-#endif

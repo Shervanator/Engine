@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef INPUT_H
-#define INPUT_H
+#pragma once
 
 #include <map>
 
@@ -47,5 +46,3 @@ private:
   glm::vec2 m_mousePosition;
   glm::vec2 m_mouseWheel;
 };
-
-#endif

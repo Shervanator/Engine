@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef PERSPECTIVE_CAMERA_H
-#define PERSPECTIVE_CAMERA_H
+#pragma once
 
 #include "Camera.h"
 
@@ -24,5 +23,3 @@ public:
 private:
   float m_fov, m_aspect, m_zNear, m_zFar;
 };
-
-#endif

@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef TEXTURE_DATA_H
-#define TEXTURE_DATA_H
+#pragma once
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -26,5 +25,3 @@ private:
   GLenum m_textureTarget;
   GLuint m_textureId;
 };
-
-#endif

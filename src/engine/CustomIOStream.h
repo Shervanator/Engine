@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef CUSTOM_IO_STREAM
-#define CUSTOM_IO_STREAM
+#pragma once
 
 #include "EngineIOStream.h"
 
@@ -30,5 +29,3 @@ public:
 private:
   EngineIOStream *m_iostream;
 };
-
-#endif

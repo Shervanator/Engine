@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef MESH_DATA_H
-#define MESH_DATA_H
+#pragma once
 
 #if defined(GLES2)
   #include <GLES2/gl2.h>
@@ -33,5 +32,3 @@ private:
 
   int m_indexSize, m_vertSize;
 };
-
-#endif

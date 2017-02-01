@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include "GLManager.h"
 #include "Window.h"
@@ -44,5 +43,3 @@ private:
 
   bool quit;
 };
-
-#endif

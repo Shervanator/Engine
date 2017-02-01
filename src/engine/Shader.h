@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -64,5 +63,3 @@ private:
 
   std::map <std::string, GLuint> uniformLocation;
 };
-
-#endif

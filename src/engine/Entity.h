@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once
 
 #include <vector>
 #include <map>
@@ -114,5 +113,3 @@ private:
 
   std::map<std::type_index, std::vector<std::shared_ptr<Component>> > componentsByTypeid;
 };
-
-#endif

@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef LINE_H
-#define LINE_H
+#pragma once
 
 #include "Shader.h"
 
@@ -23,5 +22,3 @@ private:
 #endif
   GLuint vbo;
 };
-
-#endif

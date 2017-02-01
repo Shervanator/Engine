@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef GLEW_MANAGER_H
-#define GLEW_MANAGER_H
+#pragma once
 
 class GLEWManager
 {
@@ -17,5 +16,3 @@ public:
 
 private:
 };
-
-#endif

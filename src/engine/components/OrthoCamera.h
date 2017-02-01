@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ORTHO_CAMERA_H
-#define ORTHO_CAMERA_H
+#pragma once
 
 #include "Camera.h"
 
@@ -21,5 +20,3 @@ public:
 private:
   float m_scale, m_aspect, m_zNear, m_zFar;
 };
-
-#endif

@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ASSET_H
-#define ASSET_H
+#pragma once
 
 #include <string>
 
@@ -24,5 +23,3 @@ private:
   EngineIOStream *m_ioStream;
   size_t m_fileSize;
 };
-
-#endif

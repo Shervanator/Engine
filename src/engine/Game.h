@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include "Entity.h"
 #include "GLManager.h"
@@ -35,5 +34,3 @@ private:
   std::shared_ptr<Entity> rootScene;
   Engine *engine;
 };
-
-#endif

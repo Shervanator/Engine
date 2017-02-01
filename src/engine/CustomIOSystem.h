@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef CUSTOM_IO_SYSTEM
-#define CUSTOM_IO_SYSTEM
+#pragma once
 
 #include <assimp/IOSystem.hpp>
 
@@ -19,5 +18,3 @@ public:
   Assimp::IOStream *Open(const char* pFile, const char* pMode);
   void Close(Assimp::IOStream* pFile);
 };
-
-#endif

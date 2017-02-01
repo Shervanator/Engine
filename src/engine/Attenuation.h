@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef ATTENUATION_H
-#define ATTENUATION_H
+#pragma once
 
 class Attenuation
 {
@@ -19,5 +18,3 @@ public:
   float m_linear;
   float m_exponent;
 };
-
-#endif

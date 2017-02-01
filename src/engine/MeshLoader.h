@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef MESH_LOADER_H
-#define MESH_LOADER_H
+#pragma once
 
 #include "Entity.h"
 #include <string>
@@ -25,5 +24,3 @@ private:
 
   std::shared_ptr<Entity> m_entity;
 };
-
-#endif

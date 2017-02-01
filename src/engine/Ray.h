@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef RAY_H
-#define RAY_H
+#pragma once
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -31,5 +30,3 @@ private:
   glm::vec3 m_position;
   glm::vec3 m_direction;
 };
-
-#endif

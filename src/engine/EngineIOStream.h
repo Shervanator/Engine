@@ -2,8 +2,7 @@
 //  Author: Shervin Aflatooni
 //
 
-#ifndef IO_STREAM
-#define IO_STREAM
+#pragma once
 
 #include <fstream>
 
@@ -41,5 +40,3 @@ private:
   AAsset *m_file;
 #endif
 };
-
-#endif
