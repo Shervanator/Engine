@@ -10,10 +10,22 @@
 
 PhysicsManager::PhysicsManager(void)
 {
+  m_collisionConfiguration = new btDefaultCollisionConfiguration();
+  m_dispatcher = new	btCollisionDispatcher(m_collisionConfiguration);
+	m_overlappingPairCache = new btDbvtBroadphase();
+	m_solver = new btSequentialImpulseConstraintSolver;
+	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher, m_overlappingPairCache, m_solver, m_collisionConfiguration);
+
+	m_dynamicsWorld->setGravity(btVector3(0,-10,0));
 }
 
 PhysicsManager::~PhysicsManager(void)
 {
+  delete m_collisionConfiguration;
+  delete m_dispatcher;
+  delete m_overlappingPairCache;
+  delete m_solver;
+  delete m_dynamicsWorld;
 }
 
 void PhysicsManager::registerCollider(std::shared_ptr<Sphere> sphere)
@@ -21,9 +33,18 @@ void PhysicsManager::registerCollider(std::shared_ptr<Sphere> sphere)
   m_colliders.push_back(sphere);
 }
 
+void PhysicsManager::registerCollider2(btRigidBody *rigidBody)
+{
+  m_dynamicsWorld->addRigidBody(rigidBody);
+}
+
 void PhysicsManager::deregisterCollider(std::shared_ptr<Sphere> sphere)
 {
   m_colliders.erase(std::remove(m_colliders.begin(), m_colliders.end(), sphere), m_colliders.end());
+}
+
+void PhysicsManager::tick(int delta) {
+  m_dynamicsWorld->stepSimulation(delta);
 }
 
 Entity *PhysicsManager::pick(Ray *ray) const

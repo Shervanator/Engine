@@ -13,6 +13,7 @@
 #include "components/SpotLight.h"
 #include "components/PointLight.h"
 #include "components/Sphere.h"
+#include "components/BulletPhyObj.h"
 
 #include "Plane.h"
 #include "Mesh.h"
@@ -55,9 +56,14 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(plane2);
 
+  MeshLoader cube("cube.obj");
+  cube.getEntity()->getTransform().setPosition(glm::vec3(0, 5, 0));
+  cube.getEntity()->addComponent<BulletPhyObj>();
+  addToScene(cube.getEntity());
+
   for (int i = 0; i < 1; i++) {
     MeshLoader ml("Pregnant.obj");
-    ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, 0));
+    ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, -2.5));
     ml.getEntity()->addComponent<Sphere>(1);
     addToScene(ml.getEntity());
   }

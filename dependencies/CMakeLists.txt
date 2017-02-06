@@ -164,7 +164,6 @@ add_definitions(-DASSIMP_BUILD_NO_GLTF_EXPORTER)
 set( ASSIMP_BUILD_3MF_IMPORTER OFF CACHE BOOL "Build importer" )
 add_definitions(-DASSIMP_BUILD_NO_3MF_EXPORTER)
 
-
 add_subdirectory( assimp )
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/imgui/)
@@ -173,3 +172,11 @@ IF (WIN32)
 ELSE ()
   add_library (imgui SHARED ${CMAKE_CURRENT_SOURCE_DIR}/imgui/imgui.cpp ${CMAKE_CURRENT_SOURCE_DIR}/imgui/imgui_demo.cpp ${CMAKE_CURRENT_SOURCE_DIR}/imgui/imgui_draw.cpp)
 ENDIF ()
+
+set(USE_MSVC_RUNTIME_LIBRARY_DLL ON)
+set(BUILD_SHARED_LIBS OFF)
+set(BUILD_UNIT_TESTS OFF CACHE BOOL "Do not build unit tests for bullet.")
+set(BUILD_BULLET2_DEMOS OFF CACHE BOOL "no bullet2 demos.")
+set(BUILD_CPU_DEMOS OFF CACHE BOOL "no bullet demos.")
+set(BUILD_BULLET3 OFF CACHE BOOL "no bullet 3.")
+add_subdirectory(bullet3)
