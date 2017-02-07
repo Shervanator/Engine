@@ -6,6 +6,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 set(BUILD_SHARED_LIBS TRUE)
 
 file(GLOB TARGET_INC ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+list(REMOVE_ITEM TARGET_INC ${CMAKE_CURRENT_SOURCE_DIR}/stdafx.h)
 file(GLOB TARGET_INC_COMPONENTS ${CMAKE_CURRENT_SOURCE_DIR}/components/*.h)
 
 file(GLOB TARGET_SRC
@@ -27,7 +28,8 @@ ELSE ()
 ENDIF ()
 
 target_link_libraries (engine ${ENGINE_LIBS})
-
+set_target_properties(engine PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "stdafx.h")
+cotire(engine)
 
 install (TARGETS engine DESTINATION lib)
 install (FILES ${TARGET_INC} DESTINATION include/engine)
