@@ -20,7 +20,7 @@ void MeshRenderer::update(int delta)
 
 void MeshRenderer::render(Shader *shader)
 {
-  shader->setUniformMatrix4f("World", parentEntity->getWorldMatrix());
+  shader->setUniformMatrix4f("World", m_parentEntity->getWorldMatrix());
 
   m_material->bind();
   m_mesh->render();

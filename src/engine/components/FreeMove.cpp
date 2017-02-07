@@ -29,30 +29,30 @@ void FreeMove::updateInput(Input *input, int delta)
 
   if(input->isPressed(SDLK_w)) {
     if (m_moveForwards) {
-      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, -1.0f)), moveAmount);
+      Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, -1.0f)), moveAmount);
     } else {
-      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 1.0f, 0.0f)), moveAmount);
+      Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 1.0f, 0.0f)), moveAmount);
     }
   }
 
   if(input->isPressed(SDLK_s)) {
     if (m_moveForwards) {
-      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, 1.0f)), moveAmount);
+      Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, 1.0f)), moveAmount);
     } else {
-      Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(0.0f, -1.0f, 0.0f)), moveAmount);
+      Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, -1.0f, 0.0f)), moveAmount);
     }
   }
 
   if(input->isPressed(SDLK_a)) {
-    Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(-1.0f, 0.0f, 0.0f)), moveAmount);
+    Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(-1.0f, 0.0f, 0.0f)), moveAmount);
   }
 
   if(input->isPressed(SDLK_d)) {
-    Move(glm::rotate(parentEntity->getTransform().getRotation(), glm::vec3(1.0f, 0.0f, 0.0f)), moveAmount);
+    Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(1.0f, 0.0f, 0.0f)), moveAmount);
   }
 }
 
 void FreeMove::Move(const glm::vec3& direction, float amount)
 {
-  parentEntity->getTransform().translate(direction * amount);
+  m_parentEntity->getTransform().translate(direction * amount);
 }

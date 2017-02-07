@@ -2,5 +2,5 @@
 
 glm::mat4 Camera::getViewMatrix(void) const
 {
-  return glm::inverse(parentEntity->getWorldMatrix());
+  return glm::inverse(m_parentEntity->getWorldMatrix());
 }

@@ -52,5 +52,5 @@ public:
   std::map<const char *, Property> m_properties;
 
 protected:
-  Entity *parentEntity;
+  Entity *m_parentEntity;
 };

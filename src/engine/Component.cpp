@@ -6,17 +6,17 @@
 
 void Component::setParent(Entity *parentEntity)
 {
-  this->parentEntity = parentEntity;
+  m_parentEntity = parentEntity;
 }
 
 Entity *Component::getParent(void) const
 {
-  return parentEntity;
+  return m_parentEntity;
 }
 
 Transform& Component::getTransform(void) const
 {
-  return parentEntity->getTransform();
+  return m_parentEntity->getTransform();
 }
 
 void Component::setProperty(const char *name, PropertyType type, void *p, float min, float max)
