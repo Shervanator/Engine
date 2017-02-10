@@ -9,6 +9,7 @@
 #include <typeindex>
 #include <algorithm>
 #include <memory>
+#include <chrono>
 
 #include "Transform.h"
 #include "Shader.h"
@@ -44,8 +45,8 @@ public:
     components.push_back(component);
   }
 
-  void updateInputAll(Input *input, int delta);
-  void updateAll(int delta);
+  void updateInputAll(Input *input, std::chrono::microseconds delta);
+  void updateAll(std::chrono::microseconds delta);
   void renderAll(Shader *shader);
   void registerWithEngineAll(Engine *engine);
   void deregisterFromEngineAll(void);

@@ -14,8 +14,9 @@ FreeLook::~FreeLook(void)
 {
 }
 
-void FreeLook::updateInput(Input *input, int delta)
+void FreeLook::updateInput(Input *input, std::chrono::microseconds delta)
 {
+  float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
 #ifdef ANDROID
   if (input->mouseIsPressed(SDL_BUTTON_LEFT)) {
 #else
@@ -24,10 +25,10 @@ void FreeLook::updateInput(Input *input, int delta)
     input->grabMouse();
     glm::vec2 pos = input->getMouseDelta();
     if (pos.y != 0) {
-      m_parentEntity->getTransform().rotate(glm::vec3(1, 0, 0), -pos.y * m_speed);
+      m_parentEntity->getTransform().rotate(glm::vec3(1, 0, 0), -pos.y * moveAmount);
     }
     if (pos.x != 0) {
-      m_parentEntity->getTransform().setRotation(glm::angleAxis(-pos.x * m_speed, glm::vec3(0, 1, 0)) * m_parentEntity->getTransform().getRotation());
+      m_parentEntity->getTransform().setRotation(glm::angleAxis(-pos.x * moveAmount, glm::vec3(0, 1, 0)) * m_parentEntity->getTransform().getRotation());
     }
 #ifdef ANDROID
   } else if (input->mouseIsReleased(SDL_BUTTON_LEFT)) {

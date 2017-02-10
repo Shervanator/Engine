@@ -13,7 +13,7 @@
 #include "components/SpotLight.h"
 #include "components/PointLight.h"
 #include "components/Sphere.h"
-#include "components/BulletPhyObj.h"
+#include "components/BoxCollider.h"
 
 #include "Plane.h"
 #include "Mesh.h"
@@ -27,13 +27,33 @@ class CoolGame : public Game
 {
 public:
   virtual void init(GLManager *glManager);
-  virtual void update(int delta);
+  virtual void update(std::chrono::microseconds delta);
+  virtual void updateInput(Input *input, std::chrono::microseconds delta);
+
+  std::shared_ptr<PerspectiveCamera> primary_camera;
 };
 
-void CoolGame::update(int delta)
+void CoolGame::updateInput(Input *input, std::chrono::microseconds delta)
 {
-  static float angle = 0;
-  angle += delta * 0.0008;
+  static bool pressed = false;
+  if (input->isPressed(SDLK_SPACE) && !pressed) {
+    pressed = true;
+    MeshLoader cube("cube.obj");
+    cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition().xyz);
+    cube.getEntity()->addComponent<BoxCollider>(glm::vec3(0.5, 0.5, 0.5), 50);
+    cube.getEntity()->addComponent<Sphere>(1);
+    addToScene(cube.getEntity());
+  }
+
+  if (input->isReleased(SDLK_SPACE) && pressed) {
+    pressed = false;
+  }
+
+  Game::updateInput(input, delta);
+}
+
+void CoolGame::update(std::chrono::microseconds delta)
+{
   // plane->getTransform().setRotation(glm::vec3(1, 0, 0), angle);
   //plane->getTransform().setPosition(glm::vec3(glm::sin(angle) * 5, 0, 0));
 
@@ -46,7 +66,7 @@ void CoolGame::init(GLManager *glManager)
   auto planeMesh = Plane::getMesh();
   auto plane = std::make_shared<Entity>();
   plane->addComponent<MeshRenderer>(planeMesh, brickMat);
-  plane->getTransform().setPosition(glm::vec3(0, -2, 0)).setScale(glm::vec3(10, 10, 10));
+  plane->getTransform().setPosition(glm::vec3(0, -2, 0)).setScale(glm::vec3(10, 1, 10));
 
   addToScene(plane);
 
@@ -56,10 +76,13 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(plane2);
 
-  MeshLoader cube("cube.obj");
-  cube.getEntity()->getTransform().setPosition(glm::vec3(0, 5, 0));
-  cube.getEntity()->addComponent<BulletPhyObj>();
-  addToScene(cube.getEntity());
+  for (int i = 0; i < 1; i++) {
+    MeshLoader cube("cube.obj");
+    cube.getEntity()->getTransform().setPosition(glm::vec3(0, 10, 0));
+    cube.getEntity()->addComponent<BoxCollider>(glm::vec3(0.5, 0.5, 0.5), 50);
+    cube.getEntity()->addComponent<Sphere>(1);
+    addToScene(cube.getEntity());
+  }
 
   for (int i = 0; i < 1; i++) {
     MeshLoader ml("Pregnant.obj");
@@ -88,7 +111,7 @@ void CoolGame::init(GLManager *glManager)
 
   addToScene(money2.getEntity());
 
-  auto primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
+  primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
 
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }

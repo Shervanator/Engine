@@ -249,7 +249,7 @@ void GuiManager::tick(Window *window)
 {
   ImGuiIO& io = ImGui::GetIO();
 
-  io.DeltaTime = window->getDeltaTime() / 1000.0f;
+  io.DeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(window->getDeltaTime()).count();
 
   glm::vec2 mousePos = window->getInput()->getMousePosition();
   io.MousePos = ImVec2(mousePos.x, mousePos.y);

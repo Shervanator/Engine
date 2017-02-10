@@ -49,7 +49,7 @@ set ( IMGUI_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui/ )
 set ( IMGUI_LIBRARY imgui )
 
 set ( BULLET_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/bullet3/src/ )
-#set ( BULLET_LIBRARY bullet3 )
+set ( BULLET_LIBRARY BulletDynamics BulletCollision LinearMath )
 
 IF (EMSCRIPTEN)
   SET ( CMAKE_SHARED_LINKER_FLAGS "-Oz --closure 1" )
@@ -100,7 +100,7 @@ ELSE ()
     ${GLEW_LIBRARIES}
     ${WHEREAMI_LIBRARY}
     ${IMGUI_LIBRARY}
-    BulletDynamics BulletCollision LinearMath
+    ${BULLET_LIBRARY}
   )
 
   set(ENGINE_INCLUDES

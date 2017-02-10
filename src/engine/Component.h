@@ -33,8 +33,8 @@ class Component
 public:
   virtual ~Component(void) {};
 
-  virtual void updateInput(Input *input, int delta) {};
-  virtual void update(int delta) {};
+  virtual void updateInput(Input *input, std::chrono::microseconds delta) {};
+  virtual void update(std::chrono::microseconds delta) {};
   virtual void render(Shader *shader) {};
   virtual void registerWithEngine(Engine *engine) {};
   virtual void deregisterFromEngine(Engine *engine) {};

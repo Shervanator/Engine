@@ -77,9 +77,11 @@ void Engine::loop(void)
 void Engine::tick(void)
 {
   m_window->tick();
-  Uint32 delta_time = m_window->getDeltaTime();
+  std::chrono::microseconds delta_time = m_window->getDeltaTime();
 
   quit = m_window->shouldQuit();
+
+  m_physicsManager->tick(delta_time);
 
   game->updateInput(m_window->getInput(), delta_time);
 

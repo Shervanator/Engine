@@ -19,9 +19,9 @@ FreeMove::~FreeMove(void)
 {
 }
 
-void FreeMove::updateInput(Input *input, int delta)
+void FreeMove::updateInput(Input *input, std::chrono::microseconds delta)
 {
-  float moveAmount = m_speed * delta;
+  float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
 
   if(input->isPressed(SDLK_LSHIFT)) {
     moveAmount *= 4.0f;

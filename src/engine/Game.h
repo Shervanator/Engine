@@ -20,8 +20,8 @@ public:
 
   virtual void init(GLManager *glManager);
 
-  virtual void updateInput(Input *input, int delta);
-  virtual void update(int delta);
+  virtual void updateInput(Input *input, std::chrono::microseconds delta);
+  virtual void update(std::chrono::microseconds delta);
   virtual void render(GLManager *glManager);
 
   inline std::shared_ptr<Entity> getRootScene(void) { return rootScene; };

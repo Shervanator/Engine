@@ -9,6 +9,7 @@
 #include "Ray.h"
 
 #include <vector>
+#include <chrono>
 
 #include <btBulletDynamicsCommon.h>
 
@@ -21,8 +22,9 @@ public:
   void registerCollider(std::shared_ptr<Sphere> sphere);
   void registerCollider2(btRigidBody *rigidBody);
   void deregisterCollider(std::shared_ptr<Sphere> sphere);
+  void deregisterCollider2(btRigidBody *rigidBody);
 
-  void tick(int delta);
+  void tick(std::chrono::microseconds delta);
 
   Entity *pick(Ray *ray) const;
 

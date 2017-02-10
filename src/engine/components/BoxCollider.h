@@ -7,15 +7,15 @@
 #include <btBulletDynamicsCommon.h>
 #include "../Component.h"
 
-class BulletPhyObj : public Component
+class BoxCollider : public Component
 {
 public:
-  BulletPhyObj(void);
-  virtual ~BulletPhyObj(void);
+  BoxCollider(const glm::vec3& size, float mass);
+  virtual ~BoxCollider(void);
 
   virtual void registerWithEngine(Engine *engine);
   virtual void deregisterFromEngine(Engine *engine);
-  virtual void update(int delta);
+  virtual void update(std::chrono::microseconds delta);
 
   inline virtual const char *getType(void) { return "BULLET"; };
 
