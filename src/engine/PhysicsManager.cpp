@@ -20,7 +20,7 @@ PhysicsManager::PhysicsManager(void)
 
 
 
-  {
+  /*{
     btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(0.), btScalar(50.)));
 
     btTransform groundTransform;
@@ -43,7 +43,7 @@ PhysicsManager::PhysicsManager(void)
 
     //add the body to the dynamics world
     m_dynamicsWorld->addRigidBody(body);
-  }
+  }*/
 }
 
 PhysicsManager::~PhysicsManager(void)
