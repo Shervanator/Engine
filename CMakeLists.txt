@@ -42,11 +42,14 @@ set ( WHEREAMI_LIBRARY whereami )
 set ( IMGUI_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui/ )
 set ( IMGUI_LIBRARY imgui )
 
+if("${CMAKE_CXX_COMPILER_ID}" MATCHES "(GNU|Clang)")
+    set(CMAKE_CXX_FLAGS "-g -Wall -std=c++1y")
+endif()
 
 IF (EMSCRIPTEN)
   add_definitions( -DGLES2=1 )
 
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2 -std=c++1y")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2")
   add_definitions(-DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/")
 
   set(ENGINE_LIBS
@@ -78,7 +81,6 @@ ELSEIF (ANDROID)
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
 ELSE ()
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
   find_package(OpenGL REQUIRED)
 
   set(ENGINE_LIBS
