@@ -50,7 +50,8 @@ before_script:
         brew tap caskroom/cask
         brew update;
         brew cask install java;
-        brew install android-sdk ant;
+        brew cask install android-sdk;
+        brew install ant;
         export ANDROID_SDK=/usr/local/opt/android-sdk;
 
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
