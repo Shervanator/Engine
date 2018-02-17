@@ -19,44 +19,49 @@ Transform::~Transform(void)
 {
 }
 
-void Transform::rotate(const glm::vec3& axis, float angle)
+Transform& Transform::rotate(const glm::vec3& axis, float angle)
 {
   m_rotation = glm::rotate(m_rotation, angle, axis);
+  return *this;
 }
 
-void Transform::scale(float scale)
+Transform& Transform::scale(float scale)
 {
-  setScale(getScale() * scale);
+  return setScale(getScale() * scale);
 }
 
-void Transform::scale(const glm::vec3& scale)
+Transform& Transform::scale(const glm::vec3& scale)
 {
-  setScale(getScale() * scale);
+  return setScale(getScale() * scale);
 }
 
-void Transform::translate(const glm::vec3& position)
+Transform& Transform::translate(const glm::vec3& position)
 {
-  setPosition(m_position.xyz() + position);
+  return setPosition(m_position.xyz() + position);
 }
 
-void Transform::setPosition(const glm::vec3& position)
+Transform& Transform::setPosition(const glm::vec3& position)
 {
   this->m_position = glm::vec4(position, 1);
+  return *this;
 }
 
-void Transform::setScale(const glm::vec3& scale)
+Transform& Transform::setScale(const glm::vec3& scale)
 {
   this->m_scale = scale;
+  return *this;
 }
 
-void Transform::setRotation(const glm::vec3& axis, float angle)
+Transform& Transform::setRotation(const glm::vec3& axis, float angle)
 {
   m_rotation = glm::angleAxis(angle, axis);
+  return *this;
 }
 
-void Transform::setRotation(const glm::quat& rotation)
+Transform& Transform::setRotation(const glm::quat& rotation)
 {
   this->m_rotation = rotation;
+  return *this;
 }
 
 glm::vec4 Transform::getPosition(void) const
