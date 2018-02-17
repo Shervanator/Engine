@@ -45,16 +45,13 @@ void CoolGame::init(GLManager *glManager)
   auto planeMesh = Plane::getMesh();
   auto plane = std::make_shared<Entity>();
   plane->addComponent<MeshRenderer>(planeMesh, brickMat);
-  plane->getTransform().setPosition(glm::vec3(0, -2, 0));
-  plane->getTransform().setScale(glm::vec3(10, 10, 10));
+  plane->getTransform().setPosition(glm::vec3(0, -2, 0)).setScale(glm::vec3(10, 10, 10));
 
   addToScene(plane);
 
   auto plane2 = std::make_shared<Entity>();
   plane2->addComponent<MeshRenderer>(planeMesh, brickMat);
-  plane2->getTransform().setPosition(glm::vec3(0, 3, -5));
-  plane2->getTransform().setScale(glm::vec3(10, 10, 10));
-  plane2->getTransform().rotate(glm::vec3(1, 0, 0), glm::pi<float>() / 2.f);
+  plane2->getTransform().setPosition(glm::vec3(0, 3, -5)).setScale(glm::vec3(10, 10, 10)).rotate(glm::vec3(1, 0, 0), glm::pi<float>() / 2.f);
 
   addToScene(plane2);
 
@@ -80,8 +77,7 @@ void CoolGame::init(GLManager *glManager)
 #else
   money2.getEntity()->addComponent<FreeLook>();
 #endif
-  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5));
-  money2.getEntity()->getTransform().setScale(glm::vec3(0.8, 0.8, 0.8));
+  money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5)).setScale(glm::vec3(0.8, 0.8, 0.8));
   money2.getEntity()->addComponent<SpotLight>(glm::vec3(1.0f, 1.0f, 1.0f), 1.8f, 0.7f, std::make_shared<Attenuation>(0, 0, 0.2));
 
   addToScene(money2.getEntity());
