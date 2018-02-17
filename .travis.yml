@@ -47,6 +47,7 @@ install:
 
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
+        brew tap caskroom/cask
         brew update;
         brew cask install java;
         brew install android-sdk ant;
