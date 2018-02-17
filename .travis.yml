@@ -61,7 +61,7 @@ before_script:
 
         export ANDROID_HOME=$ANDROID_SDK;
         export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
-        sdkmanager \"platform-tools\" \"build-tools-24.0.1\" \"platforms;android-22\";
+        sdkmanager \"platform-tools\" \"build-tools;24.0.1\" \"platforms;android-22\";
     fi"
   - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == android ]; then \
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
