@@ -62,6 +62,9 @@ matrix:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - BUILD_TYPE=android
 
+language: cpp
+compiler: clang
+
 before_script:
   - uname -a
   - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
