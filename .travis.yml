@@ -31,7 +31,7 @@ addons:
     packages:
     # - cmake
     # - cmake-data
-    # - build-essential
+    - build-essential
     # - clang
     - clang-3.7
     # - g++-5
