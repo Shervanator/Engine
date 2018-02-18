@@ -1,5 +1,41 @@
 matrix:
   include:
+    # linux native
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - gcc-6
+            - g++-6
+            - cmake
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - BUILD_TYPE=native
+      group: travis_latest
+      dist: trusty
+
+    # linux android
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - gcc-6
+            - g++-6
+            - cmake
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - BUILD_TYPE=android
+      group: travis_latest
+      dist: trusty
+
     # linux emscripten
     - os: linux
       services:
@@ -14,8 +50,52 @@ matrix:
       group: travis_latest
       dist: trusty
 
+    # osx native
+    - os: osx
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - BUILD_TYPE=native
+
+    # osx android
+    - os: osx
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - BUILD_TYPE=android
+
 before_script:
   - uname -a
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
+        brew tap caskroom/cask;
+        brew update;
+        brew cask install caskroom/versions/java8;
+        brew install ant;
+
+        wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
+        unzip -o -q ndk.zip;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        wget --quiet --continue https://dl.google.com/android/android-sdk_r24.4.1-macosx.zip;
+        unzip -o -q android-sdk_r24.4.1-macosx.zip;
+        export ANDROID_SDK=`pwd`/android-sdk-macosx;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == android ]; then \
+        wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
+        unzip -o -q ndk.zip;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
+        tar -xzf android-sdk_r24.4.1-linux.tgz;
+        export ANDROID_SDK=`pwd`/android-sdk-linux;
+        jdk_switcher use oraclejdk8;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+    fi"
   - if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then 
       docker run -dit --name emscripten -e TRAVIS_OS_NAME='linux' -e BUILD_TYPE='emscripten' -v `pwd`:/engine -w /engine trzeci/emscripten:sdk-incoming-64bit bash ; 
       docker exec -it emscripten apt-get update ;
