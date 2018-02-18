@@ -47,14 +47,18 @@ install:
 
 before_script:
   - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
+        brew tap caskroom/cask;
         brew update;
-        brew cask install java;
-        brew install android-sdk ant;
-        export ANDROID_SDK=/usr/local/opt/android-sdk;
+        brew cask install caskroom/versions/java8;
+        brew install ant;
 
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
         unzip -o -q ndk.zip;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        wget --quiet --continue https://dl.google.com/android/android-sdk_r24.4.1-macosx.zip;
+        unzip -o -q android-sdk_r24.4.1-macosx.zip;
+        export ANDROID_SDK=`pwd`/android-sdk-macosx;
 
         export ANDROID_HOME=$ANDROID_SDK;
         export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
