@@ -10,6 +10,8 @@ mkdir -p $DIR/../bin-emscripten/bin/
 cp $DIR/../src/example/html/index.html $DIR/../bin-emscripten/bin/
 cd $DIR/../bin-emscripten
 EMSCRIPTEN_FOLDER="$( echo $EMSCRIPTEN/emscripten/**/ )"
+echo "LOL"
+/home/travis/build/Shervanator/Engine/emsdk-portable/clang/e1.37.34_64bit/clang++ -v
 echo "RUNNING /home/travis/build/Shervanator/Engine/emsdk-portable/emscripten/1.37.34/emcc"
 /home/travis/build/Shervanator/Engine/emsdk-portable/emscripten/1.37.34/emcc
 echo "DONE"
