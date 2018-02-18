@@ -6,6 +6,11 @@ cmake_minimum_required(VERSION 2.8)
 
 project (Engine)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE STRING "Root dir")
 
@@ -15,7 +20,7 @@ include(${CP_CMAKE_DIR}/macros.cmake)
 
 IF (ANDROID)
   include(${CP_CMAKE_DIR}/android.cmake)
-ENDIF ()
+ENDIF () 
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -42,11 +47,12 @@ set ( WHEREAMI_LIBRARY whereami )
 set ( IMGUI_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui/ )
 set ( IMGUI_LIBRARY imgui )
 
-
 IF (EMSCRIPTEN)
-  add_definitions( -DGLES2=1 )
-
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=38000000 -s USE_SDL=2 -std=c++1y")
+  SET ( CMAKE_SHARED_LINKER_FLAGS "-Oz --closure 1" )
+  SET ( CMAKE_STATIC_LINKER_FLAGS "-Oz --closure 1" )
+  SET ( CMAKE_EXE_LINKER_FLAGS "-Oz --closure 1")
+  
+  SET(CMAKE_CXX_FLAGS "--closure 1 --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=536870912 -s USE_SDL=2 -std=c++14 -Oz")
   add_definitions(-DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/")
 
   set(ENGINE_LIBS
@@ -57,12 +63,13 @@ IF (EMSCRIPTEN)
   set(ENGINE_INCLUDES
     ${GLM_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
+    ${CMAKE_BINARY_DIR}/dependencies/assimp/include 
     ${IMGUI_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
-ELSEIF (ANDROID)
+  ELSEIF (ANDROID)
   add_definitions( -DGLES2=1 )
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
   set(ENGINE_LIBS
     ${SDL2_LIBRARY}
@@ -74,11 +81,12 @@ ELSEIF (ANDROID)
     ${SDL2_INCLUDE_DIR}
     ${GLM_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
+    ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${IMGUI_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
 ELSE ()
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++14")
   find_package(OpenGL REQUIRED)
 
   set(ENGINE_LIBS
@@ -91,9 +99,10 @@ ELSE ()
   )
 
   set(ENGINE_INCLUDES
-    ${SDL2_INCLUDE_DIR}
     ${GLM_INCLUDE_DIRS}
+    ${SDL2_INCLUDE_DIR}
     ${ASSIMP_INCLUDE_DIR}
+    ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${GLEW_INCLUDE_DIRS}
     ${WHEREAMI_INCLUDE_DIRS}
     ${IMGUI_INCLUDE_DIRS}
