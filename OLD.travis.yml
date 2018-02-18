@@ -1,0 +1,96 @@
+os:
+  - linux
+  - osx
+
+sudo: false
+dist: trusty
+
+language: cpp
+
+compiler:
+  - clang
+
+env:
+  global:
+    - secure: "bAMutoQUqShP/tl+9yO6JQ8+0ues5HqrCwjAugGaJ4Xqr3fM7eW0JHlJ02fgDCdzlEc6uzCc7ni7S6INJsWHJTSF6vXZxF6ALeZ4OsiwJ0e77AXbT6ZkWY7ST1tPunQpo4U4enLjXqKxkYJuQo3XkBopCwqDRkBkQzduFLl8/xc="
+  matrix:
+    #- BUILD_TYPE=android
+    #- BUILD_TYPE=native
+    - BUILD_TYPE=emscripten
+
+addons:
+  coverity_scan:
+    project:
+      name: "Shervanator/Engine"
+      description: "Build submitted via Travis CI"
+    notification_email: shervinaflatooni@gmail.com
+    build_command_prepend: "cmake ."
+    build_command: "make -j 4"
+    branch_pattern: coverity_scan
+  apt:
+    packages:
+    # - cmake
+    # - cmake-data
+    - build-essential
+    # - clang
+    - clang-3.7
+    # - g++-5
+    # - gcc-5
+    # - libc6-dev-i386
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.7
+    # - george-edison55-precise-backports
+
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
+
+before_script:
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == android ]; then \
+        brew tap caskroom/cask;
+        brew update;
+        brew cask install caskroom/versions/java8;
+        brew install ant;
+
+        wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
+        unzip -o -q ndk.zip;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        wget --quiet --continue https://dl.google.com/android/android-sdk_r24.4.1-macosx.zip;
+        unzip -o -q android-sdk_r24.4.1-macosx.zip;
+        export ANDROID_SDK=`pwd`/android-sdk-macosx;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == android ]; then \
+        wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
+        unzip -o -q ndk.zip;
+        export ANDROID_NDK=`pwd`/android-ndk-r12b;
+
+        wget --quiet --continue http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
+        tar -xzf android-sdk_r24.4.1-linux.tgz;
+        export ANDROID_SDK=`pwd`/android-sdk-linux;
+        jdk_switcher use oraclejdk8;
+
+        export ANDROID_HOME=$ANDROID_SDK;
+        export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == osx ] && [ $BUILD_TYPE == emscripten ]; then \
+        brew update;
+        brew install emscripten;
+    fi"
+  - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then \
+      wget --quiet --continue https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz;
+      tar -xzf emsdk-portable.tar.gz;
+
+      `pwd`/emsdk-portable/emsdk update;
+      `pwd`/emsdk-portable/emsdk install latest;
+      `pwd`/emsdk-portable/emsdk activate latest;
+      source `pwd`/emsdk-portable/emsdk_env.sh;
+  fi"
+
+script:
+  - ./scripts/travis-build.sh
