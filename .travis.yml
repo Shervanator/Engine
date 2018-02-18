@@ -50,19 +50,19 @@ before_script:
         brew tap caskroom/cask;
         brew update;
         brew cask install caskroom/versions/java8;
-        brew cask install android-sdk;
         brew install ant;
-        export ANDROID_SDK=/usr/local/share/android-sdk;
-        export ANDROID_SDK_ROOT=/usr/local/share/android-sdk;
 
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-darwin-x86_64.zip -O ndk.zip;
         unzip -o -q ndk.zip;
         export ANDROID_NDK=`pwd`/android-ndk-r12b;
 
+        wget --quiet --continue https://dl.google.com/android/android-sdk_r24.4.1-macosx.zip;
+        unzip -o -q android-sdk_r24.4.1-macosx.zip;
+        export ANDROID_SDK=`pwd`/android-sdk-macosx;
+
         export ANDROID_HOME=$ANDROID_SDK;
         export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
-        yes | sdkmanager --licenses;
-        yes | sdkmanager \"platform-tools\" \"build-tools;24.0.1\" \"platforms;android-22\";
+        echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
     fi"
   - "if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == android ]; then \
         wget --quiet --continue http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip -O ndk.zip;
