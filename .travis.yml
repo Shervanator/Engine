@@ -99,15 +99,25 @@ before_script:
         export PATH=${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools:${ANDROID_NDK}:${PATH};
         echo \"y\" | android update sdk -a -u -s -t platform-tools,build-tools-24.0.1,android-22;
     fi"
-  - if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then 
-      docker run -dit --name emscripten -e TRAVIS_OS_NAME='linux' -e BUILD_TYPE='emscripten' -v `pwd`:/engine -w /engine trzeci/emscripten:sdk-incoming-64bit bash ; 
+  - if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then
+      docker run -dit --name emscripten -e TRAVIS_OS_NAME='linux' -e BUILD_TYPE='emscripten' -v `pwd`:/engine -w /engine trzeci/emscripten:sdk-incoming-64bit bash ;
       docker exec -it emscripten apt-get update ;
       docker exec -it emscripten apt-get install -y cmake wget ;
     fi
 
 script:
-  - if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then 
+  - if [ $TRAVIS_OS_NAME == linux ] && [ $BUILD_TYPE == emscripten ]; then
       docker exec -it emscripten ./scripts/travis-build.sh ;
     else
       ./scripts/travis-build.sh ;
-    fi 
+    fi
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  keep-history: true
+  local-dir: bin-emscripten/bin/
+  on:
+    branch: master
+    condition: $BUILD_TYPE = emscripten
