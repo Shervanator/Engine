@@ -116,7 +116,7 @@ deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
-  keep-history: true
+  keep-history: false
   local-dir: bin-emscripten/bin/
   on:
     branch: master
