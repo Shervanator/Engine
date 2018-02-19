@@ -13,11 +13,10 @@
 #include <limits>
 
 #ifdef EMSCRIPTEN
-  #include <emscripten.h>
+#include <emscripten.h>
 
-  static Engine *instance = NULL;
+static Engine *instance = NULL;
 #endif
-
 
 Engine::Engine(Game *game)
 {
@@ -61,10 +60,9 @@ void Engine::start(void)
 
   emscripten_set_main_loop(Engine::loop, 0, 1);
 #else
-  while (!quit) {
+  while (!quit)
+  {
     tick();
-
-    SDL_Delay(1);
   }
 #endif
 }
@@ -89,7 +87,8 @@ void Engine::tick(void)
 
   game->render(m_glManager.get());
 
-  if (m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT)) {
+  if (m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT))
+  {
     Ray ray = Ray::getPickRay(m_window->getInput()->getMousePosition(), m_window->getViewport(), m_glManager->getViewMatrix(), m_glManager->getProjectionMatrix());
 
     Entity *pickedEntity = m_physicsManager->pick(&ray);
@@ -102,10 +101,13 @@ void Engine::tick(void)
 
   static bool f1Pressed = false;
 
-  if (!f1Pressed && m_window->getInput()->isPressed(SDLK_F1)) {
+  if (!f1Pressed && m_window->getInput()->isPressed(SDLK_F1))
+  {
     f1Pressed = true;
     m_window->getGuiManager()->togglePropertyEditor();
-  } else if (f1Pressed && m_window->getInput()->isReleased(SDLK_F1)) {
+  }
+  else if (f1Pressed && m_window->getInput()->isReleased(SDLK_F1))
+  {
     f1Pressed = false;
   }
 
