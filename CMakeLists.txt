@@ -53,7 +53,7 @@ IF (EMSCRIPTEN)
   SET ( CMAKE_EXE_LINKER_FLAGS "-Oz --closure 1")
 
   SET(CMAKE_CXX_FLAGS "--closure 1 --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=536870912 -s USE_SDL=2 -std=c++14 -Oz")
-  add_definitions( -DGLES2=1 -DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/" )
+  add_definitions( -DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/" )
 
   set(ENGINE_LIBS
     ${ASSIMP_LIBRARY}

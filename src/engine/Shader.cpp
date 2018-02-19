@@ -18,7 +18,7 @@ Shader::Shader(std::string shaderAssetName)
 {
   g_shProg = glCreateProgram();
 
-#if defined(GLES2) || defined(GLES3)
+#if defined(GLES2) || defined(GLES3) || defined(EMSCRIPTEN)
   addVertex(Asset(shaderAssetName + "-gles.vs").read());
   addFragment(Asset(shaderAssetName + "-gles.fs").read());
 #else
@@ -27,7 +27,7 @@ Shader::Shader(std::string shaderAssetName)
 #endif
 }
 
-Shader::Shader(const char* vert_src, const char* frag_src)
+Shader::Shader(const char *vert_src, const char *frag_src)
 {
   g_shProg = glCreateProgram();
   addVertex(vert_src);
@@ -45,7 +45,7 @@ Shader::~Shader(void)
   glDeleteProgram(g_shProg);
 }
 
-void Shader::addVertex(const char* vert_src)
+void Shader::addVertex(const char *vert_src)
 {
   char shErr[1024];
   int errlen;
@@ -62,7 +62,8 @@ void Shader::addVertex(const char* vert_src)
 
   // check if compilation was successful
   glGetShaderiv(g_shVert, GL_COMPILE_STATUS, &res);
-  if (GL_FALSE == res){
+  if (GL_FALSE == res)
+  {
     glGetShaderInfoLog(g_shVert, 1024, &errlen, shErr);
     log_err("Failed to compile vertex shader: %s", shErr);
     return;
@@ -75,7 +76,7 @@ void Shader::addVertex(const char* vert_src)
   glDeleteShader(g_shVert);
 }
 
-void Shader::addFragment(const char* frag_src)
+void Shader::addFragment(const char *frag_src)
 {
   char shErr[1024];
   int errlen;
@@ -92,7 +93,8 @@ void Shader::addFragment(const char* frag_src)
 
   // check if compilation was successful
   glGetShaderiv(g_shFrag, GL_COMPILE_STATUS, &res);
-  if (GL_FALSE == res){
+  if (GL_FALSE == res)
+  {
     glGetShaderInfoLog(g_shFrag, 1024, &errlen, shErr);
     log_err("Failed to compile fragment shader: %s", shErr);
     return;
@@ -119,7 +121,8 @@ void Shader::link(void)
 
   glValidateProgram(g_shProg);
   glGetProgramiv(g_shProg, GL_VALIDATE_STATUS, &res);
-  if (GL_FALSE == res) {
+  if (GL_FALSE == res)
+  {
     glGetProgramInfoLog(g_shProg, 1024, &errlen, shErr);
     log_err("Error validating shader: %s", shErr);
   }
@@ -130,17 +133,17 @@ GLuint Shader::getProgram(void)
   return g_shProg;
 }
 
-void Shader::createUniform(const std::string& uniformName)
+void Shader::createUniform(const std::string &uniformName)
 {
   uniformLocation[uniformName] = glGetUniformLocation(g_shProg, uniformName.c_str());
 }
 
-GLuint Shader::getUniformLocation(const std::string& uniformName)
+GLuint Shader::getUniformLocation(const std::string &uniformName)
 {
   return uniformLocation[uniformName];
 }
 
-void Shader::setAttribLocation(const char* name, int i)
+void Shader::setAttribLocation(const char *name, int i)
 {
   glBindAttribLocation(g_shProg, i, name);
 }
