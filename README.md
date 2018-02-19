@@ -2,27 +2,31 @@
 
 A basic cross-platform (Mac, Windows, Linux, HTML5, Android) 3D game engine.
 
+ONLINE DEMO: https://shervanator.github.io/Engine/
+
 [![Build Status](https://travis-ci.org/Shervanator/Engine.svg?branch=master)](https://travis-ci.org/Shervanator/Engine)
 
 Feature:
-- Scene Graph
-- 3D model loading (most common file formats)
-- Entity/Component Object Model
-- Lighting system (ambient/spot/point/directional lights) - Forward rendering
-- Bump mapping
-- Perspective/Ortho camera
-- Object picking (basic ray tracing/sphere collider collision detection)
-- Fully cross platform
+
+* Scene Graph
+* 3D model loading (most common file formats)
+* Entity/Component Object Model
+* Lighting system (ambient/spot/point/directional lights) - Forward rendering
+* Bump mapping
+* Perspective/Ortho camera
+* Object picking (basic ray tracing/sphere collider collision detection)
+* Fully cross platform
 
 ![engine screenshot](https://cloud.githubusercontent.com/assets/1892180/19194155/843d0b7a-8cf8-11e6-9c1e-0982058c4594.png)
 
 Uses the following 3rd party libraries:
-- SDL2 window library.
-- stb_image.h image library.
-- OpenGL 3 / OpenGL ES 2.0 / OpenGL ES 3.0 Graphics APIs.
-- Assimp asset importing library.
-- GLEW extension loading library.
-- Dear ImGui UI library.
+
+* SDL2 window library.
+* stb_image.h image library.
+* OpenGL 3 / OpenGL ES 2.0 / OpenGL ES 3.0 Graphics APIs.
+* Assimp asset importing library.
+* GLEW extension loading library.
+* Dear ImGui UI library.
 
 ## Usage
 
@@ -45,11 +49,13 @@ Run:
 ```
 
 Then run with:
+
 ```bash
 ./bin/bin/game
 ```
 
 This will run the first build for you! After that if you need to rebuild do the following:
+
 ```bash
 cd bin
 make -j8
@@ -60,16 +66,19 @@ make -j8
 To build the html5 engine:
 
 First install emscripten:
+
 ```bash
 brew install emscripten
 ```
 
 Then build the engine:
+
 ```bash
 ./scripts/cmake-emscripten.sh -j8
 ```
 
 Then run with:
+
 ```bash
 cd bin-emscripten/bin
 
@@ -79,6 +88,7 @@ open http://localhost:8000/
 ```
 
 If you make a change you can rebuild with the following command:
+
 ```bash
 cd bin-emscripten/
 make -j8
@@ -102,11 +112,13 @@ export PATH="$ANDROID_NDK:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$PATH"
 ```
 
 Then to build (connect phone in dev mode to computer if you want it to install and run):
+
 ```
 ./scripts/cmake-android.sh -j8
 ```
 
 To rebuild do the following:
+
 ```bash
 cd bin-android
 make -j8
@@ -114,6 +126,7 @@ make android-build android-install android-start
 ```
 
 If you want to view the backtrace (to see logs and errors do the following):
+
 ```bash
 cd bin-android
 make android-backtrace
