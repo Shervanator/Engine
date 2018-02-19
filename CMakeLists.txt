@@ -20,7 +20,7 @@ include(${CP_CMAKE_DIR}/macros.cmake)
 
 IF (ANDROID)
   include(${CP_CMAKE_DIR}/android.cmake)
-ENDIF () 
+ENDIF ()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -51,9 +51,9 @@ IF (EMSCRIPTEN)
   SET ( CMAKE_SHARED_LINKER_FLAGS "-Oz --closure 1" )
   SET ( CMAKE_STATIC_LINKER_FLAGS "-Oz --closure 1" )
   SET ( CMAKE_EXE_LINKER_FLAGS "-Oz --closure 1")
-  
+
   SET(CMAKE_CXX_FLAGS "--closure 1 --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/ -s TOTAL_MEMORY=536870912 -s USE_SDL=2 -std=c++14 -Oz")
-  add_definitions(-DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/")
+  add_definitions( -DGLES2=1 -DASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/example/assets/" )
 
   set(ENGINE_LIBS
     ${ASSIMP_LIBRARY}
@@ -63,7 +63,7 @@ IF (EMSCRIPTEN)
   set(ENGINE_INCLUDES
     ${GLM_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
-    ${CMAKE_BINARY_DIR}/dependencies/assimp/include 
+    ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${IMGUI_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
