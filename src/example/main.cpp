@@ -38,28 +38,32 @@ public:
 void CoolGame::updateInput(Input *input, std::chrono::microseconds delta)
 {
   static bool pressed = false;
-  if (input->isPressed(SDLK_SPACE) && !pressed) {
+  if (input->isPressed(SDLK_SPACE) && !pressed)
+  {
     pressed = true;
     MeshLoader cube("cube.obj");
-    cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition().xyz);
+    cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition());
     cube.getEntity()->addComponent<BoxCollider>(glm::vec3(0.5, 0.5, 0.5), 50);
     cube.getEntity()->addComponent<Sphere>(1);
     addToScene(cube.getEntity());
     auto dir = primary_camera->getParent()->getDirection();
-    cube.getEntity()->getComponent<BoxCollider>()->applyCentralImpulse(glm::vec3(dir.x*500.0f, dir.y*500.0f, dir.z*500.0f));
+    cube.getEntity()->getComponent<BoxCollider>()->applyCentralImpulse(glm::vec3(dir.x * 500.0f, dir.y * 500.0f, dir.z * 500.0f));
   }
 
-  if (input->isReleased(SDLK_SPACE) && pressed) {
+  if (input->isReleased(SDLK_SPACE) && pressed)
+  {
     pressed = false;
   }
 
   static bool pressed2 = false;
-  if (input->isPressed(SDLK_c) && !pressed2) {
+  if (input->isPressed(SDLK_c) && !pressed2)
+  {
     pressed2 = true;
     getEngine()->getGLManager()->setActiveCamera(primary_camera2);
   }
 
-  if (input->isReleased(SDLK_c) && pressed2) {
+  if (input->isReleased(SDLK_c) && pressed2)
+  {
     pressed2 = false;
     getEngine()->getGLManager()->setActiveCamera(primary_camera);
   }
@@ -205,7 +209,8 @@ void CoolGame::init(GLManager *glManager)
     addToScene(plane);
   }
 
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 1; i++)
+  {
     MeshLoader ml("Pregnant.obj");
     ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, -2.5));
     ml.getEntity()->addComponent<Sphere>(1);
@@ -240,7 +245,8 @@ void CoolGame::init(GLManager *glManager)
   getEngine()->getGLManager()->setActiveCamera(primary_camera);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   CoolGame game;
   Engine gameEngine(&game);
 
