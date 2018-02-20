@@ -17,33 +17,6 @@ PhysicsManager::PhysicsManager(void)
 	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher, m_overlappingPairCache, m_solver, m_collisionConfiguration);
 
 	m_dynamicsWorld->setGravity(btVector3(0,-10,0));
-
-
-
-  /*{
-    btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(0.), btScalar(50.)));
-
-    btTransform groundTransform;
-    groundTransform.setIdentity();
-    groundTransform.setOrigin(btVector3(0, -2, 0));
-
-    btScalar mass(0.);
-
-    //rigidbody is dynamic if and only if mass is non zero, otherwise static
-    bool isDynamic = (mass != 0.f);
-
-    btVector3 localInertia(0, 0, 0);
-    if (isDynamic)
-      groundShape->calculateLocalInertia(mass, localInertia);
-
-    //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-    btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-    btRigidBody* body = new btRigidBody(rbInfo);
-
-    //add the body to the dynamics world
-    m_dynamicsWorld->addRigidBody(body);
-  }*/
 }
 
 PhysicsManager::~PhysicsManager(void)
