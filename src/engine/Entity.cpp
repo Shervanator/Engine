@@ -8,9 +8,9 @@
 
 #include <algorithm>
 
-std::map<std::string, std::vector<Entity*> > Entity::taggedEntities;
+std::map<std::string, std::vector<Entity *>> Entity::taggedEntities;
 
-Entity::Entity(const std::string& tag)
+Entity::Entity(const std::string &tag)
 {
   Entity::setTag(this, tag);
 
@@ -25,18 +25,19 @@ Entity::Entity(void)
 
 Entity::~Entity(void)
 {
-  if (!m_tag.empty()) {
+  if (!m_tag.empty())
+  {
     auto taggedEntitiesVec = &Entity::taggedEntities[m_tag];
     taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this), taggedEntitiesVec->end());
   }
 }
 
-void Entity::setTag(Entity *entity, const std::string& tag)
+void Entity::setTag(Entity *entity, const std::string &tag)
 {
   Entity::taggedEntities[tag].push_back(entity);
 }
 
-std::vector<Entity*> Entity::findByTag(const std::string& tag)
+std::vector<Entity *> Entity::findByTag(const std::string &tag)
 {
   return Entity::taggedEntities[tag];
 }
@@ -47,16 +48,20 @@ void Entity::addChild(std::shared_ptr<Entity> child)
   children.push_back(child);
 
   // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
-  if (m_engine) {
+  if (m_engine)
+  {
     child->registerWithEngineAll(m_engine);
   }
 }
 
 void Entity::updateInputAll(Input *input, int delta)
 {
-  if (parentEntity == nullptr) {
+  if (parentEntity == nullptr)
+  {
     worldMatrix = transform.getTransformMatrix();
-  } else {
+  }
+  else
+  {
     worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
   }
 
@@ -73,7 +78,8 @@ void Entity::updateInputAll(Input *input, int delta)
 
 void Entity::updateAll(int delta)
 {
-  for (auto component : components) {
+  for (auto component : components)
+  {
     component->update(delta);
   }
 
@@ -126,7 +132,7 @@ void Entity::deregisterFromEngineAll(void)
   m_engine = nullptr;
 }
 
-Transform& Entity::getTransform(void)
+Transform &Entity::getTransform(void)
 {
   return transform;
 }
@@ -141,25 +147,31 @@ std::vector<std::shared_ptr<Component>> Entity::getComponents(void)
   return components;
 }
 
-glm::mat4& Entity::getWorldMatrix(void)
+glm::mat4 &Entity::getWorldMatrix(void)
 {
   return worldMatrix;
 }
 
-glm::vec4 Entity::getPosition(void)
+glm::vec3 Entity::getPosition(void)
 {
-  if (parentEntity == nullptr) {
+  if (parentEntity == nullptr)
+  {
     return transform.getPosition();
-  } else {
-    return parentEntity->worldMatrix * transform.getPosition();
+  }
+  else
+  {
+    return (parentEntity->worldMatrix * glm::vec4(transform.getPosition(), 1)).xyz();
   }
 }
 
 glm::vec4 Entity::getDirection(void)
 {
-  if (parentEntity == nullptr) {
+  if (parentEntity == nullptr)
+  {
     return transform.getDirection();
-  } else {
+  }
+  else
+  {
     return glm::normalize(parentEntity->worldMatrix * transform.getDirection());
   }
 }

@@ -171,7 +171,7 @@ void Shader::updateUniformPointLight(const std::string &uniformName, PointLight 
   setUniform1f(uniformName + ".base.intensity", pointLight->getIntensity());
 
   setUniformAttenuation(uniformName + ".attenuation", pointLight->getAttenuation());
-  setUniformVec3f(uniformName + ".position", pointLight->getParent()->getPosition().xyz());
+  setUniformVec3f(uniformName + ".position", pointLight->getParent()->getPosition());
   setUniform1f(uniformName + ".range", pointLight->getRange());
 }
 
@@ -183,7 +183,7 @@ void Shader::updateUniformSpotLight(const std::string &uniformName, SpotLight *s
   setUniform1f(uniformName + ".pointLight.base.intensity", spotLight->getIntensity());
 
   setUniformAttenuation(uniformName + ".pointLight.attenuation", spotLight->getAttenuation());
-  setUniformVec3f(uniformName + ".pointLight.position", spotLight->getParent()->getPosition().xyz());
+  setUniformVec3f(uniformName + ".pointLight.position", spotLight->getParent()->getPosition());
   setUniform1f(uniformName + ".pointLight.range", spotLight->getRange());
 
   setUniformVec3f(uniformName + ".direction", spotLight->getParent()->getDirection().xyz());

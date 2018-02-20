@@ -36,9 +36,9 @@ GLManager::~GLManager(void)
 
 void GLManager::bindRenderTarget(void) const
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, this->width, this->height);
+  glBindTexture(GL_TEXTURE_2D, 0);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glViewport(0, 0, this->width, this->height);
 }
 
 void GLManager::setActiveCamera(std::shared_ptr<Camera> camera)
@@ -140,11 +140,12 @@ void GLManager::renderLights(Entity *scene)
 {
   m_forwardDirectional->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
   m_forwardDirectional->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
-  m_forwardDirectional->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
+  m_forwardDirectional->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition());
 
   m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
   m_forwardDirectional->setUniform1f("specularPower", 10);
-  for (auto light : m_directionalLights) {
+  for (auto light : m_directionalLights)
+  {
     light->updateShader(m_forwardDirectional.get());
 
     scene->renderAll(m_forwardDirectional.get());
@@ -152,11 +153,12 @@ void GLManager::renderLights(Entity *scene)
 
   m_forwardPoint->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
   m_forwardPoint->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
-  m_forwardPoint->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
+  m_forwardPoint->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition());
 
   m_forwardPoint->setUniform1f("specularIntensity", 0.5);
   m_forwardPoint->setUniform1f("specularPower", 10);
-  for (auto light : m_pointLights) {
+  for (auto light : m_pointLights)
+  {
     light->updateShader(m_forwardPoint.get());
 
     scene->renderAll(m_forwardPoint.get());
@@ -164,11 +166,12 @@ void GLManager::renderLights(Entity *scene)
 
   m_forwardSpot->setUniformMatrix4f("View", m_activeCamera->getViewMatrix());
   m_forwardSpot->setUniformMatrix4f("Proj", m_activeCamera->getProjectionMatrix());
-  m_forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition().xyz());
+  m_forwardSpot->setUniformVec3f("eyePos", m_activeCamera->getParent()->getPosition());
 
   m_forwardSpot->setUniform1f("specularIntensity", 0.5);
   m_forwardSpot->setUniform1f("specularPower", 10);
-  for (auto light : m_spotLights) {
+  for (auto light : m_spotLights)
+  {
     light->updateShader(m_forwardSpot.get());
 
     scene->renderAll(m_forwardSpot.get());

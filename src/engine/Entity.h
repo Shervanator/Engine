@@ -21,7 +21,7 @@ class Component;
 class Entity
 {
 public:
-  Entity(const std::string& tag);
+  Entity(const std::string &tag);
   Entity(void);
   ~Entity(void);
 
@@ -36,7 +36,7 @@ public:
   }
 
   template <class T, class... _Types>
-  inline void addComponent(_Types&&... _Args)
+  inline void addComponent(_Types &&... _Args)
   {
     auto component = std::make_shared<T>(_Args...);
     component->setParent(this);
@@ -50,23 +50,26 @@ public:
   void registerWithEngineAll(Engine *engine);
   void deregisterFromEngineAll(void);
 
-  Transform& getTransform(void);
+  Transform &getTransform(void);
 
   std::vector<std::shared_ptr<Entity>> getChildren(void);
   std::vector<std::shared_ptr<Component>> getComponents(void);
 
-  glm::mat4& getWorldMatrix(void);
+  glm::mat4 &getWorldMatrix(void);
 
-  glm::vec4 getPosition(void);
+  glm::vec3 getPosition(void);
   glm::vec4 getDirection(void);
 
   template <class T>
   inline std::vector<std::shared_ptr<T>> getComponentsByType(void)
   {
     auto i = componentsByTypeid.find(typeid(T));
-    if (i == componentsByTypeid.end()) {
+    if (i == componentsByTypeid.end())
+    {
       return std::vector<std::shared_ptr<T>>();
-    } else {
+    }
+    else
+    {
       auto vec = i->second;
 
       std::vector<std::shared_ptr<T>> target(vec.size());
@@ -79,19 +82,25 @@ public:
   inline std::shared_ptr<T> getComponent(void)
   {
     auto i = componentsByTypeid.find(typeid(T));
-    if (i == componentsByTypeid.end()) {
+    if (i == componentsByTypeid.end())
+    {
       return nullptr;
-    } else {
+    }
+    else
+    {
       auto vec = i->second;
-      if (vec.size() > 0) {
+      if (vec.size() > 0)
+      {
         return std::dynamic_pointer_cast<T>(vec[0]);
-      } else {
+      }
+      else
+      {
         return nullptr;
       }
     }
   }
 
-  static std::vector<Entity*> findByTag(const std::string& tag);
+  static std::vector<Entity *> findByTag(const std::string &tag);
 
 private:
   Transform transform;
@@ -107,9 +116,9 @@ private:
 
   Engine *m_engine;
 
-  static void setTag(Entity *entity, const std::string& tag);
+  static void setTag(Entity *entity, const std::string &tag);
 
-  static std::map<std::string, std::vector<Entity*> > taggedEntities;
+  static std::map<std::string, std::vector<Entity *>> taggedEntities;
 
-  std::map<std::type_index, std::vector<std::shared_ptr<Component>> > componentsByTypeid;
+  std::map<std::type_index, std::vector<std::shared_ptr<Component>>> componentsByTypeid;
 };
