@@ -16,7 +16,7 @@ FreeLook::~FreeLook(void)
 
 void FreeLook::updateInput(Input *input, std::chrono::microseconds delta)
 {
-  float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::milliseconds>(delta).count();
+  float moveAmount = m_speed * (delta.count() / 1000.f);
 #ifdef ANDROID
   if (input->mouseIsPressed(SDL_BUTTON_LEFT)) {
 #else
