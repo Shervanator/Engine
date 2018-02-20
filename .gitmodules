@@ -16,3 +16,6 @@
 [submodule "dependencies/imgui"]
 	path = dependencies/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "dependencies/bullet3"]
+	path = dependencies/bullet3
+	url = https://github.com/bulletphysics/bullet3.git

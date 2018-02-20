@@ -32,12 +32,12 @@ void Game::addToScene(std::shared_ptr<Entity> entity)
   rootScene->addChild(entity);
 }
 
-void Game::updateInput(Input *input, int delta)
+void Game::updateInput(Input *input, std::chrono::microseconds delta)
 {
   rootScene->updateInputAll(input, delta);
 }
 
-void Game::update(int delta)
+void Game::update(std::chrono::microseconds delta)
 {
   rootScene->updateAll(delta);
 }

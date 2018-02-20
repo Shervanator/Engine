@@ -47,6 +47,9 @@ set ( WHEREAMI_LIBRARY whereami )
 set ( IMGUI_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui/ )
 set ( IMGUI_LIBRARY imgui )
 
+set ( BULLET_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/bullet3/src/ )
+set ( BULLET_LIBRARY BulletDynamics BulletCollision LinearMath )
+
 IF (EMSCRIPTEN)
   SET ( CMAKE_SHARED_LINKER_FLAGS "-Oz --closure 1" )
   SET ( CMAKE_STATIC_LINKER_FLAGS "-Oz --closure 1" )
@@ -65,6 +68,7 @@ IF (EMSCRIPTEN)
     ${ASSIMP_INCLUDE_DIR}
     ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${IMGUI_INCLUDE_DIRS}
+    ${BULLET_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
   ELSEIF (ANDROID)
@@ -75,6 +79,7 @@ IF (EMSCRIPTEN)
     ${SDL2_LIBRARY}
     ${ASSIMP_LIBRARY}
     ${IMGUI_LIBRARY}
+    ${BULLET_LIBRARY}
   )
 
   set(ENGINE_INCLUDES
@@ -83,6 +88,7 @@ IF (EMSCRIPTEN)
     ${ASSIMP_INCLUDE_DIR}
     ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${IMGUI_INCLUDE_DIRS}
+    ${BULLET_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
 ELSE ()
@@ -96,6 +102,7 @@ ELSE ()
     ${GLEW_LIBRARIES}
     ${WHEREAMI_LIBRARY}
     ${IMGUI_LIBRARY}
+    ${BULLET_LIBRARY}
   )
 
   set(ENGINE_INCLUDES
@@ -106,6 +113,7 @@ ELSE ()
     ${GLEW_INCLUDE_DIRS}
     ${WHEREAMI_INCLUDE_DIRS}
     ${IMGUI_INCLUDE_DIRS}
+    ${BULLET_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/engine/
   )
 ENDIF ()

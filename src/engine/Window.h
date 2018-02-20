@@ -9,6 +9,7 @@
 
 #include <string>
 #include <memory>
+#include <chrono>
 
 #include <glm/glm.hpp>
 #include <SDL.h>
@@ -31,7 +32,7 @@ public:
   void tick(void);
   void swapBuffer(void);
   int poll_event(SDL_Event *event);
-  Uint32 getDeltaTime(void) const;
+  std::chrono::microseconds getDeltaTime(void) const;
 
   int getWidth(void) const;
   int getHeight(void) const;
@@ -58,7 +59,8 @@ private:
   SDL_GLContext m_glContext;
   std::unique_ptr<GuiManager> m_guiManager;
 
-  Uint32 m_time, m_lastTime, m_deltaTime;
+  std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
+  std::chrono::microseconds m_deltaTime;
 
   int m_width, m_height;
 

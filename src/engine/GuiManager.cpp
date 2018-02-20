@@ -190,11 +190,8 @@ GuiManager::GuiManager(const glm::vec2& drawableSize, const glm::vec2& displaySi
 {
   m_sdlWindow = sdlWindow;
 
-#ifdef ANDROID
   showProps = true;
-#else
-  showProps = false;
-#endif
+
   ImGuiIO& io = ImGui::GetIO();
   io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
   io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
@@ -249,7 +246,7 @@ void GuiManager::tick(Window *window)
 {
   ImGuiIO& io = ImGui::GetIO();
 
-  io.DeltaTime = window->getDeltaTime() / 1000.0f;
+  io.DeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(window->getDeltaTime()).count();
 
   glm::vec2 mousePos = window->getInput()->getMousePosition();
   io.MousePos = ImVec2(mousePos.x, mousePos.y);
