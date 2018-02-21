@@ -18,6 +18,9 @@
 static Engine *instance = NULL;
 #endif
 
+// TODO: DO WE NEED FIXED UPDATES?
+// std::chrono::microseconds FIXED_TIME_STEP(std::chrono::milliseconds(20));
+
 Engine::Engine(Game *game)
 {
   log_info("Initializing SDL");
@@ -56,6 +59,8 @@ void Engine::start(void)
   m_window->makeCurrentContext();
 
   m_time = std::chrono::high_resolution_clock::now();
+  // TODO: DO WE NEED FIXED UPDATES?
+  //m_physicsTimeSimulated = std::chrono::high_resolution_clock::now();
 
 #ifdef EMSCRIPTEN
   instance = this;
@@ -88,6 +93,12 @@ void Engine::tick(void)
   quit = m_window->shouldQuit();
 
   m_physicsManager->tick(m_deltaTime);
+
+  /* TODO: DO WE NEED FIXED UPDATES?
+  while (m_physicsTimeSimulated < m_time) {
+
+    m_physicsTimeSimulated += FIXED_TIME_STEP;
+  }*/
 
   game->update(m_window->getInput(), m_deltaTime);
 

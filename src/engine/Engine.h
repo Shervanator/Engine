@@ -16,8 +16,6 @@
 #include "Input.h"
 #include "components/Sphere.h"
 
-#define FIXED_TIME_STEP 20
-
 class Engine
 {
 public:
@@ -45,6 +43,8 @@ private:
 
   std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
   std::chrono::microseconds m_deltaTime;
+
+  //std::chrono::high_resolution_clock::time_point m_physicsTimeSimulated;
 
   Game *game;
 
