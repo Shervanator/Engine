@@ -55,6 +55,8 @@ void Engine::start(void)
 
   m_window->makeCurrentContext();
 
+  m_time = std::chrono::high_resolution_clock::now();
+
 #ifdef EMSCRIPTEN
   instance = this;
 
@@ -76,14 +78,18 @@ void Engine::loop(void)
 
 void Engine::tick(void)
 {
+  m_lastTime = m_time;
+  m_time = std::chrono::high_resolution_clock::now();
+  m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
+
   m_window->tick();
-  std::chrono::microseconds delta_time = m_window->getDeltaTime();
+  m_window->getGuiManager()->tick(m_window.get(), m_deltaTime);
 
   quit = m_window->shouldQuit();
 
-  m_physicsManager->tick(delta_time);
+  m_physicsManager->tick(m_deltaTime);
 
-  game->update(m_window->getInput(), delta_time);
+  game->update(m_window->getInput(), m_deltaTime);
 
   game->render(m_glManager.get());
 
@@ -129,4 +135,9 @@ GLManager *Engine::getGLManager(void) const
 PhysicsManager *Engine::getPhysicsManager(void) const
 {
   return m_physicsManager.get();
+}
+
+std::chrono::microseconds Engine::getDeltaTime(void) const
+{
+  return m_deltaTime;
 }
