@@ -45,8 +45,7 @@ public:
     components.push_back(component);
   }
 
-  void updateInputAll(Input *input, std::chrono::microseconds delta);
-  void updateAll(std::chrono::microseconds delta);
+  void updateAll(Input *input, std::chrono::microseconds delta);
   void renderAll(Shader *shader);
   void registerWithEngineAll(Engine *engine);
   void deregisterFromEngineAll(void);

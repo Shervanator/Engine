@@ -83,9 +83,7 @@ void Engine::tick(void)
 
   m_physicsManager->tick(delta_time);
 
-  game->updateInput(m_window->getInput(), delta_time);
-
-  game->update(delta_time);
+  game->update(m_window->getInput(), delta_time);
 
   game->render(m_glManager.get());
 

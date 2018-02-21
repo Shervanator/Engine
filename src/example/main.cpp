@@ -28,14 +28,13 @@ class CoolGame : public Game
 {
 public:
   virtual void init(GLManager *glManager);
-  virtual void update(std::chrono::microseconds delta);
-  virtual void updateInput(Input *input, std::chrono::microseconds delta);
+  virtual void update(Input *input, std::chrono::microseconds delta);
 
   std::shared_ptr<PerspectiveCamera> primary_camera;
   std::shared_ptr<PerspectiveCamera> primary_camera2;
 };
 
-void CoolGame::updateInput(Input *input, std::chrono::microseconds delta)
+void CoolGame::update(Input *input, std::chrono::microseconds delta)
 {
   static bool pressed = false;
   if (input->isPressed(SDLK_SPACE) && !pressed)
@@ -68,12 +67,7 @@ void CoolGame::updateInput(Input *input, std::chrono::microseconds delta)
     getEngine()->getGLManager()->setActiveCamera(primary_camera);
   }
 
-  Game::updateInput(input, delta);
-}
-
-void CoolGame::update(std::chrono::microseconds delta)
-{
-  Game::update(delta);
+  Game::update(input, delta);
 }
 
 void CoolGame::init(GLManager *glManager)
