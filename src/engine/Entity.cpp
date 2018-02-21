@@ -54,7 +54,7 @@ void Entity::addChild(std::shared_ptr<Entity> child)
   }
 }
 
-void Entity::updateInputAll(Input *input, std::chrono::microseconds delta)
+void Entity::updateAll(Input *input, std::chrono::microseconds delta)
 {
   if (parentEntity == nullptr)
   {
@@ -67,25 +67,12 @@ void Entity::updateInputAll(Input *input, std::chrono::microseconds delta)
 
   for (auto component : components)
   {
-    component->updateInput(input, delta);
+    component->update(input, delta);
   }
 
   for (auto child : children)
   {
-    child->updateInputAll(input, delta);
-  }
-}
-
-void Entity::updateAll(std::chrono::microseconds delta)
-{
-  for (auto component : components)
-  {
-    component->update(delta);
-  }
-
-  for (auto child : children)
-  {
-    child->updateAll(delta);
+    child->updateAll(input, delta);
   }
 }
 

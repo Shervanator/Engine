@@ -15,14 +15,14 @@ public:
 
   virtual void registerWithEngine(Engine *engine);
   virtual void deregisterFromEngine(Engine *engine);
-  virtual void update(std::chrono::microseconds delta);
+  virtual void update(Input *input, std::chrono::microseconds delta);
 
   inline virtual const char *getType(void) { return "BASE_COLLIDER"; };
 
-  void applyCentralImpulse(const glm::vec3& impulse);
+  void applyCentralImpulse(const glm::vec3 &impulse);
 
 private:
-  btRigidBody* m_body;
-  btDefaultMotionState* m_myMotionState;
-  btCollisionShape* m_shape;
+  btRigidBody *m_body;
+  btDefaultMotionState *m_myMotionState;
+  btCollisionShape *m_shape;
 };

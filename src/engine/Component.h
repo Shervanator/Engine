@@ -13,7 +13,8 @@
 
 class Engine;
 
-enum PropertyType {
+enum PropertyType
+{
   FLOAT,
   FLOAT3,
   BOOLEAN,
@@ -21,7 +22,8 @@ enum PropertyType {
   COLOR
 };
 
-struct Property {
+struct Property
+{
   PropertyType type;
   void *p;
   float min;
@@ -31,13 +33,12 @@ struct Property {
 class Component
 {
 public:
-  virtual ~Component(void) {};
+  virtual ~Component(void){};
 
-  virtual void updateInput(Input *input, std::chrono::microseconds delta) {};
-  virtual void update(std::chrono::microseconds delta) {};
-  virtual void render(Shader *shader) {};
-  virtual void registerWithEngine(Engine *engine) {};
-  virtual void deregisterFromEngine(Engine *engine) {};
+  virtual void update(Input *input, std::chrono::microseconds delta){};
+  virtual void render(Shader *shader){};
+  virtual void registerWithEngine(Engine *engine){};
+  virtual void deregisterFromEngine(Engine *engine){};
 
   virtual const char *getType(void) = 0;
 
@@ -47,7 +48,7 @@ public:
   void setParent(Entity *parentEntity);
   Entity *getParent(void) const;
 
-  Transform& getTransform(void) const;
+  Transform &getTransform(void) const;
 
   std::map<const char *, Property> m_properties;
 

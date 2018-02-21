@@ -5,56 +5,67 @@
 #include "Component.h"
 
 #if defined(GLES2)
-  #include <GLES2/gl2.h>
+#include <GLES2/gl2.h>
 #elif defined(GLES3)
-  #include <GLES3/gl3.h>
+#include <GLES3/gl3.h>
 #else
-  #include <GL/glew.h>
+#include <GL/glew.h>
 #endif
 
 #include <glm/gtx/transform.hpp>
 
 TextureData *m_textureData;
 Shader *m_shader;
-static int          g_AttribLocationPosition = 0, g_AttribLocationUV = 0, g_AttribLocationColor = 0;
+static int g_AttribLocationPosition = 0, g_AttribLocationUV = 0, g_AttribLocationColor = 0;
 static unsigned int g_VboHandle = 0, g_VaoHandle = 0, g_ElementsHandle = 0;
 
 void GuiManager::addInputCharactersUTF8(const char *text)
 {
-  ImGuiIO& io = ImGui::GetIO();
+  ImGuiIO &io = ImGui::GetIO();
   io.AddInputCharactersUTF8(text);
 }
 
 void GuiManager::setKeyEvent(int key, bool keydown)
 {
-  ImGuiIO& io = ImGui::GetIO();
+  ImGuiIO &io = ImGui::GetIO();
   io.KeysDown[key] = keydown;
 }
 
-void GuiManager::renderDrawLists(ImDrawData* draw_data)
+void GuiManager::renderDrawLists(ImDrawData *draw_data)
 {
   // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
-  ImGuiIO& io = ImGui::GetIO();
+  ImGuiIO &io = ImGui::GetIO();
   int fb_width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
   int fb_height = (int)(io.DisplaySize.y * io.DisplayFramebufferScale.y);
   if (fb_width == 0 || fb_height == 0)
-      return;
+    return;
   draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
   // Backup GL state
-  GLint last_program; glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
-  GLint last_texture; glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-  GLint last_active_texture; glGetIntegerv(GL_ACTIVE_TEXTURE, &last_active_texture);
-  GLint last_array_buffer; glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
-  GLint last_element_array_buffer; glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &last_element_array_buffer);
+  GLint last_program;
+  glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
+  GLint last_texture;
+  glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
+  GLint last_active_texture;
+  glGetIntegerv(GL_ACTIVE_TEXTURE, &last_active_texture);
+  GLint last_array_buffer;
+  glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
+  GLint last_element_array_buffer;
+  glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &last_element_array_buffer);
 #if !defined(GLES2)
-  GLint last_vertex_array; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
-  GLint last_blend_src; glGetIntegerv(GL_BLEND_SRC, &last_blend_src);
-  GLint last_blend_dst; glGetIntegerv(GL_BLEND_DST, &last_blend_dst);
+  GLint last_vertex_array;
+  glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
+  GLint last_blend_src;
+  glGetIntegerv(GL_BLEND_SRC, &last_blend_src);
+  GLint last_blend_dst;
+  glGetIntegerv(GL_BLEND_DST, &last_blend_dst);
 #endif
-  GLint last_blend_equation_rgb; glGetIntegerv(GL_BLEND_EQUATION_RGB, &last_blend_equation_rgb);
-  GLint last_blend_equation_alpha; glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &last_blend_equation_alpha);
-  GLint last_viewport[4]; glGetIntegerv(GL_VIEWPORT, last_viewport);
+  GLint last_blend_equation_rgb;
+  glGetIntegerv(GL_BLEND_EQUATION_RGB, &last_blend_equation_rgb);
+  GLint last_blend_equation_alpha;
+  glGetIntegerv(GL_BLEND_EQUATION_ALPHA, &last_blend_equation_alpha);
+  GLint last_viewport[4];
+  glGetIntegerv(GL_VIEWPORT, last_viewport);
   GLboolean last_enable_blend = glIsEnabled(GL_BLEND);
   GLboolean last_enable_cull_face = glIsEnabled(GL_CULL_FACE);
   GLboolean last_enable_depth_test = glIsEnabled(GL_DEPTH_TEST);
@@ -83,38 +94,38 @@ void GuiManager::renderDrawLists(ImDrawData* draw_data)
   glEnableVertexAttribArray(g_AttribLocationUV);
   glEnableVertexAttribArray(g_AttribLocationColor);
 
-  #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
-    glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
-    glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
-    glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
-  #undef OFFSETOF
+#define OFFSETOF(TYPE, ELEMENT) ((size_t) & (((TYPE *)0)->ELEMENT))
+  glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid *)OFFSETOF(ImDrawVert, pos));
+  glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid *)OFFSETOF(ImDrawVert, uv));
+  glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid *)OFFSETOF(ImDrawVert, col));
+#undef OFFSETOF
 #endif
 
   for (int n = 0; n < draw_data->CmdListsCount; n++)
   {
-      const ImDrawList* cmd_list = draw_data->CmdLists[n];
-      const ImDrawIdx* idx_buffer_offset = 0;
+    const ImDrawList *cmd_list = draw_data->CmdLists[n];
+    const ImDrawIdx *idx_buffer_offset = 0;
 
-      glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
-      glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.size() * sizeof(ImDrawVert), (GLvoid*)&cmd_list->VtxBuffer.front(), GL_STREAM_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
+    glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.size() * sizeof(ImDrawVert), (GLvoid *)&cmd_list->VtxBuffer.front(), GL_STREAM_DRAW);
 
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_ElementsHandle);
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.size() * sizeof(ImDrawIdx), (GLvoid*)&cmd_list->IdxBuffer.front(), GL_STREAM_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_ElementsHandle);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.size() * sizeof(ImDrawIdx), (GLvoid *)&cmd_list->IdxBuffer.front(), GL_STREAM_DRAW);
 
-      for (const ImDrawCmd* pcmd = cmd_list->CmdBuffer.begin(); pcmd != cmd_list->CmdBuffer.end(); pcmd++)
+    for (const ImDrawCmd *pcmd = cmd_list->CmdBuffer.begin(); pcmd != cmd_list->CmdBuffer.end(); pcmd++)
+    {
+      if (pcmd->UserCallback)
       {
-          if (pcmd->UserCallback)
-          {
-              pcmd->UserCallback(cmd_list, pcmd);
-          }
-          else
-          {
-              m_textureData->bind(0);
-              glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
-              glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, idx_buffer_offset);
-          }
-          idx_buffer_offset += pcmd->ElemCount;
+        pcmd->UserCallback(cmd_list, pcmd);
       }
+      else
+      {
+        m_textureData->bind(0);
+        glScissor((int)pcmd->ClipRect.x, (int)(fb_height - pcmd->ClipRect.w), (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y));
+        glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, idx_buffer_offset);
+      }
+      idx_buffer_offset += pcmd->ElemCount;
+    }
   }
 
 #if defined(GLES2)
@@ -136,20 +147,35 @@ void GuiManager::renderDrawLists(ImDrawData* draw_data)
 #if !defined(GLES2)
   glBlendFunc(last_blend_src, last_blend_dst);
 #endif
-  if (last_enable_blend) glEnable(GL_BLEND); else glDisable(GL_BLEND);
-  if (last_enable_cull_face) glEnable(GL_CULL_FACE); else glDisable(GL_CULL_FACE);
-  if (last_enable_depth_test) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
-  if (last_enable_scissor_test) glEnable(GL_SCISSOR_TEST); else glDisable(GL_SCISSOR_TEST);
-    glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
+  if (last_enable_blend)
+    glEnable(GL_BLEND);
+  else
+    glDisable(GL_BLEND);
+  if (last_enable_cull_face)
+    glEnable(GL_CULL_FACE);
+  else
+    glDisable(GL_CULL_FACE);
+  if (last_enable_depth_test)
+    glEnable(GL_DEPTH_TEST);
+  else
+    glDisable(GL_DEPTH_TEST);
+  if (last_enable_scissor_test)
+    glEnable(GL_SCISSOR_TEST);
+  else
+    glDisable(GL_SCISSOR_TEST);
+  glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
 }
 
 void GuiManager::invalidateDeviceObjects(void)
 {
 #if !defined(GLES2)
-  if (g_VaoHandle) glDeleteVertexArrays(1, &g_VaoHandle);
+  if (g_VaoHandle)
+    glDeleteVertexArrays(1, &g_VaoHandle);
 #endif
-  if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
-  if (g_ElementsHandle) glDeleteBuffers(1, &g_ElementsHandle);
+  if (g_VboHandle)
+    glDeleteBuffers(1, &g_VboHandle);
+  if (g_ElementsHandle)
+    glDeleteBuffers(1, &g_ElementsHandle);
   g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
 
   delete m_shader;
@@ -178,22 +204,22 @@ void GuiManager::createDeviceObjects(void)
   glEnableVertexAttribArray(g_AttribLocationUV);
   glEnableVertexAttribArray(g_AttribLocationColor);
 
-  #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
-    glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, pos));
-    glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, uv));
-    glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)OFFSETOF(ImDrawVert, col));
-  #undef OFFSETOF
+#define OFFSETOF(TYPE, ELEMENT) ((size_t) & (((TYPE *)0)->ELEMENT))
+  glVertexAttribPointer(g_AttribLocationPosition, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid *)OFFSETOF(ImDrawVert, pos));
+  glVertexAttribPointer(g_AttribLocationUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid *)OFFSETOF(ImDrawVert, uv));
+  glVertexAttribPointer(g_AttribLocationColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid *)OFFSETOF(ImDrawVert, col));
+#undef OFFSETOF
 #endif
 }
 
-GuiManager::GuiManager(const glm::vec2& drawableSize, const glm::vec2& displaySize, SDL_Window *sdlWindow)
+GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySize, SDL_Window *sdlWindow)
 {
   m_sdlWindow = sdlWindow;
 
   showProps = true;
 
-  ImGuiIO& io = ImGui::GetIO();
-  io.KeyMap[ImGuiKey_Tab] = SDLK_TAB;                     // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
+  ImGuiIO &io = ImGui::GetIO();
+  io.KeyMap[ImGuiKey_Tab] = SDLK_TAB; // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
   io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
   io.KeyMap[ImGuiKey_RightArrow] = SDL_SCANCODE_RIGHT;
   io.KeyMap[ImGuiKey_UpArrow] = SDL_SCANCODE_UP;
@@ -213,22 +239,22 @@ GuiManager::GuiManager(const glm::vec2& drawableSize, const glm::vec2& displaySi
   io.KeyMap[ImGuiKey_Y] = SDLK_y;
   io.KeyMap[ImGuiKey_Z] = SDLK_z;
 
-  io.RenderDrawListsFn = GuiManager::renderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
+  io.RenderDrawListsFn = GuiManager::renderDrawLists; // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
   io.SetClipboardTextFn = Window::setClipboardText;
   io.GetClipboardTextFn = Window::getClipboardText;
 
-//#ifdef _WIN32
-//  SDL_SysWMinfo wmInfo;
-//  SDL_VERSION(&wmInfo.version);
-//  SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
-//  io.ImeWindowHandle = wmInfo.info.win.window;
-//#endif
+  //#ifdef _WIN32
+  //  SDL_SysWMinfo wmInfo;
+  //  SDL_VERSION(&wmInfo.version);
+  //  SDL_GetWindowWMInfo(m_sdlWindow, &wmInfo);
+  //  io.ImeWindowHandle = wmInfo.info.win.window;
+  //#endif
 
   createDeviceObjects();
 
-  unsigned char* pixels;
+  unsigned char *pixels;
   int width, height;
-  io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits for OpenGL3 demo because it is more likely to be compatible with user's existing shader.
+  io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height); // Load as RGBA 32-bits for OpenGL3 demo because it is more likely to be compatible with user's existing shader.
   m_textureData = new TextureData(width, height, pixels, GL_TEXTURE_2D, GL_LINEAR);
 
   io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
@@ -242,11 +268,11 @@ GuiManager::~GuiManager(void)
   ImGui::Shutdown();
 }
 
-void GuiManager::tick(Window *window)
+void GuiManager::tick(Window *window, std::chrono::microseconds delta)
 {
-  ImGuiIO& io = ImGui::GetIO();
+  ImGuiIO &io = ImGui::GetIO();
 
-  io.DeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(window->getDeltaTime()).count();
+  io.DeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
 
   glm::vec2 mousePos = window->getInput()->getMousePosition();
   io.MousePos = ImVec2(mousePos.x, mousePos.y);
@@ -268,11 +294,12 @@ void GuiManager::tick(Window *window)
   ImGui::NewFrame();
 }
 
-void renderComponent(Component *component) {
+void renderComponent(Component *component)
+{
   ImGui::PushID(component);
   ImGui::AlignFirstTextHeightToWidgets();
 
-  ImGui::PushStyleColor(ImGuiCol_Text, ImColor(1.0f,0.78f,0.58f,1.0f));
+  ImGui::PushStyleColor(ImGuiCol_Text, ImColor(1.0f, 0.78f, 0.58f, 1.0f));
   bool node_open = ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "component", component);
   ImGui::NextColumn();
   ImGui::AlignFirstTextHeightToWidgets();
@@ -282,31 +309,34 @@ void renderComponent(Component *component) {
 
   int id = 0;
 
-  if (node_open) {
-    for (auto& property : component->m_properties) {
+  if (node_open)
+  {
+    for (auto &property : component->m_properties)
+    {
       ImGui::PushID(id++);
 
       ImGui::AlignFirstTextHeightToWidgets();
       ImGui::Bullet();
-      ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f,0.58f,1.0f,1.0f));
+      ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f, 0.58f, 1.0f, 1.0f));
       ImGui::Selectable(property.first);
       ImGui::NextColumn();
       ImGui::PushItemWidth(-1);
 
-      switch (property.second.type) {
-        case FLOAT:
+      switch (property.second.type)
+      {
+      case FLOAT:
         ImGui::SliderFloat("##value", (float *)property.second.p, property.second.min, property.second.max);
         break;
-        case FLOAT3:
+      case FLOAT3:
         ImGui::SliderFloat3("##value", (float *)property.second.p, property.second.min, property.second.max);
         break;
-        case BOOLEAN:
+      case BOOLEAN:
         ImGui::Checkbox("##value", (bool *)property.second.p);
         break;
-        case COLOR:
+      case COLOR:
         ImGui::ColorEdit3("##value", (float *)property.second.p);
         break;
-        case ANGLE:
+      case ANGLE:
         ImGui::SliderAngle("##value", (float *)property.second.p, property.second.min, property.second.max);
         break;
       }
@@ -327,7 +357,7 @@ void renderSceneGraph(Entity *sceneGraph)
   ImGui::PushID(sceneGraph);
   ImGui::AlignFirstTextHeightToWidgets();
 
-  ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f,1.0f,0.58f,1.0f));
+  ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f, 1.0f, 0.58f, 1.0f));
   bool node_open = ImGui::TreeNodeEx("Node", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "node", sceneGraph);
   ImGui::PopStyleColor();
   ImGui::NextColumn();
@@ -339,7 +369,7 @@ void renderSceneGraph(Entity *sceneGraph)
   if (node_open)
   {
     ImGui::PushID(id);
-    ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.0f,0.8f,1.0f,1.0f));
+    ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.0f, 0.8f, 1.0f, 1.0f));
 
     ImGui::AlignFirstTextHeightToWidgets();
     ImGui::Bullet();
@@ -375,11 +405,13 @@ void renderSceneGraph(Entity *sceneGraph)
     ImGui::PopStyleColor();
     ImGui::PopID();
 
-    for (auto component : sceneGraph->getComponents()) {
+    for (auto component : sceneGraph->getComponents())
+    {
       renderComponent(component.get());
     }
 
-    for (auto entity : sceneGraph->getChildren()) {
+    for (auto entity : sceneGraph->getChildren())
+    {
       renderSceneGraph(entity.get());
     }
 
@@ -396,18 +428,18 @@ void GuiManager::togglePropertyEditor(void)
 
 void GuiManager::render(Entity *sceneGraph)
 {
-  if (showProps) {
-    ImGui::SetNextWindowPos(ImVec2(10,10));
-    ImGui::SetNextWindowSize(ImVec2(500,0), ImGuiSetCond_FirstUseEver);
-    if (!ImGui::Begin("Example: Fixed Overlay", nullptr, ImVec2(0,0), 0.3f, ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoSavedSettings))
+  if (showProps)
+  {
+    ImGui::SetNextWindowPos(ImVec2(10, 10));
+    ImGui::SetNextWindowSize(ImVec2(500, 0), ImGuiSetCond_FirstUseEver);
+    if (!ImGui::Begin("Example: Fixed Overlay", nullptr, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings))
     {
-        ImGui::End();
-        return;
+      ImGui::End();
+      return;
     }
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2,2));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
     ImGui::Separator();
     ImGui::Columns(2);
 

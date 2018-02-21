@@ -65,8 +65,6 @@ Window::Window(void)
 
   SDL_GL_SetSwapInterval(0);
 
-  m_time = std::chrono::high_resolution_clock::now();
-
   int display_w, display_h;
   SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
   this->m_width = display_w;
@@ -90,10 +88,6 @@ void Window::init(void)
 
 void Window::tick(void)
 {
-  m_lastTime = m_time;
-  m_time = std::chrono::high_resolution_clock::now();
-  m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
-
   m_input.setMouseDelta(0, 0);
 
   SDL_Event event;
@@ -137,8 +131,6 @@ void Window::tick(void)
   {
     m_input.handleMouseWheelEvent(0, 0);
   }
-
-  m_guiManager->tick(this);
 }
 
 void Window::swapBuffer(void)
@@ -154,11 +146,6 @@ Input *Window::getInput(void)
 SDL_Window *Window::getSDLWindow(void)
 {
   return m_window;
-}
-
-std::chrono::microseconds Window::getDeltaTime(void) const
-{
-  return m_deltaTime;
 }
 
 int Window::getWidth(void) const

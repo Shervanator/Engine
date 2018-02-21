@@ -19,40 +19,51 @@ FreeMove::~FreeMove(void)
 {
 }
 
-void FreeMove::updateInput(Input *input, std::chrono::microseconds delta)
+void FreeMove::update(Input *input, std::chrono::microseconds delta)
 {
   float moveAmount = m_speed * (delta.count() / 1000.f);
 
-  if(input->isPressed(SDLK_LSHIFT)) {
+  if (input->isPressed(SDLK_LSHIFT))
+  {
     moveAmount *= 4.0f;
   }
 
-  if(input->isPressed(SDLK_w)) {
-    if (m_moveForwards) {
+  if (input->isPressed(SDLK_w))
+  {
+    if (m_moveForwards)
+    {
       Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, -1.0f)), moveAmount);
-    } else {
+    }
+    else
+    {
       Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 1.0f, 0.0f)), moveAmount);
     }
   }
 
-  if(input->isPressed(SDLK_s)) {
-    if (m_moveForwards) {
+  if (input->isPressed(SDLK_s))
+  {
+    if (m_moveForwards)
+    {
       Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, 1.0f)), moveAmount);
-    } else {
+    }
+    else
+    {
       Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, -1.0f, 0.0f)), moveAmount);
     }
   }
 
-  if(input->isPressed(SDLK_a)) {
+  if (input->isPressed(SDLK_a))
+  {
     Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(-1.0f, 0.0f, 0.0f)), moveAmount);
   }
 
-  if(input->isPressed(SDLK_d)) {
+  if (input->isPressed(SDLK_d))
+  {
     Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(1.0f, 0.0f, 0.0f)), moveAmount);
   }
 }
 
-void FreeMove::Move(const glm::vec3& direction, float amount)
+void FreeMove::Move(const glm::vec3 &direction, float amount)
 {
   m_parentEntity->getTransform().translate(direction * amount);
 }

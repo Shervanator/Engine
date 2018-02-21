@@ -30,7 +30,8 @@ BaseCollider::~BaseCollider(void)
   delete m_shape;
 }
 
-void BaseCollider::update(std::chrono::microseconds delta) {
+void BaseCollider::update(Input *input, std::chrono::microseconds delta)
+{
   if (m_body && !m_body->isStaticObject() && m_body->getMotionState())
   {
     btTransform trans;
@@ -62,7 +63,7 @@ void BaseCollider::deregisterFromEngine(Engine *engine)
   engine->getPhysicsManager()->deregisterCollider2(m_body);
 }
 
-void BaseCollider::applyCentralImpulse(const glm::vec3& impulse)
+void BaseCollider::applyCentralImpulse(const glm::vec3 &impulse)
 {
   m_body->applyCentralImpulse(btVector3(impulse.x, impulse.y, impulse.z));
 }
