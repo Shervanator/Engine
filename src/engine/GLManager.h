@@ -14,6 +14,7 @@
 
 #include <vector>
 
+#include "Renderer.h"
 #include "Shader.h"
 #include "Entity.h"
 #include "Window.h"
@@ -28,7 +29,7 @@
 class GLManager
 {
 public:
-  GLManager(const glm::vec2& windowSize);
+  GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2& windowSize);
   ~GLManager(void);
 
   void setDrawSize(const glm::vec2& size);
@@ -58,6 +59,8 @@ private:
   void createShaders(void);
 
   void renderLights(Entity *scene);
+
+  std::unique_ptr<Renderer> m_renderer;
 
   std::unique_ptr<Shader> m_simple;
   std::unique_ptr<Shader> m_forwardAmbient;

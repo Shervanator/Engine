@@ -7,8 +7,10 @@
 
 #include <algorithm>
 
-GLManager::GLManager(const glm::vec2& windowSize)
+GLManager::GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2& windowSize)
 {
+  m_renderer = std::move(renderer);
+
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   glClearDepthf(1.0f);
