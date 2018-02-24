@@ -7,13 +7,8 @@
 
 #include <algorithm>
 
-GLManager::GLManager(const Window *window)
+GLManager::GLManager(const glm::vec2& windowSize)
 {
-  glm::vec2 drawableSize = window->getDrawableSize();
-  this->width = (int)(drawableSize.x);
-  this->height = (int)(drawableSize.y);
-  // this->width = width;
-  // this->height = height;
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   glClearDepthf(1.0f);
@@ -22,7 +17,7 @@ GLManager::GLManager(const Window *window)
 
   glEnable(GL_CULL_FACE);
 
-  glViewport(0, 0, this->width, this->height);
+  setDrawSize(windowSize);
 
   createShaders();
 
@@ -32,6 +27,14 @@ GLManager::GLManager(const Window *window)
 GLManager::~GLManager(void)
 {
   glDeleteBuffers(1, &lineBuffer);
+}
+
+void GLManager::setDrawSize(const glm::vec2& size)
+{
+  this->width = size.x;
+  this->height = size.y;
+
+  glViewport(0, 0, this->width, this->height);
 }
 
 void GLManager::bindRenderTarget(void) const

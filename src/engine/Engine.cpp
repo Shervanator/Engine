@@ -30,7 +30,7 @@ Engine::Engine(Game *game)
   m_glewManager = std::make_unique<GLEWManager>();
 
   log_info("Initializing GL");
-  m_glManager = std::make_unique<GLManager>(m_window.get());
+  m_glManager = std::make_unique<GLManager>(m_window->getDrawableSize());
 
   log_info("Initializing Physics Manager");
   m_physicsManager = std::make_unique<PhysicsManager>();
@@ -117,6 +117,7 @@ void Engine::tick(void)
   }
 
   static bool f1Pressed = false;
+  static bool f2Pressed = false;
 
   if (!f1Pressed && m_window->getInput()->isPressed(SDLK_F1))
   {
@@ -126,6 +127,17 @@ void Engine::tick(void)
   else if (f1Pressed && m_window->getInput()->isReleased(SDLK_F1))
   {
     f1Pressed = false;
+  }
+
+  if (!f2Pressed && m_window->getInput()->isPressed(SDLK_F2))
+  {
+    f2Pressed = true;
+    m_window->toggleFullscreen();
+    m_glManager->setDrawSize(m_window->getDrawableSize());
+  }
+  else if (f2Pressed && m_window->getInput()->isReleased(SDLK_F2))
+  {
+    f2Pressed = false;
   }
 
   m_window->getGuiManager()->render(game->getRootScene().get());
