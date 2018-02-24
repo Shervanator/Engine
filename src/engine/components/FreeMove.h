@@ -12,7 +12,7 @@
 class FreeMove : public Component
 {
 public:
-  FreeMove(bool moveForwards = true, float speed = 0.01f);
+  FreeMove(bool moveForwards = true, float speed = 10.f);
   ~FreeMove(void);
 
   virtual void update(Input *input, std::chrono::microseconds delta);

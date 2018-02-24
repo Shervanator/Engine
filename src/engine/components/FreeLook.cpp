@@ -7,7 +7,7 @@
 FreeLook::FreeLook(float speed)
 {
   m_speed = speed;
-  setProperty("speed", FLOAT, &m_speed, 0, 0.01);
+  setProperty("speed", FLOAT, &m_speed, 0, 5);
 }
 
 FreeLook::~FreeLook(void)
@@ -16,7 +16,7 @@ FreeLook::~FreeLook(void)
 
 void FreeLook::update(Input *input, std::chrono::microseconds delta)
 {
-  float moveAmount = m_speed * (delta.count() / 1000.f);
+  float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
 #ifdef ANDROID
   if (input->mouseIsPressed(SDL_BUTTON_LEFT))
   {

@@ -52,6 +52,9 @@ public:
 
   void drawCursor(bool enabled);
 
+  void setFullscreen(uint32_t flag);
+  void toggleFullscreen(void);
+
 private:
   SDL_Window *m_window;
   SDL_GLContext m_glContext;
@@ -62,4 +65,5 @@ private:
   Input m_input;
 
   bool m_quit;
+  bool m_fullscreen;
 };

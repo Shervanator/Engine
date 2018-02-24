@@ -28,8 +28,10 @@
 class GLManager
 {
 public:
-  GLManager(const Window *window);
+  GLManager(const glm::vec2& windowSize);
   ~GLManager(void);
+
+  void setDrawSize(const glm::vec2& size);
 
   void bindRenderTarget(void) const;
   void renderScene(Entity *entity);
