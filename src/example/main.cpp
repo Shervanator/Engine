@@ -224,7 +224,7 @@ void CoolGame::init(GLManager *glManager)
   money2.getEntity()->addComponent<PerspectiveCamera>(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.8f, 100.0f);
   money2.getEntity()->addComponent<FreeMove>();
 #if defined(ANDROID)
-  money2.getEntity()->addComponent<FreeLook>(0.0001f);
+  money2.getEntity()->addComponent<FreeLook>(0.1f);
 #else
   money2.getEntity()->addComponent<FreeLook>();
 #endif

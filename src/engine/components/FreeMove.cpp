@@ -11,7 +11,7 @@ FreeMove::FreeMove(bool moveForwards, float speed)
   m_speed = speed;
   m_moveForwards = moveForwards;
 
-  setProperty("speed", FLOAT, &m_speed, 0, 0.1);
+  setProperty("speed", FLOAT, &m_speed, 0, 20);
   setProperty("forwards", BOOLEAN, &m_moveForwards);
 }
 
@@ -21,7 +21,7 @@ FreeMove::~FreeMove(void)
 
 void FreeMove::update(Input *input, std::chrono::microseconds delta)
 {
-  float moveAmount = m_speed * (delta.count() / 1000.f);
+  float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
 
   if (input->isPressed(SDLK_LSHIFT))
   {

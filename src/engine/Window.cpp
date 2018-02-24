@@ -51,7 +51,7 @@ Window::Window(void)
 #endif
 
   // SDL_WINDOW_FULLSCREEN |
-  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.w, mode.h - 100, SDL_WINDOW_OPENGL);
+  m_window = SDL_CreateWindow("Engine!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mode.w, mode.h, SDL_WINDOW_OPENGL);
   if (m_window == nullptr)
   {
     log_err("SDL_CreateWindow error: %s", SDL_GetError());
@@ -205,4 +205,9 @@ bool Window::shouldQuit(void) const
 void Window::drawCursor(bool enabled)
 {
   SDL_ShowCursor(enabled);
+}
+
+void Window::setFullscreen(uint32_t flag)
+{
+  SDL_SetWindowFullscreen(m_window, flag);
 }
