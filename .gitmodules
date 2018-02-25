@@ -19,3 +19,9 @@
 [submodule "dependencies/bullet3"]
 	path = dependencies/bullet3
 	url = https://github.com/bulletphysics/bullet3.git
+[submodule "dependencies/stb"]
+	path = dependencies/stb
+	url = https://github.com/nothings/stb.git
+[submodule "dependencies/cotire"]
+	path = dependencies/cotire
+	url = https://github.com/sakra/cotire.git
