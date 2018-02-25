@@ -6,6 +6,7 @@
 #include "Logger.h"
 #include "Ray.h"
 #include "GuiManager.h"
+#include "ForwardRenderer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -30,7 +31,7 @@ Engine::Engine(Game *game)
   m_glewManager = std::make_unique<GLEWManager>();
 
   log_info("Initializing GL");
-  m_glManager = std::make_unique<GLManager>(m_window->getDrawableSize());
+  m_glManager = std::make_unique<GLManager>(std::make_unique<ForwardRenderer>(), m_window->getDrawableSize());
 
   log_info("Initializing Physics Manager");
   m_physicsManager = std::make_unique<PhysicsManager>();

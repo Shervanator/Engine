@@ -5,16 +5,17 @@
 #pragma once
 
 #if defined(GLES2)
-  #include <GLES2/gl2.h>
+#include <GLES2/gl2.h>
 #elif defined(GLES3)
-  #include <GLES3/gl3.h>
+#include <GLES3/gl3.h>
 #else
-  #include <GL/glew.h>
+#include <GL/glew.h>
 #endif
 
 #include <vector>
 
 #include "Renderer.h"
+#include "SimpleRenderer.h"
 #include "Shader.h"
 #include "Entity.h"
 #include "Window.h"
@@ -29,10 +30,10 @@
 class GLManager
 {
 public:
-  GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2& windowSize);
+  GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize);
   ~GLManager(void);
 
-  void setDrawSize(const glm::vec2& size);
+  void setDrawSize(const glm::vec2 &size);
 
   void bindRenderTarget(void) const;
   void renderScene(Entity *entity);
@@ -55,18 +56,10 @@ public:
 
   GLuint lineBuffer;
   GLuint VertexArrayID;
+
 private:
-  void createShaders(void);
-
-  void renderLights(Entity *scene);
-
   std::unique_ptr<Renderer> m_renderer;
-
-  std::unique_ptr<Shader> m_simple;
-  std::unique_ptr<Shader> m_forwardAmbient;
-  std::unique_ptr<Shader> m_forwardDirectional;
-  std::unique_ptr<Shader> m_forwardPoint;
-  std::unique_ptr<Shader> m_forwardSpot;
+  std::unique_ptr<SimpleRenderer> m_simpleRenderer;
 
   std::shared_ptr<Camera> m_activeCamera;
 
