@@ -22,3 +22,6 @@
 [submodule "dependencies/stb"]
 	path = dependencies/stb
 	url = https://github.com/nothings/stb.git
+[submodule "dependencies/cotire"]
+	path = dependencies/cotire
+	url = https://github.com/sakra/cotire.git
