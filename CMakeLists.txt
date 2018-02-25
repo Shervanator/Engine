@@ -41,6 +41,8 @@ set ( ASSIMP_LIBRARY assimp )
 
 set ( GLM_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/glm/ )
 
+set ( STB_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/stb/ )
+
 set ( WHEREAMI_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/whereami/src/ )
 set ( WHEREAMI_LIBRARY whereami )
 
@@ -66,6 +68,7 @@ IF (EMSCRIPTEN)
 
   set(ENGINE_INCLUDES
     ${GLM_INCLUDE_DIRS}
+    ${STB_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
     ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${IMGUI_INCLUDE_DIRS}
@@ -86,6 +89,7 @@ IF (EMSCRIPTEN)
   set(ENGINE_INCLUDES
     ${SDL2_INCLUDE_DIR}
     ${GLM_INCLUDE_DIRS}
+    ${STB_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIR}
     ${CMAKE_BINARY_DIR}/dependencies/assimp/include
     ${IMGUI_INCLUDE_DIRS}
@@ -108,6 +112,7 @@ ELSE ()
 
   set(ENGINE_INCLUDES
     ${GLM_INCLUDE_DIRS}
+    ${STB_INCLUDE_DIRS}
     ${SDL2_INCLUDE_DIR}
     ${ASSIMP_INCLUDE_DIR}
     ${CMAKE_BINARY_DIR}/dependencies/assimp/include
