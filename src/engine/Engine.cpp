@@ -59,6 +59,33 @@ void Engine::start(void)
 
   m_window->makeCurrentContext();
 
+  m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
+  m_window->getInput()->registerKeyToAction(SDLK_F2, "fullscreenToggle");
+
+  m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
+
+  m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
+    m_window->getGuiManager()->togglePropertyEditor();
+  });
+
+  m_window->getInput()->bindAction("fullscreenToggle", IE_PRESSED, [this]() {
+    m_window->toggleFullscreen();
+    m_glManager->setDrawSize(m_window->getDrawableSize());
+  });
+
+  m_window->getInput()->bindAction("fireRay", IE_REPEAT, [this]() {
+    log_info("BANG!");
+    Ray ray = Ray::getPickRay(m_window->getInput()->getMousePosition(), m_window->getViewport(), m_glManager->getViewMatrix(), m_glManager->getProjectionMatrix());
+
+    Entity *pickedEntity = m_physicsManager->pick(&ray);
+
+    if (pickedEntity != nullptr) {
+      m_glManager->drawEntity(pickedEntity);
+    }
+
+    m_glManager->drawLine(ray.getLine(100.0f));
+  });
+
   m_time = std::chrono::high_resolution_clock::now();
   // TODO: DO WE NEED FIXED UPDATES?
   //m_physicsTimeSimulated = std::chrono::high_resolution_clock::now();
@@ -104,42 +131,6 @@ void Engine::tick(void)
   game->update(m_window->getInput(), m_deltaTime);
 
   game->render(m_glManager.get());
-
-  if (m_window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT))
-  {
-    Ray ray = Ray::getPickRay(m_window->getInput()->getMousePosition(), m_window->getViewport(), m_glManager->getViewMatrix(), m_glManager->getProjectionMatrix());
-
-    Entity *pickedEntity = m_physicsManager->pick(&ray);
-
-    if (pickedEntity != nullptr)
-      m_glManager->drawEntity(pickedEntity);
-
-    m_glManager->drawLine(ray.getLine(100.0f));
-  }
-
-  static bool f1Pressed = false;
-  static bool f2Pressed = false;
-
-  if (!f1Pressed && m_window->getInput()->isPressed(SDLK_F1))
-  {
-    f1Pressed = true;
-    m_window->getGuiManager()->togglePropertyEditor();
-  }
-  else if (f1Pressed && m_window->getInput()->isReleased(SDLK_F1))
-  {
-    f1Pressed = false;
-  }
-
-  if (!f2Pressed && m_window->getInput()->isPressed(SDLK_F2))
-  {
-    f2Pressed = true;
-    m_window->toggleFullscreen();
-    m_glManager->setDrawSize(m_window->getDrawableSize());
-  }
-  else if (f2Pressed && m_window->getInput()->isReleased(SDLK_F2))
-  {
-    f2Pressed = false;
-  }
 
   m_window->getGuiManager()->render(game->getRootScene().get());
 

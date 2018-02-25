@@ -16,12 +16,55 @@ Input::~Input(void)
 
 void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
 {
+  auto keyToActionIt = m_keyToAction.find(keyEvent.keysym.sym);
+
+  if (keyToActionIt != m_keyToAction.end()) {
+    auto actionInputEventIt = m_actionInputEventHandler.find(keyToActionIt->second);
+    
+    if (actionInputEventIt != m_actionInputEventHandler.end()) {
+      auto inputEventHandler = actionInputEventIt->second;
+
+      auto inputEventHandlerIt = inputEventHandler.find(
+        keyEvent.state == SDL_PRESSED
+          ? (m_keyState[keyEvent.keysym.sym] == SDL_PRESSED 
+            ? IE_REPEAT 
+            : IE_PRESSED) 
+          : IE_RELEASED);
+      
+      if (inputEventHandlerIt != inputEventHandler.end()) {
+        inputEventHandlerIt->second();
+      }
+    }
+  }
+
   m_keyState[keyEvent.keysym.sym] = keyEvent.state;
   m_keyModState = SDL_GetModState();
 }
-
+#include "Logger.h"
 void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
 {
+  auto buttonToActionIt = m_buttonToAction.find(buttonEvent.button);
+
+  if (buttonToActionIt != m_buttonToAction.end()) {
+    auto actionInputEventIt = m_actionInputEventHandler.find(buttonToActionIt->second);
+    log_info("HERE");
+
+    if (actionInputEventIt != m_actionInputEventHandler.end()) {
+      auto inputEventHandler = actionInputEventIt->second;
+
+      auto inputEventHandlerIt = inputEventHandler.find(
+        buttonEvent.state == SDL_PRESSED
+        ? (m_buttonState[buttonEvent.button] == SDL_PRESSED
+          ? IE_REPEAT
+          : IE_PRESSED)
+        : IE_RELEASED);
+
+      if (inputEventHandlerIt != inputEventHandler.end()) {
+        inputEventHandlerIt->second();
+      }
+    }
+  }
+
   m_buttonState[buttonEvent.button] = buttonEvent.state;
 }
 
@@ -95,4 +138,19 @@ void Input::grabMouse(void)
 void Input::releaseMouse(void)
 {
   SDL_SetRelativeMouseMode(SDL_FALSE);
+}
+
+void Input::bindAction(const std::string &action, InputEvent state, std::function<void(void)> handler)
+{
+  m_actionInputEventHandler[action][state] = handler;
+}
+
+void Input::registerKeyToAction(SDL_Keycode key, const std::string &action)
+{
+  m_keyToAction[key] = action;
+}
+
+void Input::registerButtonToAction(Uint8 button, const std::string &action)
+{
+  m_buttonToAction[button] = action;
 }
