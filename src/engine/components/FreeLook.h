@@ -13,9 +13,12 @@ public:
   ~FreeLook(void);
 
   virtual void update(Input *input, std::chrono::microseconds delta);
+  virtual void registerWithEngine(Engine *engine);
+  virtual void deregisterFromEngine(Engine *engine);
 
   inline virtual const char *getType(void) { return "FREE_LOOK"; }
 
 private:
   float m_speed;
+  bool m_look;
 };
