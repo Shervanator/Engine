@@ -203,6 +203,14 @@ void CoolGame::init(GLManager *glManager)
     addToScene(ml.getEntity());
   }
 
+  {
+    MeshLoader ml("AncientUgandan.obj");
+    ml.getEntity()->getTransform().setPosition(glm::vec3(0, 0, -2.5));
+    ml.getEntity()->addComponent<Sphere>(1);
+    ml.getEntity()->addComponent<SphereCollider>(1, 1);
+    addToScene(ml.getEntity());
+  }
+
   MeshLoader money("monkey3.obj");
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
   money.getEntity()->addComponent<PerspectiveCamera>(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.05f, 100.0f);
