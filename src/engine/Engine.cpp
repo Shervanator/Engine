@@ -39,6 +39,7 @@ Engine::Engine(Game *game)
   this->game = game;
 
   quit = false;
+  m_fireRay = false;
 }
 
 Engine::~Engine(void)
@@ -73,17 +74,12 @@ void Engine::start(void)
     m_glManager->setDrawSize(m_window->getDrawableSize());
   });
 
-  m_window->getInput()->bindAction("fireRay", IE_REPEAT, [this]() {
-    log_info("BANG!");
-    Ray ray = Ray::getPickRay(m_window->getInput()->getMousePosition(), m_window->getViewport(), m_glManager->getViewMatrix(), m_glManager->getProjectionMatrix());
+  m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
+    m_fireRay = true;
+  });
 
-    Entity *pickedEntity = m_physicsManager->pick(&ray);
-
-    if (pickedEntity != nullptr) {
-      m_glManager->drawEntity(pickedEntity);
-    }
-
-    m_glManager->drawLine(ray.getLine(100.0f));
+  m_window->getInput()->bindAction("fireRay", IE_RELEASED, [this]() {
+    m_fireRay = false;
   });
 
   m_time = std::chrono::high_resolution_clock::now();
@@ -131,6 +127,18 @@ void Engine::tick(void)
   game->update(m_window->getInput(), m_deltaTime);
 
   game->render(m_glManager.get());
+
+  if (m_fireRay) {
+    Ray ray = Ray::getPickRay(m_window->getInput()->getMousePosition(), m_window->getViewport(), m_glManager->getViewMatrix(), m_glManager->getProjectionMatrix());
+
+    Entity *pickedEntity = m_physicsManager->pick(&ray);
+
+    if (pickedEntity != nullptr) {
+      m_glManager->drawEntity(pickedEntity);
+    }
+
+    m_glManager->drawLine(ray.getLine(100.0f));
+  }
 
   m_window->getGuiManager()->render(game->getRootScene().get());
 

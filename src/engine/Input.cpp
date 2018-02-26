@@ -16,6 +16,7 @@ Input::~Input(void)
 
 void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
 {
+  // Action handler
   auto keyToActionIt = m_keyToAction.find(keyEvent.keysym.sym);
 
   if (keyToActionIt != m_keyToAction.end()) {
@@ -27,7 +28,7 @@ void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
       auto inputEventHandlerIt = inputEventHandler.find(
         keyEvent.state == SDL_PRESSED
           ? (m_keyState[keyEvent.keysym.sym] == SDL_PRESSED 
-            ? IE_REPEAT 
+            ? IE_REPEAT // TODO: I dont think this will ever happen..
             : IE_PRESSED) 
           : IE_RELEASED);
       
@@ -37,17 +38,27 @@ void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent)
     }
   }
 
+  // Axis handler
+  auto keyToAxisIt = m_keyToAxis.find(keyEvent.keysym.sym);
+
+  if (keyToAxisIt != m_keyToAxis.end()) {
+    auto actionHandlerIt = m_axisHandler.find(keyToAxisIt->second.axis);
+
+    if (actionHandlerIt != m_axisHandler.end()) {
+      actionHandlerIt->second(keyEvent.state == SDL_PRESSED ? keyToAxisIt->second.value : 0);
+    }
+  }
+
   m_keyState[keyEvent.keysym.sym] = keyEvent.state;
   m_keyModState = SDL_GetModState();
 }
-#include "Logger.h"
+
 void Input::handleMouseEvent(SDL_MouseButtonEvent buttonEvent)
 {
   auto buttonToActionIt = m_buttonToAction.find(buttonEvent.button);
 
   if (buttonToActionIt != m_buttonToAction.end()) {
     auto actionInputEventIt = m_actionInputEventHandler.find(buttonToActionIt->second);
-    log_info("HERE");
 
     if (actionInputEventIt != m_actionInputEventHandler.end()) {
       auto inputEventHandler = actionInputEventIt->second;
@@ -145,9 +156,23 @@ void Input::bindAction(const std::string &action, InputEvent state, std::functio
   m_actionInputEventHandler[action][state] = handler;
 }
 
+void Input::bindAxis(const std::string &axis, std::function<void(float)> handler)
+{
+  m_axisHandler[axis] = handler;
+}
+
 void Input::registerKeyToAction(SDL_Keycode key, const std::string &action)
 {
   m_keyToAction[key] = action;
+}
+
+void Input::registerKeysToAxis(SDL_Keycode keyA, SDL_Keycode keyB, float min, float max, const std::string &axis)
+{
+  m_keyToAxis[keyA].axis = axis;
+  m_keyToAxis[keyA].value = min;
+
+  m_keyToAxis[keyB].axis = axis;
+  m_keyToAxis[keyB].value = max;
 }
 
 void Input::registerButtonToAction(Uint8 button, const std::string &action)

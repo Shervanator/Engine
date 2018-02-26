@@ -36,10 +36,16 @@ public:
 
 void CoolGame::update(Input *input, std::chrono::microseconds delta)
 {
-  static bool pressed = false;
-  if (input->isPressed(SDLK_SPACE) && !pressed)
-  {
-    pressed = true;
+  Game::update(input, delta);
+}
+
+void CoolGame::init(GLManager *glManager)
+{
+  auto input = getEngine()->getWindow()->getInput();
+  input->registerKeyToAction(SDLK_SPACE, "fire");
+  input->registerKeyToAction(SDLK_c, "swapCamera");
+
+  input->bindAction("fire", IE_PRESSED, [this]() {
     MeshLoader cube("cube.obj");
     cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition());
     cube.getEntity()->addComponent<BoxCollider>(glm::vec3(0.5, 0.5, 0.5), 50);
@@ -47,31 +53,16 @@ void CoolGame::update(Input *input, std::chrono::microseconds delta)
     addToScene(cube.getEntity());
     auto dir = primary_camera->getParent()->getDirection();
     cube.getEntity()->getComponent<BoxCollider>()->applyCentralImpulse(glm::vec3(dir.x * 500.0f, dir.y * 500.0f, dir.z * 500.0f));
-  }
+  });
 
-  if (input->isReleased(SDLK_SPACE) && pressed)
-  {
-    pressed = false;
-  }
-
-  static bool pressed2 = false;
-  if (input->isPressed(SDLK_c) && !pressed2)
-  {
-    pressed2 = true;
+  input->bindAction("swapCamera", IE_PRESSED, [this]() {
     getEngine()->getGLManager()->setActiveCamera(primary_camera2);
-  }
+  });
 
-  if (input->isReleased(SDLK_c) && pressed2)
-  {
-    pressed2 = false;
+  input->bindAction("swapCamera", IE_RELEASED, [this]() {
     getEngine()->getGLManager()->setActiveCamera(primary_camera);
-  }
+  });
 
-  Game::update(input, delta);
-}
-
-void CoolGame::init(GLManager *glManager)
-{
   auto brickMat = std::make_shared<Material>(std::make_shared<Texture>(Asset("bricks2.jpg")), std::make_shared<Texture>(Asset("bricks2_normal.jpg")), std::make_shared<Texture>(Asset("bricks2_specular.png")));
   auto planeMesh = Plane::getMesh();
   // ground

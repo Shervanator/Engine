@@ -48,7 +48,5 @@ private:
 
   Game *game;
 
-  Input input;
-
-  bool quit;
+  bool quit, m_fireRay;
 };

@@ -17,6 +17,11 @@ enum InputEvent {
   IE_REPEAT
 };
 
+struct AxisValuePair {
+  std::string axis;
+  float value;
+};
+
 class Input
 {
 public:
@@ -45,7 +50,9 @@ public:
   void releaseMouse(void);
 
   void bindAction(const std::string &action, InputEvent state, std::function<void(void)> handler);
+  void bindAxis(const std::string &axis, std::function<void(float)> handler);
   void registerKeyToAction(SDL_Keycode key, const std::string &action);
+  void registerKeysToAxis(SDL_Keycode keyA, SDL_Keycode keyB, float min, float max, const std::string &axis);
   void registerButtonToAction(Uint8 button, const std::string &action);
 
 private:
@@ -59,5 +66,7 @@ private:
 
   std::map<Uint8, std::string> m_buttonToAction;
   std::map<SDL_Keycode, std::string> m_keyToAction;
+  std::map<SDL_Keycode, AxisValuePair> m_keyToAxis;
   std::map<std::string, std::map<InputEvent, std::function<void(void)>>> m_actionInputEventHandler;
+  std::map<std::string, std::function<void(float)>> m_axisHandler;
 };
