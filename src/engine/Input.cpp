@@ -161,6 +161,28 @@ void Input::bindAxis(const std::string &axis, std::function<void(float)> handler
   m_axisHandler[axis] = handler;
 }
 
+bool Input::unbindAction(const std::string &action)
+{
+  auto it = m_actionInputEventHandler.find(action);
+  if (it != m_actionInputEventHandler.end()) {
+    m_actionInputEventHandler.erase(it);
+    return true;
+  }
+
+  return false;
+}
+
+bool Input::unbindAxis(const std::string &action)
+{
+  auto it = m_axisHandler.find(action);
+  if (it != m_axisHandler.end()) {
+    m_axisHandler.erase(it);
+    return true;
+  }
+
+  return false;
+}
+
 void Input::registerKeyToAction(SDL_Keycode key, const std::string &action)
 {
   m_keyToAction[key] = action;

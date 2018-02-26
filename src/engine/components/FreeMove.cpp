@@ -49,7 +49,12 @@ void FreeMove::registerWithEngine(Engine *engine)
 }
 
 void FreeMove::deregisterFromEngine(Engine *engine)
-{}
+{
+  auto input = engine->getWindow()->getInput();
+  input->unbindAction("sprint");
+  input->unbindAxis("forwards");
+  input->unbindAxis("strafe");
+}
 
 void FreeMove::update(Input *input, std::chrono::microseconds delta)
 {

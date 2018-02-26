@@ -51,6 +51,10 @@ public:
 
   void bindAction(const std::string &action, InputEvent state, std::function<void(void)> handler);
   void bindAxis(const std::string &axis, std::function<void(float)> handler);
+
+  bool unbindAction(const std::string &action);
+  bool unbindAxis(const std::string &action);
+
   void registerKeyToAction(SDL_Keycode key, const std::string &action);
   void registerKeysToAxis(SDL_Keycode keyA, SDL_Keycode keyB, float min, float max, const std::string &axis);
   void registerButtonToAction(Uint8 button, const std::string &action);
