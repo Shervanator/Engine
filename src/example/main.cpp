@@ -202,7 +202,7 @@ void CoolGame::init(GLManager *glManager)
     addToScene(ml.getEntity());
   }*/
 
-  for (int i = 0; i < 500; i++)
+  for (int i = 0; i < 10; i++)
   {
     MeshLoader ml("AncientUgandan.obj");
     ml.getEntity()->getTransform().setPosition(glm::vec3(0, i*3, -2.5));
