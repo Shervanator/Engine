@@ -195,18 +195,18 @@ void CoolGame::init(GLManager *glManager)
     addToScene(plane);
   }
 
-  for (int i = 0; i < 1; i++)
-  {
+  /*{
     MeshLoader ml("Pregnant.obj");
     ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, -2.5));
     ml.getEntity()->addComponent<Sphere>(1);
     addToScene(ml.getEntity());
-  }
+  }*/
 
+  for (int i = 0; i < 10; i++)
   {
     MeshLoader ml("AncientUgandan.obj");
-    ml.getEntity()->getTransform().setPosition(glm::vec3(0, 0, -2.5));
-    ml.getEntity()->addComponent<Sphere>(1);
+    ml.getEntity()->getTransform().setPosition(glm::vec3(0, i*3, -2.5));
+    //ml.getEntity()->addComponent<Sphere>(1);
     ml.getEntity()->addComponent<SphereCollider>(1, 1);
     addToScene(ml.getEntity());
   }
@@ -215,7 +215,7 @@ void CoolGame::init(GLManager *glManager)
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
   money.getEntity()->addComponent<PerspectiveCamera>(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.05f, 100.0f);
   money.getEntity()->addComponent<Sphere>(1);
-  money.getEntity()->addComponent<SpotLight>(glm::vec3(0.1f, 1.0f, 1.0f), 5.8f, 0.7f, std::make_shared<Attenuation>(0, 0, 0.2));
+  //money.getEntity()->addComponent<SpotLight>(glm::vec3(0.1f, 1.0f, 1.0f), 5.8f, 0.7f, std::make_shared<Attenuation>(0, 0, 0.2));
   money.getEntity()->addComponent<SphereCollider>(1, 1);
   addToScene(money.getEntity());
 

@@ -4,39 +4,45 @@
 
 #include "CustomIOSystem.h"
 #include "MeshLoader.h"
-#include "Mesh.h"
 #include "components/MeshRenderer.h"
-#include "Material.h"
-#include "Texture.h"
 
 #include "Logger.h"
 
-#include <vector>
-
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
+
+// TODO: need to come back and refactor this, make it load on a seperate thread.
+std::map<std::string, std::vector<MeshRendererData>> MeshLoader::sceneMeshRendererDataCache;
 
 MeshLoader::MeshLoader(const std::string file)
 {
   m_fileName = file;
 
-  Assimp::Importer importer;
-  importer.SetIOHandler(new CustomIOSystem());
-
-  log_info("Loading mesh: %s", file.c_str());
-
-  const aiScene* scene = importer.ReadFile(file,
-                                           aiProcess_Triangulate |
-                                           aiProcess_GenSmoothNormals |
-                                           aiProcess_FlipUVs |
-                                           aiProcess_CalcTangentSpace);
-
-  if(!scene) {
-    log_err("Failed to load mesh: %s", file.c_str());
-  } else {
-    loadScene(scene);
+  if (MeshLoader::sceneMeshRendererDataCache[m_fileName].size() > 0) {
+    m_entity = std::make_shared<Entity>();
+    for (auto meshRenderData : MeshLoader::sceneMeshRendererDataCache[m_fileName]) {
+      m_entity->addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
+    }
   }
+  else {
+    Assimp::Importer importer;
+    importer.SetIOHandler(new CustomIOSystem());
 
+    log_info("Loading mesh: %s", file.c_str());
+
+    const aiScene* scene = importer.ReadFile(file,
+      aiProcess_Triangulate |
+      aiProcess_GenSmoothNormals |
+      aiProcess_FlipUVs |
+      aiProcess_CalcTangentSpace);
+
+    if (!scene) {
+      log_err("Failed to load mesh: %s", file.c_str());
+    }
+    else {
+      loadScene(scene);
+    }
+  }
 }
 
 MeshLoader::~MeshLoader(void)
@@ -112,9 +118,11 @@ void MeshLoader::loadScene(const aiScene* scene)
       specularMap = std::make_shared<Texture>(Asset("default_specular.jpg"));
     }
 
-    m_entity->addComponent<MeshRenderer>(
-        std::make_shared<Mesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0], vertices.size(), &indices[0], indices.size()),
-        std::make_shared<Material>(diffuseMap, normalMap, specularMap)
-    );
+    MeshRendererData meshRenderData;
+    meshRenderData.mesh = std::make_shared<Mesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0], vertices.size(), &indices[0], indices.size());
+    meshRenderData.material = std::make_shared<Material>(diffuseMap, normalMap, specularMap);
+
+    MeshLoader::sceneMeshRendererDataCache[m_fileName].push_back(meshRenderData);
+    m_entity->addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
   }
 }
