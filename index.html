@@ -1,0 +1,32 @@
+<html>
+
+<body>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114367637-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-114367637-1');
+    </script>
+
+    <canvas class="topleft" id="canvas"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById("canvas");
+        //make the canvas fullscreen
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        canvas.oncontextmenu = function (e) {
+            e.preventDefault();
+        };
+
+        //show Emscripten environment where the canvas is
+        var Module = {};
+        Module.canvas = canvas;
+    </script>
+    <script type="text/javascript" src="game.js"></script>
+</body>
+
+</html>
