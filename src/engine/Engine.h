@@ -14,7 +14,6 @@
 #include "Game.h"
 
 #include "Input.h"
-#include "components/Sphere.h"
 
 class Engine
 {

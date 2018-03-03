@@ -12,7 +12,6 @@
 #include "components/DirectionalLight.h"
 #include "components/SpotLight.h"
 #include "components/PointLight.h"
-#include "components/Sphere.h"
 #include "components/BoxCollider.h"
 #include "components/SphereCollider.h"
 
@@ -49,7 +48,6 @@ void CoolGame::init(GLManager *glManager)
     MeshLoader cube("cube.obj");
     cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition());
     cube.getEntity()->addComponent<BoxCollider>(glm::vec3(0.5, 0.5, 0.5), 50);
-    cube.getEntity()->addComponent<Sphere>(1);
     addToScene(cube.getEntity());
     auto dir = primary_camera->getParent()->getDirection();
     cube.getEntity()->getComponent<BoxCollider>()->applyCentralImpulse(glm::vec3(dir.x * 500.0f, dir.y * 500.0f, dir.z * 500.0f));
@@ -205,8 +203,7 @@ void CoolGame::init(GLManager *glManager)
   for (int i = 0; i < 10; i++)
   {
     MeshLoader ml("AncientUgandan.obj");
-    ml.getEntity()->getTransform().setPosition(glm::vec3(0, i*3, -2.5));
-    //ml.getEntity()->addComponent<Sphere>(1);
+    ml.getEntity()->getTransform().setPosition(glm::vec3(0, i * 3, -2.5));
     ml.getEntity()->addComponent<SphereCollider>(1, 1);
     addToScene(ml.getEntity());
   }
@@ -214,7 +211,6 @@ void CoolGame::init(GLManager *glManager)
   MeshLoader money("monkey3.obj");
   money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
   money.getEntity()->addComponent<PerspectiveCamera>(glm::pi<float>() / 2.0f, getEngine()->getWindow()->getWidth() / (float)getEngine()->getWindow()->getHeight(), 0.05f, 100.0f);
-  money.getEntity()->addComponent<Sphere>(1);
   //money.getEntity()->addComponent<SpotLight>(glm::vec3(0.1f, 1.0f, 1.0f), 5.8f, 0.7f, std::make_shared<Attenuation>(0, 0, 0.2));
   money.getEntity()->addComponent<SphereCollider>(1, 1);
   addToScene(money.getEntity());

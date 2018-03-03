@@ -8,7 +8,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "components/Sphere.h"
 #include "Line.h"
 
 class Ray
@@ -19,10 +18,9 @@ public:
 
   static Ray getPickRay(glm::vec2 mousePosition, const glm::vec4 &viewport, const glm::mat4 &viewMatrix, const glm::mat4 &projectionMatrix);
 
-  bool intersects(const Sphere *sphere, glm::vec3 & intersectionPosition) const;
-
   glm::vec3 getPosition(void) const;
   glm::vec3 getDirection(void) const;
+  glm::vec3 getEndPosition(float length) const;
 
   Line getLine(float length) const;
 

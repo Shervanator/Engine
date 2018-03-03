@@ -27,14 +27,6 @@ Ray Ray::getPickRay(glm::vec2 mousePosition, const glm::vec4 &viewport, const gl
   return Ray(v1, glm::normalize(v2 - v1));
 }
 
-bool Ray::intersects(const Sphere *sphere, glm::vec3 &intersectionPosition) const
-{
-  // glm::vec3 intersectionPosition;
-  glm::vec3 intersectionNormal;
-
-  return glm::intersectRaySphere(m_position, m_direction, sphere->getParent()->getPosition(), sphere->getRadius(), intersectionPosition, intersectionNormal);
-}
-
 glm::vec3 Ray::getPosition(void) const
 {
   return m_position;
@@ -43,6 +35,11 @@ glm::vec3 Ray::getPosition(void) const
 glm::vec3 Ray::getDirection(void) const
 {
   return m_direction;
+}
+
+glm::vec3 Ray::getEndPosition(float length) const
+{
+  return m_position + (length * m_direction);
 }
 
 Line Ray::getLine(float length) const
