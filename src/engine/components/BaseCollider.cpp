@@ -55,12 +55,13 @@ void BaseCollider::registerWithEngine(Engine *engine)
   auto pos = m_parentEntity->getPosition();
   auto rot = m_parentEntity->getTransform().getRotation();
   m_body->setWorldTransform(btTransform(btQuaternion(-rot.x, -rot.y, -rot.z, rot.w), btVector3(pos.x, pos.y, pos.z)));
-  engine->getPhysicsManager()->registerCollider2(m_body);
+  m_body->setUserPointer((void *)m_parentEntity);
+  engine->getPhysicsManager()->registerCollider(m_body);
 }
 
 void BaseCollider::deregisterFromEngine(Engine *engine)
 {
-  engine->getPhysicsManager()->deregisterCollider2(m_body);
+  engine->getPhysicsManager()->deregisterCollider(m_body);
 }
 
 void BaseCollider::applyCentralImpulse(const glm::vec3 &impulse)
