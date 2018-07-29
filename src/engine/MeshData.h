@@ -5,11 +5,11 @@
 #pragma once
 
 #if defined(GLES2)
-  #include <GLES2/gl2.h>
+#include <GLES2/gl2.h>
 #elif defined(GLES3)
-  #include <GLES3/gl3.h>
+#include <GLES3/gl3.h>
 #else
-  #include <GL/glew.h>
+#include <GL/glew.h>
 #endif
 
 #include "Vertex.h"
@@ -22,7 +22,8 @@ public:
   void render(void) const;
 
 private:
-  void createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
+  void createMesh(Vertex *vertices, int vertSize, unsigned int *indices, int indexSize);
+  void recreateMesh(Vertex *vertices, int vertSize, unsigned int *indices, int indexSize); //Added by Majid
 
 #if !defined(GLES2)
   GLuint m_vao;
