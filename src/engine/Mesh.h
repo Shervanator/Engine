@@ -14,6 +14,7 @@ class Mesh
 {
 public:
   Mesh(std::string identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
+  void reasign(std::string identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize); //Added by Majid
   virtual ~Mesh(void);
 
   void render(void) const;
