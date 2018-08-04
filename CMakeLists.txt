@@ -28,6 +28,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/lib)
 
+if (WIN32)
+  set (CMAKE_C_FLAGS_DEBUG "/MTd /Z7 /Od")
+ENDIF ()
+
 add_subdirectory(dependencies)
 
 set ( SDL2_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/SDL/include )

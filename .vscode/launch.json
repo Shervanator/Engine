@@ -5,7 +5,7 @@
             "name": "C++ Launch (Windows)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/bin/game.exe",
+            "program": "${workspaceRoot}/build/bin/Debug/game.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
